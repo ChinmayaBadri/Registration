@@ -1,0 +1,1381 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ChinmayaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.AccountType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="AccountType">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.AgeGroup' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="AgeGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CheckPayment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountHolderName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="AccountTypeId" Type="int" Nullable="false" />
+          <Property Name="BankName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="AccountNumber" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="RoutingNumber" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.City' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="StateID" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="StateID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.Country' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="CountryCode" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CountryCode" Type="varchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CreditCardPayment">
+          <Key>
+            <PropertyRef Name="InvoiceId" />
+          </Key>
+          <Property Name="InvoiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Reference" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+          <Property Name="IsDonate" Type="bit" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Directory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Donation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="PaymentMethodId" Type="int" Nullable="false" />
+          <Property Name="InvoiceId" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.EmailTemplate' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="EmailTemplate">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Subject" />
+            <PropertyRef Name="Body" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EventHolidays">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="HolidayDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EventRegistration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="FamilyMemberId" Type="nvarchar" MaxLength="128" />
+          <Property Name="OwnerId" Type="nvarchar" MaxLength="128" />
+          <Property Name="CheckPaymentId" Type="int" />
+          <Property Name="InvoiceId" Type="int" />
+          <Property Name="IsRegister" Type="bit" />
+          <Property Name="IsConfirm" Type="bit" />
+          <Property Name="IsPaid" Type="bit" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.Events' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Events">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="FrequencyId" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="CreatedDate" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="1000" />
+          <Property Name="WeekdayId" Type="int" />
+          <Property Name="FrequencyId" Type="int" Nullable="false" />
+          <Property Name="AgeFrom" Type="int" />
+          <Property Name="AgeTo" Type="int" />
+          <Property Name="Amount" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="EventSessions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="SessionId" Type="int" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
+          <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Location" Type="varchar" MaxLength="300" />
+          <Property Name="Instructor" Type="varchar" MaxLength="300" />
+          <Property Name="Contact" Type="varchar" MaxLength="300" />
+          <Property Name="Other" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.FamilyGender' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FamilyGender">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.FamilyMember' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FamilyMember">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="DOB" />
+            <PropertyRef Name="RelationshipId" />
+            <PropertyRef Name="GenderId" />
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="DOB" Type="datetime" Nullable="false" />
+          <Property Name="RelationshipId" Type="int" Nullable="false" />
+          <Property Name="GradeId" Type="int" />
+          <Property Name="GenderId" Type="int" Nullable="false" />
+          <Property Name="CellPhone" Type="nvarchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.Frequency' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Frequency">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.Gender' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.Grade' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Grade">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.InvoiceStatus' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="InvoiceStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.PaymentMethod' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PaymentMethod">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.Relationship' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Relationship">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.Role' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.SecurityQuestions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SecurityQuestions">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.Sessions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Sessions">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Order" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Order" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.SharedAccount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SharedAccount">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="To_UserId" />
+            <PropertyRef Name="From_UserId" />
+            <PropertyRef Name="CreatedDate" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="To_UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="From_UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IsApproved" Type="bit" />
+          <Property Name="IsDeclined" Type="bit" />
+          <Property Name="IsDeclinedPermanently" Type="bit" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.Sites' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Sites">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Link" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Link" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.State' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="CountryID" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CountryID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="DOB" Type="datetime" Nullable="false" />
+          <Property Name="AgeGroupId" Type="int" />
+          <Property Name="GenderId" Type="int" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StateId" Type="int" Nullable="false" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+          <Property Name="ZipCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="HomePhone" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CellPhone" Type="nvarchar" MaxLength="20" />
+          <Property Name="IsIndividual" Type="bit" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="UpdatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserActivation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ActivationCode" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IsActivated" Type="bit" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="ActivatedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserSecurityQuestions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="SecurityQuestionId" Type="int" Nullable="false" />
+          <Property Name="Answer" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Weekday">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="FrequencyId" Type="int" />
+        </EntityType>
+        <EntityContainer Name="ChinmayaModelStoreContainer">
+          <EntitySet Name="CheckPayment" EntityType="Self.CheckPayment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CreditCardPayment" EntityType="Self.CreditCardPayment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Directory" EntityType="Self.Directory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Donation" EntityType="Self.Donation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventHolidays" EntityType="Self.EventHolidays" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventRegistration" EntityType="Self.EventRegistration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventSessions" EntityType="Self.EventSessions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserActivation" EntityType="Self.UserActivation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserSecurityQuestions" EntityType="Self.UserSecurityQuestions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AccountType" EntityType="Self.AccountType" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [AccountType].[Id] AS [Id], 
+    [AccountType].[Name] AS [Name]
+    FROM [dbo].[AccountType] AS [AccountType]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="AgeGroup" EntityType="Self.AgeGroup" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [AgeGroup].[Id] AS [Id], 
+    [AgeGroup].[Name] AS [Name]
+    FROM [dbo].[AgeGroup] AS [AgeGroup]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="City" EntityType="Self.City" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [City].[Id] AS [Id], 
+    [City].[Name] AS [Name], 
+    [City].[StateID] AS [StateID]
+    FROM [dbo].[City] AS [City]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Country" EntityType="Self.Country" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Country].[Id] AS [Id], 
+    [Country].[Name] AS [Name], 
+    [Country].[CountryCode] AS [CountryCode]
+    FROM [dbo].[Country] AS [Country]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="EmailTemplate" EntityType="Self.EmailTemplate" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [EmailTemplate].[ID] AS [ID], 
+    [EmailTemplate].[Name] AS [Name], 
+    [EmailTemplate].[Description] AS [Description], 
+    [EmailTemplate].[Subject] AS [Subject], 
+    [EmailTemplate].[Body] AS [Body]
+    FROM [dbo].[EmailTemplate] AS [EmailTemplate]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Events" EntityType="Self.Events" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Events].[Id] AS [Id], 
+    [Events].[Name] AS [Name], 
+    [Events].[Description] AS [Description], 
+    [Events].[WeekdayId] AS [WeekdayId], 
+    [Events].[FrequencyId] AS [FrequencyId], 
+    [Events].[AgeFrom] AS [AgeFrom], 
+    [Events].[AgeTo] AS [AgeTo], 
+    [Events].[Amount] AS [Amount], 
+    [Events].[Status] AS [Status], 
+    [Events].[CreatedBy] AS [CreatedBy], 
+    [Events].[CreatedDate] AS [CreatedDate], 
+    [Events].[UpdatedBy] AS [UpdatedBy], 
+    [Events].[UpdatedDate] AS [UpdatedDate]
+    FROM [dbo].[Events] AS [Events]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FamilyGender" EntityType="Self.FamilyGender" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FamilyGender].[Id] AS [Id], 
+    [FamilyGender].[Name] AS [Name]
+    FROM [dbo].[FamilyGender] AS [FamilyGender]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="FamilyMember" EntityType="Self.FamilyMember" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [FamilyMember].[Id] AS [Id], 
+    [FamilyMember].[FirstName] AS [FirstName], 
+    [FamilyMember].[LastName] AS [LastName], 
+    [FamilyMember].[DOB] AS [DOB], 
+    [FamilyMember].[RelationshipId] AS [RelationshipId], 
+    [FamilyMember].[GradeId] AS [GradeId], 
+    [FamilyMember].[GenderId] AS [GenderId], 
+    [FamilyMember].[CellPhone] AS [CellPhone], 
+    [FamilyMember].[Email] AS [Email], 
+    [FamilyMember].[Status] AS [Status], 
+    [FamilyMember].[UpdatedBy] AS [UpdatedBy], 
+    [FamilyMember].[UpdatedDate] AS [UpdatedDate]
+    FROM [dbo].[FamilyMember] AS [FamilyMember]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Frequency" EntityType="Self.Frequency" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Frequency].[Id] AS [Id], 
+    [Frequency].[Name] AS [Name]
+    FROM [dbo].[Frequency] AS [Frequency]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Gender" EntityType="Self.Gender" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Gender].[Id] AS [Id], 
+    [Gender].[Name] AS [Name]
+    FROM [dbo].[Gender] AS [Gender]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Grade" EntityType="Self.Grade" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Grade].[Id] AS [Id], 
+    [Grade].[Name] AS [Name]
+    FROM [dbo].[Grade] AS [Grade]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="InvoiceStatus" EntityType="Self.InvoiceStatus" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [InvoiceStatus].[Id] AS [Id], 
+    [InvoiceStatus].[Name] AS [Name]
+    FROM [dbo].[InvoiceStatus] AS [InvoiceStatus]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="PaymentMethod" EntityType="Self.PaymentMethod" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PaymentMethod].[Id] AS [Id], 
+    [PaymentMethod].[Name] AS [Name]
+    FROM [dbo].[PaymentMethod] AS [PaymentMethod]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Relationship" EntityType="Self.Relationship" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Relationship].[Id] AS [Id], 
+    [Relationship].[Name] AS [Name]
+    FROM [dbo].[Relationship] AS [Relationship]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Role" EntityType="Self.Role" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Role].[Id] AS [Id], 
+    [Role].[Name] AS [Name]
+    FROM [dbo].[Role] AS [Role]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SecurityQuestions" EntityType="Self.SecurityQuestions" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SecurityQuestions].[Id] AS [Id], 
+    [SecurityQuestions].[Name] AS [Name]
+    FROM [dbo].[SecurityQuestions] AS [SecurityQuestions]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Sessions" EntityType="Self.Sessions" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Sessions].[Id] AS [Id], 
+    [Sessions].[Name] AS [Name], 
+    [Sessions].[Order] AS [Order]
+    FROM [dbo].[Sessions] AS [Sessions]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="SharedAccount" EntityType="Self.SharedAccount" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SharedAccount].[ID] AS [ID], 
+    [SharedAccount].[To_UserId] AS [To_UserId], 
+    [SharedAccount].[From_UserId] AS [From_UserId], 
+    [SharedAccount].[IsApproved] AS [IsApproved], 
+    [SharedAccount].[IsDeclined] AS [IsDeclined], 
+    [SharedAccount].[IsDeclinedPermanently] AS [IsDeclinedPermanently], 
+    [SharedAccount].[CreatedDate] AS [CreatedDate], 
+    [SharedAccount].[UpdatedDate] AS [UpdatedDate]
+    FROM [dbo].[SharedAccount] AS [SharedAccount]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Sites" EntityType="Self.Sites" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Sites].[Id] AS [Id], 
+    [Sites].[Name] AS [Name], 
+    [Sites].[Link] AS [Link]
+    FROM [dbo].[Sites] AS [Sites]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="State" EntityType="Self.State" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [State].[Id] AS [Id], 
+    [State].[Name] AS [Name], 
+    [State].[CountryID] AS [CountryID]
+    FROM [dbo].[State] AS [State]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Weekday" EntityType="Self.Weekday" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Weekday].[Id] AS [Id], 
+    [Weekday].[Name] AS [Name], 
+    [Weekday].[FrequencyId] AS [FrequencyId]
+    FROM [dbo].[Weekday] AS [Weekday]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ChinmayaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ChinmayaEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="CheckPayments" EntityType="ChinmayaModel.CheckPayment" />
+          <EntitySet Name="CreditCardPayments" EntityType="ChinmayaModel.CreditCardPayment" />
+          <EntitySet Name="Directories" EntityType="ChinmayaModel.Directory" />
+          <EntitySet Name="Donations" EntityType="ChinmayaModel.Donation" />
+          <EntitySet Name="EventHolidays" EntityType="ChinmayaModel.EventHoliday" />
+          <EntitySet Name="EventRegistrations" EntityType="ChinmayaModel.EventRegistration" />
+          <EntitySet Name="EventSessions" EntityType="ChinmayaModel.EventSession" />
+          <EntitySet Name="sysdiagrams" EntityType="ChinmayaModel.sysdiagram" />
+          <EntitySet Name="UserActivations" EntityType="ChinmayaModel.UserActivation" />
+          <EntitySet Name="UserSecurityQuestions" EntityType="ChinmayaModel.UserSecurityQuestion" />
+          <EntitySet Name="AccountTypes" EntityType="ChinmayaModel.AccountType" />
+          <EntitySet Name="AgeGroups" EntityType="ChinmayaModel.AgeGroup" />
+          <EntitySet Name="Cities" EntityType="ChinmayaModel.City" />
+          <EntitySet Name="Countries" EntityType="ChinmayaModel.Country" />
+          <EntitySet Name="EmailTemplates" EntityType="ChinmayaModel.EmailTemplate" />
+          <EntitySet Name="Events" EntityType="ChinmayaModel.Event" />
+          <EntitySet Name="FamilyGenders" EntityType="ChinmayaModel.FamilyGender" />
+          <EntitySet Name="FamilyMembers" EntityType="ChinmayaModel.FamilyMember" />
+          <EntitySet Name="Frequencies" EntityType="ChinmayaModel.Frequency" />
+          <EntitySet Name="Genders" EntityType="ChinmayaModel.Gender" />
+          <EntitySet Name="Grades" EntityType="ChinmayaModel.Grade" />
+          <EntitySet Name="InvoiceStatus" EntityType="ChinmayaModel.InvoiceStatu" />
+          <EntitySet Name="PaymentMethods" EntityType="ChinmayaModel.PaymentMethod" />
+          <EntitySet Name="Relationships" EntityType="ChinmayaModel.Relationship" />
+          <EntitySet Name="Roles" EntityType="ChinmayaModel.Role" />
+          <EntitySet Name="Sessions" EntityType="ChinmayaModel.Session" />
+          <EntitySet Name="SharedAccounts" EntityType="ChinmayaModel.SharedAccount" />
+          <EntitySet Name="Sites" EntityType="ChinmayaModel.Site" />
+          <EntitySet Name="States" EntityType="ChinmayaModel.State" />
+          <EntitySet Name="Weekdays" EntityType="ChinmayaModel.Weekday" />
+          <EntitySet Name="Users" EntityType="ChinmayaModel.User" />
+          <EntitySet Name="SecurityQuestions" EntityType="ChinmayaModel.SecurityQuestion" />
+        </EntityContainer>
+        <EntityType Name="CheckPayment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountHolderName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="AccountTypeId" Type="Int32" Nullable="false" />
+          <Property Name="BankName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="AccountNumber" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RoutingNumber" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="CreditCardPayment">
+          <Key>
+            <PropertyRef Name="InvoiceId" />
+          </Key>
+          <Property Name="InvoiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Reference" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsDonate" Type="Boolean" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Directory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Donation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="PaymentMethodId" Type="Int32" Nullable="false" />
+          <Property Name="InvoiceId" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="EventHoliday">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="HolidayDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="EventRegistration">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="FamilyMemberId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="OwnerId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CheckPaymentId" Type="Int32" />
+          <Property Name="InvoiceId" Type="Int32" />
+          <Property Name="IsRegister" Type="Boolean" />
+          <Property Name="IsConfirm" Type="Boolean" />
+          <Property Name="IsPaid" Type="Boolean" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="EventSession">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="SessionId" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+          <Property Name="StartTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="EndTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Location" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Instructor" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Contact" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Other" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="UserActivation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ActivationCode" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsActivated" Type="Boolean" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ActivatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="UserSecurityQuestion">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityQuestionId" Type="Int32" Nullable="false" />
+          <Property Name="Answer" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AccountType">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="AgeGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="StateID" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="StateID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="CountryCode" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CountryCode" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="EmailTemplate">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Subject" />
+            <PropertyRef Name="Body" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Subject" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Body" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="FrequencyId" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="CreatedDate" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="WeekdayId" Type="Int32" />
+          <Property Name="FrequencyId" Type="Int32" Nullable="false" />
+          <Property Name="AgeFrom" Type="Int32" />
+          <Property Name="AgeTo" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="FamilyGender">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="FamilyMember">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="DOB" />
+            <PropertyRef Name="RelationshipId" />
+            <PropertyRef Name="GenderId" />
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RelationshipId" Type="Int32" Nullable="false" />
+          <Property Name="GradeId" Type="Int32" />
+          <Property Name="GenderId" Type="Int32" Nullable="false" />
+          <Property Name="CellPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Frequency">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Grade">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="InvoiceStatu">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PaymentMethod">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Relationship">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Session">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Order" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Order" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SharedAccount">
+          <Key>
+            <PropertyRef Name="ID" />
+            <PropertyRef Name="To_UserId" />
+            <PropertyRef Name="From_UserId" />
+            <PropertyRef Name="CreatedDate" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="To_UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="From_UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsApproved" Type="Boolean" />
+          <Property Name="IsDeclined" Type="Boolean" />
+          <Property Name="IsDeclinedPermanently" Type="Boolean" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Site">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Link" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Link" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="CountryID" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CountryID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Weekday">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="FrequencyId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AgeGroupId" Type="Int32" />
+          <Property Name="GenderId" Type="Int32" Nullable="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StateId" Type="Int32" Nullable="false" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="ZipCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="HomePhone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CellPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IsIndividual" Type="Boolean" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SecurityQuestion">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ChinmayaModelStoreContainer" CdmEntityContainer="ChinmayaEntities" >
+          <EntitySetMapping Name="CheckPayments">
+            <EntityTypeMapping TypeName="ChinmayaModel.CheckPayment">
+              <MappingFragment StoreEntitySet="CheckPayment">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="RoutingNumber" ColumnName="RoutingNumber" />
+                <ScalarProperty Name="AccountNumber" ColumnName="AccountNumber" />
+                <ScalarProperty Name="BankName" ColumnName="BankName" />
+                <ScalarProperty Name="AccountTypeId" ColumnName="AccountTypeId" />
+                <ScalarProperty Name="AccountHolderName" ColumnName="AccountHolderName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CreditCardPayments">
+            <EntityTypeMapping TypeName="ChinmayaModel.CreditCardPayment">
+              <MappingFragment StoreEntitySet="CreditCardPayment">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsDonate" ColumnName="IsDonate" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Directories">
+            <EntityTypeMapping TypeName="ChinmayaModel.Directory">
+              <MappingFragment StoreEntitySet="Directory">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Donations">
+            <EntityTypeMapping TypeName="ChinmayaModel.Donation">
+              <MappingFragment StoreEntitySet="Donation">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="PaymentMethodId" ColumnName="PaymentMethodId" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventHolidays">
+            <EntityTypeMapping TypeName="ChinmayaModel.EventHoliday">
+              <MappingFragment StoreEntitySet="EventHolidays">
+                <ScalarProperty Name="HolidayDate" ColumnName="HolidayDate" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventRegistrations">
+            <EntityTypeMapping TypeName="ChinmayaModel.EventRegistration">
+              <MappingFragment StoreEntitySet="EventRegistration">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+                <ScalarProperty Name="IsConfirm" ColumnName="IsConfirm" />
+                <ScalarProperty Name="IsRegister" ColumnName="IsRegister" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="CheckPaymentId" ColumnName="CheckPaymentId" />
+                <ScalarProperty Name="OwnerId" ColumnName="OwnerId" />
+                <ScalarProperty Name="FamilyMemberId" ColumnName="FamilyMemberId" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventSessions">
+            <EntityTypeMapping TypeName="ChinmayaModel.EventSession">
+              <MappingFragment StoreEntitySet="EventSessions">
+                <ScalarProperty Name="Other" ColumnName="Other" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="Instructor" ColumnName="Instructor" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="SessionId" ColumnName="SessionId" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="ChinmayaModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserActivations">
+            <EntityTypeMapping TypeName="ChinmayaModel.UserActivation">
+              <MappingFragment StoreEntitySet="UserActivation">
+                <ScalarProperty Name="ActivatedDate" ColumnName="ActivatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsActivated" ColumnName="IsActivated" />
+                <ScalarProperty Name="ActivationCode" ColumnName="ActivationCode" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserSecurityQuestions">
+            <EntityTypeMapping TypeName="ChinmayaModel.UserSecurityQuestion">
+              <MappingFragment StoreEntitySet="UserSecurityQuestions">
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="SecurityQuestionId" ColumnName="SecurityQuestionId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccountTypes">
+            <EntityTypeMapping TypeName="ChinmayaModel.AccountType">
+              <MappingFragment StoreEntitySet="AccountType">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AgeGroups">
+            <EntityTypeMapping TypeName="ChinmayaModel.AgeGroup">
+              <MappingFragment StoreEntitySet="AgeGroup">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="ChinmayaModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="ChinmayaModel.Country">
+              <MappingFragment StoreEntitySet="Country">
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmailTemplates">
+            <EntityTypeMapping TypeName="ChinmayaModel.EmailTemplate">
+              <MappingFragment StoreEntitySet="EmailTemplate">
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Events">
+            <EntityTypeMapping TypeName="ChinmayaModel.Event">
+              <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="AgeTo" ColumnName="AgeTo" />
+                <ScalarProperty Name="AgeFrom" ColumnName="AgeFrom" />
+                <ScalarProperty Name="FrequencyId" ColumnName="FrequencyId" />
+                <ScalarProperty Name="WeekdayId" ColumnName="WeekdayId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FamilyGenders">
+            <EntityTypeMapping TypeName="ChinmayaModel.FamilyGender">
+              <MappingFragment StoreEntitySet="FamilyGender">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FamilyMembers">
+            <EntityTypeMapping TypeName="ChinmayaModel.FamilyMember">
+              <MappingFragment StoreEntitySet="FamilyMember">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
+                <ScalarProperty Name="GradeId" ColumnName="GradeId" />
+                <ScalarProperty Name="RelationshipId" ColumnName="RelationshipId" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Frequencies">
+            <EntityTypeMapping TypeName="ChinmayaModel.Frequency">
+              <MappingFragment StoreEntitySet="Frequency">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genders">
+            <EntityTypeMapping TypeName="ChinmayaModel.Gender">
+              <MappingFragment StoreEntitySet="Gender">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Grades">
+            <EntityTypeMapping TypeName="ChinmayaModel.Grade">
+              <MappingFragment StoreEntitySet="Grade">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvoiceStatus">
+            <EntityTypeMapping TypeName="ChinmayaModel.InvoiceStatu">
+              <MappingFragment StoreEntitySet="InvoiceStatus">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentMethods">
+            <EntityTypeMapping TypeName="ChinmayaModel.PaymentMethod">
+              <MappingFragment StoreEntitySet="PaymentMethod">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Relationships">
+            <EntityTypeMapping TypeName="ChinmayaModel.Relationship">
+              <MappingFragment StoreEntitySet="Relationship">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="ChinmayaModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sessions">
+            <EntityTypeMapping TypeName="ChinmayaModel.Session">
+              <MappingFragment StoreEntitySet="Sessions">
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SharedAccounts">
+            <EntityTypeMapping TypeName="ChinmayaModel.SharedAccount">
+              <MappingFragment StoreEntitySet="SharedAccount">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsDeclinedPermanently" ColumnName="IsDeclinedPermanently" />
+                <ScalarProperty Name="IsDeclined" ColumnName="IsDeclined" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="From_UserId" ColumnName="From_UserId" />
+                <ScalarProperty Name="To_UserId" ColumnName="To_UserId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sites">
+            <EntityTypeMapping TypeName="ChinmayaModel.Site">
+              <MappingFragment StoreEntitySet="Sites">
+                <ScalarProperty Name="Link" ColumnName="Link" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="States">
+            <EntityTypeMapping TypeName="ChinmayaModel.State">
+              <MappingFragment StoreEntitySet="State">
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Weekdays">
+            <EntityTypeMapping TypeName="ChinmayaModel.Weekday">
+              <MappingFragment StoreEntitySet="Weekday">
+                <ScalarProperty Name="FrequencyId" ColumnName="FrequencyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ChinmayaModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsIndividual" ColumnName="IsIndividual" />
+                <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+                <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
+                <ScalarProperty Name="AgeGroupId" ColumnName="AgeGroupId" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SecurityQuestions">
+            <EntityTypeMapping TypeName="ChinmayaModel.SecurityQuestion">
+              <MappingFragment StoreEntitySet="SecurityQuestions">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

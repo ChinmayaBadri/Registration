@@ -1,0 +1,115 @@
+C:\Users\medikondad\Documents\Visual Studio 2015\Projects\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.DAL.dll
+C:\Users\medikondad\Documents\Visual Studio 2015\Projects\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.DAL.pdb
+C:\Users\medikondad\Documents\Visual Studio 2015\Projects\Chinmayi\Chinmayi.UI\Chinmayi.DAL\obj\Debug\Chinmayi.DAL.csprojResolveAssemblyReference.cache
+C:\Users\medikondad\Documents\Visual Studio 2015\Projects\Chinmayi\Chinmayi.UI\Chinmayi.DAL\obj\Debug\Chinmayi.DAL.dll
+C:\Users\medikondad\Documents\Visual Studio 2015\Projects\Chinmayi\Chinmayi.UI\Chinmayi.DAL\obj\Debug\Chinmayi.DAL.pdb
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.DAL.dll
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.DAL.pdb
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\obj\Debug\Chinmayi.DAL.dll
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\obj\Debug\Chinmayi.DAL.pdb
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.DAL.dll.config
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\EntityFramework.dll
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\EntityFramework.xml
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\obj\Debug\Chinmayi.DAL.csprojResolveAssemblyReference.cache
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\AutoMapper.dll
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.ValueTuple.dll
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\AutoMapper.pdb
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\AutoMapper.xml
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.ValueTuple.xml
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.Models.dll
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.Models.pdb
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\CommonServiceLocator.dll
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.Helpers.dll
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.Mvc.dll
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.Razor.dll
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.WebPages.dll
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\CommonServiceLocator.pdb
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.Helpers.xml
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.Mvc.xml
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.Razor.xml
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.WebPages.xml
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.WebPages.Razor.xml
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.Utilities.dll
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Newtonsoft.Json.dll
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.Utilities.pdb
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Newtonsoft.Json.xml
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.DAL.dll.config
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.DAL.dll
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.DAL.pdb
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\AutoMapper.dll
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.Models.dll
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.Utilities.dll
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\CommonServiceLocator.dll
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\EntityFramework.dll
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\EntityFramework.SqlServer.dll
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Microsoft.Web.Infrastructure.dll
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.ValueTuple.dll
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.Helpers.dll
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.Mvc.dll
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.Razor.dll
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.WebPages.Deployment.dll
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.WebPages.dll
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.WebPages.Razor.dll
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Newtonsoft.Json.dll
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.Models.pdb
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.Utilities.pdb
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\AutoMapper.pdb
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\AutoMapper.xml
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\CommonServiceLocator.pdb
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\EntityFramework.xml
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\EntityFramework.SqlServer.xml
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.ValueTuple.xml
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.Helpers.xml
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.Mvc.xml
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.Razor.xml
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.WebPages.xml
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.WebPages.Deployment.xml
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.WebPages.Razor.xml
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Newtonsoft.Json.xml
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\obj\Debug\Chinmayi.DAL.csprojResolveAssemblyReference.cache
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\obj\Debug\Chinmayi.DAL.dll
+D:\Chinmayi\Chinmayi.UI\Chinmayi.DAL\obj\Debug\Chinmayi.DAL.pdb
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.DAL.dll.config
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.DAL.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.DAL.pdb
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\AutoMapper.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.Models.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.Utilities.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\CommonServiceLocator.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\EntityFramework.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\EntityFramework.SqlServer.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Microsoft.Web.Infrastructure.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.ValueTuple.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.Helpers.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.Mvc.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.Razor.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.WebPages.Deployment.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.WebPages.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.WebPages.Razor.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Newtonsoft.Json.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.Models.pdb
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Chinmayi.Utilities.pdb
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\AutoMapper.pdb
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\AutoMapper.xml
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\CommonServiceLocator.pdb
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\EntityFramework.xml
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\EntityFramework.SqlServer.xml
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.ValueTuple.xml
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.Helpers.xml
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.Mvc.xml
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.Razor.xml
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.WebPages.xml
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.WebPages.Deployment.xml
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\System.Web.WebPages.Razor.xml
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\bin\Debug\Newtonsoft.Json.xml
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\obj\Debug\Chinmayi.DAL.csprojResolveAssemblyReference.cache
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\obj\Debug\Chinmayi.DAL.csproj.CoreCompileInputs.cache
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\obj\Debug\Chinmayi.DAL.csproj.CopyComplete
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\obj\Debug\Chinmayi.DAL.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.DAL\obj\Debug\Chinmayi.DAL.pdb
