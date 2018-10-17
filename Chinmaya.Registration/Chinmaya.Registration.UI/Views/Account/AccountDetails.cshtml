@@ -1,0 +1,170 @@
+﻿@model Chinmaya.Registration.Models.AccountDetails
+
+@{
+	ViewBag.Title = "AccountDetails";
+	Layout = "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>Welcome to Chinmaya Mission</title>
+
+	@Styles.Render("~/Content/css")
+	<style>
+		.column {
+			flex: 50%;
+		}
+		.requiredA:after {
+			content: " *";
+			font-weight: bold;
+			color: red;
+		}
+	</style>
+	@{
+		List<SelectListItem> listItems = new List<SelectListItem>();
+		listItems.Add(new SelectListItem
+		{
+			Text = "Individual Account",
+			Value = "1"
+		});
+		listItems.Add(new SelectListItem
+		{
+			Text = "Family Account",
+			Value = "0",
+		});
+
+	}
+</head>
+
+<body class="theme_bg">
+	<header class="regi-header">
+
+		<div class="container-fluid">
+			<a href="#"><img alt="mainlogo" src="~/Content/img/dashboard-logo.png"></a>
+			<div style="width:68px; float:right; margin:0px; margin-top:-1px;"><img style="border-radius:50%; border:2px solid #c7b299;" src="~/Content/img/header-thumbnail.png"></div>
+		</div>
+	</header>
+	@using (Html.BeginForm("AccountDetails", "Account", FormMethod.Post))
+
+	{
+
+		@Html.AntiForgeryToken()
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 offset-md-2">
+					<div class="regi-process-bar">
+						<div class="row">
+							<div class="col-md-5"><div class="regi-heading">Program/Event Registration</div></div>
+							<div class="col-md-7">
+								<div class="row bs-wizard">
+									<div class="col-md-4 bs-wizard-step complete">
+										<div class="progress"><div class="progress-bar"></div></div>
+										<a class="bs-wizard-dot" href="property-type.html">1</a>
+										<div class="text-center bs-wizard-stepnum marl-55">Personal</div>
+									</div>
+
+									<div class="col-md-4 bs-wizard-step complete">
+
+										<div class="progress"><div class="progress-bar"></div></div>
+										<a class="bs-wizard-dot" href="property-details.html">2</a>
+										<div class="text-center bs-wizard-stepnum">Contact</div>
+									</div>
+
+									<div class="col-md-4 bs-wizard-step active">
+
+										<div class="progress"><div class="progress-bar"></div></div>
+										<a class="bs-wizard-dot" href="listing-details.html">3</a>
+										<div class="text-center bs-wizard-stepnum marr-60">Account</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					@Html.ValidationSummary(true)
+					<div class="regi-main-1">
+						<div class="row">
+							<div class="col-md-6 offset-md-3">
+								<p class="pb-3">
+									<span class="red-txt">*</span> denotes a required field<br />
+									Please select atleast 2 Security Questions.
+								</p>
+								@Html.LabelFor(m => m.Email, new { @class = "requiredA" })
+								@Html.TextBoxFor(m => m.Email)
+								@Html.ValidationMessageFor(m => m.Email)<br /><br />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 offset-md-3">
+								@Html.LabelFor(m => m.Password, new { @class = "requiredA" })
+								@Html.PasswordFor(m => m.Password)
+								@Html.ValidationMessageFor(m => m.Password)<br /><br />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 offset-md-3">
+								@Html.LabelFor(m => m.RetypePassword, new { @class = "requiredA" })
+								@Html.PasswordFor(m => m.RetypePassword)
+								@Html.ValidationMessageFor(m => m.RetypePassword)<br /><br />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 offset-md-3">
+								@Html.LabelFor(m => m.AccountType, new { @class = "requiredA" })
+								@Html.DropDownList("AccountType", new SelectList(listItems, "Value", "Text"))
+								@Html.ValidationMessageFor(m => m.AccountType)<br /><br />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6 offset-md-3">
+								
+								@Html.LabelFor(m => m.SecurityQuestionsModel, new { @class = "requiredA" })
+								@for (var i = 0; i < Model.SecurityQuestionsModel.Count(); i++)
+								{
+							<div class="row">
+								<div id="dataListItem" class="col-md-8">
+									@*<input type="hidden" id="securityQuestionId" name="hdnSecurityQuestionId" value="">*@
+									@Model.SecurityQuestionsModel[i].Id.
+									@Model.SecurityQuestionsModel[i].Name
+								</div>
+								<div id="dataTextBox" class="col-md-4">
+									@*@Html.TextBoxFor(m => m.SecurityQuestionsModel[i].Value)*@
+
+									<input type='text' name="AnswerTextbox_@(i+1)" id="AnswerTextbox_@(i+1)" value="" /><br /><br />
+								</div>
+							</div>
+								}
+								@Html.ValidationMessageFor(m => m.SecurityQuestionsModel)
+							</div>
+							</div>
+
+						<div class="row">
+							<div class="col-md-6 offset-md-3">
+								<br />
+								@*<input type="submit" class="btn btn-secondary float-left" name="prevBtn" value='Back' />
+				<input type="submit" class="btn btn-orange float-right" name="nextBtn" value='Create Account' /><i class="material-icons">check_circle</i>*@
+								<button class="btn btn-secondary float-left" name="prevBtn" type="submit">Back <i class="material-icons">cancel</i></button>
+								<button class="btn btn-orange float-right" name="nextBtn" type="submit" data-target="#demo" data-toggle="collapse">Create Account <i class="material-icons">check_circle</i></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
+
+</body>
+</html>
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+	@*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+		<script lang="ja" type="text/javascript">
+			PostData();
+		</script>*@
+}
+

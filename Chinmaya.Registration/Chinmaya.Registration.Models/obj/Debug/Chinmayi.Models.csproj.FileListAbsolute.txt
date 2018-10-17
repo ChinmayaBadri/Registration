@@ -1,0 +1,25 @@
+C:\Users\medikondad\Documents\Visual Studio 2015\Projects\Chinmayi\Chinmayi.UI\Chinmayi.Models\bin\Debug\Chinmayi.Models.dll
+C:\Users\medikondad\Documents\Visual Studio 2015\Projects\Chinmayi\Chinmayi.UI\Chinmayi.Models\bin\Debug\Chinmayi.Models.pdb
+C:\Users\medikondad\Documents\Visual Studio 2015\Projects\Chinmayi\Chinmayi.UI\Chinmayi.Models\obj\Debug\Chinmayi.Models.csprojResolveAssemblyReference.cache
+C:\Users\medikondad\Documents\Visual Studio 2015\Projects\Chinmayi\Chinmayi.UI\Chinmayi.Models\obj\Debug\Chinmayi.Models.dll
+C:\Users\medikondad\Documents\Visual Studio 2015\Projects\Chinmayi\Chinmayi.UI\Chinmayi.Models\obj\Debug\Chinmayi.Models.pdb
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.Models\bin\Debug\Chinmayi.Models.dll
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.Models\bin\Debug\Chinmayi.Models.pdb
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.Models\obj\Debug\Chinmayi.Models.dll
+C:\Users\srinatht\Downloads\Chinmayi (2)\Chinmayi\Chinmayi.UI\Chinmayi.Models\obj\Debug\Chinmayi.Models.pdb
+D:\Chinmayi\Chinmayi.UI\Chinmayi.Models\bin\Debug\Chinmayi.Models.dll
+D:\Chinmayi\Chinmayi.UI\Chinmayi.Models\bin\Debug\Chinmayi.Models.pdb
+D:\Chinmayi\Chinmayi.UI\Chinmayi.Models\obj\Debug\Chinmayi.Models.dll
+D:\Chinmayi\Chinmayi.UI\Chinmayi.Models\obj\Debug\Chinmayi.Models.pdb
+D:\Chinmayi\Chinmayi.UI\Chinmayi.Models\obj\Debug\Chinmayi.Models.csprojResolveAssemblyReference.cache
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.Models\bin\Debug\Chinmayi.Models.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.Models\bin\Debug\Chinmayi.Models.pdb
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.Models\bin\Debug\Chinmayi.Utilities.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.Models\bin\Debug\Newtonsoft.Json.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.Models\bin\Debug\Chinmayi.Utilities.pdb
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.Models\bin\Debug\Newtonsoft.Json.xml
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.Models\obj\Debug\Chinmayi.Models.csprojResolveAssemblyReference.cache
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.Models\obj\Debug\Chinmayi.Models.csproj.CoreCompileInputs.cache
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.Models\obj\Debug\Chinmayi.Models.csproj.CopyComplete
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.Models\obj\Debug\Chinmayi.Models.dll
+E:\Chinmaya-4102018\Chinmayi\Chinmayi\Chinmayi.UI\Chinmayi.Models\obj\Debug\Chinmayi.Models.pdb

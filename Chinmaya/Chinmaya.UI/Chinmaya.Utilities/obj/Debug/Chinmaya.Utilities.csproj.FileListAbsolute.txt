@@ -1,5 +1,0 @@
-C:\Users\srinatht\Desktop\Scripts\Chinmaya SRS & mockups\Chinmaya\Chinmaya\Chinmaya.UI\Chinmaya.Utilities\bin\Debug\Chinmaya.Utilities.dll
-C:\Users\srinatht\Desktop\Scripts\Chinmaya SRS & mockups\Chinmaya\Chinmaya\Chinmaya.UI\Chinmaya.Utilities\bin\Debug\Chinmaya.Utilities.pdb
-C:\Users\srinatht\Desktop\Scripts\Chinmaya SRS & mockups\Chinmaya\Chinmaya\Chinmaya.UI\Chinmaya.Utilities\bin\Debug\Newtonsoft.Json.dll
-C:\Users\srinatht\Desktop\Scripts\Chinmaya SRS & mockups\Chinmaya\Chinmaya\Chinmaya.UI\Chinmaya.Utilities\obj\Debug\Chinmaya.Utilities.dll
-C:\Users\srinatht\Desktop\Scripts\Chinmaya SRS & mockups\Chinmaya\Chinmaya\Chinmaya.UI\Chinmaya.Utilities\obj\Debug\Chinmaya.Utilities.pdb

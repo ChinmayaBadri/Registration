@@ -1,0 +1,57 @@
+﻿@using Chinmaya.Registration.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+    Layout = "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Welcome to Chinmaya Mission</title>
+    @Styles.Render("~/Content/css")
+</head>
+<body class="theme_bg">
+    <div class="login-logo">
+        <img src="~/Content/img/login-logo.png" alt="logo" class="center-block" />
+    </div>
+    <div class="login-box">
+        <div id="login">
+            <div class="login_heading">Login</div>
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "Loginform" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger", style = "padding-left: 194px;" })
+                <label>Email</label>
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", autocomplete = "off" })
+                <div class="col-md-4"></div>
+                @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                <label>Password <a class="forgot-link float-right forgot">Forgot Password?</a></label>
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                <div class="col-md-4"></div>
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                <button class="btn btn-orange float-right" type="submit">Login<i class="material-icons">check_circle</i></button>
+            }
+        </div>
+    </div>
+	<div class="copyright">New to Chinmaya Mission? Please register for programs/events @Html.ActionLink("here", "Registration", "Account", new { area = "" }, new { @style = "color:red;" }).</div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript">
+        $('body').on('click', '.forgot', function () {
+            $('.backtologin').parent().removeClass('active');
+            $('#login').hide();
+            $('#forgot').show();
+        });
+        $('body').on('click', '.backtologin', function () {
+            $('#login').show();
+            $('#forgot').hide();
+        });
+    </script>
+
+</body>
+</html>
