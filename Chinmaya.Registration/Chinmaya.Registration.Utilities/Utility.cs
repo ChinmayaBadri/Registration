@@ -16,7 +16,7 @@ namespace Chinmaya.Registration.Utilities
         [JsonConverter(typeof(StringEnumConverter))]
         public enum MasterType
         {
-            ROLE = 0, ACCOUNT = 1, GENDER = 2, COUNTRY = 3, STATE = 4, CITY =5, SECURITYQUESTIONS =6, AGEGROUPID =7
+            ROLE = 0, ACCOUNT = 1, GENDER = 2, COUNTRY = 3, STATE = 4, CITY =5, SECURITYQUESTIONS =6, AGEGROUPID =7, RELATIONSHIP =8, GRADE =9
         }
 
         public static async Task<String> PostAnObject<T, T1>(string uriActionString, T1 content, bool auth = true)

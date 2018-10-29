@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Chinmaya.DAL;
 using Chinmaya.Registration.Models;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,17 @@ namespace Chinmaya.Registration.DAL
 			using (var _ctx = new ChinmayaEntities())
 			{
 				User objUserInfo = _ctx.Users.Where(u => u.Email == entity.UserName && u.Password == entity.Password).FirstOrDefault();
-				return Mapper.Map<User, UserModel>(objUserInfo);
+
+				var config = new MapperConfiguration(cfg =>
+				{
+					cfg.CreateMap<User, UserModel>();
+				});
+				IMapper mapper = config.CreateMapper();
+
+				UserModel ur = new UserModel();
+				return mapper.Map(objUserInfo, ur);
+
+				//return Mapper.Map<User, UserModel>(objUserInfo);
 			}
 		}
 		public string GetRoleName(int id)
@@ -38,6 +49,14 @@ namespace Chinmaya.Registration.DAL
 				"User2",
 				"User3"
 			};
+		}
+
+		public List<FamilyMember> GetFamilyMemberData()
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				return _ctx.FamilyMembers.ToList();
+			}
 		}
 
 		public void PostUser(UserModel user)
@@ -107,6 +126,60 @@ namespace Chinmaya.Registration.DAL
 
 				//_ctx.Users.Add(user);
 				//_ctx.SaveChanges();
+				try
+				{
+					_ctx.SaveChanges();
+				}
+				catch (DbEntityValidationException e)
+				{
+					foreach (var eve in e.EntityValidationErrors)
+					{
+						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+							eve.Entry.Entity.GetType().Name, eve.Entry.State);
+						foreach (var ve in eve.ValidationErrors)
+						{
+							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+								ve.PropertyName, ve.ErrorMessage);
+						}
+					}
+
+				}
+			}
+		}
+
+
+		public void PostFamilyMember(FamilyMemberModel family)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				var config = new MapperConfiguration(cfg =>
+				{
+					cfg.CreateMap<FamilyMemberModel, FamilyMember>();
+				});
+				IMapper mapper = config.CreateMapper();
+
+				//FamilyMember fm = new FamilyMember();
+				//mapper.Map(family, fm);
+				//fm.Id = Guid.NewGuid().ToString();
+				//fm.Status = true;
+				var fm = new FamilyMember
+				{
+					Id = Guid.NewGuid().ToString(),
+					FirstName = family.FirstName,
+					LastName = family.LastName,
+					DOB = family.DOB,
+					RelationshipId = family.RelationshipData,
+					GradeId = family.Grade,
+					GenderId = family.GenderData,
+					CellPhone = family.CellPhone,
+					Email = family.Email,
+					Status = true,
+					UpdatedBy = family.UpdatedBy,
+					UpdatedDate = DateTime.Now
+				};
+
+				_ctx.FamilyMembers.Add(fm);
+								
 				try
 				{
 					_ctx.SaveChanges();

@@ -7,12 +7,14 @@ using System.Web.Http;
 using Chinmaya.Registration.DAL;
 using Chinmaya.Registration.Models;
 using System.Web.Http.Description;
+using Chinmaya.DAL;
 
 namespace Chinmaya.Registration.BAL.Controllers
 {
     public class UserAPIController : ApiController
     {
         Users _user = new Users();
+
 
         [ResponseType(typeof(UserModel))]
         public IHttpActionResult Post(LoginViewModel entity)
@@ -25,6 +27,13 @@ namespace Chinmaya.Registration.BAL.Controllers
             return _user.GetRoleName(id);
         }
 
+		[Route("api/UserAPI/GetFamilyMemberData")]
+		[HttpGet]
+		public IEnumerable<FamilyMember> GetFamilyMemberData()
+		{
+			return _user.GetFamilyMemberData();
+		}
+
 
 		[Route("api/UserAPI/PostUser")]
 		[HttpPost]
@@ -33,6 +42,21 @@ namespace Chinmaya.Registration.BAL.Controllers
 			try
 			{
 				_user.PostUser(obj);
+				return Ok("Success");
+			}
+			catch (Exception)
+			{
+				return Ok("Something went wrong");
+			}
+		}
+
+		[Route("api/UserAPI/PostFamilyMember")]
+		[HttpPost]
+		public IHttpActionResult PostFamilyMember(FamilyMemberModel obj)
+		{
+			try
+			{
+				_user.PostFamilyMember(obj);
 				return Ok("Success");
 			}
 			catch (Exception)

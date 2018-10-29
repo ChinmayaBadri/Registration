@@ -1,4 +1,5 @@
-﻿using Chinmaya.Registration.DAL;
+﻿using Chinmaya.DAL;
+using Chinmaya.Registration.DAL;
 using Chinmaya.Registration.Models;
 using Chinmaya.Registration.UI.Providers;
 using Chinmaya.Registration.Utilities;
@@ -18,182 +19,185 @@ using System.Web.Security;
 
 namespace Chinmaya.Registration.UI.Controllers
 {
-    [Authorize]
-    public class AccountController : BaseController
-    {
-        //The URL of the WEB API Service
-        string baseURL = WebConfigurationManager.AppSettings["BaseURL"];
-        //
-        // GET: /Account/Login
-        [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
-        {
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
-        }
+	[Authorize]
+	public class AccountController : BaseController
+	{
+		Users _user = new Users();
 
-        //
-        // POST: /Account/Login
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl = "")
-        {            
-            if (ModelState.IsValid)
-            {
-                EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
-                model.Password = objEncryptDecrypt.Encrypt(model.Password, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
-                Utility.MasterType masterValue = Utility.MasterType.ROLE;
-                HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-                HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/", model, true);
-               
-                if (userResponseMessage.IsSuccessStatusCode && roleResponseMessage.IsSuccessStatusCode)
-                {
-                    var user = await Utility.DeserializeObject<UserModel>(userResponseMessage);
-                    if (user != null)
-                    {
-                        HttpResponseMessage roleNameResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/" + user.RoleId, true);
-                        string roleName = await Utility.DeserializeObject<string>(roleNameResponseMessage);
-                        var serializedRoles = await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
-                        var roles = serializedRoles.Select(c => c.Name).ToArray<string>();
+		//The URL of the WEB API Service
+		string baseURL = WebConfigurationManager.AppSettings["BaseURL"];
+		//
+		// GET: /Account/Login
+		[AllowAnonymous]
+		public ActionResult Login(string returnUrl)
+		{
+			ViewBag.ReturnUrl = returnUrl;
+			return View();
+		}
 
-                        CustomPrincipalSerializeModel serializeModel = new CustomPrincipalSerializeModel();
-                        serializeModel.UserId = user.Id;
-                        serializeModel.FirstName = user.FirstName;
-                        serializeModel.LastName = user.LastName;
-                        serializeModel.roles = roles;
+		//
+		// POST: /Account/Login
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public async Task<ActionResult> Login(LoginViewModel model, string returnUrl = "")
+		{
+			if (ModelState.IsValid)
+			{
+				EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
+				model.Password = objEncryptDecrypt.Encrypt(model.Password, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
+				Utility.MasterType masterValue = Utility.MasterType.ROLE;
+				HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
+				HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/", model, true);
 
-                        string userData = JsonConvert.SerializeObject(serializeModel);
-                        FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
-                        1,
-                        user.Email,
-                        DateTime.Now,
-                        DateTime.Now.AddDays(1),
-                        false, //pass here true, if you want to implement remember me functionality
-                        userData);
+				if (userResponseMessage.IsSuccessStatusCode && roleResponseMessage.IsSuccessStatusCode)
+				{
+					var user = await Utility.DeserializeObject<UserModel>(userResponseMessage);
+					if (user != null)
+					{
+						HttpResponseMessage roleNameResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/" + user.RoleId, true);
+						string roleName = await Utility.DeserializeObject<string>(roleNameResponseMessage);
+						var serializedRoles = await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
+						var roles = serializedRoles.Select(c => c.Name).ToArray<string>();
 
-                        string encTicket = FormsAuthentication.Encrypt(authTicket);
-                        HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
-                        Response.Cookies.Add(faCookie);
-                        SessionVar.LoginUser = user;
+						CustomPrincipalSerializeModel serializeModel = new CustomPrincipalSerializeModel();
+						serializeModel.UserId = user.Id;
+						serializeModel.FirstName = user.FirstName;
+						serializeModel.LastName = user.LastName;
+						serializeModel.roles = roles;
 
-                        if (roleName.Contains("Admin"))
-                        {
-                            return RedirectToAction("Index", "Home");
-                        }
-                        else if (roleName.Contains("User"))
-                        {
-                            return RedirectToAction("Index", "User");
-                        }
-                        else
-                        {
-                            return RedirectToAction("Login", "Account");
-                        }
-                    }
-                }
-            }
-            return View(model);
-        }
+						string userData = JsonConvert.SerializeObject(serializeModel);
+						FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
+						1,
+						user.Email,
+						DateTime.Now,
+						DateTime.Now.AddDays(1),
+						false, //pass here true, if you want to implement remember me functionality
+						userData);
 
-        //
-        // GET: /Account/Register
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-            return View();
-        }
+						string encTicket = FormsAuthentication.Encrypt(authTicket);
+						HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+						Response.Cookies.Add(faCookie);
+						SessionVar.LoginUser = user;
 
-        //
-        // POST: /Account/Register
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Register()
-        //{
+						if (roleName.Contains("Admin"))
+						{
+							//TempData["userdata"] = user;
+							return RedirectToAction("MyAccount", "Account");
+						}
+						else if (roleName.Contains("User"))
+						{
+							return RedirectToAction("Index", "User");
+						}
+						else
+						{
+							return RedirectToAction("Login", "Account");
+						}
+					}
+				}
+			}
+			return View(model);
+		}
 
-        //    // If we got this far, something failed, redisplay form
-        //    return View();
-        //}
+		//
+		// GET: /Account/Register
+		[AllowAnonymous]
+		public ActionResult Register()
+		{
+			return View();
+		}
 
-        //
-        // GET: /Account/ConfirmEmail
-        [AllowAnonymous]
-        public ActionResult ConfirmEmail(string userId, string code)
-        {
-            if (userId == null || code == null)
-            {
-                return View("Error");
-            }
-            return View("Error");
-        }
+		//
+		// POST: /Account/Register
+		//[HttpPost]
+		//[AllowAnonymous]
+		//[ValidateAntiForgeryToken]
+		//public ActionResult Register()
+		//{
 
-        //
-        // GET: /Account/ForgotPassword
-        [AllowAnonymous]
-        public ActionResult ForgotPassword()
-        {
-            return View();
-        }
+		//    // If we got this far, something failed, redisplay form
+		//    return View();
+		//}
 
-        //
-        // POST: /Account/ForgotPassword
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult ForgotPassword()
-        //{
+		//
+		// GET: /Account/ConfirmEmail
+		[AllowAnonymous]
+		public ActionResult ConfirmEmail(string userId, string code)
+		{
+			if (userId == null || code == null)
+			{
+				return View("Error");
+			}
+			return View("Error");
+		}
 
+		//
+		// GET: /Account/ForgotPassword
+		[AllowAnonymous]
+		public ActionResult ForgotPassword()
+		{
+			return View();
+		}
 
-        //    // If we got this far, something failed, redisplay form
-        //    return View();
-        //}
-
-        //
-        // GET: /Account/ForgotPasswordConfirmation
-        [AllowAnonymous]
-        public ActionResult ForgotPasswordConfirmation()
-        {
-            return View();
-        }
-
-        //
-        // GET: /Account/ResetPassword
-        [AllowAnonymous]
-        public ActionResult ResetPassword(string code)
-        {
-            return code == null ? View("Error") : View();
-        }
-
-        //
-        // POST: /Account/ResetPassword
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult ResetPassword()
-        {
-
-            return View();
-        }
-
-        //
-        // GET: /Account/ResetPasswordConfirmation
-        [AllowAnonymous]
-        public ActionResult ResetPasswordConfirmation()
-        {
-            return View();
-        }
+		//
+		// POST: /Account/ForgotPassword
+		//[HttpPost]
+		//[AllowAnonymous]
+		//[ValidateAntiForgeryToken]
+		//public ActionResult ForgotPassword()
+		//{
 
 
+		//    // If we got this far, something failed, redisplay form
+		//    return View();
+		//}
 
-        //
-        // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult LogOff()
-        {
-            //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Login", "Account");
-        }
+		//
+		// GET: /Account/ForgotPasswordConfirmation
+		[AllowAnonymous]
+		public ActionResult ForgotPasswordConfirmation()
+		{
+			return View();
+		}
+
+		//
+		// GET: /Account/ResetPassword
+		[AllowAnonymous]
+		public ActionResult ResetPassword(string code)
+		{
+			return code == null ? View("Error") : View();
+		}
+
+		//
+		// POST: /Account/ResetPassword
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public ActionResult ResetPassword()
+		{
+
+			return View();
+		}
+
+		//
+		// GET: /Account/ResetPasswordConfirmation
+		[AllowAnonymous]
+		public ActionResult ResetPasswordConfirmation()
+		{
+			return View();
+		}
+
+
+
+		//
+		// POST: /Account/LogOff
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult LogOff()
+		{
+			//AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+			return RedirectToAction("Login", "Account");
+		}
 
 		[AllowAnonymous]
 		private UserModel GetUser()
@@ -215,7 +219,7 @@ namespace Chinmaya.Registration.UI.Controllers
 			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
 		}
 
-		public async Task<object> GetAgeGroupId()
+		public async Task<object> GetAgeGroupData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.AGEGROUPID;
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
@@ -227,8 +231,8 @@ namespace Chinmaya.Registration.UI.Controllers
 		{
 			ViewBag.Gender = await GetGenderData();
 			ViewBag.SelectedGender = null;
-			ViewBag.AgeGroupId = await GetAgeGroupId();
-			//ViewBag.SelectedAgeGroupId = null;
+			ViewBag.AgeGroup = await GetAgeGroupData();
+			ViewBag.SelectedAgeGroup = null;
 			return View("PersonalDetails");
 		}
 
@@ -258,7 +262,7 @@ namespace Chinmaya.Registration.UI.Controllers
 		public async Task<ActionResult> PersonalDetails(PersonalDetails DetailsData, string BtnPrevious, string BtnNext)
 		{
 			ViewBag.Gender = await GetGenderData();
-			ViewBag.AgeGroupId = await GetAgeGroupId();
+			ViewBag.AgeGroup = await GetAgeGroupData();
 			ViewBag.CountryList = await GetCountryData();
 			ViewBag.SelectedCountry = 231;
 			//ViewBag.SelectedState = null;
@@ -272,7 +276,7 @@ namespace Chinmaya.Registration.UI.Controllers
 					UserObj.LastName = DetailsData.LastName;
 					UserObj.DOB = DetailsData.DOB;
 					UserObj.GenderId = DetailsData.GenderData;
-					UserObj.AgeGroupId = DetailsData.AgeGroupId;
+					UserObj.AgeGroupId = DetailsData.AgeGroupData;
 					return View("ContactDetails");
 				}
 			}
@@ -297,11 +301,11 @@ namespace Chinmaya.Registration.UI.Controllers
 				pd.LastName = obj.LastName;
 				pd.DOB = obj.DOB;
 				pd.GenderData = obj.GenderId;
-				pd.AgeGroupId = (int)obj.AgeGroupId;
+				pd.AgeGroupData = (int)obj.AgeGroupId;
 				ViewBag.Gender = await GetGenderData();
 				ViewBag.SelectedGender = obj.GenderId;
-				ViewBag.AgeGroupId = await GetAgeGroupId();
-				ViewBag.SelectedAgeGroupId = (int)obj.AgeGroupId;
+				ViewBag.AgeGroup = await GetAgeGroupData();
+				ViewBag.SelectedAgeGroup = (int)obj.AgeGroupId;
 				return View("PersonalDetails", pd);
 			}
 
@@ -353,14 +357,14 @@ namespace Chinmaya.Registration.UI.Controllers
 			if (nextBtn != null)
 			{
 				Dictionary<int, string> SecurityQuestions = new Dictionary<int, string>();
-								
+
 				for (int i = 0; i < 5; i++)
 				{
 					if ((Request.Form["AnswerTextbox_" + (i + 1)]) != "")
 					{
 						SecurityQuestions.Add((i + 1), Request.Form["AnswerTextbox_" + (i + 1)]);
 					}
-					
+
 				}
 
 				if (SecurityQuestions.Count < 2)
@@ -392,7 +396,7 @@ namespace Chinmaya.Registration.UI.Controllers
 						return View("AccountDetails", Ad);
 					}
 				}
-				
+
 			}
 			return View();
 		}
@@ -419,6 +423,128 @@ namespace Chinmaya.Registration.UI.Controllers
 			return Json(serializedCities, JsonRequestBehavior.AllowGet);
 		}
 
-		
+		public async Task<object> GetRelationshipData()
+		{
+			Utility.MasterType masterValue = Utility.MasterType.RELATIONSHIP;
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
+			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
+		}
+
+		public async Task<object> GetGradeData()
+		{
+			Utility.MasterType masterValue = Utility.MasterType.GRADE;
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
+			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
+		}
+
+		public async Task<object> GetFamilyMemberData()
+		{
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetFamilyMemberData", true);
+			return await Utility.DeserializeObject<List<FamilyMember>>(roleResponseMessage);
+		}
+
+		[AllowAnonymous]
+		public async Task<ActionResult> MyAccount(UserModel userdata)
+		{
+			UserModel obj = GetUser();
+			ViewBag.User = obj;
+			//UserModel model = (UserModel)TempData["userdata"];
+			ViewBag.Name = obj.FirstName + " " + obj.LastName;
+			ViewBag.Relationship = await GetRelationshipData();
+			ViewBag.Grade = await GetGradeData();
+			ViewBag.Gender = await GetGenderData();
+			ViewBag.FamilyMember = await GetFamilyMemberData();
+			TempData["model"] = userdata;
+			return View("MyAccount");
+		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		public async Task<ActionResult> AddFamilyMember(FamilyMemberModel data, string nextBtn)
+		{
+			UserModel obj = GetUser();
+			ViewBag.User = obj;
+			ViewBag.Name = obj.FirstName + " " + obj.LastName;
+			ViewBag.Relationship = await GetRelationshipData();
+			ViewBag.Grade = await GetGradeData();
+			ViewBag.Gender = await GetGenderData();
+			ViewBag.FamilyMember = await GetFamilyMemberData();
+			var userinfo = TempData["model"];
+			
+			
+			if (nextBtn != null)
+			{
+				if (ModelState.IsValid)
+				{
+					FamilyMemberModel family = new FamilyMemberModel();
+					family.FirstName = data.FirstName;
+					family.LastName = data.LastName;
+					family.DOB = data.DOB;
+					family.RelationshipData = data.RelationshipData;
+					family.Grade = data.Grade;
+					family.GenderData = data.GenderData;
+					family.CellPhone = data.CellPhone;
+					family.Email = data.Email;
+					family.UpdatedBy = obj.Email;
+					//_user.PostFamilyMember(family);
+					HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostFamilyMember", family, true);
+					ViewBag.FamilyMember = await GetFamilyMemberData();
+					return View("MyAccount");
+				}
+				return View("MyAccount");
+			}
+			return View("MyAccount");
+		}
+
+		[AllowAnonymous]
+		public ActionResult ProgramEventRegistration(string prevBtn, string nextBtn)
+		{
+			if (prevBtn != null)
+			{
+				return View("MyAccount");
+			}
+			else
+			{
+				if (nextBtn != null)
+				{
+					return View("ClassesConfirm");
+				}
+			}
+			return View();
+		}
+
+		[AllowAnonymous]
+		public ActionResult ClassesConfirm(string prevBtn, string nextBtn)
+		{
+			if (prevBtn != null)
+			{
+				return View("ProgramEventRegistration");
+			}
+			else
+			{
+				if (nextBtn != null)
+				{
+					return View("PaymentMethod");
+				}
+			}
+			return View();
+		}
+
+		[AllowAnonymous]
+		public ActionResult PaymentMethod(string prevBtn, string nextBtn)
+		{
+			if (prevBtn != null)
+			{
+				return View("ClassesConfirm");
+			}
+			else
+			{
+				if (nextBtn != null)
+				{
+					return View();
+				}
+			}
+			return View();
+		}
 	}
 }

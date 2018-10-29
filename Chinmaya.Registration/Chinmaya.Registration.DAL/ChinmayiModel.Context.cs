@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Chinmaya.Registration.DAL
+namespace Chinmaya.DAL
 {
     using System;
     using System.Data.Entity;
@@ -42,7 +42,6 @@ namespace Chinmaya.Registration.DAL
         public virtual DbSet<EmailTemplate> EmailTemplates { get; set; }
         public virtual DbSet<Event> Events { get; set; }
         public virtual DbSet<FamilyGender> FamilyGenders { get; set; }
-        public virtual DbSet<FamilyMember> FamilyMembers { get; set; }
         public virtual DbSet<Frequency> Frequencies { get; set; }
         public virtual DbSet<Gender> Genders { get; set; }
         public virtual DbSet<Grade> Grades { get; set; }
@@ -57,5 +56,6 @@ namespace Chinmaya.Registration.DAL
         public virtual DbSet<Weekday> Weekdays { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<SecurityQuestion> SecurityQuestions { get; set; }
+        public virtual DbSet<FamilyMember> FamilyMembers { get; set; }
     }
 }

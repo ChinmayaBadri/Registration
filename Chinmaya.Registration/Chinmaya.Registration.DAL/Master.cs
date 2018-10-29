@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Chinmaya.DAL;
 using Chinmaya.Registration.Models;
 using Chinmaya.Registration.Utilities;
 using System;
@@ -34,6 +35,10 @@ namespace Chinmaya.Registration.DAL
 						return Mapper.Map<List<SecurityQuestion>, List<KeyValueModel>>(_ctx.SecurityQuestions.ToList());
 					case Utility.MasterType.AGEGROUPID:
 						return Mapper.Map<List<AgeGroup>, List<KeyValueModel>>(_ctx.AgeGroups.ToList());
+					case Utility.MasterType.RELATIONSHIP:
+						return Mapper.Map<List<Relationship>, List<KeyValueModel>>(_ctx.Relationships.ToList());
+					case Utility.MasterType.GRADE:
+						return Mapper.Map<List<Grade>, List<KeyValueModel>>(_ctx.Grades.ToList());
 					default:
                         return new List<KeyValueModel>();
                 }            

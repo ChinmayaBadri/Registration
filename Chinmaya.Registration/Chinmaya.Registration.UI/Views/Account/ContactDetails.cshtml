@@ -26,9 +26,10 @@
 	<script src="~/Scripts/jquery-1.10.2.min.js"></script>
 	<script>
 		$(document).ready(function () {
-			var selectedCountry = "@ViewBag.SelectedCountry";		
+			var selectedCountry = "@ViewBag.SelectedCountry";	
+			var selectedState = "@ViewBag.SelectedState";
 			
-			if (selectedCountry == 231) {
+			if (selectedCountry == 231 && selectedState == "") {
 				var id = 231;
 				$.get("FillState", { Id: id }, function (data) {
 					var v = "<option>Select State</option>";
@@ -52,7 +53,7 @@
 			});
 
 			var selectedState = "@ViewBag.SelectedState";
-			if (selectedState != null) {
+			if (selectedState != "") {
 				$("#State").empty();
 				$.get("FillState", { Id: selectedCountry }, function (data) {
 					var v = "";

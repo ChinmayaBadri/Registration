@@ -1,0 +1,177 @@
+﻿
+@{
+    ViewBag.Title = "PaymentMethod";
+}
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>Welcome to Chinmaya Mission</title>
+	<!-- Latest compiled and minified CSS -->
+	<link href="~/Content/bootstrap.min.css" rel="stylesheet">
+	<link href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" rel="stylesheet" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+	<!-- Custom CSS -->
+	<link href="~/Content/custom-styles.css" rel="stylesheet" type="text/css">
+	<!-- Jquery -->
+	<script src="~/Content/jquery-3.3.1.js"></script>
+</head>
+<body class="theme_bg">
+	<header>
+		<div class="header_top">
+			<a class="navbar-brand" href="#"><img alt="mainlogo" src="~/Content/img/dashboard-logo.png"></a>
+			<div class="header-right">
+				<input name="search" class="search-field" type="text" placeholder="Search..">
+				<select class="drpdown">
+					<option>Our Other Sites</option>
+				</select>
+				<a class="fab fa-facebook-f" href="#"></a>
+				<a class="fab fa-twitter" href="#"></a>
+				<a class="fab fa-google-plus-g" href="#"></a>
+				<a class="fab fa-linkedin-in" href="#"></a>
+				<a class="fas fa-plus" href="#"></a>
+			</div>
+		</div>
+		<div class="header_nav">
+			<nav class="navbar navbar-expand-lg navbar-light">
+				<button class="navbar-toggler" aria-expanded="false" aria-controls="navbarSupportedContent" aria-label="Toggle navigation" type="button" data-target="#navbarSupportedContent" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav mr-auto">
+						<li class="nav-item active"> <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> </li>
+						<li class="nav-item"> <a class="nav-link" href="#">About Us</a> </li>
+						<li class="nav-item"> <a class="nav-link" href="#">Donate</a> </li>
+						<li class="nav-item"> <a class="nav-link" href="#">Program/Event Registration</a> </li>
+						<li class="nav-item"> <a class="nav-link" href="#">Current Events</a> </li>
+						<li class="nav-item"> <a class="nav-link" href="#">Contact Us</a> </li>
+					</ul>
+					<div class="form-inline my-2 my-lg-0">
+						<span class="navbar-text">Welcome, Sri Rama</span>
+						<ul class="navbar-nav mr-auto">
+							<li class="nav-item"> <a class="nav-link" href="#">My Account</a> </li>
+							<li class="nav-item"> <a class="nav-link" href="#">Sign Out</a> </li>
+						</ul>
+						<a href="#"><img src="~/Content/img/cart-icon.png"> <span class="cart-count">2</span></a>
+					</div>
+				</div>
+			</nav>
+		</div>
+	</header>
+
+	<button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
+	<div class="nav-side-menu">
+
+		<div class="menu-list">
+
+			<ul class="menu-content collapse out classes-list" id="menu-content">
+				<li>
+					<a href="#"> About Balavihar Classes </a>
+				</li>
+				<li>
+					<a href="#"> Link 2 </a>
+				</li>
+				<li>
+					<a href="#"> Link 3 </a>
+				</li>
+
+			</ul>
+		</div>
+	</div>
+	<div class="bd-content">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="regi-process-bar mt-0">
+					<div class="row">
+						<div class="col-md-5"><div class="regi-heading">Register for Classes and Activities</div></div>
+						<div class="col-md-7">
+							<div class="row bs-wizard">
+								<div class="col-md-4 bs-wizard-step complete">
+									<div class="progress"><div class="progress-bar"></div></div>
+									<a class="bs-wizard-dot" href="property-type.html">1</a>
+									<div class="text-center bs-wizard-stepnum marl-55">Register</div>
+								</div>
+
+								<div class="col-md-4 bs-wizard-step complete">
+									<!-- complete -->
+									<div class="progress"><div class="progress-bar"></div></div>
+									<a class="bs-wizard-dot" href="property-details.html">2</a>
+									<div class="text-center bs-wizard-stepnum">Confirm</div>
+								</div>
+
+								<div class="col-md-4 bs-wizard-step active">
+									<!-- active -->
+									<div class="progress"><div class="progress-bar"></div></div>
+									<a class="bs-wizard-dot" href="listing-details.html">3</a>
+									<div class="text-center bs-wizard-stepnum marr-60">Pay</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		@using (Html.BeginForm("PaymentMethod", "Account", FormMethod.Post))
+		{
+			@Html.AntiForgeryToken()
+		<div class="row">
+			<div class="col-md-12">
+				<div class="regi-main-1">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="regi-heading mt-0 mb-3">Payment Method</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<label>Account Holder Name</label>
+							<input class="form-control" type="password" placeholder="">
+						</div>
+						<div class="col-md-6">
+							<label>Account Type</label>
+							<select class="form-control">
+								<option></option>
+								<option></option>
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<label>Bank name</label>
+							<input class="form-control" type="password" placeholder="">
+						</div>
+						<div class="col-md-6">
+							<label>Account Number</label>
+							<input class="form-control" type="password" placeholder="">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<label>Routing Number</label>
+							<input class="form-control" type="password" placeholder="">
+						</div>
+						<div class="col-md-6">
+							<label>Confirm Account Number</label>
+							<select class="form-control">
+								<option></option>
+								<option></option>
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<button class="btn btn-secondary mr-2" name="prevBtn" type="submit">Back</button>
+							<button class="btn btn-orange" name="nextBtn" type="submit" data-target="#demo" data-toggle="collapse">Submit</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		}
+	</div>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="~/Content/bootstrap.min.js"></script>
+
+</body>
+</html>
+

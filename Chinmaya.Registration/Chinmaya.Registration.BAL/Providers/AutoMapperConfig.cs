@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Chinmaya.DAL;
 using Chinmaya.Registration.DAL;
 using Chinmaya.Registration.Models;
 using System;
@@ -21,6 +22,11 @@ namespace Chinmaya.Registration.BAL.Providers
 				cfg.CreateMap<KeyValueModel, Country>();
 				cfg.CreateMap<KeyValueModel, State>();
 				cfg.CreateMap<KeyValueModel, City>();
+				cfg.CreateMap<KeyValueModel, SecurityQuestion>();
+				cfg.CreateMap<KeyValueModel, AgeGroup>();
+				cfg.CreateMap<KeyValueModel, Relationship>();
+				cfg.CreateMap<KeyValueModel, Grade>();
+				cfg.CreateMap<FamilyMemberModel, FamilyMember>();
 			});
         }
     }

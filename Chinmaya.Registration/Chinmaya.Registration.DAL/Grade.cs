@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Chinmaya.Registration.DAL
+namespace Chinmaya.DAL
 {
     using System;
     using System.Collections.Generic;

@@ -6,7 +6,7 @@
     <edmx:StorageModels>
     <Schema Namespace="ChinmayaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.AccountType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.AccountType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AccountType">
           <Key>
             <PropertyRef Name="Id" />
@@ -16,7 +16,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.AccountType' does not ha
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.AgeGroup' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.AgeGroup' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="AgeGroup">
           <Key>
             <PropertyRef Name="Id" />
@@ -41,7 +41,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.AgeGroup' does not have 
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.City' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.City' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="City">
           <Key>
             <PropertyRef Name="Id" />
@@ -53,7 +53,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.City' does not have a pr
           <Property Name="StateID" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.Country' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.Country' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Country">
           <Key>
             <PropertyRef Name="Id" />
@@ -96,7 +96,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.Country' does not have a
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.EmailTemplate' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.EmailTemplate' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="EmailTemplate">
           <Key>
             <PropertyRef Name="ID" />
@@ -135,7 +135,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.EmailTemplate' does not 
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.Events' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.Events' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Events">
           <Key>
             <PropertyRef Name="Id" />
@@ -175,7 +175,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.Events' does not have a 
           <Property Name="Other" Type="varchar" MaxLength="500" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.FamilyGender' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.FamilyGender' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="FamilyGender">
           <Key>
             <PropertyRef Name="Id" />
@@ -184,17 +184,9 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.FamilyGender' does not h
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.FamilyMember' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="FamilyMember">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="FirstName" />
-            <PropertyRef Name="LastName" />
-            <PropertyRef Name="DOB" />
-            <PropertyRef Name="RelationshipId" />
-            <PropertyRef Name="GenderId" />
-            <PropertyRef Name="Status" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="100" Nullable="false" />
@@ -210,7 +202,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.FamilyMember' does not h
           <Property Name="UpdatedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.Frequency' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.Frequency' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Frequency">
           <Key>
             <PropertyRef Name="Id" />
@@ -220,7 +212,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.Frequency' does not have
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.Gender' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.Gender' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Gender">
           <Key>
             <PropertyRef Name="Id" />
@@ -230,7 +222,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.Gender' does not have a 
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.Grade' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.Grade' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Grade">
           <Key>
             <PropertyRef Name="Id" />
@@ -240,7 +232,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.Grade' does not have a p
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.InvoiceStatus' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.InvoiceStatus' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="InvoiceStatus">
           <Key>
             <PropertyRef Name="Id" />
@@ -250,7 +242,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.InvoiceStatus' does not 
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.PaymentMethod' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.PaymentMethod' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PaymentMethod">
           <Key>
             <PropertyRef Name="Id" />
@@ -260,7 +252,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.PaymentMethod' does not 
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.Relationship' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.Relationship' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Relationship">
           <Key>
             <PropertyRef Name="Id" />
@@ -270,7 +262,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.Relationship' does not h
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.Role' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.Role' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Role">
           <Key>
             <PropertyRef Name="Id" />
@@ -280,7 +272,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.Role' does not have a pr
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.SecurityQuestions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.SecurityQuestions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="SecurityQuestions">
           <Key>
             <PropertyRef Name="Id" />
@@ -290,7 +282,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.SecurityQuestions' does 
           <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.Sessions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.Sessions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Sessions">
           <Key>
             <PropertyRef Name="Id" />
@@ -302,7 +294,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.Sessions' does not have 
           <Property Name="Order" Type="int" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.SharedAccount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.SharedAccount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="SharedAccount">
           <Key>
             <PropertyRef Name="ID" />
@@ -320,7 +312,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.SharedAccount' does not 
           <Property Name="UpdatedDate" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.Sites' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.Sites' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Sites">
           <Key>
             <PropertyRef Name="Id" />
@@ -332,7 +324,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.Sites' does not have a p
           <Property Name="Link" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.State' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.State' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="State">
           <Key>
             <PropertyRef Name="Id" />
@@ -402,7 +394,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.State' does not have a p
           <Property Name="Answer" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.Registration.dbo.Weekday' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Weekday">
           <Key>
             <PropertyRef Name="Id" />
@@ -420,6 +412,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.Weekday' does not have a
           <EntitySet Name="EventHolidays" EntityType="Self.EventHolidays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventRegistration" EntityType="Self.EventRegistration" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventSessions" EntityType="Self.EventSessions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FamilyMember" EntityType="Self.FamilyMember" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserActivation" EntityType="Self.UserActivation" Schema="dbo" store:Type="Tables" />
@@ -481,22 +474,6 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.Weekday' does not have a
     [FamilyGender].[Id] AS [Id], 
     [FamilyGender].[Name] AS [Name]
     FROM [dbo].[FamilyGender] AS [FamilyGender]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="FamilyMember" EntityType="Self.FamilyMember" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [FamilyMember].[Id] AS [Id], 
-    [FamilyMember].[FirstName] AS [FirstName], 
-    [FamilyMember].[LastName] AS [LastName], 
-    [FamilyMember].[DOB] AS [DOB], 
-    [FamilyMember].[RelationshipId] AS [RelationshipId], 
-    [FamilyMember].[GradeId] AS [GradeId], 
-    [FamilyMember].[GenderId] AS [GenderId], 
-    [FamilyMember].[CellPhone] AS [CellPhone], 
-    [FamilyMember].[Email] AS [Email], 
-    [FamilyMember].[Status] AS [Status], 
-    [FamilyMember].[UpdatedBy] AS [UpdatedBy], 
-    [FamilyMember].[UpdatedDate] AS [UpdatedDate]
-    FROM [dbo].[FamilyMember] AS [FamilyMember]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="Frequency" EntityType="Self.Frequency" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -609,7 +586,6 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.Weekday' does not have a
           <EntitySet Name="EmailTemplates" EntityType="ChinmayaModel.EmailTemplate" />
           <EntitySet Name="Events" EntityType="ChinmayaModel.Event" />
           <EntitySet Name="FamilyGenders" EntityType="ChinmayaModel.FamilyGender" />
-          <EntitySet Name="FamilyMembers" EntityType="ChinmayaModel.FamilyMember" />
           <EntitySet Name="Frequencies" EntityType="ChinmayaModel.Frequency" />
           <EntitySet Name="Genders" EntityType="ChinmayaModel.Gender" />
           <EntitySet Name="Grades" EntityType="ChinmayaModel.Grade" />
@@ -624,6 +600,7 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.Weekday' does not have a
           <EntitySet Name="Weekdays" EntityType="ChinmayaModel.Weekday" />
           <EntitySet Name="Users" EntityType="ChinmayaModel.User" />
           <EntitySet Name="SecurityQuestions" EntityType="ChinmayaModel.SecurityQuestion" />
+          <EntitySet Name="FamilyMembers" EntityType="ChinmayaModel.FamilyMember" />
         </EntityContainer>
         <EntityType Name="CheckPayment">
           <Key>
@@ -820,29 +797,6 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.Weekday' does not have a
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="FamilyMember">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="FirstName" />
-            <PropertyRef Name="LastName" />
-            <PropertyRef Name="DOB" />
-            <PropertyRef Name="RelationshipId" />
-            <PropertyRef Name="GenderId" />
-            <PropertyRef Name="Status" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="RelationshipId" Type="Int32" Nullable="false" />
-          <Property Name="GradeId" Type="Int32" />
-          <Property Name="GenderId" Type="Int32" Nullable="false" />
-          <Property Name="CellPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="Status" Type="Boolean" Nullable="false" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="Frequency">
           <Key>
             <PropertyRef Name="Id" />
@@ -989,6 +943,23 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.Weekday' does not have a
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="FamilyMember">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RelationshipId" Type="Int32" Nullable="false" />
+          <Property Name="GradeId" Type="Int32" />
+          <Property Name="GenderId" Type="Int32" Nullable="false" />
+          <Property Name="CellPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1194,24 +1165,6 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.Weekday' does not have a
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="FamilyMembers">
-            <EntityTypeMapping TypeName="ChinmayaModel.FamilyMember">
-              <MappingFragment StoreEntitySet="FamilyMember">
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
-                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
-                <ScalarProperty Name="GradeId" ColumnName="GradeId" />
-                <ScalarProperty Name="RelationshipId" ColumnName="RelationshipId" />
-                <ScalarProperty Name="DOB" ColumnName="DOB" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Frequencies">
             <EntityTypeMapping TypeName="ChinmayaModel.Frequency">
               <MappingFragment StoreEntitySet="Frequency">
@@ -1351,6 +1304,24 @@ warning 6002: The table/view 'Chinmaya.Registration.dbo.Weekday' does not have a
             <EntityTypeMapping TypeName="ChinmayaModel.SecurityQuestion">
               <MappingFragment StoreEntitySet="SecurityQuestions">
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FamilyMembers">
+            <EntityTypeMapping TypeName="ChinmayaModel.FamilyMember">
+              <MappingFragment StoreEntitySet="FamilyMember">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
+                <ScalarProperty Name="GradeId" ColumnName="GradeId" />
+                <ScalarProperty Name="RelationshipId" ColumnName="RelationshipId" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

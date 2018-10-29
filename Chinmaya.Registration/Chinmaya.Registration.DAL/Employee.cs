@@ -1,4 +1,5 @@
-﻿using Chinmaya.Registration.Models;
+﻿using Chinmaya.DAL;
+using Chinmaya.Registration.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

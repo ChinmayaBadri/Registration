@@ -105,10 +105,10 @@
 							</div>
 							<div class="col-md-6">
 
-								@Html.LabelFor(m => m.AgeGroupId)
+								@Html.LabelFor(m => m.AgeGroupData)
 								@*@Html.DropDownListFor(m => m.AgeGroupId, new SelectList(ViewBag.AgeGroupId, "Id", "Name", ViewBag.SelectedAgeGroupId), "Select", new { style = "width: 150px" })*@
-								@Html.DropDownListFor(m => m.AgeGroupId, new SelectList(ViewBag.AgeGroupId, "Id", "Name", ViewBag.SelectedAgeGroupId), "Select", new { style = "width: 150px" })
-								@Html.ValidationMessageFor(m => m.AgeGroupId)<br /><br />
+								@Html.DropDownListFor(m => m.AgeGroupData, new SelectList(ViewBag.AgeGroup, "Id", "Name", ViewBag.SelectedAgeGroup), "Select", new { style = "width: 150px" })
+								@Html.ValidationMessageFor(m => m.AgeGroupData)<br /><br />
 							</div>
 
 						</div>
