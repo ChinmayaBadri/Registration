@@ -22,6 +22,7 @@ namespace Chinmaya.Registration.Models
 
 		[Required]
 		[DisplayName("Date of Birth")]
+		[DisplayFormat(DataFormatString = "{0:MMM d, yyyy}")]
 		public System.DateTime DOB { get; set; }
 
 		[Required]

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Chinmaya.DAL;
+using Chinmaya.Models;
 using Chinmaya.Registration.Models;
 using System;
 using System.Collections.Generic;
@@ -51,11 +52,11 @@ namespace Chinmaya.Registration.DAL
 			};
 		}
 
-		public List<FamilyMember> GetFamilyMemberData()
+		public List<GetUserFamilyMember_Result> GetUserFamilyMemberData(string Id)
 		{
 			using (var _ctx = new ChinmayaEntities())
 			{
-				return _ctx.FamilyMembers.ToList();
+				return _ctx.GetUserFamilyMember(Id).ToList();
 			}
 		}
 

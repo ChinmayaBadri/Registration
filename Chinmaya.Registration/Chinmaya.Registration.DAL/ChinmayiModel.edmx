@@ -404,6 +404,12 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="FrequencyId" Type="int" />
         </EntityType>
+        <Function Name="GetUserFamilyMember" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetUserFamilyMembers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="ChinmayaModelStoreContainer">
           <EntitySet Name="CheckPayment" EntityType="Self.CheckPayment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CreditCardPayment" EntityType="Self.CreditCardPayment" Schema="dbo" store:Type="Tables" />
@@ -601,6 +607,12 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <EntitySet Name="Users" EntityType="ChinmayaModel.User" />
           <EntitySet Name="SecurityQuestions" EntityType="ChinmayaModel.SecurityQuestion" />
           <EntitySet Name="FamilyMembers" EntityType="ChinmayaModel.FamilyMember" />
+          <FunctionImport Name="GetUserFamilyMembers" ReturnType="Collection(ChinmayaModel.GetUserFamilyMembers_Result)">
+          <Parameter Name="UserId" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetUserFamilyMember" ReturnType="Collection(ChinmayaModel.GetUserFamilyMember_Result)">
+            <Parameter Name="UserId" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="CheckPayment">
           <Key>
@@ -961,6 +973,32 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
         </EntityType>
+        <ComplexType Name="GetUserFamilyMembers_Result">
+          <Property Type="String" Name="Id" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="DOB" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="RelationshipId" Nullable="false" />
+          <Property Type="Int32" Name="GradeId" Nullable="true" />
+          <Property Type="String" Name="UserId" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="UserFirstName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="UserLastName" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="UserDOB" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="GetUserFamilyMember_Result">
+          <Property Type="String" Name="Id" Nullable="false" MaxLength="128" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="DOB" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="RelationshipId" Nullable="false" />
+          <Property Type="Int32" Name="GradeId" Nullable="true" />
+          <Property Type="String" Name="UserId" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="UserFirstName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="UserLastName" Nullable="true" MaxLength="100" />
+          <Property Type="DateTime" Name="UserDOB" Nullable="true" Precision="23" />
+          <Property Type="String" Name="Relationship" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Grade" Nullable="true" MaxLength="100" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1326,6 +1364,40 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetUserFamilyMembers" FunctionName="ChinmayaModel.Store.GetUserFamilyMembers">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ChinmayaModel.GetUserFamilyMembers_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="RelationshipId" ColumnName="RelationshipId" />
+                <ScalarProperty Name="GradeId" ColumnName="GradeId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserFirstName" ColumnName="UserFirstName" />
+                <ScalarProperty Name="UserLastName" ColumnName="UserLastName" />
+                <ScalarProperty Name="UserDOB" ColumnName="UserDOB" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetUserFamilyMember" FunctionName="ChinmayaModel.Store.GetUserFamilyMember">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ChinmayaModel.GetUserFamilyMember_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="RelationshipId" ColumnName="RelationshipId" />
+                <ScalarProperty Name="GradeId" ColumnName="GradeId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserFirstName" ColumnName="UserFirstName" />
+                <ScalarProperty Name="UserLastName" ColumnName="UserLastName" />
+                <ScalarProperty Name="UserDOB" ColumnName="UserDOB" />
+                <ScalarProperty Name="Relationship" ColumnName="Relationship" />
+                <ScalarProperty Name="Grade" ColumnName="Grade" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -12,6 +12,8 @@ namespace Chinmaya.DAL
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class ChinmayaEntities : DbContext
     {
@@ -57,5 +59,23 @@ namespace Chinmaya.DAL
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<SecurityQuestion> SecurityQuestions { get; set; }
         public virtual DbSet<FamilyMember> FamilyMembers { get; set; }
+    
+        public virtual ObjectResult<GetUserFamilyMembers_Result> GetUserFamilyMembers(string userId)
+        {
+            var userIdParameter = userId != null ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetUserFamilyMembers_Result>("GetUserFamilyMembers", userIdParameter);
+        }
+    
+        public virtual ObjectResult<GetUserFamilyMember_Result> GetUserFamilyMember(string userId)
+        {
+            var userIdParameter = userId != null ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetUserFamilyMember_Result>("GetUserFamilyMember", userIdParameter);
+        }
     }
 }

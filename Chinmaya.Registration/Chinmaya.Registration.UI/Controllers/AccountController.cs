@@ -1,4 +1,5 @@
 ﻿using Chinmaya.DAL;
+using Chinmaya.Models;
 using Chinmaya.Registration.DAL;
 using Chinmaya.Registration.Models;
 using Chinmaya.Registration.UI.Providers;
@@ -348,7 +349,6 @@ namespace Chinmaya.Registration.UI.Controllers
 				cd.State = obj.StateId;
 				ViewBag.SelectedState = obj.StateId;
 				cd.City = obj.City;
-				//ViewBag.SelectedCity = obj.City;
 				cd.ZipCode = obj.ZipCode;
 				cd.HomePhone = obj.HomePhone;
 				cd.CellPhone = obj.CellPhone;
@@ -396,7 +396,6 @@ namespace Chinmaya.Registration.UI.Controllers
 						return View("AccountDetails", Ad);
 					}
 				}
-
 			}
 			return View();
 		}
@@ -437,71 +436,49 @@ namespace Chinmaya.Registration.UI.Controllers
 			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
 		}
 
-		public async Task<object> GetFamilyMemberData()
+		public async Task<object> GetUserFamilyMemberData(string Id)
 		{
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetFamilyMemberData", true);
-			return await Utility.DeserializeObject<List<FamilyMember>>(roleResponseMessage);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetUserFamilyMemberData/" + Id, true);
+			return await Utility.DeserializeObject<List<UserFamilyMember>>(roleResponseMessage);
 		}
 
 		[AllowAnonymous]
-		public async Task<ActionResult> MyAccount(UserModel userdata)
+		public async Task<ActionResult> MyAccount()
 		{
-			UserModel obj = GetUser();
-			ViewBag.User = obj;
-			//UserModel model = (UserModel)TempData["userdata"];
-			ViewBag.Name = obj.FirstName + " " + obj.LastName;
 			ViewBag.Relationship = await GetRelationshipData();
 			ViewBag.Grade = await GetGradeData();
 			ViewBag.Gender = await GetGenderData();
-			ViewBag.FamilyMember = await GetFamilyMemberData();
-			TempData["model"] = userdata;
-			return View("MyAccount");
+			ViewBag.FamilyMember = await GetUserFamilyMemberData(User.UserId);
+			return View();
 		}
 
 		[HttpPost]
 		[AllowAnonymous]
-		public async Task<ActionResult> AddFamilyMember(FamilyMemberModel data, string nextBtn)
+		public async Task<ActionResult> AddFamilyMember(FamilyMemberModel data)
 		{
-			UserModel obj = GetUser();
-			ViewBag.User = obj;
-			ViewBag.Name = obj.FirstName + " " + obj.LastName;
-			ViewBag.Relationship = await GetRelationshipData();
-			ViewBag.Grade = await GetGradeData();
-			ViewBag.Gender = await GetGenderData();
-			ViewBag.FamilyMember = await GetFamilyMemberData();
-			var userinfo = TempData["model"];
-			
-			
-			if (nextBtn != null)
+			if (ModelState.IsValid)
 			{
-				if (ModelState.IsValid)
-				{
-					FamilyMemberModel family = new FamilyMemberModel();
-					family.FirstName = data.FirstName;
-					family.LastName = data.LastName;
-					family.DOB = data.DOB;
-					family.RelationshipData = data.RelationshipData;
-					family.Grade = data.Grade;
-					family.GenderData = data.GenderData;
-					family.CellPhone = data.CellPhone;
-					family.Email = data.Email;
-					family.UpdatedBy = obj.Email;
-					//_user.PostFamilyMember(family);
-					HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostFamilyMember", family, true);
-					ViewBag.FamilyMember = await GetFamilyMemberData();
-					return View("MyAccount");
-				}
-				return View("MyAccount");
+				data.UpdatedBy = User.UserId;
+				HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostFamilyMember", data, true);
+				return RedirectToAction("MyAccount");
 			}
-			return View("MyAccount");
+			return RedirectToAction("MyAccount");
 		}
+
+		[AllowAnonymous]
+		public ActionResult Event()
+		{
+			return View();
+		}
+
+
 
 		[AllowAnonymous]
 		public ActionResult ProgramEventRegistration(string prevBtn, string nextBtn)
 		{
 			if (prevBtn != null)
 			{
-				return View("MyAccount");
+				return RedirectToAction("MyAccount");
 			}
 			else
 			{

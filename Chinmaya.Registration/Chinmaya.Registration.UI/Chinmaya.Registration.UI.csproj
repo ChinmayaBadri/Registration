@@ -157,11 +157,13 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.min.js" />
+    <Content Include="Content\custom-styles.css" />
     <Content Include="Content\img\dashboard-logo.png" />
     <Content Include="Content\img\header-thumbnail.png" />
     <Content Include="Content\img\login-logo.png" />
     <Content Include="Content\img\main-logo.png" />
     <Content Include="Content\img\registration-logo.png" />
+    <Content Include="Content\img\search.png" />
     <Content Include="Content\jquery-3.3.1.js" />
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
@@ -219,6 +221,7 @@
     <Content Include="Views\Account\ProgramEventRegistration.cshtml" />
     <Content Include="Views\Account\ClassesConfirm.cshtml" />
     <Content Include="Views\Account\PaymentMethod.cshtml" />
+    <Content Include="Views\Account\Event.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

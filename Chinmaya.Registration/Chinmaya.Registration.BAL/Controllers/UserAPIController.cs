@@ -8,6 +8,7 @@ using Chinmaya.Registration.DAL;
 using Chinmaya.Registration.Models;
 using System.Web.Http.Description;
 using Chinmaya.DAL;
+using Chinmaya.Models;
 
 namespace Chinmaya.Registration.BAL.Controllers
 {
@@ -27,11 +28,11 @@ namespace Chinmaya.Registration.BAL.Controllers
             return _user.GetRoleName(id);
         }
 
-		[Route("api/UserAPI/GetFamilyMemberData")]
+		[Route("api/UserAPI/GetUserFamilyMemberData/{id}")]
 		[HttpGet]
-		public IEnumerable<FamilyMember> GetFamilyMemberData()
+		public IEnumerable<GetUserFamilyMember_Result> GetUserFamilyMemberData(string id)
 		{
-			return _user.GetFamilyMemberData();
+			return _user.GetUserFamilyMemberData(id);
 		}
 
 
