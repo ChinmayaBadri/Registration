@@ -445,6 +445,8 @@ namespace Chinmaya.Registration.UI.Controllers
 		[AllowAnonymous]
 		public async Task<ActionResult> MyAccount()
 		{
+			UserModel obj = GetUser();
+			ViewBag.obj = obj;
 			ViewBag.Relationship = await GetRelationshipData();
 			ViewBag.Grade = await GetGradeData();
 			ViewBag.Gender = await GetGenderData();
@@ -465,17 +467,65 @@ namespace Chinmaya.Registration.UI.Controllers
 			return RedirectToAction("MyAccount");
 		}
 
-		[AllowAnonymous]
-		public ActionResult Event()
+		public async Task<object> GetWeekdayData()
 		{
+			Utility.MasterType masterValue = Utility.MasterType.WEEKDAY;
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
+			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
+		}
+
+		public async Task<object> GetFrequencyData()
+		{
+			Utility.MasterType masterValue = Utility.MasterType.FREQUENCY;
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
+			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
+		}
+
+		public async Task<object> GetSessionData()
+		{
+			Utility.MasterType masterValue = Utility.MasterType.SESSION;
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
+			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
+		}
+
+		public async Task<object> GetEvents()
+		{
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetEventsData/", true);
+			return await Utility.DeserializeObject<List<CurrentEventModel>>(roleResponseMessage);
+		}
+
+		[AllowAnonymous]
+		public async Task<ActionResult> Event()
+		{
+			ViewBag.Weekday = await GetWeekdayData();
+			ViewBag.Frequency = await GetFrequencyData();
+			ViewBag.Session = await GetSessionData();
+			ViewBag.Events = await GetEvents();
 			return View();
 		}
 
-
+		[HttpPost]
+		[AllowAnonymous]
+		public async Task<ActionResult> /*ActionResult*/ AddEvent(EventsModel data)
+		{
+			if (ModelState.IsValid)
+			{
+				data.CreatedBy = User.UserId;
+				//_user.PostEvent(data);
+				HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostEvent", data, true);
+				return RedirectToAction("Event");
+			}
+			return RedirectToAction("Event");
+		}
 
 		[AllowAnonymous]
-		public ActionResult ProgramEventRegistration(string prevBtn, string nextBtn)
+		public async Task<ActionResult> ProgramEventRegistration(string[] select, string prevBtn, string nextBtn)
 		{
+			UserModel obj = GetUser();
+			ViewBag.obj = obj;
+			ViewBag.FamilyMember = await GetUserFamilyMemberData(User.UserId);
+			ViewBag.Events = await GetEvents();
+			ViewBag.select = select;
 			if (prevBtn != null)
 			{
 				return RedirectToAction("MyAccount");
@@ -484,6 +534,7 @@ namespace Chinmaya.Registration.UI.Controllers
 			{
 				if (nextBtn != null)
 				{
+					
 					return View("ClassesConfirm");
 				}
 			}
@@ -491,11 +542,14 @@ namespace Chinmaya.Registration.UI.Controllers
 		}
 
 		[AllowAnonymous]
-		public ActionResult ClassesConfirm(string prevBtn, string nextBtn)
+		public async Task<ActionResult> ClassesConfirm(string prevBtn, string nextBtn)
 		{
+			ViewBag.FamilyMember = await GetUserFamilyMemberData(User.UserId);
+			ViewBag.Events = await GetEvents();
+			ViewBag.AccountType = await GetAccountType();
 			if (prevBtn != null)
 			{
-				return View("ProgramEventRegistration");
+				return RedirectToAction("ProgramEventRegistration");
 			}
 			else
 			{
@@ -507,17 +561,31 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View();
 		}
 
-		[AllowAnonymous]
-		public ActionResult PaymentMethod(string prevBtn, string nextBtn)
+		public async Task<object> GetAccountType()
 		{
+			Utility.MasterType masterValue = Utility.MasterType.ACCOUNTTYPE;
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
+			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
+		}
+
+		[AllowAnonymous]
+		public async Task<ActionResult> PaymentMethod(CheckPaymentModel data, string prevBtn, string nextBtn)
+		{
+			ViewBag.AccountType = await GetAccountType();
 			if (prevBtn != null)
 			{
-				return View("ClassesConfirm");
+				return RedirectToAction("ClassesConfirm");
 			}
 			else
 			{
 				if (nextBtn != null)
 				{
+					if (ModelState.IsValid)
+					{
+						data.CreatedBy = User.UserId;
+						HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostCheckPayment", data, true);
+						return View();
+					}
 					return View();
 				}
 			}

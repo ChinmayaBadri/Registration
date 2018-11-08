@@ -77,15 +77,15 @@
 							<div class="col-md-6">
 								@*<label>First Name <span class="red-txt">*</span></label>*@
 								@Html.LabelFor(m => m.FirstName, new { @class = "requiredA" })
-								@Html.TextBoxFor(m => m.FirstName)
-								@Html.ValidationMessageFor(m => m.FirstName)<br /><br />
+								@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.FirstName)
 							</div>
 							<div class="col-md-6">
 								@*<label>Last Name <span class="red-txt">*</span></label>*@
 								@*<input id="LastName" class="form-control" type="password" placeholder="">*@
 								@Html.LabelFor(m => m.LastName, new { @class = "requiredA" })
-								@Html.TextBoxFor(m => m.LastName)
-								@Html.ValidationMessageFor(m => m.LastName)<br /><br />
+								@Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.LastName)
 							</div>
 						</div>
 
@@ -94,21 +94,21 @@
 								@*<label>Date of Birth <span class="red-txt">*</span></label>*@
 								@*<input id="DateofBirth" class="form-control" type="password" placeholder="22/08/2018">*@
 								@Html.LabelFor(m => m.DOB, new { @class = "requiredA" })
-								@Html.TextBoxFor(m => m.DOB, "{0:yyyy-MM-dd}", new { @type = "date" })
-								@Html.ValidationMessageFor(m => m.DOB)<br /><br />
+								@Html.TextBoxFor(m => m.DOB, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+								@Html.ValidationMessageFor(m => m.DOB)
 							</div>
 							<div class="col-md-6">
 								@*<label>Gender <span class="red-txt">*</span></label>*@
 								@Html.LabelFor(m => m.GenderData, new { @class = "requiredA" })
-								@Html.DropDownList("GenderData", new SelectList(ViewBag.Gender, "Id", "Name", ViewBag.SelectedGender), "Select", new { style = "width: 150px" })
-								@Html.ValidationMessageFor(m => m.GenderData)<br /><br />
+								@Html.DropDownList("GenderData", new SelectList(ViewBag.Gender, "Id", "Name", ViewBag.SelectedGender), "Select", new { @class = "form-control"})
+								@Html.ValidationMessageFor(m => m.GenderData)
 							</div>
 							<div class="col-md-6">
 
 								@Html.LabelFor(m => m.AgeGroupData)
 								@*@Html.DropDownListFor(m => m.AgeGroupId, new SelectList(ViewBag.AgeGroupId, "Id", "Name", ViewBag.SelectedAgeGroupId), "Select", new { style = "width: 150px" })*@
-								@Html.DropDownListFor(m => m.AgeGroupData, new SelectList(ViewBag.AgeGroup, "Id", "Name", ViewBag.SelectedAgeGroup), "Select", new { style = "width: 150px" })
-								@Html.ValidationMessageFor(m => m.AgeGroupData)<br /><br />
+								@Html.DropDownListFor(m => m.AgeGroupData, new SelectList(ViewBag.AgeGroup, "Id", "Name", ViewBag.SelectedAgeGroup), "Select", new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.AgeGroupData)
 							</div>
 
 						</div>

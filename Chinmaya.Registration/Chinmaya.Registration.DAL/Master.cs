@@ -39,6 +39,14 @@ namespace Chinmaya.Registration.DAL
 						return Mapper.Map<List<Relationship>, List<KeyValueModel>>(_ctx.Relationships.ToList());
 					case Utility.MasterType.GRADE:
 						return Mapper.Map<List<Grade>, List<KeyValueModel>>(_ctx.Grades.ToList());
+					case Utility.MasterType.WEEKDAY:
+						return Mapper.Map<List<Weekday>, List<KeyValueModel>>(_ctx.Weekdays.ToList());
+					case Utility.MasterType.FREQUENCY:
+						return Mapper.Map<List<Frequency>, List<KeyValueModel>>(_ctx.Frequencies.ToList());
+					case Utility.MasterType.ACCOUNTTYPE:
+						return Mapper.Map<List<AccountType>, List<KeyValueModel>>(_ctx.AccountTypes.ToList());
+					case Utility.MasterType.SESSION:
+						return Mapper.Map<List<Session>, List<KeyValueModel>>(_ctx.Sessions.ToList());
 					default:
                         return new List<KeyValueModel>();
                 }            

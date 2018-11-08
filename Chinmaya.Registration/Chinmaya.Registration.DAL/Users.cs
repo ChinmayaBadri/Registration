@@ -60,6 +60,30 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
+		public List<CurrentEventModel> GetEventsData()
+		{
+			
+			using (var _ctx = new ChinmayaEntities())
+			{
+				var events = (from e in _ctx.Events
+							  select new CurrentEventModel
+							  {
+								  Id = e.Id,
+								  Name = e.Name,
+
+								  Weekday = _ctx.Weekdays.Where(i => i.Id == e.WeekdayId).Select(i => i.Name).FirstOrDefault(),
+								  Frequency = _ctx.Frequencies.Where(i => i.Id == e.FrequencyId).Select(i => i.Name).FirstOrDefault(),
+								  StartTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.StartTime).FirstOrDefault(),
+								  EndTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.EndTime).FirstOrDefault(),
+								  Amount = e.Amount
+							  }).ToList();
+				return events;
+			}
+			
+		}
+
+
+
 		public void PostUser(UserModel user)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -192,6 +216,125 @@ namespace Chinmaya.Registration.DAL
 						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
 							eve.Entry.Entity.GetType().Name, eve.Entry.State);
 						foreach (var ve in eve.ValidationErrors)
+						{
+							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+								ve.PropertyName, ve.ErrorMessage);
+						}
+					}
+
+				}
+			}
+		}
+
+		public void PostEvent(EventsModel ev)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				var config = new MapperConfiguration(cfg =>
+				{
+					cfg.CreateMap<EventsModel, Event>();
+				});
+				IMapper mapper = config.CreateMapper();
+
+				//Event eve = new Event();
+				//mapper.Map(ev, eve);
+				//eve.Id = Guid.NewGuid().ToString();
+				//eve.Status = true;
+
+
+				var eve = new Event
+				{
+					Id = Guid.NewGuid().ToString(),
+					Name = ev.Name,
+					Description = ev.Description,
+					WeekdayId = ev.WeekdayId,
+					FrequencyId = ev.FrequencyId,
+					AgeFrom = ev.AgeFrom,
+					AgeTo = ev.AgeTo,
+					Amount = ev.Amount,
+					Status = true,
+					CreatedBy = ev.CreatedBy,
+					CreatedDate = DateTime.Now
+				};
+
+				var evs = new EventSession
+				{
+					EventId = eve.Id,
+					SessionId = ev.SessionId,
+					StartDate = ev.StartDate,
+					EndDate = ev.EndDate,
+					StartTime = ev.StartTime,
+					EndTime = ev.EndTime,
+					Location = ev.Location,
+					Instructor = ev.Instructor,
+					Contact = ev.Contact,
+					Other = ev.Other
+				};
+
+				_ctx.Events.Add(eve);
+				_ctx.EventSessions.Add(evs);
+				try
+				{
+					_ctx.SaveChanges();
+				}
+				catch (DbEntityValidationException e)
+				{
+					foreach (var even in e.EntityValidationErrors)
+					{
+						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+							even.Entry.Entity.GetType().Name, even.Entry.State);
+						foreach (var ve in even.ValidationErrors)
+						{
+							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+								ve.PropertyName, ve.ErrorMessage);
+						}
+					}
+
+				}
+			}
+		}
+
+		public void PostCheckPayment(CheckPaymentModel chkp)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				var config = new MapperConfiguration(cfg =>
+				{
+					cfg.CreateMap<CheckPaymentModel, CheckPayment>();
+				});
+				IMapper mapper = config.CreateMapper();
+
+				//CheckPayment chk = new CheckPayment();
+				//mapper.Map(chkp, chk);
+				//chk.CreatedDate = DateTime.Now;
+				//chk.StatusId = 1;
+
+
+				var chk = new CheckPayment
+				{
+					AccountHolderName = chkp.AccountHolderName,
+					AccountTypeId = chkp.AccountTypeId,
+					BankName = chkp.BankName,
+					AccountNumber = chkp.AccountNumber,
+					RoutingNumber = chkp.RoutingNumber,
+					Amount = chkp.Amount,
+					StatusId = 1,
+					CreatedBy = chkp.CreatedBy,
+					CreatedDate = DateTime.Now
+				};
+
+				_ctx.CheckPayments.Add(chk);
+				try
+				{
+					_ctx.SaveChanges();
+				}
+				catch (DbEntityValidationException e)
+				{
+					foreach (var even in e.EntityValidationErrors)
+					{
+						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+							even.Entry.Entity.GetType().Name, even.Entry.State);
+						foreach (var ve in even.ValidationErrors)
 						{
 							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
 								ve.PropertyName, ve.ErrorMessage);

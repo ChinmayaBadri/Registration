@@ -35,6 +35,13 @@ namespace Chinmaya.Registration.BAL.Controllers
 			return _user.GetUserFamilyMemberData(id);
 		}
 
+		[Route("api/UserAPI/GetEventsData/")]
+		[HttpGet]
+		public IEnumerable<CurrentEventModel> GetEventsData()
+		{
+			return _user.GetEventsData();
+		}
+
 
 		[Route("api/UserAPI/PostUser")]
 		[HttpPost]
@@ -58,6 +65,36 @@ namespace Chinmaya.Registration.BAL.Controllers
 			try
 			{
 				_user.PostFamilyMember(obj);
+				return Ok("Success");
+			}
+			catch (Exception)
+			{
+				return Ok("Something went wrong");
+			}
+		}
+
+		[Route("api/UserAPI/PostEvent")]
+		[HttpPost]
+		public IHttpActionResult PostEvent(EventsModel obj)
+		{
+			try
+			{
+				_user.PostEvent(obj);
+				return Ok("Success");
+			}
+			catch (Exception)
+			{
+				return Ok("Something went wrong");
+			}
+		}
+
+		[Route("api/UserAPI/PostCheckPayment")]
+		[HttpPost]
+		public IHttpActionResult PostCheckPayment(CheckPaymentModel obj)
+		{
+			try
+			{
+				_user.PostCheckPayment(obj);
 				return Ok("Success");
 			}
 			catch (Exception)

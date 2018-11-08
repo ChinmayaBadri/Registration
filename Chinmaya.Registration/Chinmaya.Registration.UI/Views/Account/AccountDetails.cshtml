@@ -95,29 +95,29 @@
 									Please select atleast 2 Security Questions.
 								</p>
 								@Html.LabelFor(m => m.Email, new { @class = "requiredA" })
-								@Html.TextBoxFor(m => m.Email)
-								@Html.ValidationMessageFor(m => m.Email)<br /><br />
+								@Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.Email)
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6 offset-md-3">
 								@Html.LabelFor(m => m.Password, new { @class = "requiredA" })
-								@Html.PasswordFor(m => m.Password)
-								@Html.ValidationMessageFor(m => m.Password)<br /><br />
+								@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.Password)
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6 offset-md-3">
 								@Html.LabelFor(m => m.RetypePassword, new { @class = "requiredA" })
-								@Html.PasswordFor(m => m.RetypePassword)
-								@Html.ValidationMessageFor(m => m.RetypePassword)<br /><br />
+								@Html.PasswordFor(m => m.RetypePassword, new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.RetypePassword)
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6 offset-md-3">
 								@Html.LabelFor(m => m.AccountType, new { @class = "requiredA" })
-								@Html.DropDownList("AccountType", new SelectList(listItems, "Value", "Text"))
-								@Html.ValidationMessageFor(m => m.AccountType)<br /><br />
+								@Html.DropDownList("AccountType", new SelectList(listItems, "Value", "Text"), new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.AccountType)
 							</div>
 						</div>
 						<div class="row">
@@ -135,7 +135,7 @@
 								<div id="dataTextBox" class="col-md-4">
 									@*@Html.TextBoxFor(m => m.SecurityQuestionsModel[i].Value)*@
 
-									<input type='text' name="AnswerTextbox_@(i+1)" id="AnswerTextbox_@(i+1)" value="" /><br /><br />
+									<input type='text' class = "form-control" name="AnswerTextbox_@(i+1)" id="AnswerTextbox_@(i+1)" value="" />
 								</div>
 							</div>
 								}

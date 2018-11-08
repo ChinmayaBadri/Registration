@@ -23,11 +23,17 @@
 	<title>Welcome to Chinmaya Mission</title>
 	<!-- Latest compiled and minified CSS -->
 	<link href="~/Content/bootstrap.min.css" rel="stylesheet">
+	@*<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">*@
+	@*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />*@
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 	<link href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" rel="stylesheet" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 	<!-- Custom CSS -->
 	<link href="~/Content/custom-styles.css" rel="stylesheet" type="text/css">
 	<!-- Jquery -->
 	<script src="~/Scripts/jquery-3.3.1.js"></script>
+	<script src="~/Scripts/popper.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="~/Scripts/bootstrap.min.js"></script>
 </head>
 @*<body class="theme_bg">*@
 <body>
@@ -129,7 +135,10 @@
 								<th scope="col">Relationship</th>
 								<th scope="col">
 									Grade
-									<img title="" alt="" src="~/Content/img/info-icon.png" data-original-title="Grade in school (fall of current year)" data-toggle="tooltip" data-placement="right" />
+									@*<span data-toggle="tooltip" title="Grade in school (fall of current year)", data-placement="right"><img rel="tooltip" title="" alt="" src="~/Content/img/info-icon.png" /></span>*@
+									<img src="~/Content/img/info-icon.png" alt="" title="Grade in school (fall of current year)" />
+
+									@*<img title="" alt="" src="~/Content/img/info-icon.png" data-original-title="Grade in school (fall of current year)" data-toggle="tooltip" data-placement="right" />*@
 								</th>
 								<th scope="col"></th>
 							</tr>
@@ -157,23 +166,22 @@
 									<td><a class="label label-orange" href="#">edit</a></td>
 								</tr>*@
 
-							@if ((ViewBag.FamilyMember).Count != 0)
-							{
+							
 								<tr>
-									<td>@((ViewBag.FamilyMember[0].UserFirstName) + " " + (ViewBag.FamilyMember[0].UserLastName))</td>
-									<td>@(ViewBag.FamilyMember[0].UserDOB.ToShortDateString())</td>
+									<td>@((ViewBag.obj.FirstName) + " " + (ViewBag.obj.LastName))</td>
+									<td>@((ViewBag.obj.DOB).ToString("MMM dd, yyyy"))</td>
 									<td>self</td>
 									<td>- </td>
 									@*<td>@Html.ActionLink("Edit", "Edit", new { @class = "label label-orange", id = ViewBag.FamilyMember[0].UserId })</td>*@
 									@*<td><a class="label label-orange" href="#">edit</a></td>*@
-									<td><a href="@Url.Action("Edit","Account", new { id = ViewBag.FamilyMember[0].UserId })"><span class="label label-orange">Edit</span></a></td>
+									<td><a href="@Url.Action("Edit","Account", new { id = ViewBag.obj.Id })"><span class="label label-orange">Edit</span></a></td>
 								</tr>
-							}
+							
 							@foreach (var familyMember in ViewBag.FamilyMember)
 							{
 								<tr>
 									<td>@(familyMember.FirstName + " " + familyMember.LastName)</td>
-									<td>@(familyMember.DOB.ToShortDateString())</td>
+									<td>@(familyMember.DOB.ToString("MMM dd, yyyy"))</td>
 									<td>@familyMember.Relationship</td>
 									<td>@familyMember.Grade</td>
 									@*<td>@Html.ActionLink("Edit", "Edit", new { @class = "label label-orange", id = familyMember.Id })</td>*@
@@ -238,7 +246,8 @@
 							<div class="col-md-6">
 								<label>
 									Grade
-									<img title="" alt="" src="~/Content/img/info-icon.png" data-original-title="Grade in school (fall of current year)" data-toggle="tooltip" data-placement="right" />
+									<img src="~/Content/img/info-icon.png" alt="" title="Grade in school (fall of current year)" />
+									@*<img rel="tooltip" title="" alt="" src="~/Content/img/info-icon.png" data-original-title="Grade in school (fall of current year)" data-toggle="tooltip" data-placement="right" />*@
 									@*<img title="" alt="" src="~/Content/img/info-icon.png" data-original-title="Grade in school (fall of current year)" data-toggle="tooltip" data-placement="right">*@
 								</label>
 								@*<select class="form-control">
@@ -287,15 +296,13 @@
 			</div>
 		}
 	</div>
-	<script src="~/Scripts/popper.min.js"></script>
-	<!-- Latest compiled and minified JavaScript -->
-	<script src="~/Scripts/bootstrap.min.js"></script>
+
 	<script>
 
-		$(function () {
-			$('[data-toggle="tooltip"]').tooltip()
-		})
-				
+		$(document).ready(function () {
+			$('[data-toggle="tooltip"]').tooltip({position:'right'});
+		});
+
 		//$(function () {
 		//	$('[data-toggle="tooltip"]').tooltip();
 		//	$("form")[0].reset();

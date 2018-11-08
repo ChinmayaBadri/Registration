@@ -115,16 +115,21 @@
 		{
 			@Html.AntiForgeryToken()
 		<div class="row">
-			<div class="col-md-9">
+			
+			
+			
+			@*<div class="col-md-9">
 				<!--Accordion wrapper-->
 				<div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
 					<!-- Accordion card -->
+					@foreach (var fm in ViewBag.FamilyMember)
+					{
 					<div class="card">
 						<!-- Card header -->
 						<div class="card-header" id="headingOne1" role="tab">
 							<a aria-expanded="true" aria-controls="collapseOne1" href="#collapseOne1" data-toggle="collapse" data-parent="#accordionEx">
 								<h5 class="mb-0">
-									Rohan <i class="fa fa-chevron-circle-down rotate-icon"></i>
+									@(fm.FirstName + " " + fm.LastName)<i class="fa fa-chevron-circle-down rotate-icon"></i>
 								</h5>
 							</a>
 						</div>
@@ -133,7 +138,21 @@
 							<div class="card-body">
 								<table class="table table-borderless">
 									<tbody>
+										@foreach (var ev in ViewBag.Events)
+										{
 										<tr>
+											<td>@ev.Name   </td>
+											<td>@ev.Weekday</td>
+											<td>@ev.Amount</td>
+											<td>
+												<label class="switch">
+													<input type="checkbox" checked="">
+													<span class="slider round"></span>
+												</label>
+											</td>
+										</tr>
+										}*@
+										@*<tr>
 											<td>Vedic Chanting   </td>
 											<td>Sunday 12.15 - 12.45 pm</td>
 											<td>$325</td>
@@ -143,26 +162,19 @@
 													<span class="slider round"></span>
 												</label>
 											</td>
-										</tr>
-										<tr>
-											<td>Vedic Chanting   </td>
-											<td>Sunday 12.15 - 12.45 pm</td>
-											<td>$325</td>
-											<td>
-												<label class="switch">
-													<input type="checkbox" checked="">
-													<span class="slider round"></span>
-												</label>
-											</td>
-										</tr>
-									</tbody>
+										</tr>*@
+									@*</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
+					}*@
 					<!-- Accordion card -->
 					<!-- Accordion card -->
-					<div class="card">
+
+
+
+					@*<div class="card">
 						<!-- Card header -->
 						<div class="card-header" id="headingTwo2" role="tab">
 							<a class="collapsed" aria-expanded="false" aria-controls="collapseTwo2" href="#collapseTwo2" data-toggle="collapse" data-parent="#accordionEx">
@@ -224,10 +236,104 @@
 							</div>
 						</div>
 					</div>
-					<!-- Accordion card -->
-				</div>
+					<!-- Accordion card -->*@
+
+
+
+				@*</div>*@
 				<!-- Accordion wrapper -->
+			@*</div>*@
+
+
+
+			<div class="col-md-9">
+				<!--Accordion wrapper-->
+				<div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+					<!-- Accordion card -->
+					@{int i = 0;}
+					
+						<div class="card">
+						<!-- Card header -->
+							<div class="card-header" id="headingOne_0" role="tab">
+								
+								<a aria-expanded="true" aria-controls="collapseOne_0" href="#collapseOne_0" data-toggle="collapse" data-parent="#accordionEx">
+									<h5 class="mb-0">
+										@(ViewBag.obj.FirstName + " " + ViewBag.obj.LastName)<i class="fa fa-chevron-circle-down rotate-icon"></i>
+									</h5>
+								</a>								
+							</div>
+						<!-- Card body -->
+							<div class="collapse show" id="collapseOne_0" role="tabpanel" aria-labelledby="headingOne_0" data-parent="#accordionEx">
+							<div class="card-body">
+							
+							<table class="table table-borderless">
+								<tbody>
+									@foreach (var ev in ViewBag.Events)
+									{
+										<tr>
+										<td>@ev.Name   </td>
+										<td>@ev.Weekday @ev.StartTime.ToString(@"hh\:mm") - @ev.EndTime.ToString(@"hh\:mm")</td>
+										<td>$@ev.Amount</td>
+										<td>
+										<label class="switch">
+										
+										<input id="select_0" value="(@ev.Id)_select0" name="select" type="checkbox"/>
+										<span class="slider round"></span>
+										</label>
+										</td>
+										</tr>
+									}
+								</tbody>
+							</table>
+							</div>
+							</div>
+							
+							</div>
+							
+							@foreach (var item in ViewBag.FamilyMember)
+							{
+								<div class="card">
+							<div class="card-header" id="headingOne_@(i+1)" role="tab">
+								
+								<a aria-expanded="true" aria-controls="collapseOne_@(i+1)" href="#collapseOne_@(i+1)" data-toggle="collapse" data-parent="#accordionEx">
+									<h5 class="mb-0">
+										@(ViewBag.FamilyMember[i].FirstName + " " + ViewBag.FamilyMember[i].LastName)<i class="fa fa-chevron-circle-down rotate-icon"></i>
+									</h5>
+								</a>								
+							</div>
+
+							<div class="collapse" id="collapseOne_@(i+1)" role="tabpanel" aria-labelledby="headingOne_@(i+1)" data-parent="#accordionEx">
+							<div class="card-body">
+							
+							<table class="table table-borderless">
+								<tbody>
+									@foreach (var ev in ViewBag.Events)
+									{
+										<tr>
+										<td>@ev.Name   </td>
+										<td>@ev.Weekday</td>
+										<td>$@ev.Amount</td>
+										<td>
+										<label class="switch">
+										<input id="select_@(i+1)" value="(@ev.Id)_select@(i+1)" name="select" type="checkbox"/>
+										<span class="slider round"></span>
+										</label>
+										</td>
+										</tr>
+									 }
+								</tbody>
+							</table>
+							</div>
+							</div>
+							
+						</div>
+						i++;
+					}
+				</div>
 			</div>
+
+
+
 			<div class="col-md-3">
 				<div class="form-group form-check">
 					<input class="form-check-input" id="exampleCheck1" type="checkbox">
@@ -251,7 +357,13 @@
 	</div>
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="~/Content/bootstrap.min.js"></script>
-
+	<script>
+		$(document).ready(function () {
+			
+			//$('input.type_checkbox[value=(5f13fb83-fbec-42af-937e-c2584d5c807f)_select0]').prop('checked', false);
+			$('input.type_checkbox[value="(5f13fb83-fbec-42af-937e-c2584d5c807f)_select0"]').prop('checked', true);
+		});
+	</script>
 </body>
 </html>
 

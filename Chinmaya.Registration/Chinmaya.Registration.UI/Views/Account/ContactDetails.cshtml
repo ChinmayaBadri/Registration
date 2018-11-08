@@ -119,45 +119,45 @@
 						<div class="row">
 							<div class="col-md-6">
 								@Html.LabelFor(m => m.Address, new { @class = "requiredA" })
-								@Html.TextBoxFor(m => m.Address)
-								@Html.ValidationMessageFor(m => m.Address)<br /><br />
+								@Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.Address)
 							</div>
 							<div class="col-md-6">
 								@Html.LabelFor(m => m.Country, new { @class = "requiredA" })
-								@Html.DropDownList("Country", new SelectList(ViewBag.CountryList, "Id", "Name", ViewBag.SelectedCountry), "Select", new { style = "width: 150px" })
-								@Html.ValidationMessageFor(m => m.Country)<br /><br />
+								@Html.DropDownList("Country", new SelectList(ViewBag.CountryList, "Id", "Name", ViewBag.SelectedCountry), "Select", new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.Country)
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6">
 								@Html.LabelFor(m => m.State, new { @class = "requiredA" })
-								@Html.DropDownList("State", new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Name", ViewBag.SelectedState), "Select State", new { style = "width: 150px" })
-								@Html.ValidationMessageFor(m => m.State)<br /><br />
+								@Html.DropDownList("State", new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Name", ViewBag.SelectedState), "Select State", new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.State)
 							</div>
 							<div class="col-md-6">
 								@Html.LabelFor(m => m.City, new { @class = "requiredA" })
 								@*@Html.DropDownList("City", new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Name", @ViewBag.SelectedCity), "Select City", new { style = "width: 150px" })*@
-								@Html.TextBoxFor(m => m.City)
-								@Html.ValidationMessageFor(m => m.City)<br /><br />
+								@Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.City)
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6">
 								@Html.LabelFor(m => m.ZipCode, new { @class = "requiredA" })
-								@Html.TextBoxFor(m => m.ZipCode)
-								@Html.ValidationMessageFor(m => m.ZipCode)<br /><br />
+								@Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.ZipCode)
 							</div>
 							<div class="col-md-6">
 								@Html.LabelFor(m => m.HomePhone, new { @class = "requiredA" })
-								@Html.TextBoxFor(m => m.HomePhone)
-								@Html.ValidationMessageFor(m => m.HomePhone)<br /><br />
+								@Html.TextBoxFor(m => m.HomePhone, new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.HomePhone)
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6">
 								@Html.LabelFor(m => m.CellPhone)
-								@Html.TextBoxFor(m => m.CellPhone)
-								@Html.ValidationMessageFor(m => m.CellPhone)<br /><br />
+								@Html.TextBoxFor(m => m.CellPhone, new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.CellPhone)
 							</div>
 
 						</div>

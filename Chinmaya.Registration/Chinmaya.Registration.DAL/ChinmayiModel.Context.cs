@@ -42,7 +42,6 @@ namespace Chinmaya.DAL
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<EmailTemplate> EmailTemplates { get; set; }
-        public virtual DbSet<Event> Events { get; set; }
         public virtual DbSet<FamilyGender> FamilyGenders { get; set; }
         public virtual DbSet<Frequency> Frequencies { get; set; }
         public virtual DbSet<Gender> Genders { get; set; }
@@ -59,6 +58,7 @@ namespace Chinmaya.DAL
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<SecurityQuestion> SecurityQuestions { get; set; }
         public virtual DbSet<FamilyMember> FamilyMembers { get; set; }
+        public virtual DbSet<Event> Events { get; set; }
     
         public virtual ObjectResult<GetUserFamilyMembers_Result> GetUserFamilyMembers(string userId)
         {

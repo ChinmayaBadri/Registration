@@ -134,15 +134,9 @@ warning 6002: The table/view 'Chinmaya.dbo.EmailTemplate' does not have a primar
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.dbo.Events' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Events">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="FrequencyId" />
-            <PropertyRef Name="Status" />
-            <PropertyRef Name="CreatedDate" />
           </Key>
           <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
@@ -417,6 +411,7 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <EntitySet Name="Donation" EntityType="Self.Donation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventHolidays" EntityType="Self.EventHolidays" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventRegistration" EntityType="Self.EventRegistration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventSessions" EntityType="Self.EventSessions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FamilyMember" EntityType="Self.FamilyMember" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -457,23 +452,6 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
     [EmailTemplate].[Subject] AS [Subject], 
     [EmailTemplate].[Body] AS [Body]
     FROM [dbo].[EmailTemplate] AS [EmailTemplate]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="Events" EntityType="Self.Events" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Events].[Id] AS [Id], 
-    [Events].[Name] AS [Name], 
-    [Events].[Description] AS [Description], 
-    [Events].[WeekdayId] AS [WeekdayId], 
-    [Events].[FrequencyId] AS [FrequencyId], 
-    [Events].[AgeFrom] AS [AgeFrom], 
-    [Events].[AgeTo] AS [AgeTo], 
-    [Events].[Amount] AS [Amount], 
-    [Events].[Status] AS [Status], 
-    [Events].[CreatedBy] AS [CreatedBy], 
-    [Events].[CreatedDate] AS [CreatedDate], 
-    [Events].[UpdatedBy] AS [UpdatedBy], 
-    [Events].[UpdatedDate] AS [UpdatedDate]
-    FROM [dbo].[Events] AS [Events]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="FamilyGender" EntityType="Self.FamilyGender" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -590,7 +568,6 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <EntitySet Name="Cities" EntityType="ChinmayaModel.City" />
           <EntitySet Name="Countries" EntityType="ChinmayaModel.Country" />
           <EntitySet Name="EmailTemplates" EntityType="ChinmayaModel.EmailTemplate" />
-          <EntitySet Name="Events" EntityType="ChinmayaModel.Event" />
           <EntitySet Name="FamilyGenders" EntityType="ChinmayaModel.FamilyGender" />
           <EntitySet Name="Frequencies" EntityType="ChinmayaModel.Frequency" />
           <EntitySet Name="Genders" EntityType="ChinmayaModel.Gender" />
@@ -611,8 +588,9 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <Parameter Name="UserId" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetUserFamilyMember" ReturnType="Collection(ChinmayaModel.GetUserFamilyMember_Result)">
-            <Parameter Name="UserId" Mode="In" Type="String" />
+          <Parameter Name="UserId" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="Events" EntityType="ChinmayaModel.Event" />
         </EntityContainer>
         <EntityType Name="CheckPayment">
           <Key>
@@ -778,28 +756,6 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Subject" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Body" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Event">
-          <Key>
-            <PropertyRef Name="Id" />
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="FrequencyId" />
-            <PropertyRef Name="Status" />
-            <PropertyRef Name="CreatedDate" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="WeekdayId" Type="Int32" />
-          <Property Name="FrequencyId" Type="Int32" Nullable="false" />
-          <Property Name="AgeFrom" Type="Int32" />
-          <Property Name="AgeTo" Type="Int32" />
-          <Property Name="Amount" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="Status" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="FamilyGender">
           <Key>
@@ -999,6 +955,24 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <Property Type="String" Name="Relationship" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Grade" Nullable="true" MaxLength="100" />
         </ComplexType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="WeekdayId" Type="Int32" />
+          <Property Name="FrequencyId" Type="Int32" Nullable="false" />
+          <Property Name="AgeFrom" Type="Int32" />
+          <Property Name="AgeTo" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1173,25 +1147,6 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Events">
-            <EntityTypeMapping TypeName="ChinmayaModel.Event">
-              <MappingFragment StoreEntitySet="Events">
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="AgeTo" ColumnName="AgeTo" />
-                <ScalarProperty Name="AgeFrom" ColumnName="AgeFrom" />
-                <ScalarProperty Name="FrequencyId" ColumnName="FrequencyId" />
-                <ScalarProperty Name="WeekdayId" ColumnName="WeekdayId" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1398,6 +1353,25 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Events">
+            <EntityTypeMapping TypeName="ChinmayaModel.Event">
+              <MappingFragment StoreEntitySet="Events">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="AgeTo" ColumnName="AgeTo" />
+                <ScalarProperty Name="AgeFrom" ColumnName="AgeFrom" />
+                <ScalarProperty Name="FrequencyId" ColumnName="FrequencyId" />
+                <ScalarProperty Name="WeekdayId" ColumnName="WeekdayId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

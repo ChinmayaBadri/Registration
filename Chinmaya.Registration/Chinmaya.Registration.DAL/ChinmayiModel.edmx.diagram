@@ -20,7 +20,6 @@
         <EntityTypeShape EntityType="ChinmayaModel.City" Width="1.5" PointX="8.75" PointY="0.75" />
         <EntityTypeShape EntityType="ChinmayaModel.Country" Width="1.5" PointX="8.75" PointY="3.75" />
         <EntityTypeShape EntityType="ChinmayaModel.EmailTemplate" Width="1.5" PointX="8.75" PointY="6.75" />
-        <EntityTypeShape EntityType="ChinmayaModel.Event" Width="1.5" PointX="8.75" PointY="9.75" />
         <EntityTypeShape EntityType="ChinmayaModel.FamilyGender" Width="1.5" PointX="10.75" PointY="0.75" />
         <EntityTypeShape EntityType="ChinmayaModel.Frequency" Width="1.5" PointX="2.75" PointY="10.75" />
         <EntityTypeShape EntityType="ChinmayaModel.Gender" Width="1.5" PointX="10.75" PointY="3.75" />
@@ -37,6 +36,7 @@
         <EntityTypeShape EntityType="ChinmayaModel.User" Width="1.5" PointX="5.375" PointY="13.75" />
         <EntityTypeShape EntityType="ChinmayaModel.SecurityQuestion" Width="1.5" PointX="13.375" PointY="6.75" />
         <EntityTypeShape EntityType="ChinmayaModel.FamilyMember" Width="1.5" PointX="7.375" PointY="14.75" />
+        <EntityTypeShape EntityType="ChinmayaModel.Event" Width="1.5" PointX="15.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
