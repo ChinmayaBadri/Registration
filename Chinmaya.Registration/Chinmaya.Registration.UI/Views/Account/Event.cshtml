@@ -1,4 +1,4 @@
-﻿@model Chinmaya.Registration.Models.EventsModel
+﻿@model Chinmaya.Registration.Models.MainEventModel
 
 @{
 	Layout = "~/Views/Shared/_Layout.cshtml";
@@ -94,7 +94,7 @@
 						<tbody>
 							
 							
-							@foreach (var ev in ViewBag.Events)
+							@foreach (var ev in Model.currentEventModel)
 							{
 								<tr>
 									<td>@ev.Name</td>
@@ -125,100 +125,105 @@
 
 						<div class="row">
 							<div class="col-md-4">
-								@Html.LabelFor(m => m.Name)
-								@Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.Name)
+								@Html.LabelFor(m => m.events.Name)
+								@Html.TextBoxFor(m => m.events.Name, new { @class = "form-control", @Name = "Name" })
+								@Html.ValidationMessageFor(m => m.events.Name)
 							</div>
 							<div class="col-md-4">
-								@Html.LabelFor(m => m.Description)
-								@Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.Description)
+								@Html.LabelFor(m => m.events.Description)
+								@Html.TextBoxFor(m => m.events.Description, new { @class = "form-control", @Name = "Description" })
+								@Html.ValidationMessageFor(m => m.events.Description)
 							</div>
 							<div class="col-md-4">
-								@Html.LabelFor(m => m.WeekdayId)
-								@Html.DropDownList("WeekdayId", new SelectList(ViewBag.Weekday, "Id", "Name", ViewBag.SelectedWeekday), "Select", new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.WeekdayId)
-							</div>
-						</div>
-
-						<div class="row">
-
-							<div class="col-md-4">
-								@Html.LabelFor(m => m.FrequencyId)
-								@Html.DropDownList("FrequencyId", new SelectList(ViewBag.Frequency, "Id", "Name", ViewBag.SelectedFrequency), "Select", new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.FrequencyId)
-							</div>
-							<div class="col-md-4">
-								@Html.LabelFor(m => m.AgeFrom)
-								@Html.TextBoxFor(m => m.AgeFrom, new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.AgeFrom)
-							</div>
-							<div class="col-md-4">
-								@Html.LabelFor(m => m.AgeTo)
-								@Html.TextBoxFor(m => m.AgeTo, new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.AgeTo)
+								@Html.LabelFor(m => m.events.WeekdayId)
+								@Html.DropDownList("WeekdayId", new SelectList(Model.weekday, "Id", "Name", ViewBag.SelectedWeekday), "Select", new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.events.WeekdayId)
 							</div>
 						</div>
 
 						<div class="row">
+
 							<div class="col-md-4">
-								@Html.LabelFor(m => m.SessionId)
-								@Html.DropDownList("SessionId", new SelectList(ViewBag.Session, "Id", "Name"), "Select", new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.SessionId)
+								@Html.LabelFor(m => m.events.FrequencyId)
+								@Html.DropDownList("FrequencyId", new SelectList(Model.frequencies, "Id", "Name", ViewBag.SelectedFrequency), "Select", new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.events.FrequencyId)
 							</div>
 							<div class="col-md-4">
-								@Html.LabelFor(m => m.StartDate)
-								@Html.TextBoxFor(m => m.StartDate, new { @class = "form-control", @type = "date" })
-								@Html.ValidationMessageFor(m => m.StartDate)
+								@Html.LabelFor(m => m.events.AgeFrom)
+								@Html.TextBoxFor(m => m.events.AgeFrom, new { @class = "form-control", @Name = "AgeFrom" })
+								@Html.ValidationMessageFor(m => m.events.AgeFrom)
 							</div>
 							<div class="col-md-4">
-								@Html.LabelFor(m => m.EndDate)
-								@Html.TextBoxFor(m => m.EndDate, new { @class = "form-control", @type = "date" })
-								@Html.ValidationMessageFor(m => m.EndDate)
+								@Html.LabelFor(m => m.events.AgeTo)
+								@Html.TextBoxFor(m => m.events.AgeTo, new { @class = "form-control", @Name = "AgeTo" })
+								@Html.ValidationMessageFor(m => m.events.AgeTo)
 							</div>
 						</div>
 
 						<div class="row">
 							<div class="col-md-4">
-								@Html.LabelFor(m => m.StartTime)
-								@Html.TextBoxFor(m => m.StartTime, new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.StartTime)
+								@Html.LabelFor(m => m.events.SessionId)
+								@Html.DropDownList("SessionId", new SelectList(Model.sessions, "Id", "Name"), "Select", new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.events.SessionId)
 							</div>
 							<div class="col-md-4">
-								@Html.LabelFor(m => m.EndTime)
-								@Html.TextBoxFor(m => m.EndTime, new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.EndTime)
+								@Html.LabelFor(m => m.events.StartDate)
+								@Html.TextBoxFor(m => m.events.StartDate, new { @class = "form-control", @type = "date", @Name = "StartDate" })
+								@Html.ValidationMessageFor(m => m.events.StartDate)
 							</div>
 							<div class="col-md-4">
-								@Html.LabelFor(m => m.Amount)
-								@Html.TextBoxFor(m => m.Amount, new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.Amount)
+								@Html.LabelFor(m => m.events.EndDate)
+								@Html.TextBoxFor(m => m.events.EndDate, new { @class = "form-control", @type = "date", @Name = "EndDate" })
+								@Html.ValidationMessageFor(m => m.events.EndDate)
 							</div>
 						</div>
 
 						<div class="row">
 							<div class="col-md-4">
-								@Html.LabelFor(m => m.Location)
-								@Html.TextBoxFor(m => m.Location, new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.Location)
+								@Html.LabelFor(m => m.events.StartTime)
+								@Html.TextBoxFor(m => m.events.StartTime, new { @class = "form-control", @Name = "StartTime" })
+								@Html.ValidationMessageFor(m => m.events.StartTime)
 							</div>
 							<div class="col-md-4">
-								@Html.LabelFor(m => m.Instructor)
-								@Html.TextBoxFor(m => m.Instructor, new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.Instructor)
+								@Html.LabelFor(m => m.events.EndTime)
+								@Html.TextBoxFor(m => m.events.EndTime, new { @class = "form-control", @Name = "EndTime" })
+								@Html.ValidationMessageFor(m => m.events.EndTime)
 							</div>
 							<div class="col-md-4">
-								@Html.LabelFor(m => m.Contact)
-								@Html.TextBoxFor(m => m.Contact, new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.Contact)
+								@Html.LabelFor(m => m.events.Amount)
+								@Html.TextBoxFor(m => m.events.Amount, new { @class = "form-control", @Name = "Amount" })
+								@Html.ValidationMessageFor(m => m.events.Amount)
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4">
+								@Html.LabelFor(m => m.events.Location)
+								@Html.TextBoxFor(m => m.events.Location, new { @class = "form-control", @Name = "Location" })
+								@Html.ValidationMessageFor(m => m.events.Location)
+							</div>
+							<div class="col-md-4">
+								@Html.LabelFor(m => m.events.Instructor)
+								@Html.TextBoxFor(m => m.events.Instructor, new { @class = "form-control", @Name = "Instructor" })
+								@Html.ValidationMessageFor(m => m.events.Instructor)
+							</div>
+							<div class="col-md-4">
+								@Html.LabelFor(m => m.events.Contact)
+								@Html.TextBoxFor(m => m.events.Contact, new { @class = "form-control", @Name = "Contact" })
+								@Html.ValidationMessageFor(m => m.events.Contact)
 							</div>
 
 						</div>
 						<div class="row">
 							<div class="col-md-6">
-								@Html.LabelFor(m => m.Other)
-								@Html.TextBoxFor(m => m.Other, new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.Other)
+								@Html.LabelFor(m => m.events.Other)
+								@Html.TextBoxFor(m => m.events.Other, new { @class = "form-control", @Name = "Other" })
+								@Html.ValidationMessageFor(m => m.events.Other)
+							</div>
+							<div class="col-md-6">
+								@Html.LabelFor(m => m.events.HolidayDate)
+								@Html.TextBoxFor(m => m.events.HolidayDate, new { @class = "form-control", @type = "date", @Name = "HolidayDate" })
+								@Html.ValidationMessageFor(m => m.events.HolidayDate)
 							</div>
 						</div>
 							<div class="row">

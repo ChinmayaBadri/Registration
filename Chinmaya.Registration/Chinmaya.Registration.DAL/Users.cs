@@ -52,11 +52,11 @@ namespace Chinmaya.Registration.DAL
 			};
 		}
 
-		public List<GetUserFamilyMember_Result> GetUserFamilyMemberData(string Id)
+		public List<GetFamilyMemberForUser_Result> GetUserFamilyMemberData(string Id)
 		{
 			using (var _ctx = new ChinmayaEntities())
 			{
-				return _ctx.GetUserFamilyMember(Id).ToList();
+				return _ctx.GetFamilyMemberForUser(Id).ToList();
 			}
 		}
 
@@ -68,6 +68,7 @@ namespace Chinmaya.Registration.DAL
 				var events = (from e in _ctx.Events
 							  select new CurrentEventModel
 							  {
+
 								  Id = e.Id,
 								  Name = e.Name,
 
@@ -82,7 +83,52 @@ namespace Chinmaya.Registration.DAL
 			
 		}
 
+		
+		public List<ProgramEventRegistrationModel> GetEventsListData(string Id)
+		{
+			//var config = new MapperConfiguration(cfg =>
+			//{
+			//	cfg.CreateMap<EventsModel, Event>().ReverseMap();
+			//});
+			//IMapper mapper = config.CreateMapper();
 
+
+			using (var _ctx = new ChinmayaEntities())
+			{
+				//var _eveData = mapper.Map<List<EventsModel>>(_ctx.Events);
+
+				//foreach (var item in _eveData)
+				//{
+				//	var EveSession = _ctx.EventSessions.FirstOrDefault(x => x.EventId == item.Id);
+				//	var Eveweek = _ctx.Weekdays.FirstOrDefault(x => x.Id == item.WeekdayId);
+				//	item.StartTime = EveSession.StartTime;
+				//	item.EndTime = EveSession.EndTime;
+				//	item.WeekdayName = Eveweek.Name;
+				//}
+
+				var events = (from f in _ctx.FamilyMembers
+							  where f.UpdatedBy == Id
+							  select new ProgramEventRegistrationModel
+							  {
+
+								  UserId = f.Id,
+								  FirstName = f.FirstName,
+								  LastName = f.LastName,
+								  Events = (from e in _ctx.Events
+											select new EventsModel
+											{
+												Id = e.Id,
+												Name = e.Name,
+												WeekdayName = _ctx.Weekdays.Where(i => i.Id == e.WeekdayId).Select(i => i.Name).FirstOrDefault(),
+												StartTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.StartTime).FirstOrDefault(),
+												EndTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.EndTime).FirstOrDefault(),
+												Amount = e.Amount
+											})
+							  }).ToList();
+				return events;
+			}
+
+		}
 
 		public void PostUser(UserModel user)
 		{
@@ -271,8 +317,19 @@ namespace Chinmaya.Registration.DAL
 					Other = ev.Other
 				};
 
+
+				if (ev.HolidayDate != null)
+				{
+					var eHoliday = new EventHoliday
+					{
+						EventId = eve.Id,
+						HolidayDate = ev.HolidayDate
+					};
+					_ctx.EventHolidays.Add(eHoliday);
+				}
 				_ctx.Events.Add(eve);
 				_ctx.EventSessions.Add(evs);
+				
 				try
 				{
 					_ctx.SaveChanges();

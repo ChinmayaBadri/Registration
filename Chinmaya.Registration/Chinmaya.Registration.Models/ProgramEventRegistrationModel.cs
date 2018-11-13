@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace Chinmaya.Registration.Models
 {
-	public class UserFamilyMember
+	public class ProgramEventRegistrationModel
 	{
-		public string Id { get; set; }
+		public string UserId { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
-		public System.DateTime DOB { get; set; }
-		public string Relationship { get; set; }
-		public string Grade { get; set; }
+		public IEnumerable<EventsModel> Events { get; set; }
 	}
 }

@@ -22,6 +22,7 @@ namespace Chinmaya.Registration.Models
 
 		[DisplayName("Weekday")]
 		public Nullable<int> WeekdayId { get; set; }
+		public string WeekdayName { get; set; }
 
 		[DisplayName("Frequency")]
 		public int FrequencyId { get; set; }
@@ -58,5 +59,8 @@ namespace Chinmaya.Registration.Models
 		public string Contact { get; set; }
 		[StringLength(300, ErrorMessage = "Location should not be more than 300 characters")]
 		public string Other { get; set; }
+
+
+		public System.DateTime HolidayDate { get; set; }
 	}
 }

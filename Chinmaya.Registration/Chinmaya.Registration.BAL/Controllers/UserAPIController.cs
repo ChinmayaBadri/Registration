@@ -30,7 +30,7 @@ namespace Chinmaya.Registration.BAL.Controllers
 
 		[Route("api/UserAPI/GetUserFamilyMemberData/{id}")]
 		[HttpGet]
-		public IEnumerable<GetUserFamilyMember_Result> GetUserFamilyMemberData(string id)
+		public IEnumerable<GetFamilyMemberForUser_Result> GetUserFamilyMemberData(string id)
 		{
 			return _user.GetUserFamilyMemberData(id);
 		}
@@ -42,6 +42,12 @@ namespace Chinmaya.Registration.BAL.Controllers
 			return _user.GetEventsData();
 		}
 
+		[Route("api/UserAPI/GetEventsListData/{id}")]
+		[HttpGet]
+		public IEnumerable<ProgramEventRegistrationModel> GetEventsListData(string id)
+		{
+			return _user.GetEventsListData(id);
+		}
 
 		[Route("api/UserAPI/PostUser")]
 		[HttpPost]

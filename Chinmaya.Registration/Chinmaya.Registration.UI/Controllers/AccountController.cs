@@ -436,59 +436,63 @@ namespace Chinmaya.Registration.UI.Controllers
 			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
 		}
 
-		public async Task<object> GetUserFamilyMemberData(string Id)
+		public async Task<List<UserFamilyMember>> GetUserFamilyMemberData(string Id)
 		{
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetUserFamilyMemberData/" + Id, true);
 			return await Utility.DeserializeObject<List<UserFamilyMember>>(roleResponseMessage);
+			
 		}
 
 		[AllowAnonymous]
 		public async Task<ActionResult> MyAccount()
 		{
-			UserModel obj = GetUser();
-			ViewBag.obj = obj;
 			ViewBag.Relationship = await GetRelationshipData();
 			ViewBag.Grade = await GetGradeData();
 			ViewBag.Gender = await GetGenderData();
-			ViewBag.FamilyMember = await GetUserFamilyMemberData(User.UserId);
-			return View();
+			MyAccountModel myAccountModel = new MyAccountModel();
+			myAccountModel.userFamilyMember = await GetUserFamilyMemberData(User.UserId);
+					
+			return View("MyAccount", myAccountModel);
 		}
 
 		[HttpPost]
 		[AllowAnonymous]
-		public async Task<ActionResult> AddFamilyMember(FamilyMemberModel data)
+		public async Task<ActionResult> AddFamilyMember(FamilyMemberModel MemberInformation, string nextBtn)
 		{
-			if (ModelState.IsValid)
+			if (nextBtn!= null)
 			{
-				data.UpdatedBy = User.UserId;
-				HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostFamilyMember", data, true);
-				return RedirectToAction("MyAccount");
+				if (ModelState.IsValid)
+				{
+					MemberInformation.UpdatedBy = User.UserId;
+					HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostFamilyMember", MemberInformation, true);
+					return RedirectToAction("MyAccount");
+				}
 			}
 			return RedirectToAction("MyAccount");
 		}
 
-		public async Task<object> GetWeekdayData()
+		public async Task<List<Weekdays>> GetWeekdayData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.WEEKDAY;
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
+			return await Utility.DeserializeObject<List<Weekdays>>(roleResponseMessage);
 		}
 
-		public async Task<object> GetFrequencyData()
+		public async Task<List<Frequencies>> GetFrequencyData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.FREQUENCY;
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
+			return await Utility.DeserializeObject<List<Frequencies>>(roleResponseMessage);
 		}
 
-		public async Task<object> GetSessionData()
+		public async Task<List<Sessions>> GetSessionData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.SESSION;
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
+			return await Utility.DeserializeObject<List<Sessions>>(roleResponseMessage);
 		}
 
-		public async Task<object> GetEvents()
+		public async Task<List<CurrentEventModel>> GetEvents()
 		{
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetEventsData/", true);
 			return await Utility.DeserializeObject<List<CurrentEventModel>>(roleResponseMessage);
@@ -497,25 +501,36 @@ namespace Chinmaya.Registration.UI.Controllers
 		[AllowAnonymous]
 		public async Task<ActionResult> Event()
 		{
-			ViewBag.Weekday = await GetWeekdayData();
-			ViewBag.Frequency = await GetFrequencyData();
-			ViewBag.Session = await GetSessionData();
-			ViewBag.Events = await GetEvents();
-			return View();
+			//ViewBag.Weekday = await GetWeekdayData();
+			//ViewBag.Frequency = await GetFrequencyData();
+			//ViewBag.Session = await GetSessionData();
+			//ViewBag.Events = await GetEvents();
+			MainEventModel mainEventModel = new MainEventModel();
+			mainEventModel.currentEventModel = await GetEvents();
+			mainEventModel.weekday = await GetWeekdayData();
+			mainEventModel.frequencies = await GetFrequencyData();
+			mainEventModel.sessions = await GetSessionData();
+
+			return View("Event", mainEventModel);
 		}
 
 		[HttpPost]
 		[AllowAnonymous]
-		public async Task<ActionResult> /*ActionResult*/ AddEvent(EventsModel data)
+		public async Task<ActionResult> AddEvent(EventsModel data)
 		{
 			if (ModelState.IsValid)
 			{
 				data.CreatedBy = User.UserId;
-				//_user.PostEvent(data);
 				HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostEvent", data, true);
 				return RedirectToAction("Event");
 			}
 			return RedirectToAction("Event");
+		}
+
+		public async Task<object> GetEventsList(string Id)
+		{
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetEventsListData/" + Id, true);
+			return await Utility.DeserializeObject<List<ProgramEventRegistrationModel>>(roleResponseMessage);
 		}
 
 		[AllowAnonymous]
@@ -523,9 +538,9 @@ namespace Chinmaya.Registration.UI.Controllers
 		{
 			UserModel obj = GetUser();
 			ViewBag.obj = obj;
-			ViewBag.FamilyMember = await GetUserFamilyMemberData(User.UserId);
+			ViewBag.EventList = await GetEventsList(User.UserId);
 			ViewBag.Events = await GetEvents();
-			ViewBag.select = select;
+			
 			if (prevBtn != null)
 			{
 				return RedirectToAction("MyAccount");
@@ -534,7 +549,20 @@ namespace Chinmaya.Registration.UI.Controllers
 			{
 				if (nextBtn != null)
 				{
-					
+					if (select.Length != 0)
+					{
+						List<string> selectedId = new List<string>();
+						List<string> selectedEventId = new List<string>();
+						for (int i=0; i<select.Length;i++)
+						{							
+							var arr = select[i].Split(')');
+							var ar1 = arr[0];
+							var ar2 = arr[1];
+							selectedId.Add(ar1);
+							selectedEventId.Add(ar2);
+
+						}
+					}
 					return View("ClassesConfirm");
 				}
 			}
@@ -544,7 +572,9 @@ namespace Chinmaya.Registration.UI.Controllers
 		[AllowAnonymous]
 		public async Task<ActionResult> ClassesConfirm(string prevBtn, string nextBtn)
 		{
-			ViewBag.FamilyMember = await GetUserFamilyMemberData(User.UserId);
+			UserModel obj = GetUser();
+			ViewBag.obj = obj;
+			ViewBag.EventList = await GetEventsList(User.UserId);
 			ViewBag.Events = await GetEvents();
 			ViewBag.AccountType = await GetAccountType();
 			if (prevBtn != null)

@@ -50,7 +50,10 @@
     <Compile Include="EmployeeInfo.cs" />
     <Compile Include="EventsModel.cs" />
     <Compile Include="FamilyMemberModel.cs" />
+    <Compile Include="MainEventModel.cs" />
+    <Compile Include="MyAccountModel.cs" />
     <Compile Include="PersonalDetails.cs" />
+    <Compile Include="ProgramEventRegistrationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="KeyValueModel.cs" />
     <Compile Include="SecurityQuestionsModel.cs" />

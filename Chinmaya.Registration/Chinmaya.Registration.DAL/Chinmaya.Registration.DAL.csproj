@@ -160,6 +160,9 @@
     <Compile Include="Gender.cs">
       <DependentUpon>ChinmayiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="GetFamilyMemberForUser_Result.cs">
+      <DependentUpon>ChinmayiModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="GetUserFamilyMembers_Result.cs">
       <DependentUpon>ChinmayiModel.tt</DependentUpon>
     </Compile>

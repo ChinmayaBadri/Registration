@@ -77,5 +77,14 @@ namespace Chinmaya.DAL
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetUserFamilyMember_Result>("GetUserFamilyMember", userIdParameter);
         }
+    
+        public virtual ObjectResult<GetFamilyMemberForUser_Result> GetFamilyMemberForUser(string userId)
+        {
+            var userIdParameter = userId != null ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetFamilyMemberForUser_Result>("GetFamilyMemberForUser", userIdParameter);
+        }
     }
 }
