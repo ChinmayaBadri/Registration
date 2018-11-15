@@ -60,6 +60,58 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
+		public UserFamilyMember GetUserData(string Id)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				var userData = (from e in _ctx.Users
+								where e.Id == Id
+								select new UserFamilyMember
+								{
+
+									Id = e.Id,
+									FirstName = e.FirstName,
+									LastName = e.LastName,
+								}).FirstOrDefault();
+
+				if (userData == null)
+				{
+					userData = (from e in _ctx.FamilyMembers
+									where e.Id == Id
+									select new UserFamilyMember
+									{
+
+										Id = e.Id,
+										FirstName = e.FirstName,
+										LastName = e.LastName,
+									}).FirstOrDefault();
+				}
+				return userData;
+			}
+		}
+
+		public CurrentEventModel GetEventData(string Id)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				var eventData = (from e in _ctx.Events
+								 where e.Id == Id
+								 select new CurrentEventModel
+								 {
+
+									 Id = e.Id,
+									 Name = e.Name,
+
+									 Weekday = _ctx.Weekdays.Where(i => i.Id == e.WeekdayId).Select(i => i.Name).FirstOrDefault(),
+									 Frequency = _ctx.Frequencies.Where(i => i.Id == e.FrequencyId).Select(i => i.Name).FirstOrDefault(),
+									 StartTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.StartTime).FirstOrDefault(),
+									 EndTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.EndTime).FirstOrDefault(),
+									 Amount = e.Amount
+								 }).FirstOrDefault();
+				return eventData;
+			}
+		}
+
 		public List<CurrentEventModel> GetEventsData()
 		{
 			
@@ -84,51 +136,51 @@ namespace Chinmaya.Registration.DAL
 		}
 
 		
-		public List<ProgramEventRegistrationModel> GetEventsListData(string Id)
-		{
-			//var config = new MapperConfiguration(cfg =>
-			//{
-			//	cfg.CreateMap<EventsModel, Event>().ReverseMap();
-			//});
-			//IMapper mapper = config.CreateMapper();
+		//public List<ProgramEventRegistrationModel> GetEventsListData(string Id)
+		//{
+		//	//var config = new MapperConfiguration(cfg =>
+		//	//{
+		//	//	cfg.CreateMap<EventsModel, Event>().ReverseMap();
+		//	//});
+		//	//IMapper mapper = config.CreateMapper();
 
 
-			using (var _ctx = new ChinmayaEntities())
-			{
-				//var _eveData = mapper.Map<List<EventsModel>>(_ctx.Events);
+		//	using (var _ctx = new ChinmayaEntities())
+		//	{
+		//		//var _eveData = mapper.Map<List<EventsModel>>(_ctx.Events);
 
-				//foreach (var item in _eveData)
-				//{
-				//	var EveSession = _ctx.EventSessions.FirstOrDefault(x => x.EventId == item.Id);
-				//	var Eveweek = _ctx.Weekdays.FirstOrDefault(x => x.Id == item.WeekdayId);
-				//	item.StartTime = EveSession.StartTime;
-				//	item.EndTime = EveSession.EndTime;
-				//	item.WeekdayName = Eveweek.Name;
-				//}
+		//		//foreach (var item in _eveData)
+		//		//{
+		//		//	var EveSession = _ctx.EventSessions.FirstOrDefault(x => x.EventId == item.Id);
+		//		//	var Eveweek = _ctx.Weekdays.FirstOrDefault(x => x.Id == item.WeekdayId);
+		//		//	item.StartTime = EveSession.StartTime;
+		//		//	item.EndTime = EveSession.EndTime;
+		//		//	item.WeekdayName = Eveweek.Name;
+		//		//}
 
-				var events = (from f in _ctx.FamilyMembers
-							  where f.UpdatedBy == Id
-							  select new ProgramEventRegistrationModel
-							  {
+		//		var events = (from f in _ctx.FamilyMembers
+		//					  where f.UpdatedBy == Id
+		//					  select new ProgramEventRegistrationModel
+		//					  {
 
-								  UserId = f.Id,
-								  FirstName = f.FirstName,
-								  LastName = f.LastName,
-								  Events = (from e in _ctx.Events
-											select new EventsModel
-											{
-												Id = e.Id,
-												Name = e.Name,
-												WeekdayName = _ctx.Weekdays.Where(i => i.Id == e.WeekdayId).Select(i => i.Name).FirstOrDefault(),
-												StartTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.StartTime).FirstOrDefault(),
-												EndTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.EndTime).FirstOrDefault(),
-												Amount = e.Amount
-											})
-							  }).ToList();
-				return events;
-			}
+		//						  UserId = f.Id,
+		//						  FirstName = f.FirstName,
+		//						  LastName = f.LastName,
+		//						  Events = (from e in _ctx.Events
+		//									select new EventsModel
+		//									{
+		//										Id = e.Id,
+		//										Name = e.Name,
+		//										WeekdayName = _ctx.Weekdays.Where(i => i.Id == e.WeekdayId).Select(i => i.Name).FirstOrDefault(),
+		//										StartTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.StartTime).FirstOrDefault(),
+		//										EndTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.EndTime).FirstOrDefault(),
+		//										Amount = e.Amount
+		//									})
+		//					  }).ToList();
+		//		return events;
+		//	}
 
-		}
+		//}
 
 		public void PostUser(UserModel user)
 		{

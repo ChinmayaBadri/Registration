@@ -213,11 +213,11 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View();
 		}
 
-		public async Task<object> GetGenderData()
+		public async Task<List<Genders>> GetGenderData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.GENDER;
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
+			return await Utility.DeserializeObject<List<Genders>>(roleResponseMessage);
 		}
 
 		public async Task<object> GetAgeGroupData()
@@ -422,18 +422,18 @@ namespace Chinmaya.Registration.UI.Controllers
 			return Json(serializedCities, JsonRequestBehavior.AllowGet);
 		}
 
-		public async Task<object> GetRelationshipData()
+		public async Task<List<Relationships>> GetRelationshipData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.RELATIONSHIP;
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
+			return await Utility.DeserializeObject<List<Relationships>>(roleResponseMessage);
 		}
 
-		public async Task<object> GetGradeData()
+		public async Task<List<Grades>> GetGradeData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.GRADE;
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
+			return await Utility.DeserializeObject<List<Grades>>(roleResponseMessage);
 		}
 
 		public async Task<List<UserFamilyMember>> GetUserFamilyMemberData(string Id)
@@ -446,12 +446,14 @@ namespace Chinmaya.Registration.UI.Controllers
 		[AllowAnonymous]
 		public async Task<ActionResult> MyAccount()
 		{
-			ViewBag.Relationship = await GetRelationshipData();
-			ViewBag.Grade = await GetGradeData();
-			ViewBag.Gender = await GetGenderData();
+			//ViewBag.Relationship = await GetRelationshipData();
+			//ViewBag.Grade = await GetGradeData();
+			//ViewBag.Gender = await GetGenderData();
 			MyAccountModel myAccountModel = new MyAccountModel();
 			myAccountModel.userFamilyMember = await GetUserFamilyMemberData(User.UserId);
-					
+			myAccountModel.relationships = await GetRelationshipData();
+			myAccountModel.grades = await GetGradeData();
+			myAccountModel.genders = await GetGenderData();
 			return View("MyAccount", myAccountModel);
 		}
 
@@ -527,20 +529,38 @@ namespace Chinmaya.Registration.UI.Controllers
 			return RedirectToAction("Event");
 		}
 
-		public async Task<object> GetEventsList(string Id)
+		//public async Task<object> GetEventsList(string Id)
+		//{
+		//	HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetEventsListData/" + Id, true);
+		//	return await Utility.DeserializeObject<List<ProgramEventRegistrationModel>>(roleResponseMessage);
+		//}
+
+		public async Task<UserFamilyMember> GetUserData(string Id)
 		{
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetEventsListData/" + Id, true);
-			return await Utility.DeserializeObject<List<ProgramEventRegistrationModel>>(roleResponseMessage);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetUserData/" + Id, true);
+			return await Utility.DeserializeObject<UserFamilyMember>(roleResponseMessage);
+
+		}
+
+		public async Task<CurrentEventModel> GetEventData(string Id)
+		{
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetEventData/" + Id, true);
+			return await Utility.DeserializeObject<CurrentEventModel>(roleResponseMessage);
+
 		}
 
 		[AllowAnonymous]
 		public async Task<ActionResult> ProgramEventRegistration(string[] select, string prevBtn, string nextBtn)
 		{
-			UserModel obj = GetUser();
-			ViewBag.obj = obj;
-			ViewBag.EventList = await GetEventsList(User.UserId);
-			ViewBag.Events = await GetEvents();
-			
+			//UserModel obj = GetUser();
+			//ViewBag.obj = obj;
+			//ViewBag.EventList = await GetEventsList(User.UserId);
+			//ViewBag.Events = await GetEvents();
+
+			ProgramEventRegistrationModel programEventRegistrationModel = new ProgramEventRegistrationModel();
+			programEventRegistrationModel.uFamilyMembers = await GetUserFamilyMemberData(User.UserId);
+			programEventRegistrationModel.Events = await GetEvents();
+
 			if (prevBtn != null)
 			{
 				return RedirectToAction("MyAccount");
@@ -549,34 +569,85 @@ namespace Chinmaya.Registration.UI.Controllers
 			{
 				if (nextBtn != null)
 				{
+					List<ClassesConfirmModel> classesConfirm = new List<ClassesConfirmModel>();
+
 					if (select.Length != 0)
 					{
 						List<string> selectedId = new List<string>();
-						List<string> selectedEventId = new List<string>();
-						for (int i=0; i<select.Length;i++)
-						{							
-							var arr = select[i].Split(')');
+						List<List<string>> selectedEventId = new List<List<string>>();
+						//List<string> selectedEventId = new List<string>();
+						for (int i = 0; i < select.Length; i++)
+						{
+							var arr = select[i].Split('_');
 							var ar1 = arr[0];
 							var ar2 = arr[1];
-							selectedId.Add(ar1);
-							selectedEventId.Add(ar2);
+							selectedId.Add(ar2);
+							//selectedEventId.Add(ar1);
 
 						}
+						List<string> userIds = selectedId.Distinct().ToList();
+						List<string> testList = new List<string>();
+						Dictionary<string, List<string>> dict = new Dictionary<string, List<string>>();
+						foreach (var item in userIds)
+						{
+							
+							for (int i = 0; i < select.Length; i++)
+							{
+								var arr = select[i].Split('_');
+								var ar1 = arr[0];
+								var ar2 = arr[1];
+								if (ar2 == item)
+								{
+									
+									testList.Add(ar1);
+									
+								}
+							}
+							dict.Add(item, new List<string>(testList));
+							testList.Clear();
+						}
+
+						
+						List<CurrentEventModel> currentEvents = new List<CurrentEventModel>();
+						foreach (KeyValuePair<string, List<string>> entry in dict)
+						{
+							var userData = await GetUserData(entry.Key);
+							//var userData = _user.GetUserData(entry.Key);
+							currentEvents.Clear();
+							foreach (var ev in entry.Value)
+							{
+								var eventData = await GetEventData(ev);
+								
+								currentEvents.Add(eventData);
+
+							}
+
+							//SelectedListModel selectedListModel = new SelectedListModel();
+							ClassesConfirmModel classConfirm = new ClassesConfirmModel();
+							classConfirm.uFamilyMembers = userData;
+							classConfirm.Events = currentEvents;
+							
+							classesConfirm.Add(classConfirm);
+							
+						}
+
+						
+						
 					}
-					return View("ClassesConfirm");
+					return View("ClassesConfirm", classesConfirm);
 				}
 			}
-			return View();
+			return View("ProgramEventRegistration", programEventRegistrationModel);
 		}
 
 		[AllowAnonymous]
-		public async Task<ActionResult> ClassesConfirm(string prevBtn, string nextBtn)
+		public ActionResult ClassesConfirm(string prevBtn, string nextBtn)
 		{
-			UserModel obj = GetUser();
-			ViewBag.obj = obj;
-			ViewBag.EventList = await GetEventsList(User.UserId);
-			ViewBag.Events = await GetEvents();
-			ViewBag.AccountType = await GetAccountType();
+			//UserModel obj = GetUser();
+			//ViewBag.obj = obj;
+			//ViewBag.EventList = await GetEventsList(User.UserId);
+			//ViewBag.Events = await GetEvents();
+			//ViewBag.AccountType = await GetAccountType();
 			if (prevBtn != null)
 			{
 				return RedirectToAction("ProgramEventRegistration");
@@ -585,7 +656,7 @@ namespace Chinmaya.Registration.UI.Controllers
 			{
 				if (nextBtn != null)
 				{
-					return View("PaymentMethod");
+					return RedirectToAction("PaymentMethod");
 				}
 			}
 			return View();
@@ -604,13 +675,13 @@ namespace Chinmaya.Registration.UI.Controllers
 			ViewBag.AccountType = await GetAccountType();
 			if (prevBtn != null)
 			{
-				return RedirectToAction("ClassesConfirm");
+				return RedirectToAction("ProgramEventRegistration");
 			}
 			else
 			{
 				if (nextBtn != null)
 				{
-					if (ModelState.IsValid)
+					if (ModelState.IsValid && data.paymentType == "Check")
 					{
 						data.CreatedBy = User.UserId;
 						HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostCheckPayment", data, true);

@@ -17,7 +17,7 @@ namespace Chinmaya.Registration.Models
 		public System.TimeSpan StartTime { get; set; }
 		public System.TimeSpan EndTime { get; set; }
 		public Nullable<decimal> Amount { get; set; }
-		public bool IsCheck { get; set; }
+		public bool select { get; set; }
 		
 	}
 }

@@ -1,4 +1,4 @@
-﻿@model Chinmaya.Registration.Models.CurrentEventModel
+﻿@model Chinmaya.Registration.Models.ProgramEventRegistrationModel
 @{
 	Layout = "~/Views/Shared/_Layout.cshtml";
 	ViewBag.Title = "ProgramEventRegistration";
@@ -109,56 +109,17 @@
 			</div>
 		</div>
 		@using (Html.BeginForm("ProgramEventRegistration", "Account", FormMethod.Post))
-	{
+		{
 		@Html.AntiForgeryToken()
-
-
 
 		<div class="row">
 			<div class="col-md-9">
 				<!--Accordion wrapper-->
 				<div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
 					<!-- Accordion card -->
+					
 					@{int i = 0;}
-
-					<div class="card">
-						<!-- Card header -->
-						<div class="card-header" id="headingOne_0" role="tab">
-
-							<a aria-expanded="true" aria-controls="collapseOne_0" href="#collapseOne_0" data-toggle="collapse" data-parent="#accordionEx">
-								<h5 class="mb-0">
-									@(ViewBag.obj.FirstName + " " + ViewBag.obj.LastName)<i class="fa fa-chevron-circle-down rotate-icon"></i>
-								</h5>
-							</a>
-						</div>
-						<!-- Card body -->
-						<div class="collapse show" id="collapseOne_0" role="tabpanel" aria-labelledby="headingOne_0" data-parent="#accordionEx">
-							<div class="card-body">
-
-								<table class="table table-borderless">
-									<tbody>
-										@foreach (var ev in ViewBag.Events)
-										{
-										<tr>
-											<td>@ev.Name   </td>
-											<td>@ev.Weekday @ev.StartTime.ToString(@"hh\:mm") - @ev.EndTime.ToString(@"hh\:mm")</td>
-											<td>$@ev.Amount</td>
-											<td>
-												<label class="switch">
-													<input id="select_0" value="@ev.Id)_select0" name="select" type="checkbox" checked="" />
-													<span class="slider round"></span>
-												</label>
-											</td>
-										</tr>
-										}
-									</tbody>
-								</table>
-							</div>
-						</div>
-
-					</div>
-
-					@foreach (var item in ViewBag.EventList)
+					@foreach (var item in Model.uFamilyMembers)
 					{
 					<div class="card">
 						<div class="card-header" id="headingOne_@(i+1)" role="tab">
@@ -175,20 +136,21 @@
 
 								<table class="table table-borderless">
 									<tbody>
-										@foreach (var ev in item.Events)
+										@foreach (var ev in Model.Events)
 										{
 										<tr>
 											<td>@ev.Name   </td>
-											<td>@ev.WeekdayName</td>
+											<td>@ev.Weekday @ev.StartTime - @ev.EndTime</td>
 											<td>$@ev.Amount</td>
 											<td>
 												<label class="switch">
-													<input id="select_@(i+1)" value="@ev.Id)_select@(i+1)" name="select" type="checkbox" checked="" />
+													<input id="select_@(i+1)" value="@ev.Id _@item.Id" name="select" type="checkbox" checked="" />
+													@*@Html.HiddenFor(m => ev.select);*@
 													<span class="slider round"></span>
 												</label>
 											</td>
 										</tr>
-									}
+										}
 									</tbody>
 								</table>
 							</div>
@@ -204,18 +166,6 @@
 				<button class="btn btn-secondary float-left" name="prevBtn" type="submit">Cancel</button>
 			</div>
 		</div>
-
-
-
-
-
-
-
-
-
-
-
-
 		@*<div class="row">
 			<div class="col-md-9">
 				<!--Accordion wrapper-->
@@ -315,4 +265,9 @@
 
 </body>
 </html>
+<script>
+	$(document).ready(function () {
+		$('#collapseOne_1').removeClass('collapse').addClass('collapse show');
+	});
+</script>
 

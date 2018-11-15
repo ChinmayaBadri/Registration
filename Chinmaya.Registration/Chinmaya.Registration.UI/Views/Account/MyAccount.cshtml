@@ -216,7 +216,7 @@
 									</select>*@
 									
 								@Html.LabelFor(m => m.familyMemberModel.RelationshipData, new { @class = "requiredA" })
-									@Html.DropDownList("RelationshipData", new SelectList(ViewBag.Relationship, "Id", "Name"), "Select", new { @class = "form-control" })
+									@Html.DropDownList("RelationshipData", new SelectList(Model.relationships, "Id", "Name"), "Select", new { @class = "form-control" })
 									@Html.ValidationMessageFor(m => m.familyMemberModel.RelationshipData)
 							</div>
 						</div>
@@ -236,7 +236,7 @@
 									}
 								</select>*@
 								@*@Html.LabelFor(m => item.Grade)< img title = "" alt = "" src = "~/Content/img/info-icon.png" data - original - title = "Grade in school (fall of current year)" data - toggle = "tooltip" data - placement = "right" >*@
-								@Html.DropDownList("Grade", new SelectList(ViewBag.Grade, "Id", "Name"), "Select", new { @class = "form-control" })
+								@Html.DropDownList("Grade", new SelectList(Model.grades, "Id", "Name"), "Select", new { @class = "form-control" })
 								@Html.ValidationMessageFor(m => m.familyMemberModel.Grade)
 							</div>
 							<div class="col-md-6">
@@ -249,7 +249,7 @@
 									}
 								</select>*@
 								@Html.LabelFor(m => m.familyMemberModel.GenderData)
-									@Html.DropDownList("GenderData", new SelectList(ViewBag.Gender, "Id", "Name"), "Select", new { @class = "form-control" })
+									@Html.DropDownList("GenderData", new SelectList(Model.genders, "Id", "Name"), "Select", new { @class = "form-control" })
 									@Html.ValidationMessageFor(m => m.familyMemberModel.GenderData)
 							</div>
 						</div>

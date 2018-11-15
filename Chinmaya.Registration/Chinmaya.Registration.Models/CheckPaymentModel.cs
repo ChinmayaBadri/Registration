@@ -13,6 +13,9 @@ namespace Chinmaya.Registration.Models
 		public int Id { get; set; }
 
 		[Required]
+		public string paymentType { get; set; }
+
+		[Required]
 		[StringLength(200, ErrorMessage = "Account Holder Name should not be more than 200 characters")]
 		[DisplayName("Account Holder Name")]
 		public string AccountHolderName { get; set; }
