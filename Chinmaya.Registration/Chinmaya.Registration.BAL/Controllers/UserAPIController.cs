@@ -42,6 +42,13 @@ namespace Chinmaya.Registration.BAL.Controllers
 			return _user.GetUserData(id);
 		}
 
+		[Route("api/UserAPI/GetIsIndividual/{id}")]
+		[HttpGet]
+		public bool GetIsIndividual(string id)
+		{
+			return _user.GetIsIndividual(id);
+		}
+
 		[Route("api/UserAPI/GetEventData/{id}")]
 		[HttpGet]
 		public CurrentEventModel GetEventData(string id)

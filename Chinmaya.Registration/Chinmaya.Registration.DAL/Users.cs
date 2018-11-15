@@ -60,6 +60,15 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
+		
+		public bool GetIsIndividual(string Id)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				return _ctx.Users.Where(r => r.Id == Id).Select(n => n.IsIndividual).FirstOrDefault();
+			}
+		}
+
 		public UserFamilyMember GetUserData(string Id)
 		{
 			using (var _ctx = new ChinmayaEntities())

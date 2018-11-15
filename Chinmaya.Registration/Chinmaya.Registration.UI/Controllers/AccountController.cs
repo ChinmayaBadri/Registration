@@ -442,6 +442,12 @@ namespace Chinmaya.Registration.UI.Controllers
 			return await Utility.DeserializeObject<List<UserFamilyMember>>(roleResponseMessage);
 			
 		}
+		public async Task<bool> GetIsIndividual(string Id)
+		{
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetIsIndividual/" + Id, true);
+			return await Utility.DeserializeObject<bool>(roleResponseMessage);
+
+		}
 
 		[AllowAnonymous]
 		public async Task<ActionResult> MyAccount()
@@ -454,6 +460,7 @@ namespace Chinmaya.Registration.UI.Controllers
 			myAccountModel.relationships = await GetRelationshipData();
 			myAccountModel.grades = await GetGradeData();
 			myAccountModel.genders = await GetGenderData();
+			myAccountModel.IsIndividual = await GetIsIndividual(User.UserId); 
 			return View("MyAccount", myAccountModel);
 		}
 

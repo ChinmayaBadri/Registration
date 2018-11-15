@@ -124,11 +124,15 @@
 		<div class="inner-box">
 			<div class="row mb-3">
 				<div class="col-md-6 table-title">Family Information</div>
-				<div class="col-md-6 text-right">
-					@*@Html.ActionLink("Add Family Member ", "AddFamilyMemberPartial", "Account", null, new { @class = "orange-links" })*@
-					<a class="orange-links" href="#" data-target="#exampleModalCenter" data-toggle="modal"><i class="material-icons">add_circle_outline</i> Add Family Member</a>
-				</div>
-				<div class="modal fade" id="FamilyMemberPartial" role="dialog"></div>
+				@if (!Model.IsIndividual)
+				{
+			<div class="col-md-6 text-right">
+				@*@Html.ActionLink("Add Family Member ", "AddFamilyMemberPartial", "Account", null, new { @class = "orange-links" })*@
+
+				<a class="orange-links" id="#AddFamilyMember" href="#" data-target="#exampleModalCenter" data-toggle="modal"><i class="material-icons">add_circle_outline</i> Add Family Member</a>
+			</div>
+				}
+			<div class="modal fade" id="FamilyMemberPartial" role="dialog"></div>
 			</div>
 			<div class="row">
 				<div class="col-md-12 table-responsive">

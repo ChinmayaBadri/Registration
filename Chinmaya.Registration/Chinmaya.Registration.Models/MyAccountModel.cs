@@ -16,6 +16,7 @@ namespace Chinmaya.Registration.Models
 		public List<Grades> grades { get; set; }
 		public List<Genders> genders { get; set; }
 
+		public bool IsIndividual { get; set; }
 	}
 	public class Relationships
 	{
