@@ -88,7 +88,7 @@ namespace Chinmaya.Registration.UI.Controllers
 						}
 						else if (roleName.Contains("User"))
 						{
-							return RedirectToAction("Index", "User");
+							return RedirectToAction("MyAccount", "Account");
 						}
 						else
 						{
@@ -393,7 +393,8 @@ namespace Chinmaya.Registration.UI.Controllers
 						Ad.SecurityQuestionsModel = await GetSecurityQuestions();
 						obj.UserSecurityQuestions = SecurityQuestions;
 						HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostUser", obj, true);
-						return View("AccountDetails", Ad);
+						//return View("AccountDetails", Ad);
+						return RedirectToAction("Login", "Account");
 					}
 				}
 			}

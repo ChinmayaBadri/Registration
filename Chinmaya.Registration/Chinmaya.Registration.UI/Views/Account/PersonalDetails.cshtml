@@ -21,6 +21,10 @@
 			content: " *";
 			font-weight: bold;
 			color: red;
+
+		}
+		.field-validation-error {
+			color: red;
 		}
 	</style>
 </head>
@@ -47,21 +51,21 @@
 								<div class="row bs-wizard">
 									<div class="col-md-4 bs-wizard-step active">
 										<div class="progress"><div class="progress-bar"></div></div>
-										<a class="bs-wizard-dot" href="property-type.html">1</a>
+										<a class="bs-wizard-dot" href="/Account/BindingDataPersonalDetails">1</a>
 										<div class="text-center bs-wizard-stepnum marl-55">Personal</div>
 									</div>
 
 									<div class="col-md-4 bs-wizard-step disabled">
 
 										<div class="progress"><div class="progress-bar"></div></div>
-										<a class="bs-wizard-dot" href="property-details.html">2</a>
+										<a class="bs-wizard-dot" href="/Account/PersonalDetails">2</a>
 										<div class="text-center bs-wizard-stepnum">Contact</div>
 									</div>
 
 									<div class="col-md-4 bs-wizard-step disabled">
 
 										<div class="progress"><div class="progress-bar"></div></div>
-										<a class="bs-wizard-dot" href="listing-details.html">3</a>
+										<a class="bs-wizard-dot" href="/Account/ContactDetails">3</a>
 										<div class="text-center bs-wizard-stepnum marr-60">Account</div>
 									</div>
 								</div>
@@ -78,7 +82,7 @@
 								@*<label>First Name <span class="red-txt">*</span></label>*@
 								@Html.LabelFor(m => m.FirstName, new { @class = "requiredA" })
 								@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.FirstName)
+								@Html.ValidationMessageFor(m => m.FirstName,"", new { @class = "validation" })
 							</div>
 							<div class="col-md-6">
 								@*<label>Last Name <span class="red-txt">*</span></label>*@

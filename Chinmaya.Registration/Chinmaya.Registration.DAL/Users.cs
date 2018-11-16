@@ -205,6 +205,7 @@ namespace Chinmaya.Registration.DAL
 				mapper.Map(user, ur);
 				ur.Id = Guid.NewGuid().ToString();
 				ur.CreatedDate = DateTime.Now;
+				ur.RoleId = 2;
 				Dictionary<int, string> SecurityQuestions = new Dictionary<int, string>();
 				SecurityQuestions = user.UserSecurityQuestions;
 				UserSecurityQuestion usq = new UserSecurityQuestion();
@@ -294,6 +295,13 @@ namespace Chinmaya.Registration.DAL
 				//mapper.Map(family, fm);
 				//fm.Id = Guid.NewGuid().ToString();
 				//fm.Status = true;
+
+				var email = _ctx.Users.Where(r => r.Email == family.Email).Select(n => n.Email).FirstOrDefault();
+				var HomePhone = _ctx.Users.Where(r => r.HomePhone == family.CellPhone).Select(n => n.CellPhone).FirstOrDefault();
+				//if (email != null || HomePhone != null)
+				//{
+					
+				//}
 				var fm = new FamilyMember
 				{
 					Id = Guid.NewGuid().ToString(),

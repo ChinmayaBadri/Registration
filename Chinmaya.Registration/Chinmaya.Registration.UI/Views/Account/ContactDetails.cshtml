@@ -21,6 +21,9 @@
 			font-weight: bold;
 			color: red;
 		}
+		.field-validation-error {
+			color: red;
+		}
 	</style>
 
 	<script src="~/Scripts/jquery-1.10.2.min.js"></script>
@@ -90,21 +93,21 @@
 								<div class="row bs-wizard">
 									<div class="col-md-4 bs-wizard-step complete">
 										<div class="progress"><div class="progress-bar"></div></div>
-										<a class="bs-wizard-dot" href="property-type.html">1</a>
+										<a class="bs-wizard-dot" href="@Url.Action("BindingDataPersonalDetails", "Account")">1</a>
 										<div class="text-center bs-wizard-stepnum marl-55">Personal</div>
 									</div>
 
 									<div class="col-md-4 bs-wizard-step active">
 
 										<div class="progress"><div class="progress-bar"></div></div>
-										<a class="bs-wizard-dot" href="property-details.html">2</a>
+										<a class="bs-wizard-dot" href="@Url.Action("PersonalDetails", "Account")">2</a>
 										<div class="text-center bs-wizard-stepnum">Contact</div>
 									</div>
 
 									<div class="col-md-4 bs-wizard-step disabled">
 
 										<div class="progress"><div class="progress-bar"></div></div>
-										<a class="bs-wizard-dot" href="listing-details.html">3</a>
+										<a class="bs-wizard-dot" href="/Account/ContactDetails">3</a>
 										<div class="text-center bs-wizard-stepnum marr-60">Account</div>
 									</div>
 								</div>
