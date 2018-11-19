@@ -45,5 +45,8 @@ namespace Chinmaya.Registration.Models
 		public string Email { get; set; }
 
 		public string UpdatedBy { get; set; }
-	}
+        public List<KeyValueModel> relationships { get; set; }
+        public List<KeyValueModel> grades { get; set; }
+        public List<KeyValueModel> genders { get; set; }
+    }
 }

@@ -213,11 +213,11 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View();
 		}
 
-		public async Task<List<Genders>> GetGenderData()
+		public async Task<List<KeyValueModel>> GetGenderData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.GENDER;
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-			return await Utility.DeserializeObject<List<Genders>>(roleResponseMessage);
+			return await Utility.DeserializeObject<List<KeyValueModel>>(roleResponseMessage);
 		}
 
 		public async Task<object> GetAgeGroupData()
@@ -437,18 +437,18 @@ namespace Chinmaya.Registration.UI.Controllers
 			return Json(serializedCities, JsonRequestBehavior.AllowGet);
 		}
 
-		public async Task<List<Relationships>> GetRelationshipData()
+		public async Task<List<KeyValueModel>> GetRelationshipData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.RELATIONSHIP;
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-			return await Utility.DeserializeObject<List<Relationships>>(roleResponseMessage);
+			return await Utility.DeserializeObject<List<KeyValueModel>>(roleResponseMessage);
 		}
 
-		public async Task<List<Grades>> GetGradeData()
+		public async Task<List<KeyValueModel>> GetGradeData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.GRADE;
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-			return await Utility.DeserializeObject<List<Grades>>(roleResponseMessage);
+			return await Utility.DeserializeObject<List<KeyValueModel>>(roleResponseMessage);
 		}
 
 		public async Task<List<UserFamilyMember>> GetUserFamilyMemberData(string Id)
@@ -471,10 +471,10 @@ namespace Chinmaya.Registration.UI.Controllers
 			//ViewBag.Grade = await GetGradeData();
 			//ViewBag.Gender = await GetGenderData();
 			MyAccountModel myAccountModel = new MyAccountModel();
-			myAccountModel.userFamilyMember = await GetUserFamilyMemberData(User.UserId);
-			myAccountModel.relationships = await GetRelationshipData();
-			myAccountModel.grades = await GetGradeData();
-			myAccountModel.genders = await GetGenderData();
+            myAccountModel.userFamilyMember = await GetUserFamilyMemberData(User.UserId);
+			myAccountModel.familyMemberModel.relationships = await GetRelationshipData();
+			myAccountModel.familyMemberModel.grades = await GetGradeData();
+			myAccountModel.familyMemberModel.genders = await GetGenderData();
 			myAccountModel.IsIndividual = await GetIsIndividual(User.UserId); 
 			return View("MyAccount", myAccountModel);
 		}
