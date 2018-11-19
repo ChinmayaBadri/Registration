@@ -34,6 +34,7 @@ namespace Chinmaya.Registration.UI.Controllers
 		{
 			ViewBag.ReturnUrl = returnUrl;
 			return View();
+
 		}
 
 		//
