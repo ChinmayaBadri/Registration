@@ -8,11 +8,13 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Text;
 using Newtonsoft.Json.Converters;
+using System.Web.Configuration;
 
 namespace Chinmaya.Registration.Utilities
 {
     public sealed class Utility
     {
+        static string baseURL = WebConfigurationManager.AppSettings["BaseURL"];
         [JsonConverter(typeof(StringEnumConverter))]
         public enum MasterType
         {
@@ -62,7 +64,7 @@ namespace Chinmaya.Registration.Utilities
         /// <param name="content"></param>
         /// <param name="auth"></param>
         /// <returns> HttpResponse Message </returns>
-        public static async Task<HttpResponseMessage> GetObject<T1>(string baseURL, string uriActionString, T1 content, bool auth = true)
+        public static async Task<HttpResponseMessage> GetObject<T1>(string uriActionString, T1 content, bool auth = true)
         {
             HttpResponseMessage res = new HttpResponseMessage();
             try
@@ -85,7 +87,7 @@ namespace Chinmaya.Registration.Utilities
             }
         }
 
-        public static async Task<HttpResponseMessage> GetObject(string baseURL, string uriActionString, bool auth = true)
+        public static async Task<HttpResponseMessage> GetObject(string uriActionString, bool auth = true)
         {
             HttpResponseMessage res = new HttpResponseMessage();
             try
@@ -110,7 +112,7 @@ namespace Chinmaya.Registration.Utilities
         public static async Task<Tuple<T, HttpResponseMessage>> GetList<T, T1>(T1 req, string uriActionString, string baseURL)
         {
             T responnseType = default(T);
-            HttpResponseMessage res = await GetObject(baseURL, uriActionString, req, true);
+            HttpResponseMessage res = await GetObject(uriActionString, req, true);
             if (res.IsSuccessStatusCode)
             {
                 responnseType = await DeserializeObject<T>(res);
