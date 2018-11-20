@@ -54,7 +54,21 @@ namespace Chinmaya.Registration.BAL.Controllers
 			return _Account.GetCityName(id);
 		}
 
-		/*[Route("Api/Account/Gender")]
+        [Route("api/Account/IsEmailExists/{email}/")]
+        [HttpGet]
+        public bool IsEmailExists(string email)
+        {
+            return _Account.IsEmailExists(email);
+        }
+
+        [Route("api/Account/AreAddressDetailsMatched")]
+        [HttpPost]
+        public bool AreAddressDetailsMatched(ContactDetails cd)
+        {
+            return _Account.AreAddressDetailsMatched(cd);
+        }
+
+        /*[Route("Api/Account/Gender")]
 		//GET: api/Account/Gender
 		[ActionName("Gender")]
 		public List<KeyValueModel> GetGender()
@@ -85,5 +99,5 @@ namespace Chinmaya.Registration.BAL.Controllers
 		{
 			return _Account.GetCityList(id);
 		}*/
-	}
+    }
 }

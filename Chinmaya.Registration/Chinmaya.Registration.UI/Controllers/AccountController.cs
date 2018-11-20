@@ -213,11 +213,11 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View();
 		}
 
-		public async Task<List<Genders>> GetGenderData()
+		public async Task<List<KeyValueModel>> GetGenderData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.GENDER;
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-			return await Utility.DeserializeObject<List<Genders>>(roleResponseMessage);
+			return await Utility.DeserializeObject<List<KeyValueModel>>(roleResponseMessage);
 		}
 
 		public async Task<object> GetAgeGroupData()
@@ -333,75 +333,89 @@ namespace Chinmaya.Registration.UI.Controllers
 		[HttpPost]
 		[AllowAnonymous]
 		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> AccountDetails(AccountDetails data, string prevBtn, string nextBtn)
-		{
-			UserModel obj = GetUser();
+        public async Task<ActionResult> AccountDetails(AccountDetails data, string prevBtn, string nextBtn)
+        {
+            UserModel obj = GetUser();
 
-			//List<SecurityQuestionsModel> model = await GetSecurityQuestions();
-			SecurityQuestionsModel Sqm = new SecurityQuestionsModel();
-			if (prevBtn != null)
-			{
-				ContactDetails cd = new ContactDetails();
-				cd.Address = obj.Address;
-				cd.Country = obj.CountryId;
-				ViewBag.CountryList = await GetCountryData();
-				ViewBag.SelectedCountry = obj.CountryId;
-				cd.State = obj.StateId;
-				ViewBag.SelectedState = obj.StateId;
-				cd.City = obj.City;
-				cd.ZipCode = obj.ZipCode;
-				cd.HomePhone = obj.HomePhone;
-				cd.CellPhone = obj.CellPhone;
-				return View("ContactDetails", cd);
-			}
-			if (nextBtn != null)
-			{
-				Dictionary<int, string> SecurityQuestions = new Dictionary<int, string>();
+            //List<SecurityQuestionsModel> model = await GetSecurityQuestions();
+            SecurityQuestionsModel Sqm = new SecurityQuestionsModel();
+            if (prevBtn != null)
+            {
+                ContactDetails cd = new ContactDetails();
+                cd.Address = obj.Address;
+                cd.Country = obj.CountryId;
+                ViewBag.CountryList = await GetCountryData();
+                ViewBag.SelectedCountry = obj.CountryId;
+                cd.State = obj.StateId;
+                ViewBag.SelectedState = obj.StateId;
+                cd.City = obj.City;
+                cd.ZipCode = obj.ZipCode;
+                cd.HomePhone = obj.HomePhone;
+                cd.CellPhone = obj.CellPhone;
+                return View("ContactDetails", cd);
+            }
+            if (nextBtn != null)
+            {
+                Dictionary<int, string> SecurityQuestions = new Dictionary<int, string>();
 
-				for (int i = 0; i < 5; i++)
-				{
-					if ((Request.Form["AnswerTextbox_" + (i + 1)]) != "")
-					{
-						SecurityQuestions.Add((i + 1), Request.Form["AnswerTextbox_" + (i + 1)]);
-					}
+                for (int i = 0; i < 5; i++)
+                {
+                    if ((Request.Form["AnswerTextbox_" + (i + 1)]) != "")
+                    {
+                        SecurityQuestions.Add((i + 1), Request.Form["AnswerTextbox_" + (i + 1)]);
+                    }
 
-				}
+                }
 
-				if (SecurityQuestions.Count < 2)
-				{
-					AccountDetails Ad = new AccountDetails();
-					Ad.Email = data.Email;
-					Ad.Password = data.Password;
-					Ad.RetypePassword = data.RetypePassword;
-					Ad.AccountType = data.AccountType;
-					Ad.SecurityQuestionsModel = await GetSecurityQuestions();
-					return View("AccountDetails", Ad);
-				}
+                AccountDetails Ad = new AccountDetails();
+                Ad.Email = data.Email;
+                Ad.Password = data.Password;
+                Ad.RetypePassword = data.RetypePassword;
+                Ad.AccountType = data.AccountType;
+                Ad.SecurityQuestionsModel = await GetSecurityQuestions();
 
-				else
-				{
-					if (ModelState.IsValid)
-					{
-						obj.Id = Guid.NewGuid().ToString();
-						obj.Email = data.Email;
-						obj.Password = data.Password;
-						EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
-						obj.Password = objEncryptDecrypt.Encrypt(data.Password, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
-						obj.IsIndividual = Convert.ToBoolean(data.AccountType);
-						//obj.SecurityQuestionsModel = data.SecurityQuestionsModel;
-						AccountDetails Ad = new AccountDetails();
-						Ad.SecurityQuestionsModel = await GetSecurityQuestions();
-						obj.UserSecurityQuestions = SecurityQuestions;
-						HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostUser", obj, true);
-						//return View("AccountDetails", Ad);
-						return RedirectToAction("Login", "Account");
-					}
-				}
-			}
-			return View();
-		}
+                foreach (var item in SecurityQuestions)
+                {
+                    Ad.SecurityQuestionsModel.ForEach(sq =>
+                    {
+                        if (sq.Id == item.Key)
+                        {
+                            sq.Value = item.Value;
+                        }
+                    });
+                }
 
-		[HttpGet]
+                if (SecurityQuestions.Count < 2)
+                {
+                    return View("AccountDetails", Ad);
+                }
+
+                else
+                {
+                    if (ModelState.IsValid)
+                    {
+                        obj.Id = Guid.NewGuid().ToString();
+                        obj.Email = data.Email;
+                        obj.Password = data.Password;
+                        EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
+                        obj.Password = objEncryptDecrypt.Encrypt(data.Password, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
+                        obj.IsIndividual = Convert.ToBoolean(data.AccountType);
+                        obj.UserSecurityQuestions = SecurityQuestions;
+
+                        HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostUser", obj, true);
+                        return View("Login");
+                    }
+                    else
+                    {
+                        return View("AccountDetails", Ad);
+                    }
+                }
+            }
+
+            return View();
+        }
+
+        [HttpGet]
 		[AllowAnonymous]
 		public async Task<JsonResult> FillState(int Id)
 		{
@@ -423,18 +437,18 @@ namespace Chinmaya.Registration.UI.Controllers
 			return Json(serializedCities, JsonRequestBehavior.AllowGet);
 		}
 
-		public async Task<List<Relationships>> GetRelationshipData()
+		public async Task<List<KeyValueModel>> GetRelationshipData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.RELATIONSHIP;
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-			return await Utility.DeserializeObject<List<Relationships>>(roleResponseMessage);
+			return await Utility.DeserializeObject<List<KeyValueModel>>(roleResponseMessage);
 		}
 
-		public async Task<List<Grades>> GetGradeData()
+		public async Task<List<KeyValueModel>> GetGradeData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.GRADE;
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-			return await Utility.DeserializeObject<List<Grades>>(roleResponseMessage);
+			return await Utility.DeserializeObject<List<KeyValueModel>>(roleResponseMessage);
 		}
 
 		public async Task<List<UserFamilyMember>> GetUserFamilyMemberData(string Id)
@@ -457,10 +471,10 @@ namespace Chinmaya.Registration.UI.Controllers
 			//ViewBag.Grade = await GetGradeData();
 			//ViewBag.Gender = await GetGenderData();
 			MyAccountModel myAccountModel = new MyAccountModel();
-			myAccountModel.userFamilyMember = await GetUserFamilyMemberData(User.UserId);
-			myAccountModel.relationships = await GetRelationshipData();
-			myAccountModel.grades = await GetGradeData();
-			myAccountModel.genders = await GetGenderData();
+            myAccountModel.userFamilyMember = await GetUserFamilyMemberData(User.UserId);
+			myAccountModel.familyMemberModel.relationships = await GetRelationshipData();
+			myAccountModel.familyMemberModel.grades = await GetGradeData();
+			myAccountModel.familyMemberModel.genders = await GetGenderData();
 			myAccountModel.IsIndividual = await GetIsIndividual(User.UserId); 
 			return View("MyAccount", myAccountModel);
 		}

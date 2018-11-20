@@ -34,10 +34,11 @@
 	<link href="~/Content/custom-styles.css" rel="stylesheet" type="text/css">
 	<!-- Jquery -->
 	<script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 	<script src="~/Scripts/popper.min.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="~/Scripts/bootstrap.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
 @*<body class="theme_bg">*@
 <body>
@@ -174,120 +175,11 @@
 			</div>
 		</div>
 	</div>
-	<!-- Modal -->
+	<!-- Modal Content starts -->
 	<div tabindex="-1" class="modal fade bd-example-modal-lg" id="exampleModalCenter" role="dialog" aria-hidden="true" aria-labelledby="exampleModalCenterTitle" style="display: none;">
-
-		@using (Html.BeginForm("AddFamilyMember", "Account", FormMethod.Post))
-
-		{
-			@Html.AntiForgeryToken()
-			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-				<div class="modal-content">
-					<div class="modal-body">
-						<h5 class="modal-title">Add Family Member</h5>
-
-						@Html.ValidationSummary(true)
-						
-						<div class="row">
-							<div class="col-md-6">
-								@*<label class="requiredA">First Name</label>
-								<input class="form-control" type="text" placeholder="">*@
-								@Html.LabelFor(m => m.familyMemberModel.FirstName, new { @class = "requiredA" })
-									@Html.TextBoxFor(m => m.familyMemberModel.FirstName, new { @class = "form-control", @Name = "FirstName" })
-									@Html.ValidationMessageFor(m => m.familyMemberModel.FirstName)
-							</div>
-							<div class="col-md-6">
-								@*<label class="requiredA">Last Name</label>
-								<input class="form-control" type="text" placeholder="">*@
-								@Html.LabelFor(m => m.familyMemberModel.LastName, new { @class = "requiredA" })
-									@Html.TextBoxFor(m => m.familyMemberModel.LastName, new { @class = "form-control", @Name = "LastName" })
-									@Html.ValidationMessageFor(m => m.familyMemberModel.LastName)
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								@*<label class="requiredA">Date of Birth</label>
-								<input class="form-control" type="text" placeholder="">*@
-								@Html.LabelFor(m => m.familyMemberModel.DOB, new { @class = "requiredA" })
-									@Html.TextBoxFor(m => m.familyMemberModel.DOB, "{0:MMM d, yyyy}", new { @class = "form-control", @type = "date", @Name = "DOB" })
-									@Html.ValidationMessageFor(m => m.familyMemberModel.DOB)
-							</div>
-							<div class="col-md-6">
-								@*<label class="requiredA">Relationship</label>
-								<select class="form-control" id="RelationshipSelect">
-									<option>Select</option>
-									@foreach(var item in ViewBag.Relationship)
-									{
-											 <option value="@item.Id">@item.Name</option>
-									}
-									</select>*@
-									
-								@Html.LabelFor(m => m.familyMemberModel.RelationshipData, new { @class = "requiredA" })
-									@Html.DropDownList("RelationshipData", new SelectList(Model.relationships, "Id", "Name"), "Select", new { @class = "form-control" })
-									@Html.ValidationMessageFor(m => m.familyMemberModel.RelationshipData)
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<label>
-									Grade
-									<img src="~/Content/img/info-icon.png" alt="" title="Grade in school (fall of current year)" />
-									@*<img rel="tooltip" title="" alt="" src="~/Content/img/info-icon.png" data-original-title="Grade in school (fall of current year)" data-toggle="tooltip" data-placement="right" />*@
-									@*<img title="" alt="" src="~/Content/img/info-icon.png" data-original-title="Grade in school (fall of current year)" data-toggle="tooltip" data-placement="right">*@
-								</label>
-								@*<select class="form-control" id="GradeSelect">
-									<option>Select</option>
-									@foreach (var item in ViewBag.Grade)
-									{
-											<option value="@item.Id">@item.Name</option>
-									}
-								</select>*@
-								@*@Html.LabelFor(m => item.Grade)< img title = "" alt = "" src = "~/Content/img/info-icon.png" data - original - title = "Grade in school (fall of current year)" data - toggle = "tooltip" data - placement = "right" >*@
-								@Html.DropDownList("Grade", new SelectList(Model.grades, "Id", "Name"), "Select", new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.familyMemberModel.Grade)
-							</div>
-							<div class="col-md-6">
-								@*<label>Gender</label>
-								<select class="form-control">
-									<option>Select</option>
-									@foreach (var item in ViewBag.Gender)
-									{
-								<option value="@item.Id">@item.Name</option>
-									}
-								</select>*@
-								@Html.LabelFor(m => m.familyMemberModel.GenderData)
-									@Html.DropDownList("GenderData", new SelectList(Model.genders, "Id", "Name"), "Select", new { @class = "form-control" })
-									@Html.ValidationMessageFor(m => m.familyMemberModel.GenderData)
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								@*<label>Cell Phone</label>
-								<input class="form-control" type="text" placeholder="">*@
-								@Html.LabelFor(m => m.familyMemberModel.CellPhone)
-									@Html.TextBoxFor(m => m.familyMemberModel.CellPhone, new { @class = "form-control", @Name = "CellPhone" })
-									@Html.ValidationMessageFor(m => m.familyMemberModel.CellPhone)
-							</div>
-							<div class="col-md-6">
-								@*<label>Email Address</label>
-								<input class="form-control" type="email" placeholder="">*@
-								@Html.LabelFor(m => m.familyMemberModel.Email)
-									@Html.TextBoxFor(m => m.familyMemberModel.Email, new { @class = "form-control", @Name = "Email" })
-									@Html.ValidationMessageFor(m => m.familyMemberModel.Email)
-							</div>
-						</div>
-						
-						<div class="row">
-							<div class="col-md-12">
-								<button class="btn btn-secondary float-left mr-3" id="#btnCancel " type="submit" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
-								<button class="btn btn-orange" id="#btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Submit <i class="material-icons">check_circle</i></button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		}
+        @Html.Partial("_AddFamilyMember", Model.familyMemberModel)
 	</div>
+    <!-- Modal Content Ends -->
 
 
 	<script>

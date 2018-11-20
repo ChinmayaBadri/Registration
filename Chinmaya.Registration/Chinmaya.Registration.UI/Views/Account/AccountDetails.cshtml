@@ -138,7 +138,7 @@
 								<div id="dataTextBox" class="col-md-4">
 									@*@Html.TextBoxFor(m => m.SecurityQuestionsModel[i].Value)*@
 
-									<input type='text' class = "form-control" name="AnswerTextbox_@(i+1)" id="AnswerTextbox_@(i+1)" value="" />
+                                    <input type='text' class="form-control" name="AnswerTextbox_@(i+1)" id="AnswerTextbox_@(i+1)" value="@Model.SecurityQuestionsModel[i].Value" />
 								</div>
 							</div>
 								}
