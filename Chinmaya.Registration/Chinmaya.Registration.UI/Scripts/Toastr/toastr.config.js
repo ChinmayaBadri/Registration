@@ -7,7 +7,7 @@
     "preventDuplicates": false,
     "onclick": null,
     "showDuration": "300",
-    "hideDuration": "1000",
+    "hideDuration": "1500",
     "timeOut": "6000",
     "extendedTimeOut": "1000",
     "showEasing": "swing",
