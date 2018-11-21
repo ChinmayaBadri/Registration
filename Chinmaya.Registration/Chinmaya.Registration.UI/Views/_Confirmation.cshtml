@@ -1,0 +1,43 @@
+﻿@using Chinmaya.Registration.Models
+@*@model LoginViewModel*@
+@{
+	ViewBag.Title = "Confirmation For Family Member Registration";
+}
+
+
+<div class="login-logo">
+	<img src="~/Content/img/login-logo.png" alt="logo" class="center-block" />
+</div>
+<div class="login-box" id="Confirm">
+	<p><div class="info_msg">Family Member 'FamilyMemberName' requested for Registration. Would you like to accept this?</div></p>
+	<p>&nbsp;</p>
+	<div class="col-md-12">
+		<button class="btn btn-success" id="btnsubmit" type="submit">Approve</button>
+		<button class="btn btn-danger float-right" id="btnCancel" type="submit">Decline</button>
+	</div>
+</div>
+
+<div class="login-box" id="Accept" style="display:none">
+	<p><div class="info_msg">Dear Family Member, <br />your request for Registration has Accepted. You can register to Chinmaya Mission.</div></p>
+</div>
+
+<div class="login-box" id="Reject" style="display:none">
+	<p><div class="info_msg">Dear Family Member, <br />your request for Registration has Rejected. You cannot register to Chinmaya Mission.</div></p>
+</div>
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function () {
+	$('#btnsubmit').on('click', function () {
+		$('#Confirm').hide();
+		$('#Accept').show();
+	});
+
+	$('#btnCancel').on('click', function () {
+		$('#Confirm').hide();
+		$('#Reject').show();
+	});
+});
+</script>
