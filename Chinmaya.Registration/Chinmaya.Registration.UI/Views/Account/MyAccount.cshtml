@@ -34,53 +34,14 @@
 	<link href="~/Content/custom-styles.css" rel="stylesheet" type="text/css">
 	<!-- Jquery -->
 	<script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 	<script src="~/Scripts/popper.min.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="~/Scripts/bootstrap.min.js"></script>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
 @*<body class="theme_bg">*@
 <body>
-	@*<header>
-			<div class="header_top">
-				<a class="navbar-brand" href="#"><img alt="mainlogo" src="~/Content/img/dashboard-logo.png"></a>
-				<div class="header-right">
-					<input name="search" class="search-field" type="text" placeholder="Search..">
-					<select class="drpdown">
-						<option>Our Other Sites</option>
-					</select>
-					<a class="fab fa-facebook-f" href="#"></a>
-					<a class="fab fa-twitter" href="#"></a>
-					<a class="fab fa-google-plus-g" href="#"></a>
-					<a class="fab fa-linkedin-in" href="#"></a>
-					<a class="fas fa-plus" href="#"></a>
-				</div>
-			</div>
-			<div class="header_nav">
-				<nav class="navbar navbar-expand-lg navbar-light">
-					<button class="navbar-toggler" aria-expanded="false" aria-controls="navbarSupportedContent" aria-label="Toggle navigation" type="button" data-target="#navbarSupportedContent" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul class="navbar-nav mr-auto">
-							<li class="nav-item active"> <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> </li>
-							<li class="nav-item"> <a class="nav-link" href="#">About Us</a> </li>
-							<li class="nav-item"> <a class="nav-link" href="#">Donate</a> </li>
-							<li class="nav-item"> @Html.ActionLink("Program/Event Registration", "ProgramEventRegistration", "Account", new { @class = "nav-link" }) </li>
-							<li class="nav-item"> <a class="nav-link" href="#">Current Events</a> </li>
-							<li class="nav-item"> <a class="nav-link" href="#">Contact Us</a> </li>
-						</ul>
-						<div class="form-inline my-2 my-lg-0">
-							<span class="navbar-text">Welcome, @ViewBag.Name</span>
-							<span class="navbar-text">Welcome, @User.Identity.GetUserName()</span>
-							<ul class="navbar-nav mr-auto">
-								<li class="nav-item"> <a class="nav-link" href="#">My Account</a> </li>
-								<li class="nav-item"> <a class="nav-link" href="#">Sign Out</a> </li>
-							</ul>
-							<a href="#"><img src="~/Content/img/cart-icon.png"> <span class="cart-count">2</span></a>
-						</div>
-					</div>
-				</nav>
-			</div>
-		</header>*@
 
 	<button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
 	<div class="nav-side-menu">
@@ -174,120 +135,11 @@
 			</div>
 		</div>
 	</div>
-	<!-- Modal -->
+	<!-- Modal Content starts -->
 	<div tabindex="-1" class="modal fade bd-example-modal-lg" id="exampleModalCenter" role="dialog" aria-hidden="true" aria-labelledby="exampleModalCenterTitle" style="display: none;">
-
-		@using (Html.BeginForm("AddFamilyMember", "Account", FormMethod.Post))
-
-		{
-			@Html.AntiForgeryToken()
-			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-				<div class="modal-content">
-					<div class="modal-body">
-						<h5 class="modal-title">Add Family Member</h5>
-
-						@Html.ValidationSummary(true)
-						
-						<div class="row">
-							<div class="col-md-6">
-								@*<label class="requiredA">First Name</label>
-								<input class="form-control" type="text" placeholder="">*@
-								@Html.LabelFor(m => m.familyMemberModel.FirstName, new { @class = "requiredA" })
-									@Html.TextBoxFor(m => m.familyMemberModel.FirstName, new { @class = "form-control", @Name = "FirstName" })
-									@Html.ValidationMessageFor(m => m.familyMemberModel.FirstName)
-							</div>
-							<div class="col-md-6">
-								@*<label class="requiredA">Last Name</label>
-								<input class="form-control" type="text" placeholder="">*@
-								@Html.LabelFor(m => m.familyMemberModel.LastName, new { @class = "requiredA" })
-									@Html.TextBoxFor(m => m.familyMemberModel.LastName, new { @class = "form-control", @Name = "LastName" })
-									@Html.ValidationMessageFor(m => m.familyMemberModel.LastName)
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								@*<label class="requiredA">Date of Birth</label>
-								<input class="form-control" type="text" placeholder="">*@
-								@Html.LabelFor(m => m.familyMemberModel.DOB, new { @class = "requiredA" })
-									@Html.TextBoxFor(m => m.familyMemberModel.DOB, "{0:MMM d, yyyy}", new { @class = "form-control", @type = "date", @Name = "DOB" })
-									@Html.ValidationMessageFor(m => m.familyMemberModel.DOB)
-							</div>
-							<div class="col-md-6">
-								@*<label class="requiredA">Relationship</label>
-								<select class="form-control" id="RelationshipSelect">
-									<option>Select</option>
-									@foreach(var item in ViewBag.Relationship)
-									{
-											 <option value="@item.Id">@item.Name</option>
-									}
-									</select>*@
-									
-								@Html.LabelFor(m => m.familyMemberModel.RelationshipData, new { @class = "requiredA" })
-									@Html.DropDownList("RelationshipData", new SelectList(Model.relationships, "Id", "Name"), "Select", new { @class = "form-control" })
-									@Html.ValidationMessageFor(m => m.familyMemberModel.RelationshipData)
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								<label>
-									Grade
-									<img src="~/Content/img/info-icon.png" alt="" title="Grade in school (fall of current year)" />
-									@*<img rel="tooltip" title="" alt="" src="~/Content/img/info-icon.png" data-original-title="Grade in school (fall of current year)" data-toggle="tooltip" data-placement="right" />*@
-									@*<img title="" alt="" src="~/Content/img/info-icon.png" data-original-title="Grade in school (fall of current year)" data-toggle="tooltip" data-placement="right">*@
-								</label>
-								@*<select class="form-control" id="GradeSelect">
-									<option>Select</option>
-									@foreach (var item in ViewBag.Grade)
-									{
-											<option value="@item.Id">@item.Name</option>
-									}
-								</select>*@
-								@*@Html.LabelFor(m => item.Grade)< img title = "" alt = "" src = "~/Content/img/info-icon.png" data - original - title = "Grade in school (fall of current year)" data - toggle = "tooltip" data - placement = "right" >*@
-								@Html.DropDownList("Grade", new SelectList(Model.grades, "Id", "Name"), "Select", new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.familyMemberModel.Grade)
-							</div>
-							<div class="col-md-6">
-								@*<label>Gender</label>
-								<select class="form-control">
-									<option>Select</option>
-									@foreach (var item in ViewBag.Gender)
-									{
-								<option value="@item.Id">@item.Name</option>
-									}
-								</select>*@
-								@Html.LabelFor(m => m.familyMemberModel.GenderData)
-									@Html.DropDownList("GenderData", new SelectList(Model.genders, "Id", "Name"), "Select", new { @class = "form-control" })
-									@Html.ValidationMessageFor(m => m.familyMemberModel.GenderData)
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-6">
-								@*<label>Cell Phone</label>
-								<input class="form-control" type="text" placeholder="">*@
-								@Html.LabelFor(m => m.familyMemberModel.CellPhone)
-									@Html.TextBoxFor(m => m.familyMemberModel.CellPhone, new { @class = "form-control", @Name = "CellPhone" })
-									@Html.ValidationMessageFor(m => m.familyMemberModel.CellPhone)
-							</div>
-							<div class="col-md-6">
-								@*<label>Email Address</label>
-								<input class="form-control" type="email" placeholder="">*@
-								@Html.LabelFor(m => m.familyMemberModel.Email)
-									@Html.TextBoxFor(m => m.familyMemberModel.Email, new { @class = "form-control", @Name = "Email" })
-									@Html.ValidationMessageFor(m => m.familyMemberModel.Email)
-							</div>
-						</div>
-						
-						<div class="row">
-							<div class="col-md-12">
-								<button class="btn btn-secondary float-left mr-3" id="#btnCancel " type="submit" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
-								<button class="btn btn-orange" id="#btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Submit <i class="material-icons">check_circle</i></button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		}
+        @Html.Partial("_AddFamilyMember", Model.familyMemberModel)
 	</div>
+    <!-- Modal Content Ends -->
 
 
 	<script>

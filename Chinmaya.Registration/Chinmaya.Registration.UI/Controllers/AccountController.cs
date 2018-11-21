@@ -48,20 +48,18 @@ namespace Chinmaya.Registration.UI.Controllers
 				EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
 				model.Password = objEncryptDecrypt.Encrypt(model.Password, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
 				Utility.MasterType masterValue = Utility.MasterType.ROLE;
-				HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-				HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/", model, true);
+				HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
+				HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/", model, true);
 
 				if (userResponseMessage.IsSuccessStatusCode && roleResponseMessage.IsSuccessStatusCode)
 				{
 					var user = await Utility.DeserializeObject<UserModel>(userResponseMessage);
 					if (user != null)
 					{
-						if (user.EmailConfirmed)
-						{
-							HttpResponseMessage roleNameResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/" + user.RoleId, true);
-							string roleName = await Utility.DeserializeObject<string>(roleNameResponseMessage);
-							var serializedRoles = await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
-							var roles = serializedRoles.Select(c => c.Name).ToArray<string>();
+						HttpResponseMessage roleNameResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/" + user.RoleId, true);
+						string roleName = await Utility.DeserializeObject<string>(roleNameResponseMessage);
+						var serializedRoles = await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
+						var roles = serializedRoles.Select(c => c.Name).ToArray<string>();
 
 							CustomPrincipalSerializeModel serializeModel = new CustomPrincipalSerializeModel();
 							serializeModel.UserId = user.Id;
@@ -221,17 +219,17 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View();
 		}
 
-		public async Task<List<Genders>> GetGenderData()
+		public async Task<List<KeyValueModel>> GetGenderData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.GENDER;
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-			return await Utility.DeserializeObject<List<Genders>>(roleResponseMessage);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
+			return await Utility.DeserializeObject<List<KeyValueModel>>(roleResponseMessage);
 		}
 
 		public async Task<object> GetAgeGroupData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.AGEGROUPID;
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
 			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
 		}
 
@@ -248,14 +246,14 @@ namespace Chinmaya.Registration.UI.Controllers
 		public async Task<object> GetCountryData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.COUNTRY;
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
 			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
 		}
 
 		public async Task<List<SecurityQuestionsModel>> GetSecurityQuestions()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.SECURITYQUESTIONS;
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
 			return await Utility.DeserializeList<SecurityQuestionsModel>(roleResponseMessage);
 		}
 
@@ -341,50 +339,62 @@ namespace Chinmaya.Registration.UI.Controllers
 		[HttpPost]
 		[AllowAnonymous]
 		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> AccountDetails(AccountDetails data, string prevBtn, string nextBtn)
-		{
-			UserModel obj = GetUser();
+        public async Task<ActionResult> AccountDetails(AccountDetails data, string prevBtn, string nextBtn)
+        {
+            UserModel obj = GetUser();
 
-			//List<SecurityQuestionsModel> model = await GetSecurityQuestions();
-			SecurityQuestionsModel Sqm = new SecurityQuestionsModel();
-			if (prevBtn != null)
-			{
-				ContactDetails cd = new ContactDetails();
-				cd.Address = obj.Address;
-				cd.Country = obj.CountryId;
-				ViewBag.CountryList = await GetCountryData();
-				ViewBag.SelectedCountry = obj.CountryId;
-				cd.State = obj.StateId;
-				ViewBag.SelectedState = obj.StateId;
-				cd.City = obj.City;
-				cd.ZipCode = obj.ZipCode;
-				cd.HomePhone = obj.HomePhone;
-				cd.CellPhone = obj.CellPhone;
-				return View("ContactDetails", cd);
-			}
-			if (nextBtn != null)
-			{
-				Dictionary<int, string> SecurityQuestions = new Dictionary<int, string>();
+            //List<SecurityQuestionsModel> model = await GetSecurityQuestions();
+            SecurityQuestionsModel Sqm = new SecurityQuestionsModel();
+            if (prevBtn != null)
+            {
+                ContactDetails cd = new ContactDetails();
+                cd.Address = obj.Address;
+                cd.Country = obj.CountryId;
+                ViewBag.CountryList = await GetCountryData();
+                ViewBag.SelectedCountry = obj.CountryId;
+                cd.State = obj.StateId;
+                ViewBag.SelectedState = obj.StateId;
+                cd.City = obj.City;
+                cd.ZipCode = obj.ZipCode;
+                cd.HomePhone = obj.HomePhone;
+                cd.CellPhone = obj.CellPhone;
+                return View("ContactDetails", cd);
+            }
+            if (nextBtn != null)
+            {
+                Dictionary<int, string> SecurityQuestions = new Dictionary<int, string>();
 
-				for (int i = 0; i < 5; i++)
-				{
-					if ((Request.Form["AnswerTextbox_" + (i + 1)]) != "")
-					{
-						SecurityQuestions.Add((i + 1), Request.Form["AnswerTextbox_" + (i + 1)]);
-					}
+                for (int i = 0; i < 5; i++)
+                {
+                    if ((Request.Form["AnswerTextbox_" + (i + 1)]) != "")
+                    {
+                        SecurityQuestions.Add((i + 1), Request.Form["AnswerTextbox_" + (i + 1)]);
+                    }
 
-				}
+                }
 
-				if (SecurityQuestions.Count < 2)
-				{
-					AccountDetails Ad = new AccountDetails();
-					Ad.Email = data.Email;
-					Ad.Password = data.Password;
-					Ad.RetypePassword = data.RetypePassword;
-					Ad.AccountType = data.AccountType;
-					Ad.SecurityQuestionsModel = await GetSecurityQuestions();
-					return View("AccountDetails", Ad);
-				}
+                AccountDetails Ad = new AccountDetails();
+                Ad.Email = data.Email;
+                Ad.Password = data.Password;
+                Ad.RetypePassword = data.RetypePassword;
+                Ad.AccountType = data.AccountType;
+                Ad.SecurityQuestionsModel = await GetSecurityQuestions();
+
+                foreach (var item in SecurityQuestions)
+                {
+                    Ad.SecurityQuestionsModel.ForEach(sq =>
+                    {
+                        if (sq.Id == item.Key)
+                        {
+                            sq.Value = item.Value;
+                        }
+                    });
+                }
+
+                if (SecurityQuestions.Count < 2)
+                {
+                    return View("AccountDetails", Ad);
+                }
 
 				else
 				{
@@ -400,26 +410,6 @@ namespace Chinmaya.Registration.UI.Controllers
 						AccountDetails Ad = new AccountDetails();
 						Ad.SecurityQuestionsModel = await GetSecurityQuestions();
 						obj.UserSecurityQuestions = SecurityQuestions;
-
-						//if (!await IsEmailExists())
-						//{
-						//	if (!await AreAddressDetailsMatched())
-						//	{
-						//		HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostUser", obj, true);
-						//	}
-
-						//	else
-						//	{
-						//		TempData["message"] = "<script>alert('User Exists with same Details');</script>";
-						//		return RedirectToAction("Login", "Account");
-						//	}
-						//}
-						//else
-						//{
-						//	TempData["message"] = "<script>alert('Email Address already used by the existing User');</script>";
-						//	return RedirectToAction("Login", "Account");
-						//}
-
 						HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostUser", obj, true);
 						//return View("AccountDetails", Ad);
 						return RedirectToAction("Login", "Account");
@@ -429,13 +419,13 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View();
 		}
 
-		[HttpGet]
+        [HttpGet]
 		[AllowAnonymous]
 		public async Task<JsonResult> FillState(int Id)
 		{
 			Utility.MasterType masterValue = Utility.MasterType.STATE;
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-			HttpResponseMessage roleNameResponseMessage = await Utility.GetObject(baseURL, "/api/Account/GetState/" + Id, true);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
+			HttpResponseMessage roleNameResponseMessage = await Utility.GetObject("/api/Account/GetState/" + Id, true);
 			var serializedStates = await Utility.DeserializeList<KeyValueModel>(roleNameResponseMessage);
 			return Json(serializedStates, JsonRequestBehavior.AllowGet);
 		}
@@ -445,35 +435,35 @@ namespace Chinmaya.Registration.UI.Controllers
 		public async Task<JsonResult> FillCity(int Id)
 		{
 			Utility.MasterType masterValue = Utility.MasterType.CITY;
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-			HttpResponseMessage roleNameResponseMessage = await Utility.GetObject(baseURL, "/api/Account/GetCity/" + Id, true);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
+			HttpResponseMessage roleNameResponseMessage = await Utility.GetObject("/api/Account/GetCity/" + Id, true);
 			var serializedCities = await Utility.DeserializeList<KeyValueModel>(roleNameResponseMessage);
 			return Json(serializedCities, JsonRequestBehavior.AllowGet);
 		}
 
-		public async Task<List<Relationships>> GetRelationshipData()
+		public async Task<List<KeyValueModel>> GetRelationshipData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.RELATIONSHIP;
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-			return await Utility.DeserializeObject<List<Relationships>>(roleResponseMessage);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
+			return await Utility.DeserializeObject<List<KeyValueModel>>(roleResponseMessage);
 		}
 
-		public async Task<List<Grades>> GetGradeData()
+		public async Task<List<KeyValueModel>> GetGradeData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.GRADE;
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-			return await Utility.DeserializeObject<List<Grades>>(roleResponseMessage);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
+			return await Utility.DeserializeObject<List<KeyValueModel>>(roleResponseMessage);
 		}
 
 		public async Task<List<UserFamilyMember>> GetUserFamilyMemberData(string Id)
 		{
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetUserFamilyMemberData/" + Id, true);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetUserFamilyMemberData/" + Id, true);
 			return await Utility.DeserializeObject<List<UserFamilyMember>>(roleResponseMessage);
 		}
 
 		public async Task<bool> GetIsIndividual(string Id)
 		{
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetIsIndividual/" + Id, true);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetIsIndividual/" + Id, true);
 			return await Utility.DeserializeObject<bool>(roleResponseMessage);
 		}
 
@@ -485,14 +475,9 @@ namespace Chinmaya.Registration.UI.Controllers
 			//ViewBag.Gender = await GetGenderData();
 			MyAccountModel myAccountModel = new MyAccountModel();
 			myAccountModel.userFamilyMember = await GetUserFamilyMemberData(User.UserId);
-			//myAccountModel.relationships = await GetRelationshipData();
-			//myAccountModel.grades = await GetGradeData();
-			//myAccountModel.genders = await GetGenderData();
-			FamilyMemberModel family = new FamilyMemberModel();
-			family.relationships = await GetRelationshipData();
-			family.grades = await GetGradeData();
-			family.genders = await GetGenderData();
-			myAccountModel.familyMemberModel = family;
+			myAccountModel.relationships = await GetRelationshipData();
+			myAccountModel.grades = await GetGradeData();
+			myAccountModel.genders = await GetGenderData();
 			myAccountModel.IsIndividual = await GetIsIndividual(User.UserId); 
 			return View("MyAccount", myAccountModel);
 		}
@@ -516,15 +501,6 @@ namespace Chinmaya.Registration.UI.Controllers
 				if (ModelState.IsValid)
 				{
 					MemberInformation.UpdatedBy = User.UserId;
-					//if (!await IsEmailExists())
-					//{
-					//	HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostFamilyMember", MemberInformation, true);
-					//}
-					//else
-					//{
-					//	TempData["message"] = "<script>alert('Email Address already used by the existing User');</script>";
-					//	return RedirectToAction("Login", "Account");
-					//}
 					HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostFamilyMember", MemberInformation, true);
 					return RedirectToAction("MyAccount");
 				}
@@ -539,27 +515,27 @@ namespace Chinmaya.Registration.UI.Controllers
 		public async Task<List<Weekdays>> GetWeekdayData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.WEEKDAY;
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
 			return await Utility.DeserializeObject<List<Weekdays>>(roleResponseMessage);
 		}
 
 		public async Task<List<Frequencies>> GetFrequencyData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.FREQUENCY;
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
 			return await Utility.DeserializeObject<List<Frequencies>>(roleResponseMessage);
 		}
 
 		public async Task<List<Sessions>> GetSessionData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.SESSION;
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
 			return await Utility.DeserializeObject<List<Sessions>>(roleResponseMessage);
 		}
 
 		public async Task<List<CurrentEventModel>> GetEvents()
 		{
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetEventsData/", true);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetEventsData/", true);
 			return await Utility.DeserializeObject<List<CurrentEventModel>>(roleResponseMessage);
 		}
 
@@ -586,7 +562,7 @@ namespace Chinmaya.Registration.UI.Controllers
 			if (ModelState.IsValid)
 			{
 				data.CreatedBy = User.UserId;
-				HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostEvent", data, true);
+				HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostEvent", data, true);
 				return RedirectToAction("Event");
 			}
 			return RedirectToAction("Event");
@@ -600,13 +576,13 @@ namespace Chinmaya.Registration.UI.Controllers
 
 		public async Task<UserFamilyMember> GetUserData(string Id)
 		{
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetUserData/" + Id, true);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetUserData/" + Id, true);
 			return await Utility.DeserializeObject<UserFamilyMember>(roleResponseMessage);
 		}
 
 		public async Task<CurrentEventModel> GetEventData(string Id)
 		{
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetEventData/" + Id, true);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetEventData/" + Id, true);
 			return await Utility.DeserializeObject<CurrentEventModel>(roleResponseMessage);
 		}
 
@@ -721,7 +697,7 @@ namespace Chinmaya.Registration.UI.Controllers
 		public async Task<object> GetAccountType()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.ACCOUNTTYPE;
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
 			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
 		}
 
@@ -741,7 +717,7 @@ namespace Chinmaya.Registration.UI.Controllers
 					if (ModelState.IsValid && data.paymentType == "Check")
 					{
 						data.CreatedBy = User.UserId;
-						HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostCheckPayment", data, true);
+						HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostCheckPayment", data, true);
 						return View();
 					}
 					return View();

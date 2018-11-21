@@ -35,7 +35,39 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
-		/*public List<KeyValueModel> GetGender()
+        public bool IsEmailExists(string email)
+        {
+            using (var _ctx = new ChinmayaEntities())
+            {
+                return _ctx.Users.Any(u => u.Email == email)
+                        || _ctx.FamilyMembers.Any(u => u.Email == email);
+            }
+        }
+
+        public bool AreAddressDetailsMatched(ContactDetails cd)
+        {
+            using (var _ctx = new ChinmayaEntities())
+            {
+                if (_ctx.Users.Any(u => u.HomePhone == cd.HomePhone))
+                {
+                    return true;
+                }
+                if (_ctx.Users.Any(u => u.Address.ToLower() == cd.Address.ToLower()))
+                {
+                    if (_ctx.Users.Any(u => u.City.ToLower() == cd.City.ToLower()))
+                    {
+                        if (_ctx.Users.Any(u => u.StateId == cd.State))
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        /*public List<KeyValueModel> GetGender()
 		{
 			using (var _ctx = new ChinmayaEntities())
 			{
@@ -83,5 +115,5 @@ namespace Chinmaya.Registration.DAL
 			}
 		}*/
 
-	}
+    }
 }
