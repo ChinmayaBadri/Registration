@@ -1,0 +1,16 @@
+﻿@model Chinmaya.Models.ToastModel
+
+    <script>
+        $(function () {
+            var valid = "@Model.IsSuccess" == "True" ? true : false;
+            var message = "@Model.Message";
+            if (valid)
+            {
+                toastr.success(message);
+            }else{
+                toastr.error(message);
+            }
+        });
+    </script>
+<div>
+</div>

@@ -1,8 +1,12 @@
 ﻿@model Chinmaya.Registration.Models.FamilyMemberModel
 
-@using (Html.BeginForm("AddFamilyMember", "Account", FormMethod.Post))
-
-{
+    @using (Ajax.BeginForm("AddFamilyMember", "Account", FormMethod.Post,
+                                new AjaxOptions
+                                {
+                                    OnSuccess = "OnSuccess",
+                                    OnFailure = "OnFailure"
+                                }))
+    {
     @Html.AntiForgeryToken()
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -64,7 +68,8 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <button class="btn btn-secondary float-left mr-3" id="#btnCancel " type="submit" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
+                        <button class="btn btn-secondary float-left mr-3" id="btnCancel" type="button" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
+                        @*<button id="closeModal" class="btn btn-secondary float-left mr-3" type="button" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>*@
                         <button class="btn btn-orange" id="#btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Submit <i class="material-icons">check_circle</i></button>
                     </div>
                 </div>
@@ -72,3 +77,14 @@
         </div>
     </div>
 }
+
+<script>
+    function OnSuccess(response) {
+        if (typeof (response) != 'undefined') {
+            //console.log(response);
+            toastr.success("from success");
+            window.location.reload();
+        }
+    }
+</script>
+
