@@ -4,7 +4,8 @@
                                 new AjaxOptions
                                 {
                                     OnSuccess = "OnSuccess",
-                                    OnFailure = "OnFailure"
+                                    OnFailure = "OnFailure",
+                                    OnBegin = "OnBegin"
                                 }))
     {
     @Html.AntiForgeryToken()
@@ -70,7 +71,7 @@
                     <div class="col-md-12">
                         <button class="btn btn-secondary float-left mr-3" id="btnCancel" type="button" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
                         @*<button id="closeModal" class="btn btn-secondary float-left mr-3" type="button" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>*@
-                        <button class="btn btn-orange" id="#btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Submit <i class="material-icons">check_circle</i></button>
+                        <button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Submit <i class="material-icons">check_circle</i></button>
                     </div>
                 </div>
             </div>
@@ -80,11 +81,21 @@
 
 <script>
     function OnSuccess(response) {
-        if (typeof (response) != 'undefined') {
-            //console.log(response);
-            toastr.success("from success");
-            window.location.reload();
+        if (typeof (response.Message) !== 'undefined') {
+            if (response.IsSuccess) {
+                toastr.success(response.Message, "Add Family Member", { timeOut: 3000 });
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000);
+                return;
+            }
+            toastr.error(response.Message, "Add Family Member");
         }
+        $("#btnsubmit").prop("disabled", false);
+    }
+
+    function OnBegin() {
+        $("#btnsubmit").prop("disabled", true);
     }
 </script>
 
