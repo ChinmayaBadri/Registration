@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chinmaya.Models
+namespace Chinmaya.Registration.Models
 {
     public class ToastModel
     {

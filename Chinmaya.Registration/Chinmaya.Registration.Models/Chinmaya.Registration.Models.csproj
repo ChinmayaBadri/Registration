@@ -48,6 +48,7 @@
     <Compile Include="ClassesConfirmModel.cs" />
     <Compile Include="ContactDetails.cs" />
     <Compile Include="CurrentEventModel.cs" />
+    <Compile Include="EmailTemplateModel.cs" />
     <Compile Include="EmployeeInfo.cs" />
     <Compile Include="EventsModel.cs" />
     <Compile Include="FamilyMemberModel.cs" />

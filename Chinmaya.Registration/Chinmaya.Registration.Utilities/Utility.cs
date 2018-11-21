@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Text;
 using Newtonsoft.Json.Converters;
 using System.Web.Configuration;
+using System.Net.Mail;
+using System.Net;
 
 namespace Chinmaya.Registration.Utilities
 {
