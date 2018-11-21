@@ -166,6 +166,8 @@
     <Content Include="Content\img\search.png" />
     <Content Include="Content\jquery-3.3.1.js" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\Toastr\toastr.css" />
+    <Content Include="Content\Toastr\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
@@ -178,6 +180,8 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -185,6 +189,14 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\Toastr\toastr.js.map" />
+    <None Include="Scripts\Validate\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\Toastr\toastr.config.js" />
+    <Content Include="Scripts\Toastr\toastr.min.js" />
+    <Content Include="Scripts\Validate\jquery.validate.js" />
+    <Content Include="Scripts\Validate\jquery.validate.min.js" />
+    <Content Include="Scripts\Validate\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\Validate\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -223,6 +235,7 @@
     <Content Include="Views\Account\PaymentMethod.cshtml" />
     <Content Include="Views\Account\Event.cshtml" />
     <Content Include="Views\Account\_AddFamilyMember.cshtml" />
+    <Content Include="Views\Shared\_MessagePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
