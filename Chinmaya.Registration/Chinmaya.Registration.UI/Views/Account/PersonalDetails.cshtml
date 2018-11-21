@@ -23,9 +23,7 @@
 			color: red;
 
 		}
-		.field-validation-error {
-			color: red;
-		}
+		
 	</style>
 </head>
 <body class="theme_bg">
@@ -51,21 +49,21 @@
 								<div class="row bs-wizard">
 									<div class="col-md-4 bs-wizard-step active">
 										<div class="progress"><div class="progress-bar"></div></div>
-										<a class="bs-wizard-dot" href="/Account/BindingDataPersonalDetails">1</a>
+										<a class="bs-wizard-dot" href="#">1</a>
 										<div class="text-center bs-wizard-stepnum marl-55">Personal</div>
 									</div>
 
 									<div class="col-md-4 bs-wizard-step disabled">
 
 										<div class="progress"><div class="progress-bar"></div></div>
-										<a class="bs-wizard-dot" href="/Account/PersonalDetails">2</a>
+										<a class="bs-wizard-dot" href="#">2</a>
 										<div class="text-center bs-wizard-stepnum">Contact</div>
 									</div>
 
 									<div class="col-md-4 bs-wizard-step disabled">
 
 										<div class="progress"><div class="progress-bar"></div></div>
-										<a class="bs-wizard-dot" href="/Account/ContactDetails">3</a>
+										<a class="bs-wizard-dot" href="#">3</a>
 										<div class="text-center bs-wizard-stepnum marr-60">Account</div>
 									</div>
 								</div>
@@ -82,14 +80,14 @@
 								@*<label>First Name <span class="red-txt">*</span></label>*@
 								@Html.LabelFor(m => m.FirstName, new { @class = "requiredA" })
 								@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.FirstName,"", new { @class = "validation" })
+								@Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
 							</div>
 							<div class="col-md-6">
 								@*<label>Last Name <span class="red-txt">*</span></label>*@
 								@*<input id="LastName" class="form-control" type="password" placeholder="">*@
 								@Html.LabelFor(m => m.LastName, new { @class = "requiredA" })
 								@Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.LastName)
+								@Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
 							</div>
 						</div>
 
@@ -99,20 +97,20 @@
 								@*<input id="DateofBirth" class="form-control" type="password" placeholder="22/08/2018">*@
 								@Html.LabelFor(m => m.DOB, new { @class = "requiredA" })
 								@Html.TextBoxFor(m => m.DOB, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
-								@Html.ValidationMessageFor(m => m.DOB)
+								@Html.ValidationMessageFor(m => m.DOB, "", new { @class = "text-danger" })
 							</div>
 							<div class="col-md-6">
 								@*<label>Gender <span class="red-txt">*</span></label>*@
 								@Html.LabelFor(m => m.GenderData, new { @class = "requiredA" })
 								@Html.DropDownList("GenderData", new SelectList(ViewBag.Gender, "Id", "Name", ViewBag.SelectedGender), "Select", new { @class = "form-control"})
-								@Html.ValidationMessageFor(m => m.GenderData)
+								@Html.ValidationMessageFor(m => m.GenderData, "", new { @class = "text-danger" })
 							</div>
 							<div class="col-md-6">
 
 								@Html.LabelFor(m => m.AgeGroupData)
 								@*@Html.DropDownListFor(m => m.AgeGroupId, new SelectList(ViewBag.AgeGroupId, "Id", "Name", ViewBag.SelectedAgeGroupId), "Select", new { style = "width: 150px" })*@
 								@Html.DropDownListFor(m => m.AgeGroupData, new SelectList(ViewBag.AgeGroup, "Id", "Name", ViewBag.SelectedAgeGroup), "Select", new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.AgeGroupData)
+								@Html.ValidationMessageFor(m => m.AgeGroupData, "", new { @class = "text-danger" })
 							</div>
 
 						</div>
@@ -135,6 +133,9 @@
 @section Scripts {
 	@Scripts.Render("~/bundles/jqueryval")
 	<script type="text/javascript">
+		$(document).ready(function () {
+			$("#DOB").datepicker({ maxDate: '0' });
+		});
 		
 
 	</script>
