@@ -56,7 +56,7 @@ namespace Chinmaya.Registration.UI.Controllers
 					var user = await Utility.DeserializeObject<UserModel>(userResponseMessage);
 					if (user != null)
 					{
-						HttpResponseMessage roleNameResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/" + user.RoleId, true);
+						HttpResponseMessage roleNameResponseMessage = await Utility.GetObject("/api/UserAPI/" + user.RoleId, true);
 						string roleName = await Utility.DeserializeObject<string>(roleNameResponseMessage);
 						var serializedRoles = await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
 						var roles = serializedRoles.Select(c => c.Name).ToArray<string>();
@@ -405,15 +405,17 @@ namespace Chinmaya.Registration.UI.Controllers
 						EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
 						obj.Password = objEncryptDecrypt.Encrypt(data.Password, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
 						obj.IsIndividual = Convert.ToBoolean(data.AccountType);
-						//obj.SecurityQuestionsModel = data.SecurityQuestionsModel;
-						Ad.SecurityQuestionsModel = await GetSecurityQuestions();
 						obj.UserSecurityQuestions = SecurityQuestions;
 						HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostUser", obj, true);
-						//return View("AccountDetails", Ad);
-						return RedirectToAction("Login", "Account");
+						return View("Login");
+					}
+					else
+					{
+						return View("AccountDetails", Ad);
 					}
 				}
 			}
+
 			return View();
 		}
 
