@@ -61,45 +61,44 @@ namespace Chinmaya.Registration.UI.Controllers
 						var serializedRoles = await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
 						var roles = serializedRoles.Select(c => c.Name).ToArray<string>();
 
-							CustomPrincipalSerializeModel serializeModel = new CustomPrincipalSerializeModel();
-							serializeModel.UserId = user.Id;
-							serializeModel.FirstName = user.FirstName;
-							serializeModel.LastName = user.LastName;
-							serializeModel.roles = roles;
+						CustomPrincipalSerializeModel serializeModel = new CustomPrincipalSerializeModel();
+						serializeModel.UserId = user.Id;
+						serializeModel.FirstName = user.FirstName;
+						serializeModel.LastName = user.LastName;
+						serializeModel.roles = roles;
 
-							string userData = JsonConvert.SerializeObject(serializeModel);
-							FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
-							1,
-							user.Email,
-							DateTime.Now,
-							DateTime.Now.AddDays(1),
-							false, //pass here true, if you want to implement remember me functionality
-							userData);
+						string userData = JsonConvert.SerializeObject(serializeModel);
+						FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
+						1,
+						user.Email,
+						DateTime.Now,
+						DateTime.Now.AddDays(1),
+						false, //pass here true, if you want to implement remember me functionality
+						userData);
 
-							string encTicket = FormsAuthentication.Encrypt(authTicket);
-							HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
-							Response.Cookies.Add(faCookie);
-							SessionVar.LoginUser = user;
+						string encTicket = FormsAuthentication.Encrypt(authTicket);
+						HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+						Response.Cookies.Add(faCookie);
+						SessionVar.LoginUser = user;
 
-							if (roleName.Contains("Admin"))
-							{
-								//TempData["userdata"] = user;
-								return RedirectToAction("MyAccount", "Account");
-							}
-							else if (roleName.Contains("User"))
-							{
-								return RedirectToAction("MyAccount", "Account");
-							}
-							else
-							{
-								return RedirectToAction("Login", "Account");
-							}
+						if (roleName.Contains("Admin"))
+						{
+							//TempData["userdata"] = user;
+							return RedirectToAction("MyAccount", "Account");
+						}
+						else if (roleName.Contains("User"))
+						{
+							return RedirectToAction("MyAccount", "Account");
 						}
 						else
 						{
-							TempData["message"] = "<script>alert('Email Address should be confirmed');</script>";
 							return RedirectToAction("Login", "Account");
 						}
+					}
+					else
+					{
+						TempData["message"] = "<script>alert('Email Address should be confirmed');</script>";
+						return RedirectToAction("Login", "Account");
 					}
 				}
 			}
@@ -339,62 +338,62 @@ namespace Chinmaya.Registration.UI.Controllers
 		[HttpPost]
 		[AllowAnonymous]
 		[ValidateAntiForgeryToken]
-        public async Task<ActionResult> AccountDetails(AccountDetails data, string prevBtn, string nextBtn)
-        {
-            UserModel obj = GetUser();
+		public async Task<ActionResult> AccountDetails(AccountDetails data, string prevBtn, string nextBtn)
+		{
+			UserModel obj = GetUser();
 
-            //List<SecurityQuestionsModel> model = await GetSecurityQuestions();
-            SecurityQuestionsModel Sqm = new SecurityQuestionsModel();
-            if (prevBtn != null)
-            {
-                ContactDetails cd = new ContactDetails();
-                cd.Address = obj.Address;
-                cd.Country = obj.CountryId;
-                ViewBag.CountryList = await GetCountryData();
-                ViewBag.SelectedCountry = obj.CountryId;
-                cd.State = obj.StateId;
-                ViewBag.SelectedState = obj.StateId;
-                cd.City = obj.City;
-                cd.ZipCode = obj.ZipCode;
-                cd.HomePhone = obj.HomePhone;
-                cd.CellPhone = obj.CellPhone;
-                return View("ContactDetails", cd);
-            }
-            if (nextBtn != null)
-            {
-                Dictionary<int, string> SecurityQuestions = new Dictionary<int, string>();
+			//List<SecurityQuestionsModel> model = await GetSecurityQuestions();
+			SecurityQuestionsModel Sqm = new SecurityQuestionsModel();
+			if (prevBtn != null)
+			{
+				ContactDetails cd = new ContactDetails();
+				cd.Address = obj.Address;
+				cd.Country = obj.CountryId;
+				ViewBag.CountryList = await GetCountryData();
+				ViewBag.SelectedCountry = obj.CountryId;
+				cd.State = obj.StateId;
+				ViewBag.SelectedState = obj.StateId;
+				cd.City = obj.City;
+				cd.ZipCode = obj.ZipCode;
+				cd.HomePhone = obj.HomePhone;
+				cd.CellPhone = obj.CellPhone;
+				return View("ContactDetails", cd);
+			}
+			if (nextBtn != null)
+			{
+				Dictionary<int, string> SecurityQuestions = new Dictionary<int, string>();
 
-                for (int i = 0; i < 5; i++)
-                {
-                    if ((Request.Form["AnswerTextbox_" + (i + 1)]) != "")
-                    {
-                        SecurityQuestions.Add((i + 1), Request.Form["AnswerTextbox_" + (i + 1)]);
-                    }
+				for (int i = 0; i < 5; i++)
+				{
+					if ((Request.Form["AnswerTextbox_" + (i + 1)]) != "")
+					{
+						SecurityQuestions.Add((i + 1), Request.Form["AnswerTextbox_" + (i + 1)]);
+					}
 
-                }
+				}
 
-                AccountDetails Ad = new AccountDetails();
-                Ad.Email = data.Email;
-                Ad.Password = data.Password;
-                Ad.RetypePassword = data.RetypePassword;
-                Ad.AccountType = data.AccountType;
-                Ad.SecurityQuestionsModel = await GetSecurityQuestions();
+				AccountDetails Ad = new AccountDetails();
+				Ad.Email = data.Email;
+				Ad.Password = data.Password;
+				Ad.RetypePassword = data.RetypePassword;
+				Ad.AccountType = data.AccountType;
+				Ad.SecurityQuestionsModel = await GetSecurityQuestions();
 
-                foreach (var item in SecurityQuestions)
-                {
-                    Ad.SecurityQuestionsModel.ForEach(sq =>
-                    {
-                        if (sq.Id == item.Key)
-                        {
-                            sq.Value = item.Value;
-                        }
-                    });
-                }
+				foreach (var item in SecurityQuestions)
+				{
+					Ad.SecurityQuestionsModel.ForEach(sq =>
+					{
+						if (sq.Id == item.Key)
+						{
+							sq.Value = item.Value;
+						}
+					});
+				}
 
-                if (SecurityQuestions.Count < 2)
-                {
-                    return View("AccountDetails", Ad);
-                }
+				if (SecurityQuestions.Count < 2)
+				{
+					return View("AccountDetails", Ad);
+				}
 
 				else
 				{
@@ -407,10 +406,9 @@ namespace Chinmaya.Registration.UI.Controllers
 						obj.Password = objEncryptDecrypt.Encrypt(data.Password, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
 						obj.IsIndividual = Convert.ToBoolean(data.AccountType);
 						//obj.SecurityQuestionsModel = data.SecurityQuestionsModel;
-						AccountDetails Ad = new AccountDetails();
 						Ad.SecurityQuestionsModel = await GetSecurityQuestions();
 						obj.UserSecurityQuestions = SecurityQuestions;
-						HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostUser", obj, true);
+						HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostUser", obj, true);
 						//return View("AccountDetails", Ad);
 						return RedirectToAction("Login", "Account");
 					}
@@ -419,7 +417,7 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View();
 		}
 
-        [HttpGet]
+		[HttpGet]
 		[AllowAnonymous]
 		public async Task<JsonResult> FillState(int Id)
 		{
@@ -475,10 +473,10 @@ namespace Chinmaya.Registration.UI.Controllers
 			//ViewBag.Gender = await GetGenderData();
 			MyAccountModel myAccountModel = new MyAccountModel();
 			myAccountModel.userFamilyMember = await GetUserFamilyMemberData(User.UserId);
-			myAccountModel.relationships = await GetRelationshipData();
-			myAccountModel.grades = await GetGradeData();
-			myAccountModel.genders = await GetGenderData();
-			myAccountModel.IsIndividual = await GetIsIndividual(User.UserId); 
+			myAccountModel.familyMemberModel.relationships = await GetRelationshipData();
+			myAccountModel.familyMemberModel.grades = await GetGradeData();
+			myAccountModel.familyMemberModel.genders = await GetGenderData();
+			myAccountModel.IsIndividual = await GetIsIndividual(User.UserId);
 			return View("MyAccount", myAccountModel);
 		}
 
@@ -487,21 +485,21 @@ namespace Chinmaya.Registration.UI.Controllers
 		//{
 		//	return PartialView("ChangePasswordView");
 		//}
-		
+
 		[HttpPost]
 		[AllowAnonymous]
 		public async Task<ActionResult> AddFamilyMember(FamilyMemberModel MemberInformation, string nextBtn)
 		{
-			
+
 			MemberInformation.relationships = await GetRelationshipData();
 			MemberInformation.grades = await GetGradeData();
 			MemberInformation.genders = await GetGenderData();
-			if (nextBtn!= null)
+			if (nextBtn != null)
 			{
 				if (ModelState.IsValid)
 				{
 					MemberInformation.UpdatedBy = User.UserId;
-					HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostFamilyMember", MemberInformation, true);
+					HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostFamilyMember", MemberInformation, true);
 					return RedirectToAction("MyAccount");
 				}
 				else
@@ -628,7 +626,7 @@ namespace Chinmaya.Registration.UI.Controllers
 						Dictionary<string, List<string>> dict = new Dictionary<string, List<string>>();
 						foreach (var item in userIds)
 						{
-							
+
 							for (int i = 0; i < select.Length; i++)
 							{
 								var arr = select[i].Split('_');
@@ -636,16 +634,16 @@ namespace Chinmaya.Registration.UI.Controllers
 								var ar2 = arr[1];
 								if (ar2 == item)
 								{
-									
+
 									testList.Add(ar1);
-									
+
 								}
 							}
 							dict.Add(item, new List<string>(testList));
 							testList.Clear();
 						}
 
-						
+
 						List<CurrentEventModel> currentEvents = new List<CurrentEventModel>();
 						foreach (KeyValuePair<string, List<string>> entry in dict)
 						{
@@ -663,7 +661,7 @@ namespace Chinmaya.Registration.UI.Controllers
 							classConfirm.uFamilyMembers = userData;
 							classConfirm.Events = currentEvents;
 							classesConfirm.Add(classConfirm);
-						}						
+						}
 					}
 					return View("ClassesConfirm", classesConfirm);
 				}
