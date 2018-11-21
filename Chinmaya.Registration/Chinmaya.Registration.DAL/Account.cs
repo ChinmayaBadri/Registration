@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Chinmaya.DAL;
 using Chinmaya.Registration.DAL;
 using Chinmaya.Registration.Models;
+using AutoMapper;
 
 namespace Chinmaya.Registration.DAL
 {
@@ -64,6 +65,20 @@ namespace Chinmaya.Registration.DAL
                 }
 
                 return false;
+            }
+        }
+
+        public EmailTemplateModel GetEmailTemplateByID(int id)
+        {
+            using (var _ctx = new ChinmayaEntities())
+            {
+                var config = new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<EmailTemplate, EmailTemplateModel>();
+                });
+                IMapper mapper = config.CreateMapper();
+                EmailTemplateModel etm = new EmailTemplateModel();
+                return mapper.Map(_ctx.EmailTemplates.FirstOrDefault(et => et.ID == id), etm);
             }
         }
 

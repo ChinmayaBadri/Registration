@@ -68,6 +68,13 @@ namespace Chinmaya.Registration.BAL.Controllers
             return _Account.AreAddressDetailsMatched(cd);
         }
 
+        [Route("api/Account/GetEmailTemplateByID/{id}")]
+        [HttpGet]
+        public IHttpActionResult GetEmailTemplate(int id)
+        {
+            return Ok(_Account.GetEmailTemplateByID(id));
+        }
+
         /*[Route("Api/Account/Gender")]
 		//GET: api/Account/Gender
 		[ActionName("Gender")]
