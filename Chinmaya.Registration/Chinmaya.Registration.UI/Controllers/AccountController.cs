@@ -56,42 +56,50 @@ namespace Chinmaya.Registration.UI.Controllers
 					var user = await Utility.DeserializeObject<UserModel>(userResponseMessage);
 					if (user != null)
 					{
-						HttpResponseMessage roleNameResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/" + user.RoleId, true);
-						string roleName = await Utility.DeserializeObject<string>(roleNameResponseMessage);
-						var serializedRoles = await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
-						var roles = serializedRoles.Select(c => c.Name).ToArray<string>();
-
-						CustomPrincipalSerializeModel serializeModel = new CustomPrincipalSerializeModel();
-						serializeModel.UserId = user.Id;
-						serializeModel.FirstName = user.FirstName;
-						serializeModel.LastName = user.LastName;
-						serializeModel.roles = roles;
-
-						string userData = JsonConvert.SerializeObject(serializeModel);
-						FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
-						1,
-						user.Email,
-						DateTime.Now,
-						DateTime.Now.AddDays(1),
-						false, //pass here true, if you want to implement remember me functionality
-						userData);
-
-						string encTicket = FormsAuthentication.Encrypt(authTicket);
-						HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
-						Response.Cookies.Add(faCookie);
-						SessionVar.LoginUser = user;
-
-						if (roleName.Contains("Admin"))
+						if (user.EmailConfirmed)
 						{
-							//TempData["userdata"] = user;
-							return RedirectToAction("MyAccount", "Account");
-						}
-						else if (roleName.Contains("User"))
-						{
-							return RedirectToAction("MyAccount", "Account");
+							HttpResponseMessage roleNameResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/" + user.RoleId, true);
+							string roleName = await Utility.DeserializeObject<string>(roleNameResponseMessage);
+							var serializedRoles = await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
+							var roles = serializedRoles.Select(c => c.Name).ToArray<string>();
+
+							CustomPrincipalSerializeModel serializeModel = new CustomPrincipalSerializeModel();
+							serializeModel.UserId = user.Id;
+							serializeModel.FirstName = user.FirstName;
+							serializeModel.LastName = user.LastName;
+							serializeModel.roles = roles;
+
+							string userData = JsonConvert.SerializeObject(serializeModel);
+							FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
+							1,
+							user.Email,
+							DateTime.Now,
+							DateTime.Now.AddDays(1),
+							false, //pass here true, if you want to implement remember me functionality
+							userData);
+
+							string encTicket = FormsAuthentication.Encrypt(authTicket);
+							HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+							Response.Cookies.Add(faCookie);
+							SessionVar.LoginUser = user;
+
+							if (roleName.Contains("Admin"))
+							{
+								//TempData["userdata"] = user;
+								return RedirectToAction("MyAccount", "Account");
+							}
+							else if (roleName.Contains("User"))
+							{
+								return RedirectToAction("MyAccount", "Account");
+							}
+							else
+							{
+								return RedirectToAction("Login", "Account");
+							}
 						}
 						else
 						{
+							TempData["message"] = "<script>alert('Email Address should be confirmed');</script>";
 							return RedirectToAction("Login", "Account");
 						}
 					}
@@ -392,6 +400,26 @@ namespace Chinmaya.Registration.UI.Controllers
 						AccountDetails Ad = new AccountDetails();
 						Ad.SecurityQuestionsModel = await GetSecurityQuestions();
 						obj.UserSecurityQuestions = SecurityQuestions;
+
+						//if (!await IsEmailExists())
+						//{
+						//	if (!await AreAddressDetailsMatched())
+						//	{
+						//		HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostUser", obj, true);
+						//	}
+
+						//	else
+						//	{
+						//		TempData["message"] = "<script>alert('User Exists with same Details');</script>";
+						//		return RedirectToAction("Login", "Account");
+						//	}
+						//}
+						//else
+						//{
+						//	TempData["message"] = "<script>alert('Email Address already used by the existing User');</script>";
+						//	return RedirectToAction("Login", "Account");
+						//}
+
 						HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostUser", obj, true);
 						//return View("AccountDetails", Ad);
 						return RedirectToAction("Login", "Account");
@@ -441,13 +469,12 @@ namespace Chinmaya.Registration.UI.Controllers
 		{
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetUserFamilyMemberData/" + Id, true);
 			return await Utility.DeserializeObject<List<UserFamilyMember>>(roleResponseMessage);
-			
 		}
+
 		public async Task<bool> GetIsIndividual(string Id)
 		{
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetIsIndividual/" + Id, true);
 			return await Utility.DeserializeObject<bool>(roleResponseMessage);
-
 		}
 
 		[AllowAnonymous]
@@ -458,24 +485,52 @@ namespace Chinmaya.Registration.UI.Controllers
 			//ViewBag.Gender = await GetGenderData();
 			MyAccountModel myAccountModel = new MyAccountModel();
 			myAccountModel.userFamilyMember = await GetUserFamilyMemberData(User.UserId);
-			myAccountModel.relationships = await GetRelationshipData();
-			myAccountModel.grades = await GetGradeData();
-			myAccountModel.genders = await GetGenderData();
+			//myAccountModel.relationships = await GetRelationshipData();
+			//myAccountModel.grades = await GetGradeData();
+			//myAccountModel.genders = await GetGenderData();
+			FamilyMemberModel family = new FamilyMemberModel();
+			family.relationships = await GetRelationshipData();
+			family.grades = await GetGradeData();
+			family.genders = await GetGenderData();
+			myAccountModel.familyMemberModel = family;
 			myAccountModel.IsIndividual = await GetIsIndividual(User.UserId); 
 			return View("MyAccount", myAccountModel);
 		}
 
+		//[AllowAnonymous]
+		//public ActionResult ChangePasswordView()
+		//{
+		//	return PartialView("ChangePasswordView");
+		//}
+		
 		[HttpPost]
 		[AllowAnonymous]
 		public async Task<ActionResult> AddFamilyMember(FamilyMemberModel MemberInformation, string nextBtn)
 		{
+			
+			MemberInformation.relationships = await GetRelationshipData();
+			MemberInformation.grades = await GetGradeData();
+			MemberInformation.genders = await GetGenderData();
 			if (nextBtn!= null)
 			{
 				if (ModelState.IsValid)
 				{
 					MemberInformation.UpdatedBy = User.UserId;
+					//if (!await IsEmailExists())
+					//{
+					//	HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostFamilyMember", MemberInformation, true);
+					//}
+					//else
+					//{
+					//	TempData["message"] = "<script>alert('Email Address already used by the existing User');</script>";
+					//	return RedirectToAction("Login", "Account");
+					//}
 					HttpResponseMessage userResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/PostFamilyMember", MemberInformation, true);
 					return RedirectToAction("MyAccount");
+				}
+				else
+				{
+					return PartialView("AddFamilyMemberPartialView", MemberInformation);
 				}
 			}
 			return RedirectToAction("MyAccount");
@@ -547,14 +602,12 @@ namespace Chinmaya.Registration.UI.Controllers
 		{
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetUserData/" + Id, true);
 			return await Utility.DeserializeObject<UserFamilyMember>(roleResponseMessage);
-
 		}
 
 		public async Task<CurrentEventModel> GetEventData(string Id)
 		{
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetEventData/" + Id, true);
 			return await Utility.DeserializeObject<CurrentEventModel>(roleResponseMessage);
-
 		}
 
 		[AllowAnonymous]
@@ -573,6 +626,7 @@ namespace Chinmaya.Registration.UI.Controllers
 			{
 				return RedirectToAction("MyAccount");
 			}
+
 			else
 			{
 				if (nextBtn != null)
@@ -625,22 +679,15 @@ namespace Chinmaya.Registration.UI.Controllers
 							foreach (var ev in entry.Value)
 							{
 								var eventData = await GetEventData(ev);
-								
 								currentEvents.Add(eventData);
-
 							}
 
 							//SelectedListModel selectedListModel = new SelectedListModel();
 							ClassesConfirmModel classConfirm = new ClassesConfirmModel();
 							classConfirm.uFamilyMembers = userData;
 							classConfirm.Events = currentEvents;
-							
 							classesConfirm.Add(classConfirm);
-							
-						}
-
-						
-						
+						}						
 					}
 					return View("ClassesConfirm", classesConfirm);
 				}
@@ -660,6 +707,7 @@ namespace Chinmaya.Registration.UI.Controllers
 			{
 				return RedirectToAction("ProgramEventRegistration");
 			}
+
 			else
 			{
 				if (nextBtn != null)
@@ -685,6 +733,7 @@ namespace Chinmaya.Registration.UI.Controllers
 			{
 				return RedirectToAction("ProgramEventRegistration");
 			}
+
 			else
 			{
 				if (nextBtn != null)

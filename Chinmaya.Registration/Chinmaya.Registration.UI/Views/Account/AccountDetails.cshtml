@@ -25,9 +25,7 @@
 			font-weight: bold;
 			color: red;
 		}
-		.field-validation-error {
-			color: red;
-		}
+		
 	</style>
 	@{
 		List<SelectListItem> listItems = new List<SelectListItem>();
@@ -68,21 +66,21 @@
 								<div class="row bs-wizard">
 									<div class="col-md-4 bs-wizard-step complete">
 										<div class="progress"><div class="progress-bar"></div></div>
-										<a class="bs-wizard-dot" href="/Account/BindingDataPersonalDetails">1</a>
+										<a class="bs-wizard-dot" href="#">1</a>
 										<div class="text-center bs-wizard-stepnum marl-55">Personal</div>
 									</div>
 
 									<div class="col-md-4 bs-wizard-step complete">
 
 										<div class="progress"><div class="progress-bar"></div></div>
-										<a class="bs-wizard-dot" href="/Account/PersonalDetails">2</a>
+										<a class="bs-wizard-dot" href="#">2</a>
 										<div class="text-center bs-wizard-stepnum">Contact</div>
 									</div>
 
 									<div class="col-md-4 bs-wizard-step active">
 
 										<div class="progress"><div class="progress-bar"></div></div>
-										<a class="bs-wizard-dot" href="/Account/ContactDetails">3</a>
+										<a class="bs-wizard-dot" href="#">3</a>
 										<div class="text-center bs-wizard-stepnum marr-60">Account</div>
 									</div>
 								</div>
@@ -99,28 +97,28 @@
 								</p>
 								@Html.LabelFor(m => m.Email, new { @class = "requiredA" })
 								@Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.Email)
+								@Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6 offset-md-3">
 								@Html.LabelFor(m => m.Password, new { @class = "requiredA" })
 								@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.Password)
+								@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6 offset-md-3">
 								@Html.LabelFor(m => m.RetypePassword, new { @class = "requiredA" })
 								@Html.PasswordFor(m => m.RetypePassword, new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.RetypePassword)
+								@Html.ValidationMessageFor(m => m.RetypePassword, "", new { @class = "text-danger" })
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6 offset-md-3">
 								@Html.LabelFor(m => m.AccountType, new { @class = "requiredA" })
 								@Html.DropDownList("AccountType", new SelectList(listItems, "Value", "Text"), new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.AccountType)
+								@Html.ValidationMessageFor(m => m.AccountType, "", new { @class = "text-danger" })
 							</div>
 						</div>
 						<div class="row">
@@ -142,7 +140,7 @@
 								</div>
 							</div>
 								}
-								@Html.ValidationMessageFor(m => m.SecurityQuestionsModel)
+								@Html.ValidationMessageFor(m => m.SecurityQuestionsModel, "", new { @class = "text-danger" })
 							</div>
 							</div>
 
