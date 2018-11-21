@@ -94,8 +94,6 @@
 				@if (!Model.IsIndividual)
 				{
 			<div class="col-md-6 text-right">
-				@*@Html.ActionLink("Add Family Member ", "AddFamilyMemberPartial", "Account", null, new { @class = "orange-links" })*@
-
 				<a class="orange-links" id="#AddFamilyMember" href="#" data-target="#exampleModalCenter" data-toggle="modal"><i class="material-icons">add_circle_outline</i> Add Family Member</a>
 			</div>
 				}
@@ -111,10 +109,7 @@
 								<th scope="col">Relationship</th>
 								<th scope="col">
 									Grade
-									@*<span data-toggle="tooltip" title="Grade in school (fall of current year)", data-placement="right"><img rel="tooltip" title="" alt="" src="~/Content/img/info-icon.png" /></span>*@
 									<img src="~/Content/img/info-icon.png" alt="" title="Grade in school (fall of current year)" />
-
-									@*<img title="" alt="" src="~/Content/img/info-icon.png" data-original-title="Grade in school (fall of current year)" data-toggle="tooltip" data-placement="right" />*@
 								</th>
 								<th scope="col"></th>
 							</tr>
@@ -128,7 +123,6 @@
 									<td>@(m.DOB.ToString("MMM dd, yyyy"))</td>
 									<td>@m.Relationship</td>
 									<td>@m.Grade</td>
-									@*<td>@Html.ActionLink("Edit", "Edit", new { @class = "label label-orange", id = familyMember.Id })</td>*@
 									<td><a href="@Url.Action("Edit","Account", new { id = m.Id })"><span class="label label-orange">Edit</span></a></td>
 								</tr>
 							}

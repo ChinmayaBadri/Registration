@@ -24,9 +24,6 @@ namespace Chinmaya.Registration.UI.Controllers
 	public class AccountController : BaseController
 	{
 		Users _user = new Users();
-
-		//The URL of the WEB API Service
-		string baseURL = WebConfigurationManager.AppSettings["BaseURL"];
 		//
 		// GET: /Account/Login
 		[AllowAnonymous]
@@ -56,7 +53,7 @@ namespace Chinmaya.Registration.UI.Controllers
 					var user = await Utility.DeserializeObject<UserModel>(userResponseMessage);
 					if (user != null)
 					{
-						HttpResponseMessage roleNameResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/" + user.RoleId, true);
+						HttpResponseMessage roleNameResponseMessage = await Utility.GetObject("/api/UserAPI/" + user.RoleId, true);
 						string roleName = await Utility.DeserializeObject<string>(roleNameResponseMessage);
 						var serializedRoles = await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
 						var roles = serializedRoles.Select(c => c.Name).ToArray<string>();
@@ -255,13 +252,6 @@ namespace Chinmaya.Registration.UI.Controllers
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
 			return await Utility.DeserializeList<SecurityQuestionsModel>(roleResponseMessage);
 		}
-
-		/*public async Task<object> GetSecurityQuestions()
-		{
-			Utility.MasterType masterValue = Utility.MasterType.SECURITYQUESTIONS;
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/MasterAPI/GetMasterData", masterValue, true);
-			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
-		}*/
 
 		[HttpPost]
 		[AllowAnonymous]
@@ -506,15 +496,16 @@ namespace Chinmaya.Registration.UI.Controllers
                     string urlAction = "api/Account/IsEmailExists/" + MemberInformation.Email + "/";
                     HttpResponseMessage isEmailExistResponse = await Utility.GetObject(urlAction);
                     bool isEmailExists = await Utility.DeserializeObject<bool>(isEmailExistResponse);
-                    if(!isEmailExists)
+                    if (!isEmailExists)
                     {
                         HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostFamilyMember", MemberInformation, true);
                         tm.IsSuccess = true;
                         tm.Message = "Family member added successfully";
-                        return RedirectToAction("MyAccount", tm);
+                    } else
+                    {
+                        tm.IsSuccess = false;
+                        tm.Message = "Use Already Exists";
                     }
-                    tm.IsSuccess = false;
-                    tm.Message = "Use Already Exists";
                     
                     return Json(tm);
 				}
@@ -577,12 +568,6 @@ namespace Chinmaya.Registration.UI.Controllers
 			}
 			return RedirectToAction("Event");
 		}
-
-		//public async Task<object> GetEventsList(string Id)
-		//{
-		//	HttpResponseMessage roleResponseMessage = await Utility.GetObject(baseURL, "/api/UserAPI/GetEventsListData/" + Id, true);
-		//	return await Utility.DeserializeObject<List<ProgramEventRegistrationModel>>(roleResponseMessage);
-		//}
 
 		public async Task<UserFamilyMember> GetUserData(string Id)
 		{
