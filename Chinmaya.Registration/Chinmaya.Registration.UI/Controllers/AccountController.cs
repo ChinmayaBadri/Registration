@@ -465,11 +465,15 @@ namespace Chinmaya.Registration.UI.Controllers
 		}
 
 		[AllowAnonymous]
-		public async Task<ActionResult> MyAccount()
+		public async Task<ActionResult> MyAccount(ToastModel tm = null)
 		{
 			//ViewBag.Relationship = await GetRelationshipData();
 			//ViewBag.Grade = await GetGradeData();
 			//ViewBag.Gender = await GetGenderData();
+            if(!string.IsNullOrEmpty(tm.Message))
+            {
+                ViewBag.tm = tm;
+            }
 			MyAccountModel myAccountModel = new MyAccountModel();
             myAccountModel.userFamilyMember = await GetUserFamilyMemberData(User.UserId);
 			myAccountModel.familyMemberModel.relationships = await GetRelationshipData();
@@ -483,13 +487,26 @@ namespace Chinmaya.Registration.UI.Controllers
 		[AllowAnonymous]
 		public async Task<ActionResult> AddFamilyMember(FamilyMemberModel MemberInformation, string nextBtn)
 		{
-			if (nextBtn!= null)
+            ToastModel tm = new ToastModel();
+            if (nextBtn!= null)
 			{
 				if (ModelState.IsValid)
 				{
 					MemberInformation.UpdatedBy = User.UserId;
-					HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostFamilyMember", MemberInformation, true);
-					return RedirectToAction("MyAccount");
+                    string urlAction = "api/Account/IsEmailExists/" + MemberInformation.Email + "/";
+                    HttpResponseMessage isEmailExistResponse = await Utility.GetObject(urlAction);
+                    bool isEmailExists = await Utility.DeserializeObject<bool>(isEmailExistResponse);
+                    if(!isEmailExists)
+                    {
+                        HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostFamilyMember", MemberInformation, true);
+                        tm.IsSuccess = true;
+                        tm.Message = "Family member added successfully";
+                        return RedirectToAction("MyAccount", tm);
+                    }
+                    tm.IsSuccess = false;
+                    tm.Message = "Use Already Exists";
+                    
+                    return Json(tm);
 				}
 			}
 			return RedirectToAction("MyAccount");

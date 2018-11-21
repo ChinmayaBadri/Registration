@@ -1,12 +1,11 @@
 ﻿
 @model Chinmaya.Registration.Models.MyAccountModel
-
+@using Chinmaya.Models
 @{
 	Layout = "~/Views/Shared/_Layout.cshtml";
 	ViewBag.Title = "MyAccount";
 }
 
-@*<h2>MyAccount</h2>*@
 <html>
 <head>
 	<style>
@@ -30,15 +29,19 @@
 
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 	<link href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" rel="stylesheet" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link href="~/Content/Toastr/toastr.css" rel="stylesheet" />
 	<!-- Custom CSS -->
 	<link href="~/Content/custom-styles.css" rel="stylesheet" type="text/css">
 	<!-- Jquery -->
 	<script src="~/Scripts/jquery-3.3.1.js"></script>
-    <script src="~/Scripts/jquery.validate.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/Validate/jquery.validate.js"></script>
+    <script src="~/Scripts/Validate/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 	<script src="~/Scripts/popper.min.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/Toastr/toastr.min.js"></script>
+    <script src="~/Scripts/Toastr/toastr.config.js"></script>
 </head>
 @*<body class="theme_bg">*@
 <body>
@@ -141,28 +144,22 @@
 	</div>
     <!-- Modal Content Ends -->
 
-
 	<script>
 
 		$(document).ready(function () {
-			$('[data-toggle="tooltip"]').tooltip({ position: 'right' });
+		    $('[data-toggle="tooltip"]').tooltip({ position: 'right' });
 		});
 
 		$(function () {
-			$('[data-toggle="tooltip"]').tooltip();
-			$("form")[0].reset();
-			$('#exampleModalCenter').find('input:text, input:password, select, textarea').val('');
-			$('#exampleModalCenter').find('input:radio, input:checkbox').prop('checked', false);
-			$('#exampleModalCenter').find('input#DOB').val("");
-			$(this).removeData('bs.modal');
-		})
 
-		$("#exampleModalCenter").on("hidden.bs.modal", function () {
-			$('[data-toggle="tooltip"]').tooltip();
-			$('#exampleModalCenter').find('input:text, input:password, select, textarea').val('');
-			$('#exampleModalCenter').find('input:radio, input:checkbox').prop('checked', false);
-			$('#exampleModalCenter').find('input#DOB').val("");
-			$(this).removeData('bs.modal');
+		    $('.modal').on('hidden.bs.modal', function (e) {
+		        $(this)
+                  .find("input:text, input:password, select, textarea")
+                     .val('');
+		        $(this)
+                  .find(".field-validation-error")
+                     .html('');
+		    });
 		});
 	</script>
 </body>
