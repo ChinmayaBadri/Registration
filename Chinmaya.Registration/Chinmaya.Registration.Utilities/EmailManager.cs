@@ -21,7 +21,7 @@ namespace Chinmaya.Utilities
         public EmailManager()
         {
             _mail = new MailMessage();
-            _mail.Sender = _mail.From = new MailAddress(ConfigurationManager.AppSettings["SMTPFromAddress"]);
+            _mail.Sender = _mail.From = new MailAddress(ConfigurationManager.AppSettings["SMTPUsername"]);
             _mail.IsBodyHtml = true;
         }
 

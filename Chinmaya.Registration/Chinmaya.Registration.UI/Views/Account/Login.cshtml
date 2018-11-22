@@ -29,7 +29,7 @@
 				@Html.TextBoxFor(m => m.UserName, new { @class = "form-control", autocomplete = "off" })
 				<div class="col-md-4"></div>
 				@Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
-				<label>Password <a class="forgot-link float-right forgot">Forgot Password?</a></label>
+				<label>Password @Html.ActionLink("Forgot Password", "ForgotPassword", "Account")</label>
 				@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
 				<div class="col-md-4"></div>
 				@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })

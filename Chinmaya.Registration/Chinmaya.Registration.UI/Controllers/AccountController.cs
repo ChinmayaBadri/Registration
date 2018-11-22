@@ -12,11 +12,14 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Security;
+using Chinmaya.Utilities;
+using System.Configuration;
 
 namespace Chinmaya.Registration.UI.Controllers
 {
@@ -139,25 +142,56 @@ namespace Chinmaya.Registration.UI.Controllers
 		[AllowAnonymous]
 		public ActionResult ForgotPassword()
 		{
-			return View();
+            ForgotPasswordModel fm = new ForgotPasswordModel();
+			return View(fm);
 		}
 
-		//
-		// POST: /Account/ForgotPassword
-		//[HttpPost]
-		//[AllowAnonymous]
-		//[ValidateAntiForgeryToken]
-		//public ActionResult ForgotPassword()
-		//{
+       [HttpPost]
+       [AllowAnonymous]
+        public async Task<JsonResult> ForgotPassword(ForgotPasswordModel model)
+        {
+            try
+            {
+                ToastModel tm = new ToastModel();
+                bool isEmailExists = await CheckIsEmailExists(model.Email);
+                if (isEmailExists)
+                {
+                    string urlAction = "api/Account/GetEmailTemplateByID/8";
+                    HttpResponseMessage emailTemplateResponse = await Utility.GetObject(urlAction);
+                    EmailTemplateModel etm = await Utility.DeserializeObject<EmailTemplateModel>(emailTemplateResponse);
 
+                    etm.Body.Replace("[Username]", model.Email)
+                        .Replace("[URL]", "ForgotPasswordResetLink");
+                    Random ran = new Random();
+                    EmailManager em = new EmailManager
+                    {
+                        Body = etm.Body,
+                        To = model.Email,
+                        Subject = etm.Subject,
+                        From = ConfigurationManager.AppSettings["SMTPUsername"],
+                        Id = ran.Next(9999, 9999999)
+                    };
+                    em.Send();
+                    tm.Message = "Email sent";
+                    tm.IsSuccess = true;
+                }
+                else
+                {
+                    tm.Message = "Email not found";
+                    tm.IsSuccess = false;
+                }
 
-		//    // If we got this far, something failed, redisplay form
-		//    return View();
-		//}
+                return Json(tm);
+            } catch(Exception ex)
+            {
+                return Json("");
+            }
+            
+        }
 
-		//
-		// GET: /Account/ForgotPasswordConfirmation
-		[AllowAnonymous]
+        //
+        // GET: /Account/ForgotPasswordConfirmation
+        [AllowAnonymous]
 		public ActionResult ForgotPasswordConfirmation()
 		{
 			return View();
@@ -194,12 +228,14 @@ namespace Chinmaya.Registration.UI.Controllers
 
 		//
 		// POST: /Account/LogOff
-		[HttpPost]
-		[ValidateAntiForgeryToken]
+		[HttpGet]
 		public ActionResult LogOff()
 		{
-			//AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-			return RedirectToAction("Login", "Account");
+            //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Response.Cookies["userInfo"].Value = "";
+            Response.Cookies["userInfo"].Expires = DateTime.Now.AddDays(-1);
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login", "Account");
 		}
 
 		[AllowAnonymous]
@@ -493,9 +529,7 @@ namespace Chinmaya.Registration.UI.Controllers
 				if (ModelState.IsValid)
 				{
 					MemberInformation.UpdatedBy = User.UserId;
-                    string urlAction = "api/Account/IsEmailExists/" + MemberInformation.Email + "/";
-                    HttpResponseMessage isEmailExistResponse = await Utility.GetObject(urlAction);
-                    bool isEmailExists = await Utility.DeserializeObject<bool>(isEmailExistResponse);
+                    bool isEmailExists = await CheckIsEmailExists(MemberInformation.Email);
                     if (!isEmailExists)
                     {
                         HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostFamilyMember", MemberInformation, true);
@@ -512,6 +546,14 @@ namespace Chinmaya.Registration.UI.Controllers
 			}
 			return RedirectToAction("MyAccount");
 		}
+
+        public async Task<bool> CheckIsEmailExists(string email)
+        {
+            string urlAction = "api/Account/IsEmailExists/" + email + "/";
+            HttpResponseMessage isEmailExistResponse = await Utility.GetObject(urlAction);
+            bool isEmailExists = await Utility.DeserializeObject<bool>(isEmailExistResponse);
+            return isEmailExists;
+        }
 
 		public async Task<List<Weekdays>> GetWeekdayData()
 		{

@@ -19,6 +19,22 @@
 	<!-- Custom CSS -->
 	<link href="~/Content/custom-styles.css" rel="stylesheet" type="text/css">
 
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link href="~/Content/Toastr/toastr.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="~/Content/custom-styles.css" rel="stylesheet" type="text/css">
+    <!-- Jquery -->
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/Validate/jquery.validate.js"></script>
+    <script src="~/Scripts/Validate/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/popper.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/Toastr/toastr.min.js"></script>
+    <script src="~/Scripts/Toastr/toastr.config.js"></script>
+
 </head>
 
 	@*<div class="navbar navbar-inverse navbar-fixed-top">
@@ -74,7 +90,7 @@
 							<span class="navbar-text">Welcome, @User.Identity.Name</span>
 							<ul class="navbar-nav mr-auto">
 								<li class="nav-item"> @*<a class="nav-link" href="#">My Account</a>*@ @Html.ActionLink("My Account", "MyAccount", "Account", new { @class = "nav-link" })</li>
-								<li class="nav-item"> @*<a class="nav-link" href="#">Sign Out</a>*@ @Html.ActionLink("Sign Out", "Login", "Account", new { @class = "nav-link" }) </li>
+								<li class="nav-item"> @*<a class="nav-link" href="#">Sign Out</a>*@ @Html.ActionLink("Sign Out", "LogOff", "Account", new { @class = "nav-link" }) </li>
 							</ul>
 							<a href="#"><img src="~/Content/img/cart-icon.png"> <span class="cart-count">2</span></a>
 						</div>
@@ -90,8 +106,6 @@
 			</footer>
 		</div>
 
-		@Scripts.Render("~/bundles/jquery")
-		@Scripts.Render("~/bundles/bootstrap")
 		@RenderSection("scripts", required: false)
 	</body>
 </html>
