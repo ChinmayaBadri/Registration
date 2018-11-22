@@ -58,7 +58,7 @@ namespace Chinmaya.Utilities
             set { _mail.Body = value; }
         }
 
-        public void Send(List<string> objFiles)
+        public void Send()
         {
             EncryptDecrypt objEncryptionAlgorithm = new EncryptDecrypt();
             var sc = new SmtpClient()
@@ -68,7 +68,7 @@ namespace Chinmaya.Utilities
                 UseDefaultCredentials = false,
                 EnableSsl = true,
                 Port = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]),
-                Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SMTPUsername"], objEncryptionAlgorithm.Decrypt(ConfigurationManager.AppSettings["SMTPPassword"], ConfigurationManager.AppSettings["ServiceAccountPassword"]))
+                Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SMTPUsername"], ConfigurationManager.AppSettings["SMTPPassword"])
             };
 
             if (!string.IsNullOrEmpty(_To))
@@ -103,10 +103,6 @@ namespace Chinmaya.Utilities
                 }
             }
 
-            //if (sc.Host == "smtp.office365.com")
-            //    _mail.Bcc.Add(new MailAddress(_mail.From.Address));
-
-            // The mails will be sent in Async mode
             sc.SendAsync(_mail, Id.ToString());
         }
     }
