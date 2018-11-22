@@ -35,6 +35,13 @@ namespace Chinmaya.Registration.BAL.Controllers
 			return _user.GetUserFamilyMemberData(id);
 		}
 
+		//[Route("api/UserAPI/GetFamilyMemberDetails/{id}")]
+		//[HttpGet]
+		//public FamilyMemberModel GetFamilyMemberDetails(string id)
+		//{
+		//	return _user.GetFamilyMemberDetails(id);
+		//}
+
 		[Route("api/UserAPI/GetUserData/{id}")]
 		[HttpGet]
 		public UserFamilyMember GetUserData(string id)

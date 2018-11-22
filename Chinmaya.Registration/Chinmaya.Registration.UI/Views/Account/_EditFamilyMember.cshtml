@@ -1,0 +1,101 @@
+﻿@model Chinmaya.Registration.Models.FamilyMemberModel
+
+@using (Ajax.BeginForm("EditFamilyMember", "Account", FormMethod.Post,
+							new AjaxOptions
+							{
+								OnSuccess = "OnSuccess",
+								OnFailure = "OnFailure",
+								OnBegin = "OnBegin"
+							}))
+{
+	@Html.AntiForgeryToken()
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<h5 class="modal-title">Edit Family Member</h5>
+				<div class="row">
+					<div class="col-md-6">
+						@Html.LabelFor(m => m.FirstName, new { @class = "requiredA" })
+						@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @Name = "FirstName" })
+						@Html.ValidationMessageFor(m => m.FirstName)
+					</div>
+					<div class="col-md-6">
+						@Html.LabelFor(m => m.LastName, new { @class = "requiredA" })
+						@Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @Name = "LastName" })
+						@Html.ValidationMessageFor(m => m.LastName)
+					</div>
+
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						@Html.LabelFor(m => m.DOB, new { @class = "requiredA" })
+						@Html.TextBoxFor(m => m.DOB, "{0:MMM d, yyyy}", new { @class = "form-control", @type = "date", @Name = "DOB" })
+						@Html.ValidationMessageFor(m => m.DOB)
+					</div>
+					<div class="col-md-6">
+
+						@Html.LabelFor(m => m.RelationshipData, new { @class = "requiredA" })
+						@Html.DropDownList("RelationshipData", new SelectList(Model.relationships, "Id", "Name"), "Select", new { @class = "form-control" })
+						@Html.ValidationMessageFor(m => m.RelationshipData)
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<label>
+							Grade
+							<img src="~/Content/img/info-icon.png" alt="" title="Grade in school (fall of current year)" />
+						</label>
+						@Html.DropDownList("Grade", new SelectList(Model.grades, "Id", "Name"), "Select", new { @class = "form-control" })
+						@Html.ValidationMessageFor(m => m.Grade)
+					</div>
+					<div class="col-md-6">
+						@Html.LabelFor(m => m.GenderData)
+						@Html.DropDownList("GenderData", new SelectList(Model.genders, "Id", "Name"), "Select", new { @class = "form-control" })
+						@Html.ValidationMessageFor(m => m.GenderData)
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						@Html.LabelFor(m => m.CellPhone)
+						@Html.TextBoxFor(m => m.CellPhone, new { @class = "form-control", @Name = "CellPhone" })
+						@Html.ValidationMessageFor(m => m.CellPhone)
+					</div>
+					<div class="col-md-6">
+						@Html.LabelFor(m => m.Email)
+						@Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Name = "Email" })
+						@Html.ValidationMessageFor(m => m.Email)
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12">
+						<button class="btn btn-secondary float-left mr-3" id="btnCancel" type="button" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
+						<button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Update <i class="material-icons">check_circle</i></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+<script>
+    function OnSuccess(response) {
+        if (typeof (response.Message) !== 'undefined') {
+            if (response.IsSuccess) {
+                toastr.success(response.Message, "Edit Family Member", { timeOut: 3000 });
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000);
+                return;
+            }
+            toastr.error(response.Message, "Edit Family Member");
+        }
+        $("#btnsubmit").prop("disabled", false);
+    }
+
+    function OnBegin() {
+        $("#btnsubmit").prop("disabled", true);
+    }
+</script>
+
+

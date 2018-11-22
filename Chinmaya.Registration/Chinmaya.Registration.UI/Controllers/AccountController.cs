@@ -476,6 +476,14 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View("MyAccount", myAccountModel);
 		}
 
+		//[HttpPost]
+		//[AllowAnonymous]
+		//public async Task<ActionResult> EditFamilyMember(string id)
+		//{
+		//	var MemberInformation = await GetFamilyMemberDetails(id);
+		//	return RedirectToAction("AddFamilyMember", MemberInformation);
+		//}
+
 		//[AllowAnonymous]
 		//public ActionResult ChangePasswordView()
 		//{
@@ -506,7 +514,7 @@ namespace Chinmaya.Registration.UI.Controllers
                     } else
                     {
                         tm.IsSuccess = false;
-                        tm.Message = "Use Already Exists";
+                        tm.Message = "User Already Exists";
                     }
                     
                     return Json(tm);
@@ -514,6 +522,12 @@ namespace Chinmaya.Registration.UI.Controllers
 			}
 			return RedirectToAction("MyAccount");
 		}
+
+		//public async Task<FamilyMemberModel> GetFamilyMemberDetails(string Id)
+		//{
+		//	HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetFamilyMemberDetails/" + Id, true);
+		//	return await Utility.DeserializeObject<FamilyMemberModel>(roleResponseMessage);
+		//}
 
 		public async Task<List<Weekdays>> GetWeekdayData()
 		{

@@ -60,7 +60,43 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
-		
+		//public FamilyMemberModel GetFamilyMemberDetails(string Id)
+		//{
+		//	using (var _ctx = new ChinmayaEntities())
+		//	{
+		//		var userData = (from e in _ctx.Users
+		//						where e.Id == Id
+		//						select new FamilyMemberModel
+		//						{
+		//							FirstName = e.FirstName,
+		//							LastName = e.LastName,
+		//							DOB = e.DOB,
+		//							//RelationshipData = e.RelationshipId,
+		//							//Grade = (int)e.GradeId,
+		//							GenderData = e.GenderId,
+		//							CellPhone = e.CellPhone,
+		//							Email = e.Email
+		//						}).FirstOrDefault();
+		//		if (userData == null)
+		//		{
+		//			userData = (from e in _ctx.FamilyMembers
+		//						where e.Id == Id
+		//						select new FamilyMemberModel
+		//						{
+		//							FirstName = e.FirstName,
+		//							LastName = e.LastName,
+		//							DOB = e.DOB,
+		//							RelationshipData = e.RelationshipId,
+		//							Grade = (int)e.GradeId,
+		//							GenderData = e.GenderId,
+		//							CellPhone = e.CellPhone,
+		//							Email = e.Email
+		//						}).FirstOrDefault();
+		//		}
+		//			return userData;
+		//	}
+		//}
+
 		public bool GetIsIndividual(string Id)
 		{
 			using (var _ctx = new ChinmayaEntities())
