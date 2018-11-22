@@ -20,10 +20,10 @@ namespace Chinmaya.Registration.UI
             {
                 if (filterContext.HttpContext.Request.IsAjaxRequest())
                 {
-                    filterContext.HttpContext.Response.StatusCode = 403;
-                    filterContext.HttpContext.Response.StatusDescription = "Session Timeout";
-                    filterContext.HttpContext.Response.SuppressFormsAuthenticationRedirect = true;
-                    filterContext.HttpContext.Response.End();                
+                    //filterContext.HttpContext.Response.StatusCode = 403;
+                    //filterContext.HttpContext.Response.StatusDescription = "Session Timeout";
+                    //filterContext.HttpContext.Response.SuppressFormsAuthenticationRedirect = true;
+                    //filterContext.HttpContext.Response.End();                
                 }
             }
         }
