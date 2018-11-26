@@ -75,6 +75,34 @@ namespace Chinmaya.Registration.BAL.Controllers
             return Ok(_Account.GetEmailTemplateByID(id));
         }
 
+        [Route("api/Account/GetSecurityQuestionsByEmail/{email}/")]
+        [HttpGet]
+        public IHttpActionResult GetSecurityQuestionsByEmail(string email)
+        {
+            return Ok(_Account.GetSecurityQuestionsByEmail(email));
+        }
+
+        [Route("api/Account/GetFamilyPrimaryAccountEmail/{email}/")]
+        [HttpGet]
+        public IHttpActionResult GetFamilyPrimaryAccountEmail(string email)
+        {
+            return Ok(_Account.GetFamilyPrimaryAccountEmail(email));
+        }
+
+        [Route("api/Account/GetUserFullNameByEmail/{email}/")]
+        [HttpGet]
+        public IHttpActionResult GetUserFullNameByEmail(string email)
+        {
+            return Ok(_Account.GetUserFullNameByEmail(email));
+        }
+
+        [Route("api/Account/ResetUserPassword")]
+        [HttpPost]
+        public IHttpActionResult ResetUserPassword(ResetPasswordModel rpm)
+        {
+            return Ok(_Account.ResetUserPassword(rpm));
+        }
+
         /*[Route("Api/Account/Gender")]
 		//GET: api/Account/Gender
 		[ActionName("Gender")]

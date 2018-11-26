@@ -240,6 +240,8 @@
     <Content Include="Views\Account\_AddFamilyMember.cshtml" />
     <Content Include="Views\Shared\_MessagePartial.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ResetForgotPassword.cshtml" />
+    <Content Include="Views\Shared\_LayoutPageOpen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

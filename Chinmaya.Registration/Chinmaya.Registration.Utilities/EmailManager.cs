@@ -66,7 +66,7 @@ namespace Chinmaya.Utilities
                 Host = ConfigurationManager.AppSettings["SMTPAddress"],
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                EnableSsl = true,
+                EnableSsl = false,
                 Port = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]),
                 Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SMTPUsername"], ConfigurationManager.AppSettings["SMTPPassword"])
             };
@@ -103,7 +103,7 @@ namespace Chinmaya.Utilities
                 }
             }
 
-            sc.SendAsync(_mail, Id.ToString());
+            sc.Send(_mail);
         }
     }
 }
