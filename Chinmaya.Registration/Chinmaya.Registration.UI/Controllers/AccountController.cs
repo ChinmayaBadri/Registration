@@ -12,11 +12,16 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Security;
+using Chinmaya.Utilities;
+using System.Configuration;
+using System.Net.Mail;
+using System.Net;
 
 namespace Chinmaya.Registration.UI.Controllers
 {
@@ -24,9 +29,10 @@ namespace Chinmaya.Registration.UI.Controllers
 	public class AccountController : BaseController
 	{
 		Users _user = new Users();
-		//
-		// GET: /Account/Login
-		[AllowAnonymous]
+        System.Collections.Specialized.NameValueCollection configMngr = ConfigurationManager.AppSettings;
+        //
+        // GET: /Account/Login
+        [AllowAnonymous]
 		public ActionResult Login(string returnUrl)
 		{
 			ViewBag.ReturnUrl = returnUrl;
@@ -42,7 +48,8 @@ namespace Chinmaya.Registration.UI.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
+                configMngr = ConfigurationManager.AppSettings;
+                EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
 				model.Password = objEncryptDecrypt.Encrypt(model.Password, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
 				Utility.MasterType masterValue = Utility.MasterType.ROLE;
 				HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
@@ -169,33 +176,163 @@ namespace Chinmaya.Registration.UI.Controllers
 		[AllowAnonymous]
 		public ActionResult ForgotPassword()
 		{
-			return View();
+            ForgotPasswordModel fm = new ForgotPasswordModel();
+			return View(fm);
 		}
 
-		//
-		// POST: /Account/ForgotPassword
-		//[HttpPost]
-		//[AllowAnonymous]
-		//[ValidateAntiForgeryToken]
-		//public ActionResult ForgotPassword()
-		//{
+       [HttpPost]
+       [AllowAnonymous]
+        public async Task<JsonResult> ForgotPassword(ForgotPasswordModel model)
+        {
+            try
+            {
+                ToastModel tm = new ToastModel();
+                bool isEmailExists = await CheckIsEmailExists(model.Email);
+                if (isEmailExists)
+                {
+                    string urlAction = "api/Account/GetEmailTemplateByID/8";
 
+                    HttpResponseMessage emailTemplateResponse = await Utility.GetObject(urlAction);
+                    EmailTemplateModel etm = await Utility.DeserializeObject<EmailTemplateModel>(emailTemplateResponse);
 
-		//    // If we got this far, something failed, redisplay form
-		//    return View();
-		//}
+                    EncryptDecrypt ed = new EncryptDecrypt();
+                    string fullName = await GetUserFullName(model.Email);
+                    string forgotPasswordResetLink = configMngr["ResetForgotPasswordLink"] + ed.Encrypt(model.Email, configMngr["ServiceAccountPassword"]);
+                    string emaiBody = etm.Body.Replace("[Username]", fullName)
+                        .Replace("[URL]", forgotPasswordResetLink);
+                    etm.Body = emaiBody;
+                    EmailManager em = new EmailManager
+                    {
+                        Body = etm.Body,
+                        To = model.Email,
+                        Subject = etm.Subject,
+                        From = ConfigurationManager.AppSettings["SMTPUsername"]
+                    };
 
-		//
-		// GET: /Account/ForgotPasswordConfirmation
-		[AllowAnonymous]
+                    em.Send();
+
+                    tm.Message = "Email sent";
+                    tm.IsSuccess = true;
+                }
+                else
+                {
+                    tm.Message = "Email not found";
+                    tm.IsSuccess = false;
+                }
+
+                return Json(tm);
+            } catch(Exception ex)
+            {
+                return Json("");
+            }
+            
+        }
+
+        public async Task<string> GetUserFullName(string email)
+        {
+            string urlAction = "api/Account/GetUserFullNameByEmail/" + email + "/";
+            HttpResponseMessage getFullnameResponse = await Utility.GetObject(urlAction);
+
+            return await Utility.DeserializeObject<string>(getFullnameResponse);
+        }
+
+        //
+        // GET: /Account/ForgotPasswordConfirmation
+        [AllowAnonymous]
 		public ActionResult ForgotPasswordConfirmation()
 		{
 			return View();
 		}
 
-		//
-		// GET: /Account/ResetPassword
-		[AllowAnonymous]
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<ActionResult> ResetForgotPassword(string user, bool isRedirected = false)
+        {
+            EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
+            string email = objEncryptDecrypt.Decrypt(user, configMngr["ServiceAccountPassword"]);
+            if(await CheckIsEmailExists(email))
+            {
+                string urlAction = "api/Account/GetFamilyPrimaryAccountEmail/" + email + "/";
+                HttpResponseMessage getPrimaryEmailResponse = await Utility.GetObject(urlAction);
+
+                string primaryEmailAccount = await Utility.DeserializeObject<string>(getPrimaryEmailResponse);
+
+                List<SecurityQuestionsModel> sqList = await GetSecurityQuestionsByEmail(email);
+                ResetForgotPasswordModel rfpm = new ResetForgotPasswordModel
+                {
+                    Email = email,
+                    SecurityQuestionsModel = sqList,
+                    IsRedirected = isRedirected
+                };
+
+                return View(rfpm);
+            }
+            return RedirectToAction("Login");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> ResetForgotPassword(ResetForgotPasswordModel model)
+        {
+            bool areAllAnswersValid = false;
+            ToastModel tm = new ToastModel();
+            List<SecurityQuestionsModel> sqList = await GetSecurityQuestionsByEmail(model.Email);
+            Dictionary<int, string> userAnsweredQuestions = new Dictionary<int, string>();
+
+            for (int i = 0; i < sqList.Count; i++)
+            {
+                if ((Request.Form["AnswerTextbox_" + (i + 1)]) != "")
+                {
+                    userAnsweredQuestions.Add((i + 1), Request.Form["AnswerTextbox_" + (i + 1)]);
+                }
+
+            }
+
+            foreach (var item in userAnsweredQuestions)
+            {
+                sqList.ForEach(sq =>
+                {
+                    if (sq.Id == item.Key)
+                    {
+                        areAllAnswersValid = sq.Value == item.Value;
+                    }
+                });
+            }
+
+            if(areAllAnswersValid)
+            {
+                ResetPasswordModel rpm = new ResetPasswordModel
+                {
+                    Email = model.Email,
+                    Password = model.Password
+                };
+                string urlAction = "api/Account/ResetUserPassword";
+                HttpResponseMessage resetPasswordResponse = await Utility.GetObject(urlAction, rpm);
+
+                tm.IsSuccess = await Utility.DeserializeObject<bool>(resetPasswordResponse);
+                tm.Message = "Your password has been reset";
+            }
+            else
+            {
+                EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
+                string email = objEncryptDecrypt.Encrypt(model.Email, configMngr["ServiceAccountPassword"]);
+                return RedirectToAction("ResetForgotPassword", new { user = email, isRedirected = true });
+            }
+
+            return View("ResetPasswordConfirmation", tm);
+        }
+
+        public async Task<List<SecurityQuestionsModel>> GetSecurityQuestionsByEmail(string email)
+        {
+            string urlAction2 = "api/Account/GetSecurityQuestionsByEmail/" + email + "/";
+            HttpResponseMessage getSecurityQuestionsRes = await Utility.GetObject(urlAction2);
+
+            return await Utility.DeserializeList<SecurityQuestionsModel>(getSecurityQuestionsRes);
+        }
+
+        //
+        // GET: /Account/ResetPassword
+        [AllowAnonymous]
 		public ActionResult ResetPassword(string code)
 		{
 			return code == null ? View("Error") : View();
@@ -224,12 +361,14 @@ namespace Chinmaya.Registration.UI.Controllers
 
 		//
 		// POST: /Account/LogOff
-		[HttpPost]
-		[ValidateAntiForgeryToken]
+		[HttpGet]
 		public ActionResult LogOff()
 		{
-			//AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-			return RedirectToAction("Login", "Account");
+            //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Response.Cookies["userInfo"].Value = "";
+            Response.Cookies["userInfo"].Expires = DateTime.Now.AddDays(-1);
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Login", "Account");
 		}
 
 		[AllowAnonymous]
@@ -347,7 +486,7 @@ namespace Chinmaya.Registration.UI.Controllers
 					obj.HomePhone = data.HomePhone;
 					obj.CellPhone = data.CellPhone;
 					AccountDetails Ad = new AccountDetails();
-					SecurityQuestionsModel Sqm = new SecurityQuestionsModel();
+					//SecurityQuestionsModel Sqm = new SecurityQuestionsModel();
 					Ad.SecurityQuestionsModel = await GetSecurityQuestions();
 					return View("AccountDetails", Ad);
 				}
@@ -361,9 +500,9 @@ namespace Chinmaya.Registration.UI.Controllers
 		public async Task<ActionResult> AccountDetails(AccountDetails data, string prevBtn, string nextBtn)
 		{
 			UserModel obj = GetUser();
-
-			//List<SecurityQuestionsModel> model = await GetSecurityQuestions();
+            ToastModel tm = new ToastModel();
 			SecurityQuestionsModel Sqm = new SecurityQuestionsModel();
+
 			if (prevBtn != null)
 			{
 				ContactDetails cd = new ContactDetails();
@@ -419,6 +558,13 @@ namespace Chinmaya.Registration.UI.Controllers
 				{
 					if (ModelState.IsValid)
 					{
+                        if(await CheckIsEmailExists(data.Email))
+                        {
+                            tm.IsSuccess = false;
+                            tm.Message = "Email already registered";
+                            ViewBag.Toast = tm;
+                            return View("AccountDetails", Ad);
+                        }
 						obj.Id = Guid.NewGuid().ToString();
 						obj.Email = data.Email;
 						obj.Password = data.Password;
@@ -533,9 +679,7 @@ namespace Chinmaya.Registration.UI.Controllers
 				if (ModelState.IsValid)
 				{
 					MemberInformation.UpdatedBy = User.UserId;
-                    string urlAction = "api/Account/IsEmailExists/" + MemberInformation.Email + "/";
-                    HttpResponseMessage isEmailExistResponse = await Utility.GetObject(urlAction);
-                    bool isEmailExists = await Utility.DeserializeObject<bool>(isEmailExistResponse);
+                    bool isEmailExists = await CheckIsEmailExists(MemberInformation.Email);
                     if (!isEmailExists)
                     {
                         HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostFamilyMember", MemberInformation, true);
@@ -553,11 +697,13 @@ namespace Chinmaya.Registration.UI.Controllers
 			return RedirectToAction("MyAccount");
 		}
 
-		//public async Task<FamilyMemberModel> GetFamilyMemberDetails(string Id)
-		//{
-		//	HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetFamilyMemberDetails/" + Id, true);
-		//	return await Utility.DeserializeObject<FamilyMemberModel>(roleResponseMessage);
-		//}
+        public async Task<bool> CheckIsEmailExists(string email)
+        {
+            string urlAction = "api/Account/IsEmailExists/" + email + "/";
+            HttpResponseMessage isEmailExistResponse = await Utility.GetObject(urlAction);
+            bool isEmailExists = await Utility.DeserializeObject<bool>(isEmailExistResponse);
+            return isEmailExists;
+        }
 
 		public async Task<List<Weekdays>> GetWeekdayData()
 		{
