@@ -9,7 +9,7 @@ namespace Chinmaya.Registration.UI
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery-3.3.1.js",
                         "~/Scripts/Toastr/toastr.min.js",
                         "~/Scripts/Toastr/toastr.config.js"));
 
