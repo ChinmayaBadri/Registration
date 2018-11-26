@@ -59,8 +59,11 @@
     <Compile Include="ProgramEventRegistrationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="KeyValueModel.cs" />
+    <Compile Include="ResetForgotPasswordModel.cs" />
+    <Compile Include="ResetPasswordModel.cs" />
     <Compile Include="SecurityQuestionsModel.cs" />
     <Compile Include="ToastModel.cs" />
+    <Compile Include="UpdatePasswordModel.cs" />
     <Compile Include="UserAccountModel.cs" />
     <Compile Include="UserFamilyMember.cs" />
     <Compile Include="UserModel.cs" />

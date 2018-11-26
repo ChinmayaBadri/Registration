@@ -1,0 +1,27 @@
+﻿<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Welcome to Chinmaya Mission</title>
+    @Styles.Render("~/Content/css")
+</head>
+<body class="theme_bg">
+    <div class="login-logo">
+        <img src="~/Content/img/login-logo.png" alt="logo" class="center-block" />
+    </div>
+    <div class="login-box">
+        <div class="row" id="login">
+            <div>
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <div class="copyright">New to Chinmaya Mission? Please register for programs/events @Html.ActionLink("here", "Registration", "Account", new { area = "" }, new { @style = "color:red;" }).</div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript">
+    </script>
+</body>
+</html>
