@@ -44,7 +44,7 @@
 
 				<ul class="sub-menu collapse" id="account">
 					<li><a href="#"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
-					<li class="active"><a href="#"><img alt="" src="~/Content/img/update-family-info-active.png"> Update Family Info</a></li>
+					@*<li class="active"><a href="#"><img alt="" src="~/Content/img/update-family-info-active.png"> Update Family Info</a></li>*@
 				</ul>
 
 				<li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
@@ -56,10 +56,10 @@
 					<li><a href="#"><img alt="" src="~/Content/img/address.png"> Address</a></li>
 				</ul>
 
-				<li class="collapsed" aria-expanded="false" data-target="#payment" data-toggle="collapse">
+				@*<li class="collapsed" aria-expanded="false" data-target="#payment" data-toggle="collapse">
 					<a href="#"> Payment Details <span class="arrow"></span></a>
-				</li>
-				<ul class="sub-menu collapse" id="payment">
+				</li>*@
+				@*<ul class="sub-menu collapse" id="payment">
 					<li><a href="#"><img alt="" src="~/Content/img/past-transations.png"> Past Transactions</a></li>
 					<li><a href="#"><img alt="" src="~/Content/img/print-tax.png"> Print Tax Receipts</a></li>
 				</ul>
@@ -68,7 +68,7 @@
 					<a href="#">
 						Badri Directory
 					</a>
-				</li>
+				</li>*@
 			</ul>
 		</div>
 	</div>
@@ -245,6 +245,7 @@
 	<script>
 
 		$(function () {
+			$("#programEventRegistration").hide();
 			$('[data-toggle="tooltip"]').tooltip()
 		})
 

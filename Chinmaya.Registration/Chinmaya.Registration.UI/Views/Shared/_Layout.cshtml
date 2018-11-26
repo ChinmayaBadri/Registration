@@ -7,16 +7,9 @@
 	<title>@ViewBag.Title - Chinmaya Mission</title>
 	@Styles.Render("~/Content/css")
 	@Scripts.Render("~/bundles/modernizr")
+	@RenderSection("styles", false)
+	@Scripts.Render("~/bundles/jquery")
 
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<title>Welcome to Chinmaya Mission</title>
-	<!-- Latest compiled and minified CSS -->
-	<link href="~/Content/bootstrap.min.css" rel="stylesheet">
-	<link href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" rel="stylesheet" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-	<!-- Custom CSS -->
 	<link href="~/Content/custom-styles.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -65,8 +58,9 @@
 							<li class="nav-item active"> <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> </li>
 							<li class="nav-item"> <a class="nav-link" href="#">About Us</a> </li>
 							<li class="nav-item"> <a class="nav-link" href="#">Donate</a> </li>
-							<li class="nav-item"> @Html.ActionLink("Program/Event Registration", "ProgramEventRegistration", "Account", new { @class = "nav-link" }) </li>
-							<li class="nav-item"> @*<a class="nav-link" href="#">Current Events</a>*@ @Html.ActionLink("Current Events", "Event", "Account", new { @class = "nav-link" })</li>
+							<li class="nav-item"> @Html.ActionLink("Program/Event Registration", "ProgramEventRegistration", "Account", new { @class = "nav-link", @id = "programEventRegistration" }) </li>
+							<li class="nav-item"> @Html.ActionLink("UserList", "Admin", "Account", new { @class = "nav-link", @id = "userList" }) </li>
+							<li class="nav-item"> @*<a class="nav-link" href="#">Current Events</a>*@ @Html.ActionLink("Current Events", "Event", "Account", new { @class = "nav-link", @id = "current-Events" })</li>
 							<li class="nav-item"> <a class="nav-link" href="#">Contact Us</a> </li>
 						</ul>
 						<div class="form-inline my-2 my-lg-0">
@@ -90,7 +84,6 @@
 			</footer>
 		</div>
 
-		@Scripts.Render("~/bundles/jquery")
 		@Scripts.Render("~/bundles/bootstrap")
 		@RenderSection("scripts", required: false)
 	</body>

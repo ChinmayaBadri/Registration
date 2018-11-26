@@ -14,6 +14,17 @@ namespace Chinmaya.Registration.Models
 		public System.DateTime DOB { get; set; }
 		public string Relationship { get; set; }
 		public string Grade { get; set; }
+		
+	}
 
+	public class UFamilyMember
+	{
+		public string Id { get; set; }
+		public string FirstName { get; set; }
+		public string LastName { get; set; }
+		public string DOB { get; set; }
+		public string Relationship { get; set; }
+		public string Grade { get; set; }
+		public string Fullname { get; set; }
 	}
 }

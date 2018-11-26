@@ -1,0 +1,215 @@
+﻿
+@model IEnumerable<Chinmaya.Registration.Models.UserModel>
+@using Chinmaya.Models
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "MyAccount-Admin";
+}
+
+<style>
+	
+
+	td.details-control {
+		background: url('../Content/img/details_open.png') no-repeat center center;
+		cursor: pointer;
+	}
+
+	tr.shown td.details-control {
+		background: url('../Content/img/details_close.png') no-repeat center center;
+	}
+</style>
+	<button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
+	<div class="nav-side-menu">
+
+		<div class="menu-list">
+
+			<ul class="menu-content collapse out" id="menu-content">
+				<li class="collapsed" aria-expanded="false" data-target="#account" data-toggle="collapse">
+					<a href="#"> Account Settings <span class="arrow"></span></a>
+				</li>
+
+				<ul class="sub-menu collapse" id="account">
+					<li><a href="#"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
+					@*<li class="active"><a href="#"><img alt="" src="~/Content/img/update-family-info-active.png"> Update Family Info</a></li>*@
+				</ul>
+
+				<li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
+					<a href="#"> Update Contact Info <span class="arrow"></span></a>
+				</li>
+				<ul class="sub-menu collapse" id="contact">
+					<li><a href="#"><img alt="" src="~/Content/img/phone.png"> Phone</a></li>
+					<li><a href="#"><img alt="" src="~/Content/img/email.png"> Email</a></li>
+					<li><a href="#"><img alt="" src="~/Content/img/address.png"> Address</a></li>
+				</ul>
+
+				@*<li class="collapsed" aria-expanded="false" data-target="#payment" data-toggle="collapse">
+						<a href="#"> Payment Details <span class="arrow"></span></a>
+					</li>
+					<ul class="sub-menu collapse" id="payment">
+						<li><a href="#"><img alt="" src="~/Content/img/past-transations.png"> Past Transactions</a></li>
+						<li><a href="#"><img alt="" src="~/Content/img/print-tax.png"> Print Tax Receipts</a></li>
+					</ul>
+
+					<li>
+						<a href="#">
+							Badri Directory
+						</a>
+					</li>*@
+			</ul>
+		</div>
+	</div>
+	<div class="bd-content">
+		<h3>User Information</h3>
+		<div class="col-md-12 table-responsive">
+			<table id="example" class="display">
+				<thead>
+					<tr>
+						<th></th>
+						<th>Id</th>
+						<th>FullName</th>
+						<th>AccountType</th>
+						<th>DOB</th>
+						<th>HomePhone</th>
+						<th>CellPhone</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+
+	</div>
+
+
+	<script>
+
+		$(document).ready(function () {
+			$("#programEventRegistration").hide();
+			$("#userList").show();
+			
+			function format(Id, tr, row) {
+				$.ajax({
+					"type": "GET",
+					url: "../Account/GetAllFamilyMembers/" + Id,
+					"datatype": "json",
+					success: function (res) {
+						if (res.data.length>0) {
+							var dynamicHtml = '<table id="Child" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'
+								+ '<thead><tr><th>FullName</th><th>DOB</th><th>Relationship</th><th>Grade</th></tr></thead><tbody>';
+							$.each(res.data, function (i, data) {
+								dynamicHtml += '<tr>' +
+									'<td>' + data.Fullname + '</td>' +
+									'<td>' + data.DOB + '</td>' +
+									'<td>' + data.Relationship + '</td>' +
+									'<td>' + data.Grade + '</td>' +
+									'</tr>';
+							});
+						}
+						else {
+								dynamicHtml = "<b>Family members does not exist</b>";
+						}
+							//return dynamicHtml += '</tbody></table>';
+							row.child(dynamicHtml).show();
+							tr.addClass('shown');
+					}
+					
+				});
+			}
+			
+			var table = $('#example').DataTable({
+				"order": [],
+				ajax: {
+					"url": "../Account/GetAllUsers",
+					"type": "GET",
+					"datatype": "json"
+				},
+				columnDefs: [
+					{
+						"targets": 0,
+						"className": 'details-control',
+						"orderable": false,
+						"data": null,
+						"defaultContent": ''
+					},
+					{
+						"targets": 1,
+						"data": "Id",
+						"visible": false
+					},
+					{
+						"targets": 2,
+						"data": "FullName",
+						"width": "35%"
+					},
+					{
+						"targets": 3,
+						"data": "AccountType",
+						"width": "15%",
+						render: function (data, type, row) {
+							if (data == "Individual Account")
+								return '<input type="checkbox" class="editor-active" id="' + row.Id + '" >' + data;
+							else
+								return data;
+						}
+					},
+					{
+						"targets": 4,
+						"data": "DOB"
+					},
+					{
+						"targets": 5,
+						"data": "HomePhone",
+						"width": "8%"
+					},
+					{
+						"targets": 6,
+						"data": "CellPhone",
+						"width": "15%"
+					}
+				]
+			});
+			// Add event listener for opening and closing details
+			$('#example tbody').on('click', 'td.details-control', function () {
+				
+				var tr = $(this).closest('tr');
+				var $tds = tr.find("td");
+				
+				$tds = $(this).closest("tr").find("input:hidden");
+				var arr = $('#example').dataTable().fnGetData($(this));
+				var Id = arr.Id;  
+				//alert(Id);
+				
+				//var id = $(this).closest('tr')[0].Id;
+				var row = table.row(tr);
+
+				if (row.child.isShown()) {
+					// This row is already open - close it
+					row.child.hide();
+					tr.removeClass('shown');
+				}
+				else {
+					// Open this row
+					format(Id, tr, row);
+					//row.child(setTimeout(format(Id, tr, row), 3000)).show();
+					//tr.addClass('shown');
+				}
+			});
+			
+			$('#example tbody').on('change', 'input.editor-active', function () {
+				var id = $(this).attr("Id");
+				$.ajax({
+					"url": "../Account/ChangeAccountType/" + id,
+					"type": "POST",
+					"data": id,
+					success: function (res) {
+						window.location.reload();
+						alert("Account changed to Family Account successfully");
+					},
+					
+				});
+				
+			});
+			
+		});
+
+
+	</script>
+

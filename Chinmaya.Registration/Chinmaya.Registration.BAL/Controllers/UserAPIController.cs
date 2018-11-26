@@ -49,6 +49,35 @@ namespace Chinmaya.Registration.BAL.Controllers
 			return _user.GetUserData(id);
 		}
 
+		[Route("api/UserAPI/GetAllUsers")]
+		[HttpGet]
+		public object GetAllUsers()
+		{
+			return _user.GetAllUsers();
+		}
+
+		[Route("api/UserAPI/GetAllFamilyMembers/{id}")]
+		[HttpGet]
+		public object GetAllFamilyMembers(string id)
+		{
+			return _user.GetAllFamilyMembers(id);
+		}
+
+		[Route("api/UserAPI/ChangeAccountType/{id}")]
+		[HttpPost]
+		public IHttpActionResult ChangeAccountType(string id)
+		{
+			try
+			{
+				_user.ChangeAccountType(id);
+				return Ok("Success");
+			}
+			catch (Exception)
+			{
+				return Ok("Something went wrong");
+			}
+		}
+
 		[Route("api/UserAPI/GetIsIndividual/{id}")]
 		[HttpGet]
 		public bool GetIsIndividual(string id)

@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="AccountDetails.cs" />
     <Compile Include="AccountView.cs" />
+    <Compile Include="AdminModel.cs" />
     <Compile Include="CheckPaymentModel.cs" />
     <Compile Include="ClassesConfirmModel.cs" />
     <Compile Include="ContactDetails.cs" />

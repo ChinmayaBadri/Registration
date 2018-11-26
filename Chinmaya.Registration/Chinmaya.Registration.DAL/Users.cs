@@ -97,6 +97,74 @@ namespace Chinmaya.Registration.DAL
 		//	}
 		//}
 
+
+		public object GetAllUsers()
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				var users = (from u in _ctx.Users
+						 where !_ctx.FamilyMembers.Any(f => f.Email == u.Email)
+						 select new
+						 {
+							 Id = u.Id,
+							 FullName = u.FirstName + " " + u.LastName,
+							 AccountType = (u.IsIndividual) ? "Individual Account" : "Family Account",
+							 DOB = u.DOB,
+							 HomePhone = u.HomePhone,
+							 CellPhone = u.CellPhone
+						 }).ToList().Select(x => new
+						 {
+							 x.Id,
+							 x.FullName,
+							 x.AccountType,
+							 DOB = string.Format("{0:MM/dd/yyyy}", x.DOB),
+							 x.HomePhone,
+							 x.CellPhone
+						 });
+
+				return users;
+			}
+		}
+
+		public object GetAllFamilyMembers(string id)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				var familyMembers = (from f in _ctx.FamilyMembers
+							   where f.UpdatedBy == id
+							   select new
+							   {
+								 Id = f.Id,
+								 FullName = f.FirstName + " " + f.LastName,
+								 DOB = f.DOB,
+								Relationship = _ctx.Relationships.Where(i => i.Id == f.RelationshipId).Select(i => i.Name).FirstOrDefault(),
+								Grade = _ctx.Grades.Where(i => i.Id == f.GradeId).Select(i => i.Name).FirstOrDefault()
+							   }).ToList().Select(x => new
+							   {
+								   x.Id,
+								   x.FullName,
+								   DOB = string.Format("{0:MM/dd/yyyy}", x.DOB),
+								   Relationship = (x.Relationship != null) ? x.Relationship: "-",
+								   Grade = (x.Grade != null) ? x.Grade : "-"
+							   });
+				return familyMembers;
+			}
+		}
+
+		public void ChangeAccountType(string id)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				var user = _ctx.Users.Where(i => i.Id == id).FirstOrDefault();
+				if (user != null)
+				{
+					user.IsIndividual = false;
+					_ctx.SaveChanges();
+				}
+			}
+		}
+
+
 		public bool GetIsIndividual(string Id)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -334,10 +402,7 @@ namespace Chinmaya.Registration.DAL
 
 				var email = _ctx.Users.Where(r => r.Email == family.Email).Select(n => n.Email).FirstOrDefault();
 				var HomePhone = _ctx.Users.Where(r => r.HomePhone == family.CellPhone).Select(n => n.CellPhone).FirstOrDefault();
-				//if (email != null || HomePhone != null)
-				//{
-					
-				//}
+				
 				var fm = new FamilyMember
 				{
 					Id = Guid.NewGuid().ToString(),

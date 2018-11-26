@@ -81,7 +81,7 @@ namespace Chinmaya.Registration.UI.Controllers
 						if (roleName.Contains("Admin"))
 						{
 							//TempData["userdata"] = user;
-							return RedirectToAction("MyAccount", "Account");
+							return RedirectToAction("Admin", "Account");
 						}
 						else if (roleName.Contains("User"))
 						{
@@ -102,6 +102,36 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View(model);
 		}
 
+
+		[AllowAnonymous]
+		public ActionResult Admin()
+		{
+			//var msg = await ChangeAccountType("6278B716-60D9-4CBD-A7D3-2010CEB36C10");
+			return View();
+		}
+
+		public async Task<ActionResult> GetAllUsers()
+		{
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetAllUsers", true);
+			var users = await Utility.DeserializeObject<List<UserInfoModel>>(roleResponseMessage);
+			return Json(new { data = users }, JsonRequestBehavior.AllowGet);
+		}
+
+
+		public async Task<ActionResult> GetAllFamilyMembers(string Id)
+		{
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetAllFamilyMembers/" + Id, true);
+			var familyMembers = await Utility.DeserializeObject<List<UFamilyMember>>(roleResponseMessage);
+			return Json(new { data = familyMembers }, JsonRequestBehavior.AllowGet);
+		}
+
+		[AllowAnonymous]
+		public async Task<ActionResult> ChangeAccountType(string Id)
+		{
+			HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/ChangeAccountType/" + Id, Id, true);
+			return RedirectToAction("Admin");
+		}
+		
 		//
 		// GET: /Account/Register
 		[AllowAnonymous]

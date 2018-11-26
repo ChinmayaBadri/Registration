@@ -33,4 +33,14 @@ namespace Chinmaya.Registration.Models
 		public Nullable<System.DateTime> UpdatedDate { get; set; }
 		public Dictionary<int, string> UserSecurityQuestions = new Dictionary<int, string>();
 	}
+
+	public class UserInfoModel
+	{
+		public string Id { get; set; }
+		public string FullName { get; set; }
+		public string AccountType { get; set; }
+		public string DOB { get; set; }
+		public string HomePhone { get; set; }
+		public string CellPhone { get; set; }
+	}
 }
