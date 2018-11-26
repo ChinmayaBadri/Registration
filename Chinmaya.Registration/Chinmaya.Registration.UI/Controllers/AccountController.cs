@@ -456,7 +456,7 @@ namespace Chinmaya.Registration.UI.Controllers
 					obj.HomePhone = data.HomePhone;
 					obj.CellPhone = data.CellPhone;
 					AccountDetails Ad = new AccountDetails();
-					SecurityQuestionsModel Sqm = new SecurityQuestionsModel();
+					//SecurityQuestionsModel Sqm = new SecurityQuestionsModel();
 					Ad.SecurityQuestionsModel = await GetSecurityQuestions();
 					return View("AccountDetails", Ad);
 				}
@@ -470,9 +470,9 @@ namespace Chinmaya.Registration.UI.Controllers
 		public async Task<ActionResult> AccountDetails(AccountDetails data, string prevBtn, string nextBtn)
 		{
 			UserModel obj = GetUser();
-
-			//List<SecurityQuestionsModel> model = await GetSecurityQuestions();
+            ToastModel tm = new ToastModel();
 			SecurityQuestionsModel Sqm = new SecurityQuestionsModel();
+
 			if (prevBtn != null)
 			{
 				ContactDetails cd = new ContactDetails();
@@ -528,14 +528,19 @@ namespace Chinmaya.Registration.UI.Controllers
 				{
 					if (ModelState.IsValid)
 					{
+                        if(await CheckIsEmailExists(data.Email))
+                        {
+                            tm.IsSuccess = false;
+                            tm.Message = "Email already registered";
+                            ViewBag.Toast = tm;
+                            return View("AccountDetails", Ad);
+                        }
 						obj.Id = Guid.NewGuid().ToString();
 						obj.Email = data.Email;
 						obj.Password = data.Password;
 						EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
 						obj.Password = objEncryptDecrypt.Encrypt(data.Password, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
 						obj.IsIndividual = Convert.ToBoolean(data.AccountType);
-						//obj.SecurityQuestionsModel = data.SecurityQuestionsModel;
-						Ad.SecurityQuestionsModel = await GetSecurityQuestions();
 						obj.UserSecurityQuestions = SecurityQuestions;
 						HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostUser", obj, true);
 						//return View("AccountDetails", Ad);
