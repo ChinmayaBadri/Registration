@@ -115,32 +115,37 @@
 		</div>
 	</div>
 	<!-- Modal Content starts -->
-	<div tabindex="-1" class="modal fade bd-example-modal-lg" id="exampleModalCenter" role="dialog" aria-hidden="true" aria-labelledby="exampleModalCenterTitle" style="display: none;">
-        @Html.Partial("_AddFamilyMember", Model.familyMemberModel)
-	</div>
-    <!-- Modal Content Ends -->
+        <div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        @Html.Partial("_AddFamilyMember", Model.familyMemberModel)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Content Ends -->
+        <script>
 
-	<script>
+            $(document).ready(function () {
+                $("#current-Events").hide();
+                $("#userList").show();
+                $('[data-toggle="tooltip"]').tooltip({ position: 'right' });
 
-		$(document).ready(function () {
-			$("#current-Events").hide();
-			$("#userList").show();
-			$('[data-toggle="tooltip"]').tooltip({ position: 'right' });
+            });
 
-		});
+            $(function () {
 
-		$(function () {
-
-		    $('.modal').on('hidden.bs.modal', function (e) {
-		        $(this)
-                  .find("input:text, input:password, select, textarea")
-                     .val('');
-		        $(this)
-                  .find(".field-validation-error")
-                     .html('');
-		    });
-		});
-	</script>
+                $('.modal').on('hidden.bs.modal', function (e) {
+                    $(this)
+                      .find("input:text, input:password, select, textarea")
+                         .val('');
+                    $(this)
+                      .find(".field-validation-error")
+                         .html('');
+                });
+            });
+        </script>
 </body>
 </html>
 

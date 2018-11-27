@@ -10,9 +10,9 @@ namespace Chinmaya.Registration.UI
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-3.3.1.js",
+                        "~/Scripts/popper.min.js",
                         "~/Scripts/Toastr/toastr.min.js",
                         "~/Scripts/Toastr/toastr.config.js",
-                        "~/Scripts/jquery-{version}.js",
 						"~/Scripts/DataTables/jquery.dataTables.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -26,14 +26,12 @@ namespace Chinmaya.Registration.UI
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
+                      "~/Scripts/bootstrap.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css",
+                      "~/Content/custom-styles.css",
                       "~/Content/Toastr/toastr.min.css",
-                      "~/Content/site.css",
-                      "~/Content/site.css",
 					  "~/Content/DataTables/css/jquery.dataTables.css"));
         }
     }

@@ -36,12 +36,11 @@ body {font-family: 'Roboto', sans-serif; color:#666; font-size:13px;}
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: url(../fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: url(fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
   src: local('Material Icons'),
        local('MaterialIcons-Regular'),
-       url(../Content/fonts/materialicons.woff2) format('woff2'),
-       url(../Content/fonts/MaterialIcons-Regular.woff) format('woff'),
-       url(../Content/fonts/MaterialIcons-Regular.ttf) format('truetype');
+       url(fonts/MaterialIcons-Regular.woff) format('woff'),
+       url(fonts/MaterialIcons-Regular.ttf) format('truetype');
 }
 
 .material-icons {
@@ -176,7 +175,7 @@ label {font-weight:400; font-size:14px; margin-bottom:10px; margin-top:3px; widt
     border-radius: 2px;
     font-size: 13px;
     background-color: white;
-    background-image: url(../Content/img/search.png);
+    background-image: url(../img/search.png);
     background-position: 125px 8px;
     background-repeat: no-repeat;
     padding: 7px 10px 7px 10px;
