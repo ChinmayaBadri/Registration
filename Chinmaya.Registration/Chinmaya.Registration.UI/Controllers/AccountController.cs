@@ -697,13 +697,90 @@ namespace Chinmaya.Registration.UI.Controllers
 			return RedirectToAction("MyAccount");
 		}
 
-        public async Task<bool> CheckIsEmailExists(string email)
+		[HttpGet]
+		[AllowAnonymous]
+		public async Task<FamilyMember> FamilyMemberDetails(string Id)
+		{
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetFamilyMemberDetails/" + Id, true);
+			return await Utility.DeserializeObject<FamilyMember>(roleResponseMessage);
+		}
+
+
+		//public async Task<ActionResult> EditFamilyMember(string Id)
+		//{
+		//	var data = await FamilyMemberDetails(Id);
+		//		FamilyMemberModel fm = new FamilyMemberModel();
+		//		fm.relationships = await GetRelationshipData();
+		//		fm.grades = await GetGradeData();
+		//		fm.genders = await GetGenderData();
+		//		fm.FirstName = data.FirstName;
+		//		fm.LastName = data.LastName;
+		//		fm.DOB = data.DOB;
+		//		fm.RelationshipData = data.RelationshipId;
+		//		fm.Grade = (int)data.GradeId;
+		//		fm.GenderData = data.GenderId;
+		//		fm.CellPhone = data.CellPhone;
+		//		fm.Email = data.Email;
+
+		//		return View("_EditFamilyMember", fm);
+
+		//}
+
+		public async Task<PartialViewResult> EditFamilyMember(string Id)
+		{
+			var data = await FamilyMemberDetails(Id);
+			FamilyMemberModel fm = new FamilyMemberModel();
+			fm.Id = Id;
+			fm.relationships = await GetRelationshipData();
+			fm.grades = await GetGradeData();
+			fm.genders = await GetGenderData();
+			fm.FirstName = data.FirstName;
+			fm.LastName = data.LastName;
+			fm.DOB = data.DOB;
+			fm.RelationshipData = data.RelationshipId;
+			fm.Grade = (int)data.GradeId;
+			fm.GenderData = data.GenderId;
+			fm.CellPhone = data.CellPhone;
+			fm.Email = data.Email;
+			return PartialView("_AddFamilyMember", fm);
+		}
+
+		//[HttpPost]
+		//[AllowAnonymous]
+		//public async Task<ActionResult> EditFamilyMemberDetails(FamilyMemberModel MemberInformation, string nextBtn, string Id)
+		//{
+		//	var familyMemberData = await FamilyMemberDetails(Id);
+		//	ToastModel tm = new ToastModel();
+		//	MemberInformation.relationships = await GetRelationshipData();
+		//	MemberInformation.grades = await GetGradeData();
+		//	MemberInformation.genders = await GetGenderData();
+		//	if (nextBtn != null)
+		//	{
+		//		if (ModelState.IsValid)
+		//		{
+		//			MemberInformation.UpdatedBy = User.UserId;
+		//			bool isEmailExists = await CheckIsEmailExists(MemberInformation.Email);
+					
+		//				HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/EditFamilyMember" + Id, MemberInformation, true);
+		//				tm.IsSuccess = true;
+		//				tm.Message = "Family member updated successfully";
+		//			return Json(tm);
+		//		}
+		//		return RedirectToAction("MyAccount");
+		//	}
+		//	return RedirectToAction("MyAccount");
+			
+		//}
+
+		public async Task<bool> CheckIsEmailExists(string email)
         {
             string urlAction = "api/Account/IsEmailExists/" + email + "/";
             HttpResponseMessage isEmailExistResponse = await Utility.GetObject(urlAction);
             bool isEmailExists = await Utility.DeserializeObject<bool>(isEmailExistResponse);
             return isEmailExists;
         }
+
+		
 
 		public async Task<List<Weekdays>> GetWeekdayData()
 		{

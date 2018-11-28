@@ -22,19 +22,19 @@
 		<div id="login">
 			<div class="login_heading">Login</div>
 			@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "Loginform" }))
-			{
-				@Html.AntiForgeryToken()
-				@Html.ValidationSummary(true, "", new { @class = "text-danger", style = "padding-left: 194px;" })
-				<label>Email</label>
-				@Html.TextBoxFor(m => m.UserName, new { @class = "form-control", autocomplete = "off" })
-				<div class="col-md-4"></div>
-				@Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
-				<label>Password @Html.ActionLink("Forgot Password", "ForgotPassword", "Account")</label>
-				@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-				<div class="col-md-4"></div>
-				@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-				<button class="btn btn-orange float-right" type="submit">Login<i class="material-icons">check_circle</i></button>
-			}
+	{
+		@Html.AntiForgeryToken()
+		@Html.ValidationSummary(true, "", new { @class = "text-danger", style = "padding-left: 194px;" })
+		<label>Email</label>
+		@Html.TextBoxFor(m => m.UserName, new { @class = "form-control", autocomplete = "off" })
+		<div class="col-md-4"></div>
+		@Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+		<label>Password @Html.ActionLink("Forgot Password?", "ForgotPassword", "Account", new { @class = "forgot-link float-right forgot" })</label>
+		@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+		<div class="col-md-4"></div>
+		@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+		<button class="btn btn-orange float-right" type="submit">Login<i class="material-icons">check_circle</i></button>
+}
 		</div>
 	</div>
 	<div class="copyright">New to Chinmaya Mission? Please register for programs/events @Html.ActionLink("here", "Registration", "Account", new { area = "" }, new { @style = "color:red;" }).</div>
