@@ -103,6 +103,27 @@ namespace Chinmaya.Registration.BAL.Controllers
             return Ok(_Account.ResetUserPassword(rpm));
         }
 
+        [Route("api/Account/IsFamilyMember/{email}/")]
+        [HttpGet]
+        public IHttpActionResult IsFamilyMember(string email)
+        {
+            return Ok(_Account.IsFamilyMember(email));
+        }
+
+        [Route("api/Account/GetUserInfoByEmail/{email}/")]
+        [HttpGet]
+        public IHttpActionResult GetUserInfoByEmail(string email)
+        {
+            return Ok(_Account.GetUserInfoByEmail(email));
+        }
+
+        [Route("api/Account/IsActiveUser/{email}/")]
+        [HttpGet]
+        public IHttpActionResult IsActiveUser(string email)
+        {
+            return Ok(_Account.IsActiveUser(email));
+        }
+
         /*[Route("Api/Account/Gender")]
 		//GET: api/Account/Gender
 		[ActionName("Gender")]

@@ -298,90 +298,59 @@ namespace Chinmaya.Registration.DAL
 		public void PostUser(UserModel user)
 		{
 			using (var _ctx = new ChinmayaEntities())
-			{
-				var config = new MapperConfiguration(cfg =>
-				{
-					cfg.CreateMap<UserModel, User>();
-				});
-				IMapper mapper = config.CreateMapper();
+			{               
+                try
+                {
+                    var config = new MapperConfiguration(cfg =>
+                    {
+                        cfg.CreateMap<UserModel, User>();
+                    });
+                    IMapper mapper = config.CreateMapper();
 
-				User ur = new User();
-				mapper.Map(user, ur);
-				ur.Id = Guid.NewGuid().ToString();
-				ur.CreatedDate = DateTime.Now;
-				ur.RoleId = 2;
-				Dictionary<int, string> SecurityQuestions = new Dictionary<int, string>();
-				SecurityQuestions = user.UserSecurityQuestions;
-				UserSecurityQuestion usq = new UserSecurityQuestion();
-				foreach (var item in SecurityQuestions)
-				{
-					var UserSQ = new UserSecurityQuestion();
-					UserSQ.UserId = ur.Id;
-					UserSQ.SecurityQuestionId = item.Key;
-					UserSQ.Answer = item.Value;
-					_ctx.UserSecurityQuestions.Add(UserSQ);
-				}
-				
-				
-				_ctx.Users.Add(ur);
+                    User ur = new User();
+                    mapper.Map(user, ur);
 
-				//UserSecurityQuestion Usq = new UserSecurityQuestion();
+                    if (string.IsNullOrEmpty(user.Id))
+                    {
+                        ur.Id = Guid.NewGuid().ToString();
+                        ur.CreatedDate = DateTime.Now;
+                        ur.RoleId = 2;
+                        Dictionary<int, string> SecurityQuestions = new Dictionary<int, string>();
+                        SecurityQuestions = user.UserSecurityQuestions;
+                        UserSecurityQuestion usq = new UserSecurityQuestion();
+                        foreach (var item in SecurityQuestions)
+                        {
+                            var UserSQ = new UserSecurityQuestion();
+                            UserSQ.UserId = ur.Id;
+                            UserSQ.SecurityQuestionId = item.Key;
+                            UserSQ.Answer = item.Value;
+                            _ctx.UserSecurityQuestions.Add(UserSQ);
+                            _ctx.Users.Add(ur);
+                        }
+                        _ctx.SaveChanges();
+                    }
+                    else
+                    {
+                        _ctx.Entry(ur).State = EntityState.Modified;
+                        _ctx.SaveChanges();
+                    }
+                }
+                catch (DbEntityValidationException e)
+                {
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
 
-				//for (int i = 1; i <= Count; i++)
-				//{
-				//	Usq.UserId = ur.Id;
-				//	Usq.SecurityQuestionId = x.Id;
-				//	Usq.Answer = x.Value;
-				//}
-				//_ctx.UserSecurityQuestions.Add(Usq);
+                }
 
-
-
-				//var gff = Mapper.Map<UserModel, User>(user);
-				//var ur = new User
-				//{
-				//	Id = Guid.NewGuid().ToString(),
-				//	Email = user.Email,
-				//	EmailConfirmed = false,
-				//	Password = user.Password,
-				//	RoleId = 1,
-				//	FirstName = user.FirstName,
-				//	LastName = user.LastName,
-				//	DOB = user.DOB,
-				//	AgeGroupId = null,
-				//	GenderId = user.GenderId,
-				//	Address = user.Address,
-				//	CityId = user.CityId,
-				//	StateId = user.StateId,
-				//	CountryId = user.CountryId,
-				//	ZipCode = user.ZipCode,
-				//	HomePhone = user.HomePhone,
-				//	IsIndividual = true,
-				//	Status = true
-				//};
-				//_ctx.Users.Add(gff);
-
-				//_ctx.Users.Add(user);
-				//_ctx.SaveChanges();
-				try
-				{
-					_ctx.SaveChanges();
-				}
-				catch (DbEntityValidationException e)
-				{
-					foreach (var eve in e.EntityValidationErrors)
-					{
-						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-							eve.Entry.Entity.GetType().Name, eve.Entry.State);
-						foreach (var ve in eve.ValidationErrors)
-						{
-							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-								ve.PropertyName, ve.ErrorMessage);
-						}
-					}
-
-				}
-			}
+            }
 		}
 
 

@@ -31,7 +31,9 @@ namespace Chinmaya.Registration.Models
 		public System.DateTime CreatedDate { get; set; }
 		public string UpdatedBy { get; set; }
 		public Nullable<System.DateTime> UpdatedDate { get; set; }
-		public Dictionary<int, string> UserSecurityQuestions = new Dictionary<int, string>();
+        public Nullable<bool> IsApproved { get; set; }
+        public Nullable<bool> IsApproveMailSent { get; set; }
+        public Dictionary<int, string> UserSecurityQuestions = new Dictionary<int, string>();
 	}
 
 	public class UserInfoModel

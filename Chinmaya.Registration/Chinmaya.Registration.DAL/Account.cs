@@ -40,8 +40,23 @@ namespace Chinmaya.Registration.DAL
         {
             using (var _ctx = new ChinmayaEntities())
             {
-                return _ctx.Users.Any(u => u.Email == email)
-                        || _ctx.FamilyMembers.Any(u => u.Email == email);
+                return _ctx.Users.Any(u => u.Email == email);
+            }
+        }
+
+        public bool IsActiveUser(string email)
+        {
+            using (var _ctx = new ChinmayaEntities())
+            {
+                return _ctx.Users.Any(u => u.Email == email && u.Status == true);
+            }
+        }
+
+        public bool IsFamilyMember(string email)
+        {
+            using (var _ctx = new ChinmayaEntities())
+            {
+                return _ctx.FamilyMembers.Any(u => u.Email == email);
             }
         }
 
@@ -133,10 +148,10 @@ namespace Chinmaya.Registration.DAL
                 var objFamilyMembers = _ctx.FamilyMembers.FirstOrDefault(x => x.Email == email);
                 if (objFamilyMembers != null)
                 {
-                    var objUser =_ctx.Users.FirstOrDefault(x => x.Email == objFamilyMembers.Email);
+                    var objUser =_ctx.Users.FirstOrDefault(x => x.Id == objFamilyMembers.UpdatedBy);
                     if (objUser != null)
                     {
-                        return _ctx.Users.FirstOrDefault(x => x.Id == objFamilyMembers.UpdatedBy).Email;
+                        return objUser.Email;
                     }
                 }
                 else
@@ -152,15 +167,27 @@ namespace Chinmaya.Registration.DAL
 
         public string GetUserFullNameByEmail(string email)
         {
+            string fullname = string.Empty;
             if(!string.IsNullOrEmpty(email))
             {
                 using (var _ctx = new ChinmayaEntities())
                 {
                     var objUser = _ctx.Users.FirstOrDefault(x => x.Email == email);
-                    return objUser.FirstName + " " + objUser.LastName;
+                    if(objUser != null)
+                    {
+                        fullname = objUser.FirstName + " " + objUser.LastName;
+                    } else
+                    {
+                        var objFamilyUser = _ctx.FamilyMembers.FirstOrDefault(x => x.Email == email);
+                        if(objFamilyUser != null)
+                        {
+                            fullname = objFamilyUser.FirstName + " " + objFamilyUser.LastName;
+                        }
+                    }
+
                 }
             }
-            return string.Empty;
+            return fullname;
         }
 
         public bool ResetUserPassword(ResetPasswordModel rpm)
@@ -181,6 +208,25 @@ namespace Chinmaya.Registration.DAL
                 }
             }
             return false;
+        }
+
+        public UserModel GetUserInfoByEmail(string email)
+        {
+            using (var _ctx = new ChinmayaEntities())
+            {
+                UserModel um = new UserModel();
+                var objUser = _ctx.Users.FirstOrDefault(x => x.Email == email);
+                if(objUser != null)
+                {
+                    var config = new MapperConfiguration(cfg =>
+                    {
+                        cfg.CreateMap<User, UserModel>();
+                    });
+                    IMapper mapper = config.CreateMapper();
+                    return mapper.Map(objUser, um);
+                }
+                return um;
+            }
         }
 
         /*public List<KeyValueModel> GetGender()
