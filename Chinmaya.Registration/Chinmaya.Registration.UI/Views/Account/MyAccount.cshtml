@@ -75,11 +75,11 @@
 				<div class="col-md-6 table-title">Family Information</div>
 				@if (!Model.IsIndividual)
 				{
-			<div class="col-md-6 text-right">
-				<a class="orange-links" id="#AddFamilyMember" href="#" data-target="#exampleModalCenter" data-toggle="modal"><i class="material-icons">add_circle_outline</i> Add Family Member</a>
-			</div>
+					<div class="col-md-6 text-right">
+						<a class="orange-links" id="#AddFamilyMember" href="#" data-target="#exampleModalCenter" data-toggle="modal"><i class="material-icons">add_circle_outline</i> Add Family Member</a>
+					</div>
 				}
-			<div class="modal fade" id="FamilyMemberPartial" role="dialog"></div>
+				<div class="modal fade" id="FamilyMemberPartial" role="dialog"></div>
 			</div>
 			<div class="row">
 				<div class="col-md-12 table-responsive">
@@ -105,8 +105,10 @@
 									<td>@(m.DOB.ToString("MMM dd, yyyy"))</td>
 									<td>@m.Relationship</td>
 									<td>@m.Grade</td>
-									<td><a href="@Url.Action("Edit","Account", new { id = m.Id })"><span class="label label-orange">Edit</span></a></td>
+									@*<td>@Html.ActionLink("Edit", "EditFamilyMember", new { id = m.Id }, new { @class = "label label-orange" })</td>*@
+									<td id="@m.Id" class="editFamilyMember"><a href="#" data-toggle="modal" data-target="#EditModal" class="Edit"><span class="label label-orange">Edit</span></a></td>
 								</tr>
+								@*href="@Url.Action("EditFamilyMemberDetails","Account", new { id = m.Id })"*@
 							}
 						</tbody>
 					</table>
@@ -114,38 +116,82 @@
 			</div>
 		</div>
 	</div>
+
+	<div id="dialog-edit" style="display: none">
+	</div>
+
 	<!-- Modal Content starts -->
-        <div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        @Html.Partial("_AddFamilyMember", Model.familyMemberModel)
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal Content Ends -->
-        <script>
+	<div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
-            $(document).ready(function () {
-                $("#current-Events").hide();
-                $("#userList").show();
-                $('[data-toggle="tooltip"]').tooltip({ position: 'right' });
+		@Html.Partial("_AddFamilyMember", Model.familyMemberModel)
 
-            });
+	</div>
+	<!-- Modal Content Ends -->
+	<script>
 
-            $(function () {
+		$(document).ready(function () {
+			$("#current-Events").hide();
+			$("#userList").hide();
+			$('[data-toggle="tooltip"]').tooltip({ position: 'right' });
 
-                $('.modal').on('hidden.bs.modal', function (e) {
-                    $(this)
-                      .find("input:text, input:password, select, textarea")
-                         .val('');
-                    $(this)
-                      .find(".field-validation-error")
-                         .html('');
-                });
-            });
-        </script>
+		});
+
+		$(".editFamilyMember").click(function () {
+			var id = $(this).attr("id");
+			$.ajax({
+				"url": "../Account/EditFamilyMember/" + id,
+				"type": "GET",
+				success: function (data) {
+
+					//$("#exampleModalCenter").modal('show');
+					//$("#FirstName").val(res.fm.FirstName);
+					$("#exampleModalCenter").html(data);
+					$("#exampleModalCenter").modal();
+
+				},
+
+			});
+
+		});
+
+		$(function () {
+
+			$('.modal').on('hidden.bs.modal', function (e) {
+				$(this)
+					.find("input:text, input:password, select, textarea")
+					.val('');
+				$(this)
+					.find(".field-validation-error")
+					.html('');
+			});
+		});
+
+		
+				//$(".label label-orange").live("click", function (e) {
+				//	var url = $(this).attr('href');
+				//	$("#dialog-edit").dialog({
+				//		title: 'Edit Family Member Detail',
+				//		autoOpen: false,
+				//		resizable: false,
+				//		height: 455,
+				//		width: 550,
+				//		show: { effect: 'drop', direction: "up" },
+				//		modal: true,
+				//		draggable: true,
+				//		open: function (event, ui) {
+				//			$(this).load(url);
+
+				//		},
+				//		close: function (event, ui) {
+				//			$(this).dialog('close');
+				//		}
+				//	});
+
+				//	$("#dialog-edit").dialog('open');
+				//	return false;
+				//});
+
+	</script>
 </body>
 </html>
 

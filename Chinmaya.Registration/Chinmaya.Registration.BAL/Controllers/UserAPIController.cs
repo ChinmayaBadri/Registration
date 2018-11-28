@@ -136,6 +136,29 @@ namespace Chinmaya.Registration.BAL.Controllers
 			}
 		}
 
+		[Route("api/UserAPI/EditFamilyMember/{id}")]
+		[HttpPost]
+		public IHttpActionResult EditFamilyMember(FamilyMemberModel obj, string Id)
+		{
+			try
+			{
+				_user.EditFamilyMember(obj, Id);
+				return Ok("Success");
+			}
+			catch (Exception)
+			{
+				return Ok("Something went wrong");
+			}
+		}
+
+
+		[Route("api/UserAPI/GetFamilyMemberDetails/{id}")]
+		[HttpGet]
+		public FamilyMember GetFamilyMemberDetails(string id)
+		{
+			return _user.GetFamilyMemberDetails(id);
+		}
+
 		[Route("api/UserAPI/PostEvent")]
 		[HttpPost]
 		public IHttpActionResult PostEvent(EventsModel obj)

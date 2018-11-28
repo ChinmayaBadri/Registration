@@ -10,6 +10,7 @@ namespace Chinmaya.Registration.Models
 {
 	public class FamilyMemberModel
 	{
+		public string Id { get; set; }
 		[DisplayName("First Name")]
 		[Required]
 		[StringLength(100, ErrorMessage = "First Name should not be more than 100 characters")]

@@ -353,6 +353,14 @@ namespace Chinmaya.Registration.DAL
             }
 		}
 
+		public FamilyMember GetFamilyMemberDetails(string Id)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				FamilyMember familyMemberData = _ctx.FamilyMembers.Where(f => f.Id == Id).FirstOrDefault();
+				return familyMemberData;
+			}
+		}
 
 		public void PostFamilyMember(FamilyMemberModel family)
 		{
@@ -411,6 +419,57 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
+		public void EditFamilyMember(FamilyMemberModel family, string Id)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				
+				var config = new MapperConfiguration(cfg =>
+				{
+					cfg.CreateMap<FamilyMemberModel, FamilyMember>();
+				});
+				IMapper mapper = config.CreateMapper();
+
+				//var email = _ctx.Users.Where(r => r.Email == family.Email).Select(n => n.Email).FirstOrDefault();
+				//var HomePhone = _ctx.Users.Where(r => r.HomePhone == family.CellPhone).Select(n => n.CellPhone).FirstOrDefault();
+
+				var fm = new FamilyMember
+				{
+					Id = _ctx.FamilyMembers.Where(f => f.Id == Id).FirstOrDefault().ToString(),
+					FirstName = family.FirstName,
+					LastName = family.LastName,
+					DOB = family.DOB,
+					RelationshipId = family.RelationshipData,
+					GradeId = family.Grade,
+					GenderId = family.GenderData,
+					CellPhone = family.CellPhone,
+					Email = family.Email,
+					Status = true,
+					UpdatedBy = family.UpdatedBy,
+					UpdatedDate = DateTime.Now
+				};
+				
+				try
+				{
+					_ctx.SaveChanges();
+				}
+				catch (DbEntityValidationException e)
+				{
+					foreach (var eve in e.EntityValidationErrors)
+					{
+						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+							eve.Entry.Entity.GetType().Name, eve.Entry.State);
+						foreach (var ve in eve.ValidationErrors)
+						{
+							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+								ve.PropertyName, ve.ErrorMessage);
+						}
+					}
+
+				}
+			}
+		}
+		
 		public void PostEvent(EventsModel ev)
 		{
 			using (var _ctx = new ChinmayaEntities())
