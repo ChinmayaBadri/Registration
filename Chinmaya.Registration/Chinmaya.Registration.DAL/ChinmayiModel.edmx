@@ -366,6 +366,8 @@ warning 6002: The table/view 'Chinmaya.dbo.State' does not have a primary key de
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="IsApproved" Type="bit" />
+          <Property Name="IsApproveMailSent" Type="bit" />
         </EntityType>
         <EntityType Name="UserActivation">
           <Key>
@@ -592,7 +594,7 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           </FunctionImport>
           <EntitySet Name="Events" EntityType="ChinmayaModel.Event" />
           <FunctionImport Name="GetFamilyMemberForUser" ReturnType="Collection(ChinmayaModel.GetFamilyMemberForUser_Result)">
-            <Parameter Name="UserId" Mode="In" Type="String" />
+          <Parameter Name="UserId" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="CheckPayment">
@@ -906,6 +908,8 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsApproved" Type="Boolean" />
+          <Property Name="IsApproveMailSent" Type="Boolean" />
         </EntityType>
         <EntityType Name="SecurityQuestion">
           <Key>
@@ -1278,6 +1282,8 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="ChinmayaModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="IsApproveMailSent" ColumnName="IsApproveMailSent" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />

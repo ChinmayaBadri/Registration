@@ -45,6 +45,7 @@
     <Compile Include="AccountDetails.cs" />
     <Compile Include="AccountView.cs" />
     <Compile Include="AdminModel.cs" />
+    <Compile Include="ApproveRejectModel.cs" />
     <Compile Include="CheckPaymentModel.cs" />
     <Compile Include="ClassesConfirmModel.cs" />
     <Compile Include="ContactDetails.cs" />

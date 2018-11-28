@@ -46,6 +46,7 @@
 /// <reference path="jquery.validate.unobtrusive.js" />
 /// <reference path="jquery-3.3.1.js" />
 /// <reference path="jquery-3.3.1.slim.min.js" />
+/// <reference path="jquery-confirm.min.js" />
 /// <reference path="modernizr-2.6.2.js" />
 /// <reference path="popper.js" />
 /// <reference path="popper-utils.min.js" />
