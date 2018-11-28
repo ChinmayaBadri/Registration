@@ -124,6 +124,13 @@ namespace Chinmaya.Registration.BAL.Controllers
             return Ok(_Account.IsActiveUser(email));
         }
 
+        [Route("api/Account/GetUserIdByEmail/{email}/")]
+        [HttpGet]
+        public IHttpActionResult GetUserIdByEmail(string email)
+        {
+            return Ok(_Account.GetUserIdByEmail(email));
+        }
+
         /*[Route("Api/Account/Gender")]
 		//GET: api/Account/Gender
 		[ActionName("Gender")]
