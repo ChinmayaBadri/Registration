@@ -35,22 +35,31 @@
 		</div>
 		<div class="row">
 			<div class="col-md-6">
+				@*@Html.LabelFor(m => m.DOB, new { @class = "requiredA" })
+				<div class="input-group date">
+					<input id="DOB" type="text" class="datepicker form-control" required><div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
+				</div>
+				<span class ="field-validation-error">The date of birth field is required</span>*@
+				@*@Html.ValidationMessageFor(m => m.DOB)*@
+
 				@Html.LabelFor(m => m.DOB, new { @class = "requiredA" })
-				@Html.TextBoxFor(m => m.DOB, "{0:MMM d, yyyy}", new { @class = "form-control", @type = "date", @Name = "DOB" })
+				<div class="input-group date">
+				@Html.TextBoxFor(m => m.DOB, new { @class = "datepicker form-control", @type = "text", @Name = "DOB", @value=""})
+				<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div></div>
 				@Html.ValidationMessageFor(m => m.DOB)
 			</div>
-			<div class="col-md-6">
+				<div class="col-md-6">
 
-				@Html.LabelFor(m => m.RelationshipData, new { @class = "requiredA" })
-				@Html.DropDownList("RelationshipData", new SelectList(Model.relationships, "Id", "Name"), "Select", new { @class = "form-control" })
-				@Html.ValidationMessageFor(m => m.RelationshipData)
+					@Html.LabelFor(m => m.RelationshipData, new { @class = "requiredA" })
+					@Html.DropDownList("RelationshipData", new SelectList(Model.relationships, "Id", "Name"), "Select", new { @class = "form-control" })
+					@Html.ValidationMessageFor(m => m.RelationshipData)
+				</div>
 			</div>
-		</div>
 		<div class="row">
-			<div class="col-md-6">
+			<div id="GradeSelectBox" class="col-md-6 d-lg-none">
 				<label>
 					Grade
-					<img src="~/Content/img/info-icon.png" alt="" title="Grade in school (fall of current year)" />
+					<img id="GradeTooltip" src="~/Content/img/info-icon.png" alt="" title="Grade in school (@Model.Year)" />
 				</label>
 				@Html.DropDownList("Grade", new SelectList(Model.grades, "Id", "Name"), "Select", new { @class = "form-control" })
 				@Html.ValidationMessageFor(m => m.Grade)
@@ -67,7 +76,7 @@
 				@Html.TextBoxFor(m => m.CellPhone, new { @class = "form-control", @Name = "CellPhone" })
 				@Html.ValidationMessageFor(m => m.CellPhone)
 			</div>
-			<div class="col-md-6">
+			<div id="EmailAddress" class="col-md-6 d-lg-none">
 				@Html.LabelFor(m => m.Email)
 				@Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Name = "Email" })
 				@Html.ValidationMessageFor(m => m.Email)
@@ -91,12 +100,51 @@
 				
 			</div>
 		</div>
-}
+			}
 		</div>
 	</div>
 </div>
 
 <script>
+
+	$(document).ready(function () {
+		$('.datepicker').datepicker({
+			todayHighlight: true,
+			autoclose: true,
+			defaultDate: false
+		});
+		$('.datepicker').datepicker({ dateFormat: 'dd-mm-yyyy' }).datepicker("setDate", null);
+
+		
+		$("#DOB").on("blur", function () {
+			document.getElementById("EmailAddress").className = "col-md-6 d-lg-none"
+			document.getElementById("GradeSelectBox").className = "col-md-6 d-lg-none"
+			var dob = new Date($(this).val());
+			
+			if (dob != "Invalid Date") {
+				var today = new Date();
+				var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
+				$('#age').html(age + ' years old');
+				if (age >= 18) {
+					//$("#EmailAddress").show();
+					document.getElementById("EmailAddress").className = "col-md-6"
+				}
+				else {
+
+					document.getElementById("GradeSelectBox").className = "col-md-6"
+
+				}
+			}
+			
+
+		});
+		$("#Email").on("blur", function () {
+			window.confirm("Dear Family Member, Would you like to subscribe to our Newsletter");
+
+		});
+	});
+
+	
 	function OnSuccess(response) {
 		if (typeof (response.Message) !== 'undefined') {
 			if (response.IsSuccess) {
