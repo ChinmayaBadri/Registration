@@ -523,6 +523,7 @@
     <Content Include="Views\Shared\_LayoutPageOpen.cshtml" />
     <Content Include="Views\Account\Admin.cshtml" />
     <Content Include="Views\Account\SharedAccountRequest.cshtml" />
+    <Content Include="Views\Account\UserActivation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -35,7 +35,18 @@ namespace Chinmaya.Registration.UI.Controllers
         [AllowAnonymous]
 		public ActionResult Login(string returnUrl)
 		{
-			ViewBag.ReturnUrl = returnUrl;
+            if (User != null)
+            {
+                if (User.roles.Contains("Admin"))
+                {
+                    return RedirectToAction("Admin", "Account");
+                }
+                else
+                {
+                    return RedirectToAction("MyAccount", "Account");
+                }
+            }
+            ViewBag.ReturnUrl = returnUrl;
 			return View();
 		}
 
@@ -48,7 +59,6 @@ namespace Chinmaya.Registration.UI.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-                configMngr = ConfigurationManager.AppSettings;
                 EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
 				model.Password = objEncryptDecrypt.Encrypt(model.Password, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
 				Utility.MasterType masterValue = Utility.MasterType.ROLE;
@@ -60,16 +70,24 @@ namespace Chinmaya.Registration.UI.Controllers
 					var user = await Utility.DeserializeObject<UserModel>(userResponseMessage);
 					if (user != null)
 					{
+                        if (!user.Status)
+                        {
+                            ViewBag.IsUserActivated = false;
+                            ViewBag.UserNotActivated = "Please verify your registered email address and try to login again.";
+                            return View("Login");
+                        }
 						HttpResponseMessage roleNameResponseMessage = await Utility.GetObject("/api/UserAPI/" + user.RoleId, true);
 						string roleName = await Utility.DeserializeObject<string>(roleNameResponseMessage);
-						var serializedRoles = await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
-						var roles = serializedRoles.Select(c => c.Name).ToArray<string>();
+                        //var serializedRoles = await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
+                        //var roles = serializedRoles.Select(c => c.Name).ToArray<string>();
+
+                        List<string> userRoles = new List<string>{ roleName };
 
 						CustomPrincipalSerializeModel serializeModel = new CustomPrincipalSerializeModel();
 						serializeModel.UserId = user.Id;
 						serializeModel.FirstName = user.FirstName;
 						serializeModel.LastName = user.LastName;
-						serializeModel.roles = roles;
+						serializeModel.roles = userRoles.ToArray();
 
 						string userData = JsonConvert.SerializeObject(serializeModel);
 						FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
@@ -87,7 +105,6 @@ namespace Chinmaya.Registration.UI.Controllers
 
 						if (roleName.Contains("Admin"))
 						{
-							//TempData["userdata"] = user;
 							return RedirectToAction("Admin", "Account");
 						}
 						else if (roleName.Contains("User"))
@@ -98,11 +115,6 @@ namespace Chinmaya.Registration.UI.Controllers
 						{
 							return RedirectToAction("Login", "Account");
 						}
-					}
-					else
-					{
-						TempData["message"] = "<script>alert('Email Address should be confirmed');</script>";
-						return RedirectToAction("Login", "Account");
 					}
 				}
 			}
@@ -643,19 +655,52 @@ namespace Chinmaya.Registration.UI.Controllers
                             }
 
                             ViewBag.IsFamilyMember = true;
-                            EmailTemplateModel etm = await GetEmailTemplate(emailTemplateId);
+                            EmailTemplateModel etm1 = await GetEmailTemplate(emailTemplateId);
                             string toUserFullname = await GetUserFullName(data.Email);
                             string primaryAccountEmail = await GetFamilyPrimaryAccountEmail(data.Email);
                             string fromUserFullname = await GetUserFullName(primaryAccountEmail);
 
-                            string approvalLink = configMngr["SharedAccountRequestLink"]
+                            string approvalLink1 = configMngr["SharedAccountRequestLink"]
                                 + objEncryptDecrypt.Encrypt(data.Email, configMngr["ServiceAccountPassword"])
                                 + "&aadm="
                                 + isAddressOrHomePhoneMatched;
 
-                            string emailBody = etm.Body
+                            string emailBody1 = etm1.Body
                                 .Replace("[ToUsername]", toUserFullname)
                                 .Replace("[FromUsername]", fromUserFullname)
+                                .Replace("[URL]", approvalLink1);
+                            etm1.Body = emailBody1;
+
+                            EmailManager em1 = new EmailManager
+                            {
+                                Body = etm1.Body,
+                                To = "dinesh.medikonda@cesltd.com", // make it as dynamic
+                                Subject = etm1.Subject,
+                                From = ConfigurationManager.AppSettings["SMTPUsername"]
+                            };
+                            em1.Send();
+
+                            ViewBag.ApproveContent = "An approval email has been sent to primary account holder of your family..! Your account will be activated once your request has been approved.";
+                            if (!userRejected)
+                            {
+                                HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostUser", obj, true);
+                            }
+
+                            return View("AccountDetails", Ad);
+                        }
+
+                        // If user is not a family member, allow him to register normally
+                        HttpResponseMessage userResponseMessage1 = await Utility.GetObject("/api/UserAPI/PostUser", obj, true);
+
+                        // if user registered successfully, then send an activation link
+                        if (userResponseMessage1.IsSuccessStatusCode)
+                        {
+                            EmailTemplateModel etm = await GetEmailTemplate(1);
+                            string approvalLink = configMngr["UserActivationLink"]
+                                + objEncryptDecrypt.Encrypt(data.Email, configMngr["ServiceAccountPassword"]);
+                            string fullname = obj.FirstName + " " + obj.LastName;
+                            string emailBody = etm.Body
+                                .Replace("[Username]", fullname)
                                 .Replace("[URL]", approvalLink);
                             etm.Body = emailBody;
 
@@ -667,18 +712,7 @@ namespace Chinmaya.Registration.UI.Controllers
                                 From = ConfigurationManager.AppSettings["SMTPUsername"]
                             };
                             em.Send();
-
-                            ViewBag.ApproveContent = "An approval email has been sent to primary account holder of your family..! Your account will be activated once your request has been approved.";
-                            if (!userRejected)
-                            {
-                                HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostUser", obj, true);
-                            }
-
-                            return View("AccountDetails", Ad);
                         }
-
-                        // If user is not a family member
-						HttpResponseMessage userResponseMessage1 = await Utility.GetObject("/api/UserAPI/PostUser", obj, true);
 						return RedirectToAction("Login", "Account");
 					}
 				}
@@ -686,6 +720,37 @@ namespace Chinmaya.Registration.UI.Controllers
 
 			return View();
 		}
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<ActionResult> UserActivation(string user)
+        {
+            string email = DecryptContent(user);
+            UserModel um = await GetUserInfo(email);
+            ToastModel tm = new ToastModel();
+            if(um != null)
+            {
+                um.Status = true;
+                HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostUser", um, true);
+                if (userResponseMessage.IsSuccessStatusCode)
+                {
+                    tm.IsSuccess = true;
+                    tm.Message = "Your account has been activated successfully";
+                }
+                else
+                {
+                    tm.IsSuccess = false;
+                    tm.Message = "Problem occurred while activating your account, try again..";
+                }
+            }
+            else
+            {
+                tm.IsSuccess = false;
+                tm.Message = "User not found";
+            }
+
+            return View(tm);
+        }
 
         [AllowAnonymous]
         [HttpGet]
@@ -753,6 +818,18 @@ namespace Chinmaya.Registration.UI.Controllers
                 }
             }
             return Json(new { IsSuccess = userResponseMessage.IsSuccessStatusCode });
+        }
+
+        public string DecryptContent(string content)
+        {
+            EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
+            return objEncryptDecrypt.Decrypt(content, configMngr["ServiceAccountPassword"]);
+        }
+
+        public string EncryptContent(string content)
+        {
+            EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
+            return objEncryptDecrypt.Encrypt(content, configMngr["ServiceAccountPassword"]);
         }
 
         [HttpGet]
