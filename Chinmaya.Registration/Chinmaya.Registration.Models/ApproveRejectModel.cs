@@ -12,5 +12,6 @@ namespace Chinmaya.Registration.Models
         public string FullName { get; set; }
         public string Message { get; set; }
         public bool IsApproved { get; set; }
+        public bool AreAddressDetailsMatched { get; set; }
     }
 }

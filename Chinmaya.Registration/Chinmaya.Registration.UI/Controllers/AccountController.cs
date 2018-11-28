@@ -255,6 +255,22 @@ namespace Chinmaya.Registration.UI.Controllers
 
             return await Utility.DeserializeObject<UserModel>(getUserInfoResponse);
         }
+
+        public async Task<bool> IsAddressOrHomePhoneMatched(ContactDetails cd)
+        {
+            string urlAction = "api/Account/AreAddressDetailsMatched";
+            HttpResponseMessage areDetailsMatchedRes = await Utility.GetObject(urlAction, cd, true);
+
+            return await Utility.DeserializeObject<bool>(areDetailsMatchedRes);
+        }
+
+        public async Task<string> GetUserIdByEmail(string email)
+        {
+            string urlAction = "api/Account/GetUserIdByEmail/" + email + "/";
+            HttpResponseMessage getUserIDResponse = await Utility.GetObject(urlAction);
+
+            return await Utility.DeserializeObject<string>(getUserIDResponse);
+        }
         //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
@@ -519,19 +535,20 @@ namespace Chinmaya.Registration.UI.Controllers
             ToastModel tm = new ToastModel();
 			SecurityQuestionsModel Sqm = new SecurityQuestionsModel();
 
-			if (prevBtn != null)
+            ContactDetails cd = new ContactDetails();
+            cd.Address = obj.Address;
+            cd.Country = obj.CountryId;
+            ViewBag.CountryList = await GetCountryData();
+            ViewBag.SelectedCountry = obj.CountryId;
+            cd.State = obj.StateId;
+            ViewBag.SelectedState = obj.StateId;
+            cd.City = obj.City;
+            cd.ZipCode = obj.ZipCode;
+            cd.HomePhone = obj.HomePhone;
+            cd.CellPhone = obj.CellPhone;
+
+            if (prevBtn != null)
 			{
-				ContactDetails cd = new ContactDetails();
-				cd.Address = obj.Address;
-				cd.Country = obj.CountryId;
-				ViewBag.CountryList = await GetCountryData();
-				ViewBag.SelectedCountry = obj.CountryId;
-				cd.State = obj.StateId;
-				ViewBag.SelectedState = obj.StateId;
-				cd.City = obj.City;
-				cd.ZipCode = obj.ZipCode;
-				cd.HomePhone = obj.HomePhone;
-				cd.CellPhone = obj.CellPhone;
 				return View("ContactDetails", cd);
 			}
 			if (nextBtn != null)
@@ -576,6 +593,8 @@ namespace Chinmaya.Registration.UI.Controllers
 					{
                         bool userRejected = false;
                         bool isEmailExists = await CheckIsEmailExists(data.Email);
+                        bool isFamilyMember = await IsFamilyMember(data.Email);
+                        bool isAddressOrHomePhoneMatched = await IsAddressOrHomePhoneMatched(cd);
                         if (isEmailExists)
                         {
                             tm.IsSuccess = false;
@@ -594,11 +613,11 @@ namespace Chinmaya.Registration.UI.Controllers
 
                         // case: If user is added as a member of someone else's family
                         // send approval mail to primary account holder and user should be in inactive status until request has approved.
-                        if (await IsFamilyMember(data.Email))
+                        if (isFamilyMember || isAddressOrHomePhoneMatched)
                         {
                             obj.IsIndividual = true;
                             obj.IsApproveMailSent = true;
-
+                            int emailTemplateId = isFamilyMember ? 2 : 9;
                             // if user has already requested for logins and again trying to get register
                             UserModel um = await GetUserInfo(data.Email);
                             if(!string.IsNullOrEmpty(um.Id))
@@ -624,12 +643,16 @@ namespace Chinmaya.Registration.UI.Controllers
                             }
 
                             ViewBag.IsFamilyMember = true;
-                            EmailTemplateModel etm = await GetEmailTemplate(2);
+                            EmailTemplateModel etm = await GetEmailTemplate(emailTemplateId);
                             string toUserFullname = await GetUserFullName(data.Email);
                             string primaryAccountEmail = await GetFamilyPrimaryAccountEmail(data.Email);
                             string fromUserFullname = await GetUserFullName(primaryAccountEmail);
-                            string approvalLink = configMngr["SharedAccountRequestLink"] + 
-                                objEncryptDecrypt.Encrypt(data.Email, configMngr["ServiceAccountPassword"]);
+
+                            string approvalLink = configMngr["SharedAccountRequestLink"]
+                                + objEncryptDecrypt.Encrypt(data.Email, configMngr["ServiceAccountPassword"])
+                                + "&aadm="
+                                + isAddressOrHomePhoneMatched;
+
                             string emailBody = etm.Body
                                 .Replace("[ToUsername]", toUserFullname)
                                 .Replace("[FromUsername]", fromUserFullname)
@@ -666,7 +689,7 @@ namespace Chinmaya.Registration.UI.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult> SharedAccountRequest(string user, bool isRedirected = false)
+        public async Task<ActionResult> SharedAccountRequest(string user, bool aadm = false)
         {
             EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
             string email = objEncryptDecrypt.Decrypt(user, configMngr["ServiceAccountPassword"]);
@@ -674,6 +697,7 @@ namespace Chinmaya.Registration.UI.Controllers
             ApproveRejectModel arm = new ApproveRejectModel();
             arm.FullName = await GetUserFullName(email);
             arm.Email = email;
+            arm.AreAddressDetailsMatched = aadm;
 
             return View(arm);
         }
@@ -712,6 +736,21 @@ namespace Chinmaya.Registration.UI.Controllers
                     From = ConfigurationManager.AppSettings["SMTPUsername"]
                 };
                 em.Send();
+
+                if(arm.AreAddressDetailsMatched && arm.IsApproved)
+                {
+                    FamilyMemberModel fm = new FamilyMemberModel();
+                    fm.CellPhone = um.CellPhone;
+                    fm.DOB = um.DOB;
+                    fm.Email = um.Email;
+                    fm.FirstName = um.FirstName;
+                    fm.GenderData = um.GenderId;
+                    fm.LastName = um.LastName;
+                    fm.RelationshipData = 6;
+                    fm.UpdatedBy = await GetUserIdByEmail(um.Email);
+
+                    HttpResponseMessage addFamilyMemberRes = await Utility.GetObject("/api/UserAPI/PostFamilyMember", fm, true);
+                }
             }
             return Json(new { IsSuccess = userResponseMessage.IsSuccessStatusCode });
         }
@@ -824,9 +863,9 @@ namespace Chinmaya.Registration.UI.Controllers
                     bool isEmailExists = string.IsNullOrEmpty(MemberInformation.Email) ? false : await CheckIsEmailExists(MemberInformation.Email);
                     if (!isEmailExists)
                     {
-						HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostFamilyMember", MemberInformation, true);
-                        tm.IsSuccess = true;
-                        tm.Message = "Family member added successfully";
+                        HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostFamilyMember", MemberInformation, true);
+                        tm.IsSuccess = userResponseMessage.IsSuccessStatusCode;
+                        tm.Message = tm.IsSuccess ? "Family member added successfully" : "Family member added failed";
                     } else
                     {
                         tm.IsSuccess = false;
