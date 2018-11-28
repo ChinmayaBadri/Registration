@@ -649,6 +649,16 @@ namespace Chinmaya.Registration.UI.Controllers
 			myAccountModel.familyMemberModel.grades = await GetGradeData();
 			myAccountModel.familyMemberModel.genders = await GetGenderData();
 			myAccountModel.IsIndividual = await GetIsIndividual(User.UserId);
+
+			DateTime todaysDate = DateTime.Now.Date;
+			int day = todaysDate.Day;
+			int month = todaysDate.Month;
+			int year = todaysDate.Year;
+			if (month >= 6)
+				myAccountModel.familyMemberModel.Year = year;
+			else if(month < 6)
+				myAccountModel.familyMemberModel.Year = year-1;
+			
 			return View("MyAccount", myAccountModel);
 		}
 
@@ -679,10 +689,11 @@ namespace Chinmaya.Registration.UI.Controllers
 				if (ModelState.IsValid)
 				{
 					MemberInformation.UpdatedBy = User.UserId;
-                    bool isEmailExists = await CheckIsEmailExists(MemberInformation.Email);
+
+                    bool isEmailExists = string.IsNullOrEmpty(MemberInformation.Email) ? false : await CheckIsEmailExists(MemberInformation.Email);
                     if (!isEmailExists)
                     {
-                        HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostFamilyMember", MemberInformation, true);
+						HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostFamilyMember", MemberInformation, true);
                         tm.IsSuccess = true;
                         tm.Message = "Family member added successfully";
                     } else

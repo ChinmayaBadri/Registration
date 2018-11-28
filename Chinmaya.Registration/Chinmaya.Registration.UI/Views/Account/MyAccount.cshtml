@@ -8,12 +8,16 @@
 
 <html>
 <head>
+
+	<link href="~/Content/bootstrap-datepicker.standalone.min.css" rel="stylesheet" />
+	<script src="~/Scripts/bootstrap-datepicker.min.js"></script>
 	<style>
 		.requiredA:after {
 			content: " *";
 			font-weight: bold;
 			color: red;
 		}
+
 		.field-validation-error {
 			color: red;
 		}
@@ -83,6 +87,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-12 table-responsive">
+
 					<table class="table table-hover">
 						<thead>
 							<tr>
@@ -91,7 +96,7 @@
 								<th scope="col">Relationship</th>
 								<th scope="col">
 									Grade
-									<img src="~/Content/img/info-icon.png" alt="" title="Grade in school (fall of current year)" />
+									<img id="GradeTooltip" src="~/Content/img/info-icon.png" alt="" title="Grade in school (@Model.familyMemberModel.Year)" />
 								</th>
 								<th scope="col"></th>
 							</tr>
@@ -143,8 +148,6 @@
 				"type": "GET",
 				success: function (data) {
 
-					//$("#exampleModalCenter").modal('show');
-					//$("#FirstName").val(res.fm.FirstName);
 					$("#exampleModalCenter").html(data);
 					$("#exampleModalCenter").modal();
 
@@ -160,36 +163,41 @@
 				$(this)
 					.find("input:text, input:password, select, textarea")
 					.val('');
+				$("input[type=date]").val("");
+
 				$(this)
 					.find(".field-validation-error")
 					.html('');
+				
+				document.getElementById("EmailAddress").className = "col-md-6 d-lg-none"
+				document.getElementById("GradeSelectBox").className = "col-md-6 d-lg-none"
 			});
 		});
 
-		
-				//$(".label label-orange").live("click", function (e) {
-				//	var url = $(this).attr('href');
-				//	$("#dialog-edit").dialog({
-				//		title: 'Edit Family Member Detail',
-				//		autoOpen: false,
-				//		resizable: false,
-				//		height: 455,
-				//		width: 550,
-				//		show: { effect: 'drop', direction: "up" },
-				//		modal: true,
-				//		draggable: true,
-				//		open: function (event, ui) {
-				//			$(this).load(url);
 
-				//		},
-				//		close: function (event, ui) {
-				//			$(this).dialog('close');
-				//		}
-				//	});
+					//$(".label label-orange").live("click", function (e) {
+					//	var url = $(this).attr('href');
+					//	$("#dialog-edit").dialog({
+					//		title: 'Edit Family Member Detail',
+					//		autoOpen: false,
+					//		resizable: false,
+					//		height: 455,
+					//		width: 550,
+					//		show: { effect: 'drop', direction: "up" },
+					//		modal: true,
+					//		draggable: true,
+					//		open: function (event, ui) {
+					//			$(this).load(url);
 
-				//	$("#dialog-edit").dialog('open');
-				//	return false;
-				//});
+					//		},
+					//		close: function (event, ui) {
+					//			$(this).dialog('close');
+					//		}
+					//	});
+
+					//	$("#dialog-edit").dialog('open');
+					//	return false;
+					//});
 
 	</script>
 </body>
