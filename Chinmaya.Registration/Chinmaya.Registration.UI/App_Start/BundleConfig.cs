@@ -13,7 +13,8 @@ namespace Chinmaya.Registration.UI
                         "~/Scripts/popper.min.js",
                         "~/Scripts/Toastr/toastr.min.js",
                         "~/Scripts/Toastr/toastr.config.js",
-						"~/Scripts/DataTables/jquery.dataTables.js"));
+						"~/Scripts/DataTables/jquery.dataTables.js",
+                        "~/Scripts/jquery-confirm.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/Validate/jquery.validate.js",
@@ -26,13 +27,16 @@ namespace Chinmaya.Registration.UI
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.min.js"));
+                      "~/Scripts/bootstrap.min.js",
+                      "~/Scripts/bootstrap-datepicker.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css",
+                      "~/Content/bootstrap-datepicker.standalone.min.css",
                       "~/Content/custom-styles.css",
                       "~/Content/Toastr/toastr.min.css",
-					  "~/Content/DataTables/css/jquery.dataTables.css"));
+					  "~/Content/DataTables/css/jquery.dataTables.css",
+                      "~/Content/jquery-confirm.min.css"));
         }
     }
 }

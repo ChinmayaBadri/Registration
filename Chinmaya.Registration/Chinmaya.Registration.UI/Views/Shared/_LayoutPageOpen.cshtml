@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Welcome to Chinmaya Mission</title>
     @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
 </head>
 <body class="theme_bg">
     <div class="login-logo">
@@ -19,7 +20,6 @@
     </div>
     <div class="copyright">New to Chinmaya Mission? Please register for programs/events @Html.ActionLink("here", "Registration", "Account", new { area = "" }, new { @style = "color:red;" }).</div>
 
-    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script type="text/javascript">
     </script>

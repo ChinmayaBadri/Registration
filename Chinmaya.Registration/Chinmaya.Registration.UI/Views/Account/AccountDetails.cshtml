@@ -174,3 +174,25 @@
     </script>
 }
 
+@if (ViewBag.IsFamilyMember != null || ViewBag.ApproveMailSent != null)
+{
+    <script>
+        var content = "@ViewBag.ApproveContent";
+        $.confirm({
+            title: 'Alert!',
+            content: content,
+            buttons: {
+                confirm: {
+                    text: 'Okay',
+                    btnClass: 'btn-blue',
+                    keys: ['enter', 'shift'],
+                    action: function () {
+                        var url = '@Url.Action("Login", "Account")';
+                        window.location.href = url;
+                    }
+                }
+            }
+        });
+    </script>
+}
+

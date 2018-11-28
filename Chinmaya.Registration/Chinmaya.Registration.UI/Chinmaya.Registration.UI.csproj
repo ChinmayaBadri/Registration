@@ -157,6 +157,7 @@
     <Compile Include="Providers\SessionVar.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-datepicker.min.css" />
     <Content Include="Content\bootstrap-datepicker.standalone.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -327,6 +328,7 @@
     <Content Include="Content\img\registration-logo.png" />
     <Content Include="Content\img\search.png" />
     <Content Include="Content\jquery-3.3.1.js" />
+    <Content Include="Content\jquery-confirm.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\Toastr\toastr.css" />
     <Content Include="Content\Toastr\toastr.min.css" />
@@ -445,6 +447,7 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-confirm.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -520,8 +523,8 @@
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ResetForgotPassword.cshtml" />
     <Content Include="Views\Shared\_LayoutPageOpen.cshtml" />
-    <Content Include="Views\_Confirmation.cshtml" />
     <Content Include="Views\Account\Admin.cshtml" />
+    <Content Include="Views\Account\SharedAccountRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

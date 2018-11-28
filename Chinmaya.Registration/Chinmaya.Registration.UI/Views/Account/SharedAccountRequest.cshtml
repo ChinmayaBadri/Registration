@@ -1,0 +1,83 @@
+﻿
+@model Chinmaya.Registration.Models.ApproveRejectModel
+@{
+    ViewBag.Title = "SharedAccountRequest";
+    Layout = "~/Views/Shared/_LayoutPageOpen.cshtml";
+}
+
+<style>
+    .info_msg{
+        margin-bottom: 20px;
+    }
+</style>
+
+<div id="btnContent">
+    <div class="info_msg">
+        Family Member @Model.FullName requested for Registration. Would you like to accept this?
+    </div>
+    <br />
+    <div class="col-md-12">
+        <button class="btn btn-success" value="approve" id="btnApprove">Approve</button>
+        <button class="btn btn-danger float-right" value="reject" id="btnReject">Decline</button>
+    </div>
+</div>
+
+<div id="Accept" style="display:none">
+    <p><div class="info_msg">Dear Family Member, <br />your request for Registration has Accepted. You can register to Chinmaya Mission.</div></p>
+</div>
+
+<div id="Reject" style="display:none">
+    <p><div class="info_msg">Dear Family Member, <br />you have been rejected the user request. User account has been blocked temporarily</div></p>
+</div>
+
+<script>
+    var isApproved = false;
+
+    $(document).ready(function () {
+        $('#btnApprove').on('click', function () {
+            isApproved = true;
+            $(this).attr("disabled", "disabled");
+            $("#btnReject").attr("disabled", "disabled");
+            sendData();
+	    });
+
+        $('#btnReject').on('click', function () {
+            $(this).attr("disabled", "disabled");
+            $("#btnApprove").attr("disabled", "disabled");
+	        sendData();
+        });
+
+    });
+
+    function sendData() {
+        var modelData = {
+            Email: "@Model.Email",
+            FullName: "@Model.FullName",
+            Message: "",
+            IsApproved: isApproved
+        };
+
+        console.log(modelData);
+
+        $.ajax({
+            url: "/Account/SharedAccountRequest/",
+            method: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(modelData),
+            success: function (data) {
+                if (isApproved) {
+                    $("#btnContent").hide();
+                    $("#Accept").show();
+                } else {
+                    $("#btnContent").hide();
+                    $("#Reject").show();
+                }
+                console.log(data);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+</script>
+

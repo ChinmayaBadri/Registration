@@ -190,11 +190,7 @@ namespace Chinmaya.Registration.UI.Controllers
                 bool isEmailExists = await CheckIsEmailExists(model.Email);
                 if (isEmailExists)
                 {
-                    string urlAction = "api/Account/GetEmailTemplateByID/8";
-
-                    HttpResponseMessage emailTemplateResponse = await Utility.GetObject(urlAction);
-                    EmailTemplateModel etm = await Utility.DeserializeObject<EmailTemplateModel>(emailTemplateResponse);
-
+                    EmailTemplateModel etm = await GetEmailTemplate(8);
                     EncryptDecrypt ed = new EncryptDecrypt();
                     string fullName = await GetUserFullName(model.Email);
                     string forgotPasswordResetLink = configMngr["ResetForgotPasswordLink"] + ed.Encrypt(model.Email, configMngr["ServiceAccountPassword"]);
@@ -236,6 +232,29 @@ namespace Chinmaya.Registration.UI.Controllers
             return await Utility.DeserializeObject<string>(getFullnameResponse);
         }
 
+        public async Task<EmailTemplateModel> GetEmailTemplate(int id)
+        {
+            string urlAction = "api/Account/GetEmailTemplateByID/" + id;
+
+            HttpResponseMessage emailTemplateResponse = await Utility.GetObject(urlAction);
+            return await Utility.DeserializeObject<EmailTemplateModel>(emailTemplateResponse);
+        }
+
+        public async Task<string> GetFamilyPrimaryAccountEmail(string email)
+        {
+            string urlAction = "api/Account/GetFamilyPrimaryAccountEmail/" + email + "/";
+            HttpResponseMessage getPrimaryEmailResponse = await Utility.GetObject(urlAction);
+
+            return await Utility.DeserializeObject<string>(getPrimaryEmailResponse);
+        }
+
+        public async Task<UserModel> GetUserInfo(string email)
+        {
+            string urlAction = "api/Account/GetUserInfoByEmail/" + email + "/";
+            HttpResponseMessage getUserInfoResponse = await Utility.GetObject(urlAction);
+
+            return await Utility.DeserializeObject<UserModel>(getUserInfoResponse);
+        }
         //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
@@ -252,10 +271,7 @@ namespace Chinmaya.Registration.UI.Controllers
             string email = objEncryptDecrypt.Decrypt(user, configMngr["ServiceAccountPassword"]);
             if(await CheckIsEmailExists(email))
             {
-                string urlAction = "api/Account/GetFamilyPrimaryAccountEmail/" + email + "/";
-                HttpResponseMessage getPrimaryEmailResponse = await Utility.GetObject(urlAction);
-
-                string primaryEmailAccount = await Utility.DeserializeObject<string>(getPrimaryEmailResponse);
+                string primaryEmailAccount = await GetFamilyPrimaryAccountEmail(email);
 
                 List<SecurityQuestionsModel> sqList = await GetSecurityQuestionsByEmail(email);
                 ResetForgotPasswordModel rfpm = new ResetForgotPasswordModel
@@ -558,26 +574,89 @@ namespace Chinmaya.Registration.UI.Controllers
 				{
 					if (ModelState.IsValid)
 					{
-                        if(await CheckIsEmailExists(data.Email))
+                        bool userRejected = false;
+                        bool isEmailExists = await CheckIsEmailExists(data.Email);
+                        if (isEmailExists)
                         {
                             tm.IsSuccess = false;
                             tm.Message = "Email already registered";
                             ViewBag.Toast = tm;
                             return View("AccountDetails", Ad);
                         }
-						obj.Id = Guid.NewGuid().ToString();
-						obj.Email = data.Email;
-						obj.Password = data.Password;
-						EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
-						obj.Password = objEncryptDecrypt.Encrypt(data.Password, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
-						obj.IsIndividual = Convert.ToBoolean(data.AccountType);
-						obj.UserSecurityQuestions = SecurityQuestions;
-						HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostUser", obj, true);
-						return View("Login");
-					}
-					else
-					{
-						return View("AccountDetails", Ad);
+
+                        obj.Email = data.Email;
+                        obj.Password = data.Password;
+                        EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
+                        obj.Password = objEncryptDecrypt.Encrypt(data.Password, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
+                        obj.IsIndividual = Convert.ToBoolean(data.AccountType);
+                        obj.UserSecurityQuestions = SecurityQuestions;
+                        obj.Status = false;
+
+                        // case: If user is added as a member of someone else's family
+                        // send approval mail to primary account holder and user should be in inactive status until request has approved.
+                        if (await IsFamilyMember(data.Email))
+                        {
+                            obj.IsIndividual = true;
+                            obj.IsApproveMailSent = true;
+
+                            // if user has already requested for logins and again trying to get register
+                            UserModel um = await GetUserInfo(data.Email);
+                            if(!string.IsNullOrEmpty(um.Id))
+                            {
+                                // if primary a/c holder Rejected the user request
+                                if ((bool)um.IsApproveMailSent && um.IsApproved != null)
+                                {
+                                    userRejected = true;
+                                    // so we have to reset the approval request
+                                    um.IsApproved = null;
+                                    // we need to update the user
+                                    HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostUser", um, true);
+                                }
+
+                                // approval mail sent to primary a/c and not yet decided
+                                if ((bool)um.IsApproveMailSent && um.IsApproved == null && !userRejected)
+                                {
+                                    ViewBag.ApproveMailSent = true;
+                                    ViewBag.ApproveContent = "An approval email has been already sent to primary account holder of your family..! Please be patient until your request has been approved.";
+                                    return View("AccountDetails", Ad);
+                                }
+                                
+                            }
+
+                            ViewBag.IsFamilyMember = true;
+                            EmailTemplateModel etm = await GetEmailTemplate(2);
+                            string toUserFullname = await GetUserFullName(data.Email);
+                            string primaryAccountEmail = await GetFamilyPrimaryAccountEmail(data.Email);
+                            string fromUserFullname = await GetUserFullName(primaryAccountEmail);
+                            string approvalLink = configMngr["SharedAccountRequestLink"] + 
+                                objEncryptDecrypt.Encrypt(data.Email, configMngr["ServiceAccountPassword"]);
+                            string emailBody = etm.Body
+                                .Replace("[ToUsername]", toUserFullname)
+                                .Replace("[FromUsername]", fromUserFullname)
+                                .Replace("[URL]", approvalLink);
+                            etm.Body = emailBody;
+
+                            EmailManager em = new EmailManager
+                            {
+                                Body = etm.Body,
+                                To = "dinesh.medikonda@cesltd.com", // make it as dynamic
+                                Subject = etm.Subject,
+                                From = ConfigurationManager.AppSettings["SMTPUsername"]
+                            };
+                            em.Send();
+
+                            ViewBag.ApproveContent = "An approval email has been sent to primary account holder of your family..! Your account will be activated once your request has been approved.";
+                            if (!userRejected)
+                            {
+                                HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostUser", obj, true);
+                            }
+
+                            return View("AccountDetails", Ad);
+                        }
+
+                        // If user is not a family member
+						HttpResponseMessage userResponseMessage1 = await Utility.GetObject("/api/UserAPI/PostUser", obj, true);
+						return RedirectToAction("Login", "Account");
 					}
 				}
 			}
@@ -585,7 +664,59 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View();
 		}
 
-		[HttpGet]
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<ActionResult> SharedAccountRequest(string user, bool isRedirected = false)
+        {
+            EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
+            string email = objEncryptDecrypt.Decrypt(user, configMngr["ServiceAccountPassword"]);
+
+            ApproveRejectModel arm = new ApproveRejectModel();
+            arm.FullName = await GetUserFullName(email);
+            arm.Email = email;
+
+            return View(arm);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<JsonResult> SharedAccountRequest(ApproveRejectModel arm)
+        {
+            UserModel um = await GetUserInfo(arm.Email);
+            um.IsApproved = arm.IsApproved;
+            um.Status = arm.IsApproved ? true : false;
+            HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostUser", um, true);
+
+            string status = arm.IsApproved ? "Approved" : "Rejected";
+            if (userResponseMessage.IsSuccessStatusCode)
+            {
+                EmailTemplateModel etm = await GetEmailTemplate(3);
+                string primaryAccountEmail = await GetFamilyPrimaryAccountEmail(arm.Email);
+                string fromUserFullname = await GetUserFullName(primaryAccountEmail);
+
+                string emailSubject = etm.Subject
+                    .Replace("[Status]", status);
+                etm.Subject = emailSubject;
+
+                string emailBody = etm.Body
+                    .Replace("[FromUsername]", fromUserFullname)
+                    .Replace("[ToUsername]", arm.FullName)
+                    .Replace("[AcceptanceStatus]", status);
+                etm.Body = emailBody;
+
+                EmailManager em = new EmailManager
+                {
+                    Body = etm.Body,
+                    To = "dinesh.medikonda@cesltd.com", // make it as dynamic
+                    Subject = etm.Subject,
+                    From = ConfigurationManager.AppSettings["SMTPUsername"]
+                };
+                em.Send();
+            }
+            return Json(new { IsSuccess = userResponseMessage.IsSuccessStatusCode });
+        }
+
+        [HttpGet]
 		[AllowAnonymous]
 		public async Task<JsonResult> FillState(int Id)
 		{
@@ -787,13 +918,17 @@ namespace Chinmaya.Registration.UI.Controllers
         {
             string urlAction = "api/Account/IsEmailExists/" + email + "/";
             HttpResponseMessage isEmailExistResponse = await Utility.GetObject(urlAction);
-            bool isEmailExists = await Utility.DeserializeObject<bool>(isEmailExistResponse);
-            return isEmailExists;
+            return await Utility.DeserializeObject<bool>(isEmailExistResponse);
         }
 
-		
+        public async Task<bool> IsFamilyMember(string email)
+        {
+            string urlAction = "api/Account/IsFamilyMember/" + email + "/";
+            HttpResponseMessage isEmailExistResponse = await Utility.GetObject(urlAction);
+            return await Utility.DeserializeObject<bool>(isEmailExistResponse);
+        }
 
-		public async Task<List<Weekdays>> GetWeekdayData()
+        public async Task<List<Weekdays>> GetWeekdayData()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.WEEKDAY;
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
