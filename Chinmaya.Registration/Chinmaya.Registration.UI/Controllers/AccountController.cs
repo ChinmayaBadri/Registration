@@ -1180,6 +1180,7 @@ namespace Chinmaya.Registration.UI.Controllers
 							classesConfirm.Add(classConfirm);
 						}
 					}
+					//Request.Form("termsandConditions")
 					return View("ClassesConfirm", classesConfirm);
 				}
 			}

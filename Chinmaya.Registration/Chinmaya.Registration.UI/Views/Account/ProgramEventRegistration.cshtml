@@ -139,7 +139,8 @@
 										@foreach (var ev in Model.Events)
 										{
 										<tr>
-											<td>@ev.Name   </td>
+											@*<td>@ev.Name<img id="EventTooltip" src="~/Content/img/info-icon.png" alt="" title="@ev.Description". /></td>*@
+											<td><a href="#" data-toggle="popover" data-content="@ev.Description">@ev.Name</a></td>
 											<td>@ev.Weekday @ev.StartTime - @ev.EndTime</td>
 											<td>$@ev.Amount</td>
 											<td>
@@ -270,6 +271,9 @@
 		$("#current-Events").hide();
 		$("#userList").hide();
 		$('#collapseOne_1').removeClass('collapse').addClass('collapse show');
+		$(document).ready(function () {
+			$('[data-toggle="popover"]').popover();
+		});
 	});
 </script>
 

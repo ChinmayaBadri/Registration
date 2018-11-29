@@ -214,7 +214,7 @@ namespace Chinmaya.Registration.DAL
 
 									 Id = e.Id,
 									 Name = e.Name,
-
+									 Description = e.Description,
 									 Weekday = _ctx.Weekdays.Where(i => i.Id == e.WeekdayId).Select(i => i.Name).FirstOrDefault(),
 									 Frequency = _ctx.Frequencies.Where(i => i.Id == e.FrequencyId).Select(i => i.Name).FirstOrDefault(),
 									 StartTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.StartTime).FirstOrDefault(),
@@ -236,7 +236,7 @@ namespace Chinmaya.Registration.DAL
 
 								  Id = e.Id,
 								  Name = e.Name,
-
+								  Description = e.Description,
 								  Weekday = _ctx.Weekdays.Where(i => i.Id == e.WeekdayId).Select(i => i.Name).FirstOrDefault(),
 								  Frequency = _ctx.Frequencies.Where(i => i.Id == e.FrequencyId).Select(i => i.Name).FirstOrDefault(),
 								  StartTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.StartTime).FirstOrDefault(),

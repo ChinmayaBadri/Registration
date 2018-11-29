@@ -115,13 +115,13 @@
 		{
 			@Html.AntiForgeryToken()
 			<div class="row">
-				
+
 				<div class="col-md-9">
 					<!--Accordion wrapper-->
 					<div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
 						<!-- Accordion card -->
 						@{int i = 0;}
-						
+
 						@foreach (var item in Model)
 						{
 							<div class="card">
@@ -139,21 +139,22 @@
 
 										<table class="table table-borderless">
 											<tbody>
-												
+
 												@foreach (var ev in item.Events)
 												{
 													<tr>
-														<td>@ev.Name</td>
+														@*<td>@ev.Name</td>*@
+														<td><a href="#" data-toggle="popover" data-content="@ev.Description">@ev.Name</a></td>
 														<td>@ev.Weekday</td>
 														<td>$@ev.Amount</td>
 														<td>
 															<label class="switch">
-																<input id="select_@(i + 1)" value="(@ev.Id)_select@(i + 1)" name="select" type="checkbox" checked=""/>
+																<input id="select_@(i + 1)" value="(@ev.Id)_select@(i + 1)" name="select" type="checkbox" checked="" />
 																<span class="slider round"></span>
 															</label>
 														</td>
 													</tr>
-												
+
 												}
 											</tbody>
 										</table>
@@ -168,15 +169,15 @@
 
 				<div class="col-md-3">
 					<div class="form-group form-check">
-						<input class="form-check-input" id="exampleCheck1" type="checkbox">
-						<label class="form-check-label" for="exampleCheck1">
+						<input class="form-check-input" id="termsandConditions" type="checkbox">
+						<label class="form-check-label" for="termsandConditions">
 							I agree to the
 							<br><a href="#">terms and conditions</a>
 						</label>
 					</div>
 					<div class="form-group form-check">
-						<input class="form-check-input" id="exampleCheck1" type="checkbox">
-						<label class="form-check-label" for="exampleCheck1">
+						<input class="form-check-input" id="Directory" type="checkbox">
+						<label class="form-check-label" for="Directory">
 							Add me to the
 							Chinmaya Directory
 						</label>
@@ -188,14 +189,18 @@
 		}
 	</div>
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="~/Content/bootstrap.min.js"></script>
-	<script>
-		$(document).ready(function () {
-			$("#current-Events").hide();
-			$("#userList").hide();
-			$('#collapseOne_1').removeClass('collapse').addClass('collapse show');
-		});
-	</script>
+	@*<script src="~/Content/bootstrap.min.js"></script>*@
 </body>
 </html>
+<script>
+	$(document).ready(function () {
+		$("#current-Events").hide();
+		$("#userList").hide();
+		$('#collapseOne_1').removeClass('collapse').addClass('collapse show');
+		$(document).ready(function () {
+			$('[data-toggle="popover"]').popover();
+		});
+	});
+</script>
+
 
