@@ -825,8 +825,8 @@ namespace Chinmaya.Registration.UI.Controllers
                     if (!isEmailExists)
                     {
 						HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostFamilyMember", MemberInformation, true);
-                        tm.IsSuccess = true;
-                        tm.Message = "Family member added successfully";
+						tm.IsSuccess = true;
+                        tm.Message = "Family member added/updated successfully";
                     } else
                     {
                         tm.IsSuccess = false;

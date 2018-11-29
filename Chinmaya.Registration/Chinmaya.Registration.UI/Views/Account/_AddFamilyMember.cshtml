@@ -21,6 +21,7 @@
 		}
 
 		<div class="row">
+			@Html.HiddenFor(m=>m.Id)
 			<div class="col-md-6">
 				@Html.LabelFor(m => m.FirstName, new { @class = "requiredA" })
 				@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @Name = "FirstName" })
@@ -117,14 +118,14 @@
 
 		
 		$("#DOB").on("blur", function () {
+			debugger
 			document.getElementById("EmailAddress").className = "col-md-6 d-lg-none"
 			document.getElementById("GradeSelectBox").className = "col-md-6 d-lg-none"
 			var dob = new Date($(this).val());
-			
+			alert(dob)
 			if (dob != "Invalid Date") {
 				var today = new Date();
 				var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
-				$('#age').html(age + ' years old');
 				if (age >= 18) {
 					//$("#EmailAddress").show();
 					document.getElementById("EmailAddress").className = "col-md-6"

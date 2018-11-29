@@ -366,42 +366,45 @@ namespace Chinmaya.Registration.DAL
 		{
 			using (var _ctx = new ChinmayaEntities())
 			{
-				var config = new MapperConfiguration(cfg =>
-				{
-					cfg.CreateMap<FamilyMemberModel, FamilyMember>();
-				});
-				IMapper mapper = config.CreateMapper();
-
-				//FamilyMember fm = new FamilyMember();
-				//mapper.Map(family, fm);
-				//fm.Id = Guid.NewGuid().ToString();
-				//fm.Status = true;
-
-				var email = _ctx.Users.Where(r => r.Email == family.Email).Select(n => n.Email).FirstOrDefault();
-				var HomePhone = _ctx.Users.Where(r => r.HomePhone == family.CellPhone).Select(n => n.CellPhone).FirstOrDefault();
-				
-				var fm = new FamilyMember
-				{
-					Id = Guid.NewGuid().ToString(),
-					FirstName = family.FirstName,
-					LastName = family.LastName,
-					DOB = family.DOB,
-					RelationshipId = family.RelationshipData,
-					GradeId = family.Grade,
-					GenderId = family.GenderData,
-					CellPhone = family.CellPhone,
-					Email = family.Email,
-					Status = true,
-					UpdatedBy = family.UpdatedBy,
-					UpdatedDate = DateTime.Now
-				};
-
-				_ctx.FamilyMembers.Add(fm);
-								
 				try
 				{
-					_ctx.SaveChanges();
+					//var config = new MapperConfiguration(cfg =>
+					//{
+					//cfg.CreateMap<FamilyMemberModel, FamilyMember>();
+					//});
+					//IMapper mapper = config.CreateMapper();
+
+					//FamilyMember fm = new FamilyMember();
+					//mapper.Map(family, fm);
+					//fm.Id = Guid.NewGuid().ToString();
+					//fm.Status = true;
+					var fm = new FamilyMember();
+					if (string.IsNullOrEmpty(family.Id))
+					{
+						fm.Id = Guid.NewGuid().ToString();
+						fm.FirstName = family.FirstName;
+						fm.LastName = family.LastName;
+						fm.DOB = family.DOB;
+						fm.RelationshipId = family.RelationshipData;
+						fm.GradeId = family.Grade;
+						fm.GenderId = family.GenderData;
+						fm.CellPhone = family.CellPhone;
+						fm.Email = family.Email;
+						fm.Status = true;
+						fm.UpdatedBy = family.UpdatedBy;
+						fm.UpdatedDate = DateTime.Now;
+						_ctx.FamilyMembers.Add(fm);
+						_ctx.SaveChanges();
+					}
+
+					else
+					{
+						_ctx.Entry(fm).State = EntityState.Modified;
+						_ctx.SaveChanges();
+
+					}
 				}
+
 				catch (DbEntityValidationException e)
 				{
 					foreach (var eve in e.EntityValidationErrors)
