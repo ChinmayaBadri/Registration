@@ -963,26 +963,15 @@ namespace Chinmaya.Registration.UI.Controllers
 			return await Utility.DeserializeObject<FamilyMember>(roleResponseMessage);
 		}
 
-
-		//public async Task<ActionResult> EditFamilyMember(string Id)
-		//{
-		//	var data = await FamilyMemberDetails(Id);
-		//		FamilyMemberModel fm = new FamilyMemberModel();
-		//		fm.relationships = await GetRelationshipData();
-		//		fm.grades = await GetGradeData();
-		//		fm.genders = await GetGenderData();
-		//		fm.FirstName = data.FirstName;
-		//		fm.LastName = data.LastName;
-		//		fm.DOB = data.DOB;
-		//		fm.RelationshipData = data.RelationshipId;
-		//		fm.Grade = (int)data.GradeId;
-		//		fm.GenderData = data.GenderId;
-		//		fm.CellPhone = data.CellPhone;
-		//		fm.Email = data.Email;
-
-		//		return View("_EditFamilyMember", fm);
-
-		//}
+		[HttpGet]
+		[AllowAnonymous]
+		public async Task<PartialViewResult> RefreshFamilyMemberPartialView() {
+			FamilyMemberModel fm = new FamilyMemberModel();
+			fm.relationships = await GetRelationshipData();
+			fm.grades = await GetGradeData();
+			fm.genders = await GetGenderData();
+			return PartialView("_AddFamilyMember", fm);
+		}
 
 		public async Task<PartialViewResult> EditFamilyMember(string Id)
 		{

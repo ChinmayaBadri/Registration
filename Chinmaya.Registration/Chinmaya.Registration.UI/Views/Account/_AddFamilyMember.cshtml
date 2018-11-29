@@ -21,7 +21,7 @@
 		}
 
 		<div class="row">
-			@Html.HiddenFor(m=>m.Id)
+			@Html.HiddenFor(m => m.Id, new { id = "fmID" })
 			<div class="col-md-6">
 				@Html.LabelFor(m => m.FirstName, new { @class = "requiredA" })
 				@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @Name = "FirstName" })
@@ -45,7 +45,7 @@
 
 				@Html.LabelFor(m => m.DOB, new { @class = "requiredA" })
 				<div class="input-group date">
-				@Html.TextBoxFor(m => m.DOB, new { @class = "datepicker form-control", @type = "text", @Name = "DOB", @value=""})
+				@Html.TextBoxFor(m => m.DOB, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "DOB", @value = "" })
 				<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div></div>
 				@Html.ValidationMessageFor(m => m.DOB)
 				@Html.HiddenFor(m=>m.DOB, new { Id = "DateValue" })
@@ -112,10 +112,17 @@
 	$(document).ready(function () {
 		var date = new Date($("#DateValue").val());
 		//alert(date)
-		if (date != null) {
+		if ($("#DateValue").val() != null && $("#DateValue").val() != "") {
+			$('.datepicker').datepicker({
+				todayHighlight: true,
+				autoclose: true,
+				dateFormat: 'mm-dd-yyyy'
+			});
+			if ($("#DateValue").val() == "1/1/0001 12:00:00 AM") {
+				$("#DOB").val("");
+			}
 			var today = new Date();
 			var age = Math.floor((today - date) / (365.25 * 24 * 60 * 60 * 1000));
-			//alert(age)
 			if (age >= 18) {
 				$("div#GradeSelectBox").hide();
 			}
@@ -123,12 +130,6 @@
 				$("div#EmailAddress").hide();
 			}
 		}
-		$('.datepicker').datepicker({
-			todayHighlight: true,
-			autoclose: true,
-			defaultDate: false,
-			dateFormat: 'mm-dd-yyyy',
-		});
 		
 		$("#DOB").on("blur", function () {
 			$("div#GradeSelectBox").show();

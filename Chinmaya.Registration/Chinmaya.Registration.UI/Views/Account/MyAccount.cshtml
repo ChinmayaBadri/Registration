@@ -79,9 +79,10 @@
 				<div class="col-md-6 table-title">Family Information</div>
 				@if (!Model.IsIndividual)
 				{
-					<div class="col-md-6 text-right">
-						<a class="orange-links" id="#AddFamilyMember" href="#" data-target="#exampleModalCenter" data-toggle="modal"><i class="material-icons">add_circle_outline</i> Add Family Member</a>
-					</div>
+				<div class="col-md-6 text-right">
+					@*<a class="orange-links" id="#AddFamilyMember" href="#" data-target="#exampleModalCenter" data-toggle="modal"><i class="material-icons">add_circle_outline</i> Add Family Member</a>*@
+					<a class="orange-links" id="AddFamilyMember" href="#"><i class="material-icons">add_circle_outline</i> Add Family Member</a>
+				</div>
 				}
 				<div class="modal fade" id="FamilyMemberPartial" role="dialog"></div>
 			</div>
@@ -138,6 +139,17 @@
 	<script>
 
 		$(document).ready(function () {
+			$("#AddFamilyMember").on("click", function () {
+				$("#exampleModalCenter").load("/Account/RefreshFamilyMemberPartialView");
+				$("#exampleModalCenter").modal();
+				$('.datepicker').datepicker({
+					todayHighlight: true,
+					autoclose: true,
+					defaultDate: false,
+					dateFormat: 'mm-dd-yyyy',
+					setDate: null
+				});
+			});
 			$("#current-Events").hide();
 			$("#userList").hide();
 			$('[data-toggle="tooltip"]').tooltip({ position: 'right' });
@@ -162,14 +174,15 @@
 
 			$('.modal').on('hidden.bs.modal', function (e) {
 				$(this)
-					.find("input:text, input:password, select, textarea")
+					.find("input:text, input:password, input:hidden, select, textarea")
 					.val('');
 				$("input[type=date]").val("");
 
 				$(this)
 					.find(".field-validation-error")
 					.html('');
-				
+				$("div#GradeSelectBox").show();
+				$("div#EmailAddress").show();
 				//document.getElementById("EmailAddress").className = "col-md-6 d-lg-none"
 				//document.getElementById("GradeSelectBox").className = "col-md-6 d-lg-none"
 			});
