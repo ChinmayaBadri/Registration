@@ -8,8 +8,8 @@
 
 <html>
 <head>
-
 	<link href="~/Content/bootstrap-datepicker.standalone.min.css" rel="stylesheet" />
+	
 	<script src="~/Scripts/bootstrap-datepicker.min.js"></script>
 	<style>
 		.requiredA:after {
@@ -105,14 +105,17 @@
 
 							@foreach (var m in Model.userFamilyMember)
 							{
-								<tr>
-									<td>@(m.FirstName + " " + m.LastName)</td>
-									<td>@(m.DOB.ToString("MMM dd, yyyy"))</td>
-									<td>@m.Relationship</td>
-									<td>@m.Grade</td>
-									@*<td>@Html.ActionLink("Edit", "EditFamilyMember", new { id = m.Id }, new { @class = "label label-orange" })</td>*@
-									<td id="@m.Id" class="editFamilyMember"><a href="#" data-toggle="modal" data-target="#EditModal" class="Edit"><span class="label label-orange">Edit</span></a></td>
-								</tr>
+							<tr>
+								<td>@(m.FirstName + " " + m.LastName)</td>
+								<td>@(m.DOB.ToString("MMM dd, yyyy"))</td>
+								<td>@m.Relationship</td>
+								<td>@m.Grade</td>
+								@*<td>@Html.ActionLink("Edit", "EditFamilyMember", new { id = m.Id }, new { @class = "label label-orange" })</td>*@
+								@if (@m.Relationship != "Self")
+								{
+								<td id="@m.Id" class="editFamilyMember"><a href="#" data-toggle="modal" data-target="#EditModal" class="Edit"><span class="label label-orange">Edit</span></a></td>
+								}
+							</tr>
 								@*href="@Url.Action("EditFamilyMemberDetails","Account", new { id = m.Id })"*@
 							}
 						</tbody>
@@ -167,8 +170,8 @@
 					.find(".field-validation-error")
 					.html('');
 				
-				document.getElementById("EmailAddress").className = "col-md-6 d-lg-none"
-				document.getElementById("GradeSelectBox").className = "col-md-6 d-lg-none"
+				//document.getElementById("EmailAddress").className = "col-md-6 d-lg-none"
+				//document.getElementById("GradeSelectBox").className = "col-md-6 d-lg-none"
 			});
 		});
 

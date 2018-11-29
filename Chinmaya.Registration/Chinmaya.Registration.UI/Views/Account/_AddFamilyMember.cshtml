@@ -48,6 +48,7 @@
 				@Html.TextBoxFor(m => m.DOB, new { @class = "datepicker form-control", @type = "text", @Name = "DOB", @value=""})
 				<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div></div>
 				@Html.ValidationMessageFor(m => m.DOB)
+				@Html.HiddenFor(m=>m.DOB, new { Id = "DateValue" })
 			</div>
 				<div class="col-md-6">
 
@@ -57,7 +58,7 @@
 				</div>
 			</div>
 		<div class="row">
-			<div id="GradeSelectBox" class="col-md-6 d-lg-none">
+			<div id="GradeSelectBox" class="col-md-6">
 				<label>
 					Grade
 					<img id="GradeTooltip" src="~/Content/img/info-icon.png" alt="" title="Grade in school (@Model.Year)" />
@@ -77,7 +78,7 @@
 				@Html.TextBoxFor(m => m.CellPhone, new { @class = "form-control", @Name = "CellPhone" })
 				@Html.ValidationMessageFor(m => m.CellPhone)
 			</div>
-			<div id="EmailAddress" class="col-md-6 d-lg-none">
+			<div id="EmailAddress" class="col-md-6">
 				@Html.LabelFor(m => m.Email, new { @class = "requiredA" })
 				@Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Name = "Email" })
 				@Html.ValidationMessageFor(m => m.Email)
@@ -109,42 +110,76 @@
 <script>
 
 	$(document).ready(function () {
+		var date = new Date($("#DateValue").val());
+		//alert(date)
+		if (date != null) {
+			var today = new Date();
+			var age = Math.floor((today - date) / (365.25 * 24 * 60 * 60 * 1000));
+			//alert(age)
+			if (age >= 18) {
+				$("div#GradeSelectBox").hide();
+			}
+			else {
+				$("div#EmailAddress").hide();
+			}
+		}
 		$('.datepicker').datepicker({
 			todayHighlight: true,
 			autoclose: true,
-			defaultDate: false
+			defaultDate: false,
+			dateFormat: 'mm-dd-yyyy',
 		});
-		$('.datepicker').datepicker({ dateFormat: 'dd-mm-yyyy' }).datepicker("setDate", null);
-
 		
 		$("#DOB").on("blur", function () {
-			document.getElementById("EmailAddress").className = "col-md-6 d-lg-none"
-			document.getElementById("GradeSelectBox").className = "col-md-6 d-lg-none"
+			$("div#GradeSelectBox").show();
+			$("div#EmailAddress").show();
 			var dob = new Date($(this).val());
 			var today = new Date();
-			if (dob != "Invalid Date") {
-				//alert(dob)
+			//if (dob != "Invalid Date") {
+
 				var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
 				if (age >= 18) {
-					//$("#EmailAddress").show();
-					document.getElementById("EmailAddress").className = "col-md-6"
+					$("div#GradeSelectBox").hide();
+					//document.getElementById("EmailAddress").className = "col-md-6"
 				}
 				else {
-
-					document.getElementById("GradeSelectBox").className = "col-md-6"
+					$("div#EmailAddress").hide();
+					//document.getElementById("GradeSelectBox").className = "col-md-6"
 
 				}
-			}
-			
-				
+			//}
+
+
 		});
 		$("#Email").on("blur", function () {
-			window.confirm("Dear Family Member, Would you like to subscribe to our Newsletter");
+			//window.confirm("Dear Family Member, Would you like to subscribe to our Newsletter");
+			var content = "Dear Family Member, Would you like to subscribe to our Newsletter?";
+			 $.confirm({
+				 title: 'Alert!',
+				content: content,
+				 buttons: {
+					 confirm: {
+						 text: 'Okay',
+						 btnClass: 'btn-blue',
+						 keys: ['enter', 'shift'],
+						 action: function () {
 
+							 
+						 }
+					 },
+					 danger: {
+						 text: 'Cancel',
+						 keys: ['enter', 'shift'],
+						 action: function () {
+							 
+						 }
+					 }
+				 }
+			 });
 		});
 	});
 
-	
+
 	function OnSuccess(response) {
 		if (typeof (response.Message) !== 'undefined') {
 			if (response.IsSuccess) {
