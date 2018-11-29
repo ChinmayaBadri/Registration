@@ -64,22 +64,26 @@ namespace Chinmaya.Registration.DAL
         {
             using (var _ctx = new ChinmayaEntities())
             {
+                bool isMatched = false;
+
                 if (_ctx.Users.Any(u => u.HomePhone == cd.HomePhone))
                 {
-                    return true;
+                    isMatched = true;
                 }
-                if (_ctx.Users.Any(u => u.Address.ToLower() == cd.Address.ToLower()))
+
+                var objUserList = _ctx.Users.Where(u => u.Address == cd.Address).ToList();
+                foreach(User objUser in objUserList)
                 {
-                    if (_ctx.Users.Any(u => u.City.ToLower() == cd.City.ToLower()))
+                    if (objUser.City.ToLower() == cd.City.ToLower())
                     {
                         if (_ctx.Users.Any(u => u.StateId == cd.State))
                         {
-                            return true;
+                            isMatched = true;
                         }
                     }
                 }
 
-                return false;
+                return isMatched;
             }
         }
 

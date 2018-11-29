@@ -157,8 +157,6 @@
     <Compile Include="Providers\SessionVar.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-datepicker.min.css" />
-    <Content Include="Content\bootstrap-datepicker.standalone.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -525,6 +523,7 @@
     <Content Include="Views\Shared\_LayoutPageOpen.cshtml" />
     <Content Include="Views\Account\Admin.cshtml" />
     <Content Include="Views\Account\SharedAccountRequest.cshtml" />
+    <Content Include="Views\Account\UserActivation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

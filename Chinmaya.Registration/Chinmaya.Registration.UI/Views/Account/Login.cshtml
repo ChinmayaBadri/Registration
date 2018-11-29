@@ -53,5 +53,27 @@
 		});
 	</script>
 
+    @if (ViewBag.UserNotActivated != null)
+    {
+        <script>
+        var content = "@ViewBag.UserNotActivated";
+        $.confirm({
+            title: 'Alert!',
+            content: content,
+            buttons: {
+                confirm: {
+                    text: 'Okay',
+                    btnClass: 'btn-blue',
+                    keys: ['enter', 'shift'],
+                    action: function () {
+                        var url = '@Url.Action("Login", "Account")';
+                        window.location.href = url;
+                    }
+                }
+            }
+        });
+        </script>
+    }
+
 </body>
 </html>

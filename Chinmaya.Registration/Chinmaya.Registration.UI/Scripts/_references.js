@@ -1,6 +1,7 @@
 ﻿/// <autosync enabled="true" />
 /// <reference path="../Content/jquery-3.3.1.js" />
 /// <reference path="bootstrap.min.js" />
+/// <reference path="bootstrap-datepicker.min.js" />
 /// <reference path="DataTables/autoFill.bootstrap.js" />
 /// <reference path="DataTables/autoFill.bootstrap4.js" />
 /// <reference path="DataTables/autoFill.foundation.js" />
