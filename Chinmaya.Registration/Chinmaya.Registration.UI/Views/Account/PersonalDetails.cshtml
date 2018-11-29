@@ -2,38 +2,20 @@
 @model Chinmaya.Registration.Models.PersonalDetails
 @{
 	ViewBag.Title = "PersonalDetails";
-	Layout = "";
+	Layout = "~/Views/Shared/_LayoutPageRegister.cshtml";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<title>Welcome to Chinmaya Mission</title>
+@section Styles {
 
-	@Styles.Render("~/Content/css")
-	<style>
-		.requiredA:after {
-			content: " *";
-			font-weight: bold;
-			color: red;
-
-		}
-		
-	</style>
-</head>
-<body class="theme_bg">
-	<header class="regi-header">
-
-		<div class="container-fluid">
-			<a href="#"><img alt="mainlogo" src="~/Content/img/dashboard-logo.png"></a>
-			<div style="width:68px; float:right; margin:0px; margin-top:-1px;"><img style="border-radius:50%; border:2px solid #c7b299;" src="~/Content/img/header-thumbnail.png"></div>
-		</div>
-	</header>
+<style>
+    .requiredA:after {
+        content: " *";
+        font-weight: bold;
+        color: red;
+    }
+</style>    
+    
+}
 	@using (Html.BeginForm("PersonalDetails", "Account", FormMethod.Post))
 
 	{
@@ -96,7 +78,7 @@
 								@*<label>Date of Birth <span class="red-txt">*</span></label>*@
 								@*<input id="DateofBirth" class="form-control" type="password" placeholder="22/08/2018">*@
 								@Html.LabelFor(m => m.DOB, new { @class = "requiredA" })
-								@Html.TextBoxFor(m => m.DOB, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+								@Html.TextBoxFor(m => m.DOB, "{0:yyyy-MM-dd}", new { @class = "form-control" })
 								@Html.ValidationMessageFor(m => m.DOB, "", new { @class = "text-danger" })
 							</div>
 							<div class="col-md-6">
@@ -128,10 +110,7 @@
 		</div>
 
 	}
-</body>
-</html>
 @section Scripts {
-	@Scripts.Render("~/bundles/jqueryval")
 	<script type="text/javascript">
 		$(document).ready(function () {
 			$("#DOB").datepicker({ maxDate: '0' });
