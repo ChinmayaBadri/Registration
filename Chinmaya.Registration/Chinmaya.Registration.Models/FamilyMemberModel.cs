@@ -40,6 +40,7 @@ namespace Chinmaya.Registration.Models
 		[DisplayName("Cell Phone")]
 		public string CellPhone { get; set; }
 
+		[Required]
 		[DisplayName("Email Address")]
 		[EmailAddress(ErrorMessage = "Invalid Email Address")]
 		[StringLength(256, ErrorMessage = "Email should not be more than 256 characters")]

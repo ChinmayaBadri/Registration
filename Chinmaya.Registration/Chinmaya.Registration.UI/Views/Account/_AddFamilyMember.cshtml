@@ -78,7 +78,7 @@
 				@Html.ValidationMessageFor(m => m.CellPhone)
 			</div>
 			<div id="EmailAddress" class="col-md-6 d-lg-none">
-				@Html.LabelFor(m => m.Email)
+				@Html.LabelFor(m => m.Email, new { @class = "requiredA" })
 				@Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Name = "Email" })
 				@Html.ValidationMessageFor(m => m.Email)
 			</div>
@@ -118,13 +118,12 @@
 
 		
 		$("#DOB").on("blur", function () {
-			debugger
 			document.getElementById("EmailAddress").className = "col-md-6 d-lg-none"
 			document.getElementById("GradeSelectBox").className = "col-md-6 d-lg-none"
 			var dob = new Date($(this).val());
-			alert(dob)
+			var today = new Date();
 			if (dob != "Invalid Date") {
-				var today = new Date();
+				//alert(dob)
 				var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
 				if (age >= 18) {
 					//$("#EmailAddress").show();
@@ -137,7 +136,7 @@
 				}
 			}
 			
-
+				
 		});
 		$("#Email").on("blur", function () {
 			window.confirm("Dear Family Member, Would you like to subscribe to our Newsletter");

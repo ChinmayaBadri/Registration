@@ -399,9 +399,23 @@ namespace Chinmaya.Registration.DAL
 
 					else
 					{
-						_ctx.Entry(fm).State = EntityState.Modified;
-						_ctx.SaveChanges();
-
+						FamilyMember familyMemberData = _ctx.FamilyMembers.Where(f => f.Id == family.Id).FirstOrDefault();
+						if (familyMemberData != null)
+						{
+							//_ctx.Entry(fm).State = EntityState.Modified;
+							familyMemberData.FirstName = family.FirstName;
+							familyMemberData.LastName = family.LastName;
+							familyMemberData.DOB = family.DOB;
+							familyMemberData.RelationshipId = family.RelationshipData;
+							familyMemberData.GradeId = family.Grade;
+							familyMemberData.GenderId = family.GenderData;
+							familyMemberData.CellPhone = family.CellPhone;
+							familyMemberData.Email = family.Email;
+							familyMemberData.Status = true;
+							familyMemberData.UpdatedBy = family.UpdatedBy;
+							familyMemberData.UpdatedDate = DateTime.Now;
+							_ctx.SaveChanges();
+						}
 					}
 				}
 
