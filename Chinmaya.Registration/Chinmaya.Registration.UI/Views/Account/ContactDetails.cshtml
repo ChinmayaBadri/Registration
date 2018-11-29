@@ -1,35 +1,25 @@
 ﻿@model Chinmaya.Registration.Models.ContactDetails
 @{
 	ViewBag.Title = "ContactDetails";
-	Layout = "";
+	Layout = "~/Views/Shared/_LayoutPageRegister.cshtml";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<title>Welcome to Chinmaya Mission</title>
-
-	@Styles.Render("~/Content/css")
-	<style>
-		.requiredA:after {
-			content: " *";
-			font-weight: bold;
-			color: red;
-		}
-		
-	</style>
-
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-	<script>
+@section Styles {
+    <style>
+        .requiredA:after {
+            content: " *";
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+}
+	
+@section Scripts {
+    <script>
 		$(document).ready(function () {
-			var selectedCountry = "@ViewBag.SelectedCountry";	
+			var selectedCountry = "@ViewBag.SelectedCountry";
 			var selectedState = "@ViewBag.SelectedState";
-			
+
 			if (selectedCountry == 231 && selectedState == "") {
 				var id = 231;
 				$.get("FillState", { Id: id }, function (data) {
@@ -40,7 +30,7 @@
 					$("#State").html(v);
 				});
 			}
-			
+
 			$("#Country").change(function () {
 				var id = $(this).val();
 				$("#State").empty();
@@ -66,17 +56,8 @@
 				});
 			}
 		});
-	</script>
-</head>
-
-<body class="theme_bg">
-	<header class="regi-header">
-
-		<div class="container-fluid">
-			<a href="#"><img alt="mainlogo" src="~/Content/img/dashboard-logo.png"></a>
-			<div style="width:68px; float:right; margin:0px; margin-top:-1px;"><img style="border-radius:50%; border:2px solid #c7b299;" src="~/Content/img/header-thumbnail.png"></div>
-		</div>
-	</header>
+    </script>
+}
 	@using (Html.BeginForm("ContactDetails", "Account", FormMethod.Post))
 
 	{
@@ -175,12 +156,4 @@
 			</div>
 		</div>
 	}
-	@section Scripts {
-		@Scripts.Render("~/bundles/jqueryval")
-	});
-
-	}
-
-</body>
-</html>
 

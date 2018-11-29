@@ -13,15 +13,15 @@
     </div>
     <div class="login-box">
         <div class="row" id="login">
-            <div>
+            <div class="col-md-12">
                 @RenderBody()
             </div>
         </div>
     </div>
     <div class="copyright">New to Chinmaya Mission? Please register for programs/events @Html.ActionLink("here", "Registration", "Account", new { area = "" }, new { @style = "color:red;" }).</div>
 
+    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
-    <script type="text/javascript">
-    </script>
+    @RenderSection("Scripts", false)
 </body>
 </html>
