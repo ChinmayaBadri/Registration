@@ -70,7 +70,7 @@ namespace Chinmaya.Registration.UI.Controllers
 					var user = await Utility.DeserializeObject<UserModel>(userResponseMessage);
 					if (user != null)
 					{
-                        if (!user.Status)
+                        if (!user.EmailConfirmed)
                         {
                             ViewBag.IsUserActivated = false;
                             ViewBag.UserNotActivated = "Please verify your registered email address and try to login again.";
@@ -730,7 +730,7 @@ namespace Chinmaya.Registration.UI.Controllers
             ToastModel tm = new ToastModel();
             if(um != null)
             {
-                um.Status = true;
+                um.EmailConfirmed = true;
                 HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostUser", um, true);
                 if (userResponseMessage.IsSuccessStatusCode)
                 {
