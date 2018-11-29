@@ -212,7 +212,7 @@ namespace Chinmaya.Registration.UI.Controllers
                     EmailManager em = new EmailManager
                     {
                         Body = etm.Body,
-                        To = model.Email,
+                        To = "dinesh.medikonda@cesltd.com", //model.Email,
                         Subject = etm.Subject,
                         From = ConfigurationManager.AppSettings["SMTPUsername"]
                     };
