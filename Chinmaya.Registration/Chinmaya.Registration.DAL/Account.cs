@@ -232,54 +232,5 @@ namespace Chinmaya.Registration.DAL
                 return um;
             }
         }
-
-        /*public List<KeyValueModel> GetGender()
-		{
-			using (var _ctx = new ChinmayaEntities())
-			{
-				return _ctx.Genders.Select(x => new KeyValueModel
-				{
-					Id = x.Id,
-					Name = x.Name
-				}).ToList();
-			}
-		}
-
-		public List<KeyValueModel> GetCountryList()
-		{
-			using (var _ctx = new ChinmayaEntities())
-			{
-				return _ctx.Countries.Select(x => new KeyValueModel
-				{
-					Id = x.Id,
-					Name = x.Name
-				}).ToList();
-			}
-		}
-
-		public List<KeyValueModel> GetStateList(int CountryId)
-		{
-			using (var _ctx = new ChinmayaEntities())
-			{
-				return _ctx.States.Where(s => s.Id == CountryId).Select(x => new KeyValueModel
-				{
-					Id = x.Id,
-					Name = x.Name
-				}).ToList();
-			}
-		}
-
-		public List<KeyValueModel> GetCityList(int StateId)
-		{
-			using (var _ctx = new ChinmayaEntities())
-			{
-				return _ctx.Cities.Where(c => c.Id == StateId).Select(x => new KeyValueModel
-				{
-					Id = x.Id,
-					Name = x.Name
-				}).ToList();
-			}
-		}*/
-
     }
 }
