@@ -124,7 +124,7 @@ namespace Chinmaya.Registration.BAL.Controllers
 
 		[Route("api/UserAPI/GetFamilyMemberDetails/{id}")]
 		[HttpGet]
-		public FamilyMember GetFamilyMemberDetails(string id)
+		public FamilyMemberModel GetFamilyMemberDetails(string id)
 		{
 			return _user.GetFamilyMemberDetails(id);
 		}

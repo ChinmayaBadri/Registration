@@ -1,6 +1,4 @@
-﻿using Chinmaya.DAL;
-using Chinmaya.Registration.DAL;
-using Chinmaya.Registration.Models;
+﻿using Chinmaya.Registration.Models;
 using Chinmaya.Registration.UI.Providers;
 using Chinmaya.Registration.Utilities;
 using Newtonsoft.Json;
@@ -21,7 +19,6 @@ namespace Chinmaya.Registration.UI.Controllers
     [Authorize]
 	public class AccountController : BaseController
 	{
-		Users _user = new Users();
         System.Collections.Specialized.NameValueCollection configMngr = ConfigurationManager.AppSettings;
         //
         // GET: /Account/Login
@@ -916,10 +913,10 @@ namespace Chinmaya.Registration.UI.Controllers
 
 		[HttpGet]
 		[AllowAnonymous]
-		public async Task<FamilyMember> FamilyMemberDetails(string Id)
+		public async Task<FamilyMemberModel> FamilyMemberDetails(string Id)
 		{
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetFamilyMemberDetails/" + Id, true);
-			return await Utility.DeserializeObject<FamilyMember>(roleResponseMessage);
+			return await Utility.DeserializeObject<FamilyMemberModel>(roleResponseMessage);
 		}
 
 		[HttpGet]
@@ -934,20 +931,13 @@ namespace Chinmaya.Registration.UI.Controllers
 
 		public async Task<PartialViewResult> EditFamilyMember(string Id)
 		{
-			var data = await FamilyMemberDetails(Id);
-			FamilyMemberModel fm = new FamilyMemberModel();
+            FamilyMemberModel fm = await FamilyMemberDetails(Id);
+
 			fm.Id = Id;
 			fm.relationships = await GetRelationshipData();
 			fm.grades = await GetGradeData();
 			fm.genders = await GetGenderData();
-			fm.FirstName = data.FirstName;
-			fm.LastName = data.LastName;
-			fm.DOB = data.DOB;
-			fm.RelationshipData = data.RelationshipId;
-			fm.Grade = (int)data.GradeId;
-			fm.GenderData = data.GenderId;
-			fm.CellPhone = data.CellPhone;
-			fm.Email = data.Email;
+
 			return PartialView("_AddFamilyMember", fm);
 		}
 

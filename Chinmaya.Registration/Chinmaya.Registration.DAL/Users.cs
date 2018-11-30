@@ -257,12 +257,20 @@ namespace Chinmaya.Registration.DAL
             }
 		}
 
-		public FamilyMember GetFamilyMemberDetails(string Id)
+		public FamilyMemberModel GetFamilyMemberDetails(string Id)
 		{
 			using (var _ctx = new ChinmayaEntities())
 			{
-				FamilyMember familyMemberData = _ctx.FamilyMembers.Where(f => f.Id == Id).FirstOrDefault();
-				return familyMemberData;
+                FamilyMemberModel fmm = new FamilyMemberModel();
+				FamilyMember fmData = _ctx.FamilyMembers.Where(f => f.Id == Id).FirstOrDefault();
+                if(fmData != null)
+                {
+                    fmm = Mapper.Map(fmData, fmm);
+                    fmm.GenderData = fmData.GenderId;
+                    fmm.Grade = (int)fmData.GradeId;
+                    fmm.RelationshipData = fmData.RelationshipId;
+                }
+				return fmm;
 			}
 		}
 
