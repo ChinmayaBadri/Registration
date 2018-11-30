@@ -25,7 +25,7 @@ using System.Net;
 
 namespace Chinmaya.Registration.UI.Controllers
 {
-	[CustomAuthorize]
+	[Authorize]
 	public class AccountController : BaseController
 	{
 		Users _user = new Users();
