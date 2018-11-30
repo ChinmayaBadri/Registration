@@ -28,17 +28,6 @@ namespace Chinmaya.Registration.UI.Controllers
         [AllowAnonymous]
 		public ActionResult Login(string returnUrl)
 		{
-            if (User != null)
-            {
-                if (User.roles.Contains("Admin"))
-                {
-                    return RedirectToAction("Admin", "Account");
-                }
-                else
-                {
-                    return RedirectToAction("MyAccount", "Account");
-                }
-            }
             ViewBag.ReturnUrl = returnUrl;
 			return View();
 		}
@@ -93,19 +82,23 @@ namespace Chinmaya.Registration.UI.Controllers
 						Response.Cookies.Add(faCookie);
 						SessionVar.LoginUser = user;
 
-						if (roleName.Contains("Admin"))
-						{
-							return RedirectToAction("Admin", "Account");
-						}
-						else if (roleName.Contains("User"))
-						{
-							return RedirectToAction("MyAccount", "Account");
-						}
-						else
-						{
-							return RedirectToAction("Login", "Account");
-						}
-					}
+                        if (!string.IsNullOrEmpty(returnUrl)) return Redirect(returnUrl);
+                        else
+                        {
+                            if (roleName.Contains("Admin"))
+                            {
+                                return RedirectToAction("Admin", "Account");
+                            }
+                            else if (roleName.Contains("User"))
+                            {
+                                return RedirectToAction("MyAccount", "Account");
+                            }
+                            else
+                            {
+                                return RedirectToAction("Login", "Account");
+                            }
+                        }
+                    }
 				}
 			}
 			return View(model);
@@ -855,8 +848,7 @@ namespace Chinmaya.Registration.UI.Controllers
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetIsIndividual/" + Id, true);
 			return await Utility.DeserializeObject<bool>(roleResponseMessage);
 		}
-
-		[AllowAnonymous]
+	
 		public async Task<ActionResult> MyAccount(ToastModel tm = null)
 		{
             if(!string.IsNullOrEmpty(tm.Message))
