@@ -35,13 +35,6 @@ namespace Chinmaya.Registration.BAL.Controllers
 			return _user.GetUserFamilyMemberData(id);
 		}
 
-		//[Route("api/UserAPI/GetFamilyMemberDetails/{id}")]
-		//[HttpGet]
-		//public FamilyMemberModel GetFamilyMemberDetails(string id)
-		//{
-		//	return _user.GetFamilyMemberDetails(id);
-		//}
-
 		[Route("api/UserAPI/GetUserData/{id}")]
 		[HttpGet]
 		public UserFamilyMember GetUserData(string id)
@@ -143,22 +136,6 @@ namespace Chinmaya.Registration.BAL.Controllers
 			}
 		}
 
-		//[Route("api/UserAPI/EditFamilyMember/{id}")]
-		//[HttpPost]
-		//public IHttpActionResult EditFamilyMember(FamilyMemberModel obj, string Id)
-		//{
-		//	try
-		//	{
-		//		_user.EditFamilyMember(obj, Id);
-		//		return Ok("Success");
-		//	}
-		//	catch (Exception)
-		//	{
-		//		return Ok("Something went wrong");
-		//	}
-		//}
-
-
 		[Route("api/UserAPI/GetFamilyMemberDetails/{id}")]
 		[HttpGet]
 		public FamilyMember GetFamilyMemberDetails(string id)
@@ -211,32 +188,5 @@ namespace Chinmaya.Registration.BAL.Controllers
 				return Ok("Something went wrong");
 			}
 		}
-
-		//// GET: api/User
-		//public IEnumerable<string> Get()
-		//{
-		//    return _user.GetUsers();
-		//}
-
-		//// GET: api/User/5
-		//public string Get(int id)
-		//{
-		//    return _user.GetUserName(id);
-		//}
-
-		//// POST: api/User
-		//public void Post([FromBody]string value)
-		//{
-		//}
-
-		//// PUT: api/User/5
-		//public void Put(int id, [FromBody]string value)
-		//{
-		//}
-
-		//// DELETE: api/User/5
-		//public void Delete(int id)
-		//{
-		//}	
 	}
 }

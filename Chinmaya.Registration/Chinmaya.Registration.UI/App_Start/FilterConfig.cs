@@ -67,7 +67,7 @@ namespace Chinmaya.Registration.UI
                     if (!CurrentUser.IsInRole(Roles))
                     {
                         filterContext.Result = new RedirectToRouteResult(new
-                        RouteValueDictionary(new { controller = "Error", action = "NotAuthorized" }));
+                        RouteValueDictionary(new { controller = "Account", action = "NotAuthorized" }));
                     }
                 }
 

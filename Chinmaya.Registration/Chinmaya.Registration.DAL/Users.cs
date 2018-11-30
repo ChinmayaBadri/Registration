@@ -29,9 +29,8 @@ namespace Chinmaya.Registration.DAL
 				IMapper mapper = config.CreateMapper();
 
 				UserModel ur = new UserModel();
-				return mapper.Map(objUserInfo, ur);
 
-				//return Mapper.Map<User, UserModel>(objUserInfo);
+				return mapper.Map(objUserInfo, ur);
 			}
 		}
 		public string GetRoleName(int id)
@@ -42,16 +41,6 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
-		public List<string> GetUsers()
-		{
-			return new List<string>
-			{
-				"User1",
-				"User2",
-				"User3"
-			};
-		}
-
 		public List<GetFamilyMemberForUser_Result> GetUserFamilyMemberData(string Id)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -59,44 +48,6 @@ namespace Chinmaya.Registration.DAL
 				return _ctx.GetFamilyMemberForUser(Id).ToList();
 			}
 		}
-
-		//public FamilyMemberModel GetFamilyMemberDetails(string Id)
-		//{
-		//	using (var _ctx = new ChinmayaEntities())
-		//	{
-		//		var userData = (from e in _ctx.Users
-		//						where e.Id == Id
-		//						select new FamilyMemberModel
-		//						{
-		//							FirstName = e.FirstName,
-		//							LastName = e.LastName,
-		//							DOB = e.DOB,
-		//							//RelationshipData = e.RelationshipId,
-		//							//Grade = (int)e.GradeId,
-		//							GenderData = e.GenderId,
-		//							CellPhone = e.CellPhone,
-		//							Email = e.Email
-		//						}).FirstOrDefault();
-		//		if (userData == null)
-		//		{
-		//			userData = (from e in _ctx.FamilyMembers
-		//						where e.Id == Id
-		//						select new FamilyMemberModel
-		//						{
-		//							FirstName = e.FirstName,
-		//							LastName = e.LastName,
-		//							DOB = e.DOB,
-		//							RelationshipData = e.RelationshipId,
-		//							Grade = (int)e.GradeId,
-		//							GenderData = e.GenderId,
-		//							CellPhone = e.CellPhone,
-		//							Email = e.Email
-		//						}).FirstOrDefault();
-		//		}
-		//			return userData;
-		//	}
-		//}
-
 
 		public object GetAllUsers()
 		{
@@ -391,108 +342,34 @@ namespace Chinmaya.Registration.DAL
 			{
 				try
 				{
-					//var config = new MapperConfiguration(cfg =>
-					//{
-					//cfg.CreateMap<FamilyMemberModel, FamilyMember>();
-					//});
-					//IMapper mapper = config.CreateMapper();
-
-					//FamilyMember fm = new FamilyMember();
-					//mapper.Map(family, fm);
-					//fm.Id = Guid.NewGuid().ToString();
-					//fm.Status = true;
 					var fm = new FamilyMember();
-					if (string.IsNullOrEmpty(family.Id))
+                    fm.FirstName = family.FirstName;
+                    fm.LastName = family.LastName;
+                    fm.DOB = family.DOB;
+                    fm.RelationshipId = family.RelationshipData;
+                    fm.GradeId = family.Grade;
+                    fm.GenderId = family.GenderData;
+                    fm.CellPhone = family.CellPhone;
+                    fm.Email = family.Email;
+                    fm.Status = true;
+                    fm.UpdatedBy = family.UpdatedBy;
+                    fm.UpdatedDate = DateTime.Now;
+
+                    if (string.IsNullOrEmpty(family.Id))
 					{
 						fm.Id = Guid.NewGuid().ToString();
-						fm.FirstName = family.FirstName;
-						fm.LastName = family.LastName;
-						fm.DOB = family.DOB;
-						fm.RelationshipId = family.RelationshipData;
-						fm.GradeId = family.Grade;
-						fm.GenderId = family.GenderData;
-						fm.CellPhone = family.CellPhone;
-						fm.Email = family.Email;
-						fm.Status = true;
-						fm.UpdatedBy = family.UpdatedBy;
-						fm.UpdatedDate = DateTime.Now;
-						_ctx.FamilyMembers.Add(fm);
-						_ctx.SaveChanges();
+                        _ctx.FamilyMembers.Add(fm);
+                        _ctx.SaveChanges();
 					}
 
 					else
 					{
-						FamilyMember familyMemberData = _ctx.FamilyMembers.Where(f => f.Id == family.Id).FirstOrDefault();
-						if (familyMemberData != null)
-						{
-							//_ctx.Entry(fm).State = EntityState.Modified;
-							familyMemberData.FirstName = family.FirstName;
-							familyMemberData.LastName = family.LastName;
-							familyMemberData.DOB = family.DOB;
-							familyMemberData.RelationshipId = family.RelationshipData;
-							familyMemberData.GradeId = family.Grade;
-							familyMemberData.GenderId = family.GenderData;
-							familyMemberData.CellPhone = family.CellPhone;
-							familyMemberData.Email = family.Email;
-							familyMemberData.Status = true;
-							familyMemberData.UpdatedBy = family.UpdatedBy;
-							familyMemberData.UpdatedDate = DateTime.Now;
-							_ctx.SaveChanges();
-						}
+                        fm.Id = family.Id;
+                        _ctx.Entry(fm).State = EntityState.Modified;
+                        _ctx.SaveChanges();
 					}
 				}
 
-				catch (DbEntityValidationException e)
-				{
-					foreach (var eve in e.EntityValidationErrors)
-					{
-						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-							eve.Entry.Entity.GetType().Name, eve.Entry.State);
-						foreach (var ve in eve.ValidationErrors)
-						{
-							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-								ve.PropertyName, ve.ErrorMessage);
-						}
-					}
-
-				}
-			}
-		}
-
-		public void EditFamilyMember(FamilyMemberModel family, string Id)
-		{
-			using (var _ctx = new ChinmayaEntities())
-			{
-				
-				var config = new MapperConfiguration(cfg =>
-				{
-					cfg.CreateMap<FamilyMemberModel, FamilyMember>();
-				});
-				IMapper mapper = config.CreateMapper();
-
-				//var email = _ctx.Users.Where(r => r.Email == family.Email).Select(n => n.Email).FirstOrDefault();
-				//var HomePhone = _ctx.Users.Where(r => r.HomePhone == family.CellPhone).Select(n => n.CellPhone).FirstOrDefault();
-
-				var fm = new FamilyMember
-				{
-					Id = _ctx.FamilyMembers.Where(f => f.Id == Id).FirstOrDefault().ToString(),
-					FirstName = family.FirstName,
-					LastName = family.LastName,
-					DOB = family.DOB,
-					RelationshipId = family.RelationshipData,
-					GradeId = family.Grade,
-					GenderId = family.GenderData,
-					CellPhone = family.CellPhone,
-					Email = family.Email,
-					Status = true,
-					UpdatedBy = family.UpdatedBy,
-					UpdatedDate = DateTime.Now
-				};
-				
-				try
-				{
-					_ctx.SaveChanges();
-				}
 				catch (DbEntityValidationException e)
 				{
 					foreach (var eve in e.EntityValidationErrors)
@@ -519,12 +396,6 @@ namespace Chinmaya.Registration.DAL
 					cfg.CreateMap<EventsModel, Event>();
 				});
 				IMapper mapper = config.CreateMapper();
-
-				//Event eve = new Event();
-				//mapper.Map(ev, eve);
-				//eve.Id = Guid.NewGuid().ToString();
-				//eve.Status = true;
-
 
 				var eve = new Event
 				{
@@ -632,12 +503,6 @@ namespace Chinmaya.Registration.DAL
 					cfg.CreateMap<CheckPaymentModel, CheckPayment>();
 				});
 				IMapper mapper = config.CreateMapper();
-
-				//CheckPayment chk = new CheckPayment();
-				//mapper.Map(chkp, chk);
-				//chk.CreatedDate = DateTime.Now;
-				//chk.StatusId = 1;
-
 
 				var chk = new CheckPayment
 				{

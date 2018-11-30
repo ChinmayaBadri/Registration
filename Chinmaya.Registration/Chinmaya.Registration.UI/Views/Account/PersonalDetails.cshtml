@@ -60,14 +60,11 @@
 					</p>
 					<div class="row">
 						<div class="col-md-6">
-							@*<label>First Name <span class="red-txt">*</span></label>*@
 							@Html.LabelFor(m => m.FirstName, new { @class = "requiredA" })
 							@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
 							@Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
 						</div>
 						<div class="col-md-6">
-							@*<label>Last Name <span class="red-txt">*</span></label>*@
-							@*<input id="LastName" class="form-control" type="password" placeholder="">*@
 							@Html.LabelFor(m => m.LastName, new { @class = "requiredA" })
 							@Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
 							@Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
@@ -76,29 +73,24 @@
 
 					<div class="row">
 						<div class="col-md-6">
-							@*<label>Date of Birth <span class="red-txt">*</span></label>*@
-							@*<input id="DateofBirth" class="form-control" type="password" placeholder="22/08/2018">*@
-							@*@Html.LabelFor(m => m.DOB, new { @class = "requiredA" })
-								@Html.TextBoxFor(m => m.DOB, "{0:yyyy-MM-dd}", new { @class = "form-control" })
-								@Html.ValidationMessageFor(m => m.DOB, "", new { @class = "text-danger" })*@
 							@Html.LabelFor(m => m.DOB, new { @class = "requiredA" })
 							<div class="input-group date">
 								@Html.TextBoxFor(m => m.DOB, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "DOB", @value = "" })
 								<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
 							</div>
+
 							@Html.ValidationMessageFor(m => m.DOB)
 							@Html.HiddenFor(m => m.DOB, new { Id = "DateValue" })
 						</div>
+
 						<div class="col-md-6">
-							@*<label>Gender <span class="red-txt">*</span></label>*@
 							@Html.LabelFor(m => m.GenderData, new { @class = "requiredA" })
 							@Html.DropDownList("GenderData", new SelectList(ViewBag.Gender, "Id", "Name", ViewBag.SelectedGender), "Select", new { @class = "form-control" })
 							@Html.ValidationMessageFor(m => m.GenderData, "", new { @class = "text-danger" })
 						</div>
-						<div class="col-md-6">
 
-							@Html.LabelFor(m => m.AgeGroupData)
-							@*@Html.DropDownListFor(m => m.AgeGroupId, new SelectList(ViewBag.AgeGroupId, "Id", "Name", ViewBag.SelectedAgeGroupId), "Select", new { style = "width: 150px" })*@
+						<div class="col-md-6">
+							@Html.LabelFor(m => m.AgeGroupData)					
 							@Html.DropDownListFor(m => m.AgeGroupData, new SelectList(ViewBag.AgeGroup, "Id", "Name", ViewBag.SelectedAgeGroup), "Select", new { @class = "form-control" })
 							@Html.ValidationMessageFor(m => m.AgeGroupData, "", new { @class = "text-danger" })
 						</div>
@@ -106,8 +98,6 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-
-							@*<input class="btn btn-orange float-right" type="submit" name="BtnNext" value="Continue" />*@
 							<button class="btn btn-secondary float-left" id="btnCancel" type="button" onclick="window.location = '@Url.Action("Login", "Account")'">Cancel <i class="material-icons">cancel</i></button>
 							<button class="btn btn-orange float-right" name="BtnNext" type="submit" data-target="#demo" data-toggle="collapse">Continue <i class="material-icons">check_circle</i></button>
 						</div>
@@ -121,7 +111,6 @@
 @section Scripts {
 	<script type="text/javascript">
 		$(document).ready(function () {
-			//$("#DOB").datepicker({ maxDate: '0' });
 			$('.datepicker').datepicker({
 				todayHighlight: true,
 				autoclose: true,

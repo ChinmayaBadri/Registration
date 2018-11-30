@@ -136,7 +136,6 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\EmployeeInfoAPIController.cs" />
     <Compile Include="Controllers\MasterAPIController.cs" />
     <Compile Include="Controllers\UserAPIController.cs" />
     <Compile Include="Global.asax.cs">

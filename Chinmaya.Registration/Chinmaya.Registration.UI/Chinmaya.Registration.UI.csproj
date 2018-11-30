@@ -144,7 +144,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\EmployeeInfoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\CheckSessionOutFilter.cs" />
@@ -526,11 +525,11 @@
     <Content Include="Views\Account\SharedAccountRequest.cshtml" />
     <Content Include="Views\Account\UserActivation.cshtml" />
     <Content Include="Views\Shared\_LayoutPageRegister.cshtml" />
+    <Content Include="Views\Account\NotAuthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">

@@ -1,5 +1,4 @@
 ﻿using Chinmaya.DAL;
-using Chinmaya.Models;
 using Chinmaya.Registration.DAL;
 using Chinmaya.Registration.Models;
 using Chinmaya.Registration.UI.Providers;
@@ -7,12 +6,8 @@ using Chinmaya.Registration.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Security.Claims;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Configuration;
@@ -20,12 +15,10 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Chinmaya.Utilities;
 using System.Configuration;
-using System.Net.Mail;
-using System.Net;
 
 namespace Chinmaya.Registration.UI.Controllers
 {
-	[Authorize]
+    [Authorize]
 	public class AccountController : BaseController
 	{
 		Users _user = new Users();
@@ -78,9 +71,6 @@ namespace Chinmaya.Registration.UI.Controllers
                         }
 						HttpResponseMessage roleNameResponseMessage = await Utility.GetObject("/api/UserAPI/" + user.RoleId, true);
 						string roleName = await Utility.DeserializeObject<string>(roleNameResponseMessage);
-                        //var serializedRoles = await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
-                        //var roles = serializedRoles.Select(c => c.Name).ToArray<string>();
-
                         List<string> userRoles = new List<string>{ roleName };
 
 						CustomPrincipalSerializeModel serializeModel = new CustomPrincipalSerializeModel();
@@ -122,30 +112,36 @@ namespace Chinmaya.Registration.UI.Controllers
 		}
 
 
-		[AllowAnonymous]
+		[CustomAuthorize(Roles = "Admin")]
 		public ActionResult Admin()
 		{
-			//var msg = await ChangeAccountType("6278B716-60D9-4CBD-A7D3-2010CEB36C10");
 			return View();
 		}
 
-		public async Task<ActionResult> GetAllUsers()
+        [HttpGet]
+        public ActionResult NotAuthorized()
+        {
+            return View();
+        }
+
+        [CustomAuthorize(Roles = "Admin")]
+        public async Task<ActionResult> GetAllUsers()
 		{
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetAllUsers", true);
 			var users = await Utility.DeserializeObject<List<UserInfoModel>>(roleResponseMessage);
 			return Json(new { data = users }, JsonRequestBehavior.AllowGet);
 		}
 
-
-		public async Task<ActionResult> GetAllFamilyMembers(string Id)
+        [CustomAuthorize(Roles = "Admin")]
+        public async Task<ActionResult> GetAllFamilyMembers(string Id)
 		{
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetAllFamilyMembers/" + Id, true);
 			var familyMembers = await Utility.DeserializeObject<List<UFamilyMember>>(roleResponseMessage);
 			return Json(new { data = familyMembers }, JsonRequestBehavior.AllowGet);
 		}
 
-		[AllowAnonymous]
-		public async Task<ActionResult> ChangeAccountType(string Id)
+        [CustomAuthorize(Roles = "Admin")]
+        public async Task<ActionResult> ChangeAccountType(string Id)
 		{
 			HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/ChangeAccountType/" + Id, Id, true);
 			return RedirectToAction("Admin");
@@ -159,20 +155,6 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View();
 		}
 
-		//
-		// POST: /Account/Register
-		//[HttpPost]
-		//[AllowAnonymous]
-		//[ValidateAntiForgeryToken]
-		//public ActionResult Register()
-		//{
-
-		//    // If we got this far, something failed, redisplay form
-		//    return View();
-		//}
-
-		//
-		// GET: /Account/ConfirmEmail
 		[AllowAnonymous]
 		public ActionResult ConfirmEmail(string userId, string code)
 		{
@@ -401,8 +383,6 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View();
 		}
 
-
-
 		//
 		// POST: /Account/LogOff
 		[HttpGet]
@@ -474,7 +454,7 @@ namespace Chinmaya.Registration.UI.Controllers
 			ViewBag.AgeGroup = await GetAgeGroupData();
 			ViewBag.CountryList = await GetCountryData();
 			ViewBag.SelectedCountry = 231;
-			//ViewBag.SelectedState = null;
+
 			if (BtnNext != null)
 			{
 				if (ModelState.IsValid)
@@ -499,9 +479,6 @@ namespace Chinmaya.Registration.UI.Controllers
 			UserModel obj = GetUser();
 			ViewBag.CountryList = await GetCountryData();
 			ViewBag.SelectedCountry = 231;
-			//ViewBag.SecurityQuestions = await GetSecurityQuestions();
-			//List<SecurityQuestionsModel> model = await GetSecurityQuestions();
-			//List<SecurityQuestionsModel> model = await GetSecurityQuestions();
 
 			if (prevBtn != null)
 			{
@@ -530,7 +507,6 @@ namespace Chinmaya.Registration.UI.Controllers
 					obj.HomePhone = data.HomePhone;
 					obj.CellPhone = data.CellPhone;
 					AccountDetails Ad = new AccountDetails();
-					//SecurityQuestionsModel Sqm = new SecurityQuestionsModel();
 					Ad.SecurityQuestionsModel = await GetSecurityQuestions();
 					return View("AccountDetails", Ad);
 				}
@@ -883,9 +859,6 @@ namespace Chinmaya.Registration.UI.Controllers
 		[AllowAnonymous]
 		public async Task<ActionResult> MyAccount(ToastModel tm = null)
 		{
-			//ViewBag.Relationship = await GetRelationshipData();
-			//ViewBag.Grade = await GetGradeData();
-			//ViewBag.Gender = await GetGenderData();
             if(!string.IsNullOrEmpty(tm.Message))
             {
                 ViewBag.tm = tm;
@@ -908,20 +881,6 @@ namespace Chinmaya.Registration.UI.Controllers
 			
 			return View("MyAccount", myAccountModel);
 		}
-
-		//[HttpPost]
-		//[AllowAnonymous]
-		//public async Task<ActionResult> EditFamilyMember(string id)
-		//{
-		//	var MemberInformation = await GetFamilyMemberDetails(id);
-		//	return RedirectToAction("AddFamilyMember", MemberInformation);
-		//}
-
-		//[AllowAnonymous]
-		//public ActionResult ChangePasswordView()
-		//{
-		//	return PartialView("ChangePasswordView");
-		//}
 
 		[HttpPost]
 		[AllowAnonymous]
@@ -992,33 +951,6 @@ namespace Chinmaya.Registration.UI.Controllers
 			return PartialView("_AddFamilyMember", fm);
 		}
 
-		//[HttpPost]
-		//[AllowAnonymous]
-		//public async Task<ActionResult> EditFamilyMemberDetails(FamilyMemberModel MemberInformation, string nextBtn, string Id)
-		//{
-		//	var familyMemberData = await FamilyMemberDetails(Id);
-		//	ToastModel tm = new ToastModel();
-		//	MemberInformation.relationships = await GetRelationshipData();
-		//	MemberInformation.grades = await GetGradeData();
-		//	MemberInformation.genders = await GetGenderData();
-		//	if (nextBtn != null)
-		//	{
-		//		if (ModelState.IsValid)
-		//		{
-		//			MemberInformation.UpdatedBy = User.UserId;
-		//			bool isEmailExists = await CheckIsEmailExists(MemberInformation.Email);
-					
-		//				HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/EditFamilyMember" + Id, MemberInformation, true);
-		//				tm.IsSuccess = true;
-		//				tm.Message = "Family member updated successfully";
-		//			return Json(tm);
-		//		}
-		//		return RedirectToAction("MyAccount");
-		//	}
-		//	return RedirectToAction("MyAccount");
-			
-		//}
-
 		public async Task<bool> CheckIsEmailExists(string email)
         {
             string urlAction = "api/Account/IsEmailExists/" + email + "/";
@@ -1069,10 +1001,6 @@ namespace Chinmaya.Registration.UI.Controllers
 		[AllowAnonymous]
 		public async Task<ActionResult> Event()
 		{
-			//ViewBag.Weekday = await GetWeekdayData();
-			//ViewBag.Frequency = await GetFrequencyData();
-			//ViewBag.Session = await GetSessionData();
-			//ViewBag.Events = await GetEvents();
 			MainEventModel mainEventModel = new MainEventModel();
 			mainEventModel.currentEventModel = await GetEvents();
 			mainEventModel.weekday = await GetWeekdayData();
@@ -1110,11 +1038,6 @@ namespace Chinmaya.Registration.UI.Controllers
 		[AllowAnonymous]
 		public async Task<ActionResult> ProgramEventRegistration(string[] select, string prevBtn, string nextBtn)
 		{
-			//UserModel obj = GetUser();
-			//ViewBag.obj = obj;
-			//ViewBag.EventList = await GetEventsList(User.UserId);
-			//ViewBag.Events = await GetEvents();
-
 			ProgramEventRegistrationModel programEventRegistrationModel = new ProgramEventRegistrationModel();
 			programEventRegistrationModel.uFamilyMembers = await GetUserFamilyMemberData(User.UserId);
 			foreach (var item in programEventRegistrationModel.uFamilyMembers)
@@ -1149,15 +1072,13 @@ namespace Chinmaya.Registration.UI.Controllers
 					{
 						List<string> selectedId = new List<string>();
 						List<List<string>> selectedEventId = new List<List<string>>();
-						//List<string> selectedEventId = new List<string>();
+
 						for (int i = 0; i < select.Length; i++)
 						{
 							var arr = select[i].Split('_');
 							var ar1 = arr[0];
 							var ar2 = arr[1];
 							selectedId.Add(ar2);
-							//selectedEventId.Add(ar1);
-
 						}
 						List<string> userIds = selectedId.Distinct().ToList();
 						List<string> testList = new List<string>();
@@ -1186,15 +1107,14 @@ namespace Chinmaya.Registration.UI.Controllers
 						foreach (KeyValuePair<string, List<string>> entry in dict)
 						{
 							var userData = await GetUserData(entry.Key);
-							//var userData = _user.GetUserData(entry.Key);
 							currentEvents.Clear();
+
 							foreach (var ev in entry.Value)
 							{
 								var eventData = await GetEventData(ev);
 								currentEvents.Add(eventData);
 							}
 
-							//SelectedListModel selectedListModel = new SelectedListModel();
 							ClassesConfirmModel classConfirm = new ClassesConfirmModel();
 							classConfirm.uFamilyMembers = userData;
 							classConfirm.Events = currentEvents;
@@ -1263,12 +1183,6 @@ namespace Chinmaya.Registration.UI.Controllers
 			return Json(res, JsonRequestBehavior.AllowGet);
 		}
 
-		//[AllowAnonymous]
-		//public async Task<ActionResult> ChangeAccountType(string Id)
-		//{
-		//	HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/ChangeAccountType/" + Id, Id, true);
-		//	return RedirectToAction("Admin");
-		//}
 		[AllowAnonymous]
 		public async Task<object> GetAccountType()
 		{
