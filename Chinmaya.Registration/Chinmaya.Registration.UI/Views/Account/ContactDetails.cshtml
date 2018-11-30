@@ -118,7 +118,6 @@
 							</div>
 							<div class="col-md-6">
 								@Html.LabelFor(m => m.City, new { @class = "requiredA" })
-								@*@Html.DropDownList("City", new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Name", @ViewBag.SelectedCity), "Select City", new { style = "width: 150px" })*@
 								@Html.TextBoxFor(m => m.City, new { @class = "form-control" })
 								@Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
 							</div>
@@ -145,8 +144,6 @@
 						</div>
 						<div class="row">
 							<div class="col-md-12">
-								@*<input type="submit" class="btn btn-secondary float-left" name="prevBtn" value='Back' />
-				<input type="submit" class="btn btn-orange float-right" name="nextBtn" value='Continue' />*@
 								<button class="btn btn-secondary float-left" name="prevBtn" type="submit">Back <i class="material-icons">cancel</i></button>
 								<button class="btn btn-orange float-right" name="nextBtn" type="submit" data-target="#demo" data-toggle="collapse">Continue <i class="material-icons">check_circle</i></button>
 							</div>

@@ -29,7 +29,6 @@
 	<meta name="author" content="">
 	<title>Welcome to Chinmaya Mission</title>
 </head>
-@*<body class="theme_bg">*@
 <body>
 
 	<button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
@@ -80,7 +79,6 @@
 				@if (!Model.IsIndividual)
 				{
 				<div class="col-md-6 text-right">
-					@*<a class="orange-links" id="#AddFamilyMember" href="#" data-target="#exampleModalCenter" data-toggle="modal"><i class="material-icons">add_circle_outline</i> Add Family Member</a>*@
 					<a class="orange-links" id="AddFamilyMember" href="#"><i class="material-icons">add_circle_outline</i> Add Family Member</a>
 				</div>
 				}
@@ -111,13 +109,11 @@
 								<td>@(m.DOB.ToString("MMM dd, yyyy"))</td>
 								<td>@m.Relationship</td>
 								<td>@m.Grade</td>
-								@*<td>@Html.ActionLink("Edit", "EditFamilyMember", new { id = m.Id }, new { @class = "label label-orange" })</td>*@
 								@if (@m.Relationship != "Self")
 								{
 								<td id="@m.Id" class="editFamilyMember"><a href="#" data-toggle="modal" data-target="#EditModal" class="Edit"><span class="label label-orange">Edit</span></a></td>
 								}
 							</tr>
-								@*href="@Url.Action("EditFamilyMemberDetails","Account", new { id = m.Id })"*@
 							}
 						</tbody>
 					</table>
@@ -171,7 +167,6 @@
 		});
 
 		$(function () {
-
 			$('.modal').on('hidden.bs.modal', function (e) {
 				$(this)
 					.find("input:text, input:password, input:hidden, select, textarea")
@@ -183,35 +178,8 @@
 					.html('');
 				$("div#GradeSelectBox").show();
 				$("div#EmailAddress").show();
-				//document.getElementById("EmailAddress").className = "col-md-6 d-lg-none"
-				//document.getElementById("GradeSelectBox").className = "col-md-6 d-lg-none"
 			});
 		});
-
-
-					//$(".label label-orange").live("click", function (e) {
-					//	var url = $(this).attr('href');
-					//	$("#dialog-edit").dialog({
-					//		title: 'Edit Family Member Detail',
-					//		autoOpen: false,
-					//		resizable: false,
-					//		height: 455,
-					//		width: 550,
-					//		show: { effect: 'drop', direction: "up" },
-					//		modal: true,
-					//		draggable: true,
-					//		open: function (event, ui) {
-					//			$(this).load(url);
-
-					//		},
-					//		close: function (event, ui) {
-					//			$(this).dialog('close');
-					//		}
-					//	});
-
-					//	$("#dialog-edit").dialog('open');
-					//	return false;
-					//});
 
 	</script>
 </body>
