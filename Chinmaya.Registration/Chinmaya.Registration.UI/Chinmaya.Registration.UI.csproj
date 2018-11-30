@@ -526,6 +526,7 @@
     <Content Include="Views\Account\SharedAccountRequest.cshtml" />
     <Content Include="Views\Account\UserActivation.cshtml" />
     <Content Include="Views\Shared\_LayoutPageRegister.cshtml" />
+    <Content Include="Views\Account\NotAuthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
