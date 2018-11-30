@@ -18,6 +18,6 @@ namespace Chinmaya.Registration.Models
 		public System.TimeSpan EndTime { get; set; }
 		public Nullable<decimal> Amount { get; set; }
 		public bool select { get; set; }
-		
+		public bool termsandConditions { get; set; }
 	}
 }

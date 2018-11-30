@@ -136,20 +136,20 @@ namespace Chinmaya.Registration.BAL.Controllers
 			}
 		}
 
-		[Route("api/UserAPI/EditFamilyMember/{id}")]
-		[HttpPost]
-		public IHttpActionResult EditFamilyMember(FamilyMemberModel obj, string Id)
-		{
-			try
-			{
-				_user.EditFamilyMember(obj, Id);
-				return Ok("Success");
-			}
-			catch (Exception)
-			{
-				return Ok("Something went wrong");
-			}
-		}
+		//[Route("api/UserAPI/EditFamilyMember/{id}")]
+		//[HttpPost]
+		//public IHttpActionResult EditFamilyMember(FamilyMemberModel obj, string Id)
+		//{
+		//	try
+		//	{
+		//		_user.EditFamilyMember(obj, Id);
+		//		return Ok("Success");
+		//	}
+		//	catch (Exception)
+		//	{
+		//		return Ok("Something went wrong");
+		//	}
+		//}
 
 
 		[Route("api/UserAPI/GetFamilyMemberDetails/{id}")]
@@ -166,6 +166,22 @@ namespace Chinmaya.Registration.BAL.Controllers
 			try
 			{
 				_user.PostEvent(obj);
+				return Ok("Success");
+			}
+			catch (Exception)
+			{
+				return Ok("Something went wrong");
+			}
+		}
+
+		
+		[Route("api/UserAPI/AddtoDirectory/{id}")]
+		[HttpPost]
+		public IHttpActionResult AddtoDirectory(string id)
+		{
+			try
+			{
+				_user.AddtoDirectory(id);
 				return Ok("Success");
 			}
 			catch (Exception)

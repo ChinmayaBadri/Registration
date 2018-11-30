@@ -1180,7 +1180,7 @@ namespace Chinmaya.Registration.UI.Controllers
 							classesConfirm.Add(classConfirm);
 						}
 					}
-					//Request.Form("termsandConditions")
+					
 					return View("ClassesConfirm", classesConfirm);
 				}
 			}
@@ -1204,12 +1204,29 @@ namespace Chinmaya.Registration.UI.Controllers
 			{
 				if (nextBtn != null)
 				{
+					var termCheckBox = Request.Form["termsandConditions"];
 					return RedirectToAction("PaymentMethod");
 				}
 			}
 			return View();
 		}
 
+		[AllowAnonymous]
+		public async Task<string> AddtoDirectory(string Id)
+		{
+			var id = User.UserId;
+			//_user.AddtoDirectory(data);
+			HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/AddtoDirectory/" + id, Id, true);
+			return "ok";
+		}
+
+		//[AllowAnonymous]
+		//public async Task<ActionResult> ChangeAccountType(string Id)
+		//{
+		//	HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/ChangeAccountType/" + Id, Id, true);
+		//	return RedirectToAction("Admin");
+		//}
+		[AllowAnonymous]
 		public async Task<object> GetAccountType()
 		{
 			Utility.MasterType masterValue = Utility.MasterType.ACCOUNTTYPE;

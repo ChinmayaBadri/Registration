@@ -169,17 +169,20 @@
 
 				<div class="col-md-3">
 					<div class="form-group form-check">
-						<input class="form-check-input" id="termsandConditions" type="checkbox">
+						<input class="form-check-input" id="termsandConditions" name="termsandConditions" type="checkbox">
 						<label class="form-check-label" for="termsandConditions">
 							I agree to the
-							<br><a href="#">terms and conditions</a>
+							<br>terms and conditions
 						</label>
 					</div>
 					<div class="form-group form-check">
 						<input class="form-check-input" id="Directory" type="checkbox">
-						<label class="form-check-label" for="Directory">
-							Add me to the
-							Chinmaya Directory
+						<label class="form-check-label" for="Directory"><a href="#" data-toggle="popover" data-content="Chinmaya Directory answers questions such as What is this? 
+																		   Why do I need to join?">
+	Add me to the
+	Chinmaya Directory
+</a>
+							
 						</label>
 					</div>
 					<button class="btn btn-secondary mb-3" name="prevBtn" type="submit">Back</button><br>
@@ -199,6 +202,37 @@
 		$('#collapseOne_1').removeClass('collapse').addClass('collapse show');
 		$(document).ready(function () {
 			$('[data-toggle="popover"]').popover();
+		});
+
+		$("#Directory").on("change", function () {
+			var directoryCheckBox = $(this).val();
+			if (directoryCheckBox)
+			$.ajax({
+				"url": "../Account/AddtoDirectory/",
+				"type": "POST",
+				"data": "directoryCheckBox",
+				success: function (ok) {
+					debugger
+					var content = "you have been successfully added to Chinmaya Directory";
+					$.confirm({
+						title: 'Alert!',
+						content: content,
+						buttons: {
+							confirm: {
+								text: 'Okay',
+								btnClass: 'btn-blue',
+								keys: ['enter', 'shift'],
+								action: function () {
+									alert(content);
+
+								}
+							}
+						}
+					});
+				},
+
+			});
+
 		});
 	});
 </script>

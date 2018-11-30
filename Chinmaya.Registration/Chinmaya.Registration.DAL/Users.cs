@@ -565,6 +565,40 @@ namespace Chinmaya.Registration.DAL
 				}
 			}
 		}
+		
+		public void AddtoDirectory(string id)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				var user = _ctx.Directories.Where(r => r.UserId == id).Select(n => n.UserId).FirstOrDefault();
+				if (user == null)
+				{
+					var dir = new Directory
+					{
+						UserId = id
+					};
+					_ctx.Directories.Add(dir);
+				}
+				try
+				{
+					_ctx.SaveChanges();
+				}
+				catch (DbEntityValidationException e)
+				{
+					foreach (var even in e.EntityValidationErrors)
+					{
+						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+							even.Entry.Entity.GetType().Name, even.Entry.State);
+						foreach (var ve in even.ValidationErrors)
+						{
+							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+								ve.PropertyName, ve.ErrorMessage);
+						}
+					}
+
+				}
+			}
+		}
 
 		public void PostCheckPayment(CheckPaymentModel chkp)
 		{
