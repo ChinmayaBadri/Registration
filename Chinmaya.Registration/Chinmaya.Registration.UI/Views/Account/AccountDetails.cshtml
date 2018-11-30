@@ -113,13 +113,10 @@
 								{
 							<div class="row">
 								<div id="dataListItem" class="col-md-8">
-									@*<input type="hidden" id="securityQuestionId" name="hdnSecurityQuestionId" value="">*@
 									@Model.SecurityQuestionsModel[i].Id.
 									@Model.SecurityQuestionsModel[i].Name
 								</div>
 								<div id="dataTextBox" class="col-md-4">
-									@*@Html.TextBoxFor(m => m.SecurityQuestionsModel[i].Value)*@
-
                                     <input type='text' class="form-control" name="AnswerTextbox_@(i+1)" id="AnswerTextbox_@(i+1)" value="@Model.SecurityQuestionsModel[i].Value" />
 								</div>
 							</div>
@@ -131,8 +128,6 @@
 						<div class="row">
 							<div class="col-md-6 offset-md-3">
 								<br />
-								@*<input type="submit" class="btn btn-secondary float-left" name="prevBtn" value='Back' />
-				<input type="submit" class="btn btn-orange float-right" name="nextBtn" value='Create Account' /><i class="material-icons">check_circle</i>*@
 								<button class="btn btn-secondary float-left" name="prevBtn" type="submit">Back <i class="material-icons">cancel</i></button>
 								<button class="btn btn-orange float-right" name="nextBtn" type="submit" data-target="#demo" data-toggle="collapse">Create Account <i class="material-icons">check_circle</i></button>
 							</div>

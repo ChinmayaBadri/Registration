@@ -87,7 +87,6 @@
 		<div class="row">
 			<div class="col-md-12">
 				<button class="btn btn-secondary float-left mr-3" id="btnCancel" type="button" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
-				@*<button id="closeModal" class="btn btn-secondary float-left mr-3" type="button" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>*@
 				@if (!string.IsNullOrEmpty(Model.Id))
 				{
 					<button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Update <i class="material-icons">check_circle</i></button>
@@ -111,7 +110,6 @@
 
 	$(document).ready(function () {
 		var date = new Date($("#DateValue").val());
-		//alert(date)
 		if ($("#DateValue").val() != null && $("#DateValue").val() != "") {
 			$('.datepicker').datepicker({
 				todayHighlight: true,
@@ -136,24 +134,17 @@
 			$("div#EmailAddress").show();
 			var dob = new Date($(this).val());
 			var today = new Date();
-			//if (dob != "Invalid Date") {
 
-				var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
-				if (age >= 18) {
-					$("div#GradeSelectBox").hide();
-					//document.getElementById("EmailAddress").className = "col-md-6"
-				}
-				else {
-					$("div#EmailAddress").hide();
-					//document.getElementById("GradeSelectBox").className = "col-md-6"
-
-				}
-			//}
-
-
+			var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
+			if (age >= 18) {
+				$("div#GradeSelectBox").hide();
+			}
+			else {
+				$("div#EmailAddress").hide();
+			}
 		});
+
 		$("#Email").on("blur", function () {
-			//window.confirm("Dear Family Member, Would you like to subscribe to our Newsletter");
 			var content = "Dear Family Member, Would you like to subscribe to our Newsletter?";
 			 $.confirm({
 				 title: 'Alert!',
@@ -163,9 +154,7 @@
 						 text: 'Okay',
 						 btnClass: 'btn-blue',
 						 keys: ['enter', 'shift'],
-						 action: function () {
-
-							 
+						 action: function () {							 
 						 }
 					 },
 					 danger: {
@@ -193,10 +182,12 @@
 			toastr.error(response.Message, "Add Family Member");
 		}
 		$("#btnsubmit").prop("disabled", false);
+		$("#btnCancel").prop("disabled", false);
 	}
 
 	function OnBegin() {
-		$("#btnsubmit").prop("disabled", true);
+	    $("#btnsubmit").prop("disabled", true);
+	    $("#btnCancel").prop("disabled", true);
 	}
 </script>
 

@@ -16,6 +16,8 @@ namespace Chinmaya.Registration.Models
 		public string Frequency { get; set; }
 		public System.TimeSpan StartTime { get; set; }
 		public System.TimeSpan EndTime { get; set; }
+		public Nullable<int> AgeFrom { get; set; }
+		public Nullable<int> AgeTo { get; set; }
 		public Nullable<decimal> Amount { get; set; }
 		public bool select { get; set; }
 		public bool termsandConditions { get; set; }

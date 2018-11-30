@@ -135,7 +135,6 @@
     <Compile Include="EmailTemplate.cs">
       <DependentUpon>ChinmayiModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Employee.cs" />
     <Compile Include="Event.cs">
       <DependentUpon>ChinmayiModel.tt</DependentUpon>
     </Compile>

@@ -14,7 +14,9 @@ namespace Chinmaya.Registration.Models
 		public System.DateTime DOB { get; set; }
 		public string Relationship { get; set; }
 		public string Grade { get; set; }
-		
+
+		public List<CurrentEventModel> Events { get; set; }
+
 	}
 
 	public class UFamilyMember
@@ -26,5 +28,7 @@ namespace Chinmaya.Registration.Models
 		public string Relationship { get; set; }
 		public string Grade { get; set; }
 		public string Fullname { get; set; }
+
+		public List<CurrentEventModel> Events { get; set; }
 	}
 }
