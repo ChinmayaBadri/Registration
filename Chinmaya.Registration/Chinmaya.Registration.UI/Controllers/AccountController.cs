@@ -25,7 +25,7 @@ using System.Net;
 
 namespace Chinmaya.Registration.UI.Controllers
 {
-	[Authorize]
+	[CustomAuthorize]
 	public class AccountController : BaseController
 	{
 		Users _user = new Users();
@@ -122,30 +122,37 @@ namespace Chinmaya.Registration.UI.Controllers
 		}
 
 
-		[AllowAnonymous]
+		[CustomAuthorize(Roles = "admin")]
 		public ActionResult Admin()
 		{
 			//var msg = await ChangeAccountType("6278B716-60D9-4CBD-A7D3-2010CEB36C10");
 			return View();
 		}
 
-		public async Task<ActionResult> GetAllUsers()
+        [HttpGet]
+        public ActionResult NotAuthorized()
+        {
+            return View();
+        }
+
+        [CustomAuthorize(Roles = "admin")]
+        public async Task<ActionResult> GetAllUsers()
 		{
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetAllUsers", true);
 			var users = await Utility.DeserializeObject<List<UserInfoModel>>(roleResponseMessage);
 			return Json(new { data = users }, JsonRequestBehavior.AllowGet);
 		}
 
-
-		public async Task<ActionResult> GetAllFamilyMembers(string Id)
+        [CustomAuthorize(Roles = "admin")]
+        public async Task<ActionResult> GetAllFamilyMembers(string Id)
 		{
 			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetAllFamilyMembers/" + Id, true);
 			var familyMembers = await Utility.DeserializeObject<List<UFamilyMember>>(roleResponseMessage);
 			return Json(new { data = familyMembers }, JsonRequestBehavior.AllowGet);
 		}
 
-		[AllowAnonymous]
-		public async Task<ActionResult> ChangeAccountType(string Id)
+        [CustomAuthorize(Roles = "admin")]
+        public async Task<ActionResult> ChangeAccountType(string Id)
 		{
 			HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/ChangeAccountType/" + Id, Id, true);
 			return RedirectToAction("Admin");
