@@ -3,7 +3,7 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 	ViewBag.Title = "ClassesConfirm";
 }
-
+@Html.Raw(TempData["msg"])
 <html>
 <head>
 	<meta charset="utf-8">
@@ -114,7 +114,9 @@
 		@using (Html.BeginForm("ClassesConfirm", "Account", FormMethod.Post))
 		{
 			@Html.AntiForgeryToken()
-			<div class="row">
+				if (Model != null)
+				{
+					<div class="row">
 
 				<div class="col-md-9">
 					<!--Accordion wrapper-->
@@ -189,6 +191,7 @@
 					<button class="btn btn-orange" name="nextBtn" type="submit" data-target="#demo" data-toggle="collapse">Proceed to checkout</button>
 				</div>
 			</div>
+			}
 		}
 	</div>
 	<!-- Latest compiled and minified JavaScript -->
@@ -212,23 +215,24 @@
 				"type": "POST",
 				"data": "directoryCheckBox",
 				success: function (ok) {
-					debugger
 					var content = "you have been successfully added to Chinmaya Directory";
-					$.confirm({
-						title: 'Alert!',
-						content: content,
-						buttons: {
-							confirm: {
-								text: 'Okay',
-								btnClass: 'btn-blue',
-								keys: ['enter', 'shift'],
-								action: function () {
-									alert(content);
+					alert(content);
 
-								}
-							}
-						}
-					});
+					//$.confirm({
+					//	title: 'Alert!',
+					//	content: content,
+					//	buttons: {
+					//		confirm: {
+					//			text: 'Okay',
+					//			btnClass: 'btn-blue',
+					//			keys: ['enter', 'shift'],
+					//			action: function () {
+					//				$.alert(content);
+
+					//			}
+					//		}
+					//	}
+					//});
 				},
 
 			});

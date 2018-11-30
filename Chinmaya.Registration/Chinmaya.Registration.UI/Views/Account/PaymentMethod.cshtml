@@ -125,87 +125,114 @@
 						</div>
 						<div class="row">
 							<div class="col-md-3">
-								
-								@Html.RadioButtonFor(m => m.paymentType, "Check")<span> Check</span>
+
+								@Html.RadioButtonFor(m => m.paymentType, "Check", new { id = "CheckPaymentMethod" })<span> Check</span>
 								@*@Html.LabelFor(m => m.paymentType, "Check")*@
 							</div>
 							<div class="col-md-3">
 
-								@Html.RadioButtonFor(m => m.paymentType, "Credit Card")<span> Credit Card</span>
+								@Html.RadioButtonFor(m => m.paymentType, "Credit Card", new { id = "CreditPaymentMethod" })<span> Credit Card</span>
 								@*@Html.LabelFor(m => m.paymentType, "Credit Card")*@
 							</div>
-								</div>
-								<div class="row">
-									<div class="col-md-6">
-										@*<label>Account Holder Name</label>
+						</div>
+						<div class="paymentMethodCheck" id="paymentMethodCheck">
+							<div class="row">
+								<div class="col-md-6">
+									@*<label>Account Holder Name</label>
 				<input class="form-control" type="password" placeholder="">*@
-										@Html.LabelFor(m => m.AccountHolderName)
-										@Html.TextBoxFor(m => m.AccountHolderName, new { @class = "form-control" })
-										@Html.ValidationMessageFor(m => m.AccountHolderName)
-									</div>
-									<div class="col-md-6">
-										@*<label>Account Type</label>
+									@Html.LabelFor(m => m.AccountHolderName)
+									@Html.TextBoxFor(m => m.AccountHolderName, new { @class = "form-control" })
+									@Html.ValidationMessageFor(m => m.AccountHolderName, "", new { @class = "text-danger" })
+								</div>
+								<div class="col-md-6">
+									@*<label>Account Type</label>
 				<select class="form-control">
 					<option></option>
 					<option></option>
 				</select>*@
-										@Html.LabelFor(m => m.AccountTypeId)
-										@Html.DropDownList("AccountTypeId", new SelectList(ViewBag.AccountType, "Id", "Name"), "Select", new { @class = "form-control" })
-										@Html.ValidationMessageFor(m => m.AccountTypeId)
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-6">
-										@*<label>Bank name</label>
-				<input class="form-control" type="password" placeholder="">*@
-										@Html.LabelFor(m => m.BankName)
-										@Html.TextBoxFor(m => m.BankName, new { @class = "form-control" })
-										@Html.ValidationMessageFor(m => m.BankName)
-									</div>
-									<div class="col-md-6">
-										@*<label>Account Number</label>
-				<input class="form-control" type="password" placeholder="">*@
-										@Html.LabelFor(m => m.AccountNumber)
-										@Html.TextBoxFor(m => m.AccountNumber, new { @class = "form-control" })
-										@Html.ValidationMessageFor(m => m.AccountNumber)
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-6">
-										@*<label>Routing Number</label>
-				<input class="form-control" type="password" placeholder="">*@
-										@Html.LabelFor(m => m.RoutingNumber)
-										@Html.TextBoxFor(m => m.RoutingNumber, new { @class = "form-control" })
-										@Html.ValidationMessageFor(m => m.RoutingNumber)
-									</div>
-									<div class="col-md-6">
-										@*<label>Confirm Account Number</label>
-				<select class="form-control">
-					<option></option>
-					<option></option>
-				</select>*@
-										@Html.LabelFor(m => m.ConfirmAccountNumber)
-										@Html.TextBoxFor(m => m.ConfirmAccountNumber, new { @class = "form-control" })
-										@Html.ValidationMessageFor(m => m.ConfirmAccountNumber)
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-12">
-										<button class="btn btn-secondary mr-2" name="prevBtn" type="submit">Back</button>
-										<button class="btn btn-orange" name="nextBtn" type="submit" data-target="#demo" data-toggle="collapse">Submit</button>
-									</div>
+									@Html.LabelFor(m => m.AccountTypeId)
+									@Html.DropDownList("AccountTypeId", new SelectList(ViewBag.AccountType, "Id", "Name"), "Select", new { @class = "form-control" })
+									@Html.ValidationMessageFor(m => m.AccountTypeId, "", new { @class = "text-danger" })
 								</div>
 							</div>
+							<div class="row">
+								<div class="col-md-6">
+									@*<label>Bank name</label>
+				<input class="form-control" type="password" placeholder="">*@
+									@Html.LabelFor(m => m.BankName)
+									@Html.TextBoxFor(m => m.BankName, new { @class = "form-control" })
+									@Html.ValidationMessageFor(m => m.BankName, "", new { @class = "text-danger" })
+								</div>
+								<div class="col-md-6">
+									@*<label>Account Number</label>
+				<input class="form-control" type="password" placeholder="">*@
+									@Html.LabelFor(m => m.AccountNumber)
+									@Html.TextBoxFor(m => m.AccountNumber, new { @class = "form-control" })
+									@Html.ValidationMessageFor(m => m.AccountNumber, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									@*<label>Routing Number</label>
+				<input class="form-control" type="password" placeholder="">*@
+									@Html.LabelFor(m => m.RoutingNumber)
+									@Html.TextBoxFor(m => m.RoutingNumber, new { @class = "form-control" })
+									@Html.ValidationMessageFor(m => m.RoutingNumber, "", new { @class = "text-danger" })
+								</div>
+								<div class="col-md-6">
+									@*<label>Confirm Account Number</label>
+				<select class="form-control">
+					<option></option>
+					<option></option>
+				</select>*@
+									@Html.LabelFor(m => m.ConfirmAccountNumber)
+									@Html.TextBoxFor(m => m.ConfirmAccountNumber, new { @class = "form-control" })
+									@Html.ValidationMessageFor(m => m.ConfirmAccountNumber, "", new { @class = "text-danger" })
+								</div>
+							</div>
+						</div>
+							<div class="row">
+								<div class="col-md-12">
+									<button class="btn btn-secondary mr-2" name="prevBtn" id="btn_cancel" type="submit">Back</button>
+									<button class="btn btn-orange" name="nextBtn" id="btn_submit" type="submit" data-target="#demo" data-toggle="collapse">Submit</button>
+								</div>
+							</div>
+							
+						</div>
 					</div>
 			</div>
 		}
 	</div>
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="~/Content/bootstrap.min.js"></script>
+	@*<script src="~/Content/bootstrap.min.js"></script>*@
 	<script>
 		$(document).ready(function () {
+			$("#paymentMethodCheck").hide();
+			$("#paymentMethodCheck")
+				.find(".field-validation-error")
+				.html('');
+			$('#btn_submit').attr('disabled', true);
 			$("#current-Events").hide();
 			$("#userList").hide();
+			$("#CheckPaymentMethod").on("change", function () {
+				var paymentMethod = $(this).val();
+				if (paymentMethod) {
+					//$("#paymentMethodCheck")
+					//	.find(".field-validation-error")
+					//	.html('');
+					$("#paymentMethodCheck").show();
+					$('#btn_submit').attr('disabled', false);
+				}
+			});
+			$("#CreditPaymentMethod").on("change", function () {
+				var paymentMethod = $(this).val();
+				if (paymentMethod) {
+					$("#paymentMethodCheck").hide();
+					//$('#btn_cancel').attr('disabled', true);
+					$('#btn_submit').attr('disabled', true);
+				}
+			});
+
 		});
 		
 	</script>

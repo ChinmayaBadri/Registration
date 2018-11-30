@@ -248,7 +248,30 @@ namespace Chinmaya.Registration.DAL
 			
 		}
 
-		
+		public List<CurrentEventModel> GetEventsData(int age)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				var events = (from e in _ctx.Events
+							  where e.AgeFrom <= age && age <= e.AgeTo
+							  select new CurrentEventModel
+							  {
+								  Id = e.Id,
+								  Name = e.Name,
+								  Description = e.Description,
+								  Weekday = _ctx.Weekdays.Where(i => i.Id == e.WeekdayId).Select(i => i.Name).FirstOrDefault(),
+								  Frequency = _ctx.Frequencies.Where(i => i.Id == e.FrequencyId).Select(i => i.Name).FirstOrDefault(),
+								  StartTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.StartTime).FirstOrDefault(),
+								  EndTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.EndTime).FirstOrDefault(),
+								  AgeFrom = e.AgeFrom,
+								  AgeTo = e.AgeTo,
+								  Amount = e.Amount
+							  }).ToList();
+				return events;
+			}
+
+		}
+
 		//public List<ProgramEventRegistrationModel> GetEventsListData(string Id)
 		//{
 		//	//var config = new MapperConfiguration(cfg =>
