@@ -25,7 +25,7 @@ using System.Net;
 
 namespace Chinmaya.Registration.UI.Controllers
 {
-	[CustomAuthorize]
+	[Authorize]
 	public class AccountController : BaseController
 	{
 		Users _user = new Users();
@@ -35,17 +35,6 @@ namespace Chinmaya.Registration.UI.Controllers
         [AllowAnonymous]
 		public ActionResult Login(string returnUrl)
 		{
-            if (User != null)
-            {
-                if (User.roles.Contains("Admin"))
-                {
-                    return RedirectToAction("Admin", "Account");
-                }
-                else
-                {
-                    return RedirectToAction("MyAccount", "Account");
-                }
-            }
             ViewBag.ReturnUrl = returnUrl;
 			return View();
 		}
@@ -103,18 +92,22 @@ namespace Chinmaya.Registration.UI.Controllers
 						Response.Cookies.Add(faCookie);
 						SessionVar.LoginUser = user;
 
-						if (roleName.Contains("Admin"))
-						{
-							return RedirectToAction("Admin", "Account");
-						}
-						else if (roleName.Contains("User"))
-						{
-							return RedirectToAction("MyAccount", "Account");
-						}
-						else
-						{
-							return RedirectToAction("Login", "Account");
-						}
+                        if (!string.IsNullOrEmpty(returnUrl)) return Redirect(returnUrl);
+                        else
+                        {
+                            if (roleName.Contains("Admin"))
+                            {
+                                return RedirectToAction("Admin", "Account");
+                            }
+                            else if (roleName.Contains("User"))
+                            {
+                                return RedirectToAction("MyAccount", "Account");
+                            }
+                            else
+                            {
+                                return RedirectToAction("Login", "Account");
+                            }
+                        }
 					}
 				}
 			}
@@ -415,7 +408,6 @@ namespace Chinmaya.Registration.UI.Controllers
 		[HttpGet]
 		public ActionResult LogOff()
 		{
-            //AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             Response.Cookies["userInfo"].Value = "";
             Response.Cookies["userInfo"].Expires = DateTime.Now.AddDays(-1);
             FormsAuthentication.SignOut();
@@ -887,7 +879,6 @@ namespace Chinmaya.Registration.UI.Controllers
 			return await Utility.DeserializeObject<bool>(roleResponseMessage);
 		}
 
-		[AllowAnonymous]
 		public async Task<ActionResult> MyAccount(ToastModel tm = null)
 		{
 			//ViewBag.Relationship = await GetRelationshipData();
@@ -1265,5 +1256,5 @@ namespace Chinmaya.Registration.UI.Controllers
 			}
 			return View();
 		}
-	}
+    }
 }

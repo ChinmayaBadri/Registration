@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Security;
+using Microsoft.AspNet.Identity;
 
 namespace Chinmaya.Registration.UI
 {
@@ -14,18 +16,23 @@ namespace Chinmaya.Registration.UI
     {
         public override void OnActionExecuting(System.Web.Mvc.ActionExecutingContext filterContext)
         {
-            HttpSessionStateBase session = filterContext.HttpContext.Session;
-            var User = session["User"];
-            if (((User == null) && (!session.IsNewSession)))
+            HttpContext context = HttpContext.Current;
+            if (context.Session != null && context.Session["User"] == null)
             {
-                if (filterContext.HttpContext.Request.IsAjaxRequest())
+                String strPathAndQuery = filterContext.HttpContext.Request.Url.PathAndQuery;
+                String strUrl = filterContext.HttpContext.Request.Url.AbsoluteUri.Replace(strPathAndQuery, "/");
+
+                string redirectTo = "~/Account/Login";
+                string redirectOnSuccess = filterContext.HttpContext.Request.Url.ToString();
+                if (!redirectOnSuccess.Contains("/Account/Login") && context.Request.RawUrl != "/" && !string.IsNullOrEmpty(context.Request.RawUrl) && !context.Request.RawUrl.Contains("ReturnUrl"))
                 {
-                    //filterContext.HttpContext.Response.StatusCode = 403;
-                    //filterContext.HttpContext.Response.StatusDescription = "Session Timeout";
-                    //filterContext.HttpContext.Response.SuppressFormsAuthenticationRedirect = true;
-                    //filterContext.HttpContext.Response.End();                
+                    redirectTo = string.Format(redirectTo + "?returnUrl={0}", HttpUtility.UrlEncode(context.Request.RawUrl));
+                    context.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                    filterContext.Result = new RedirectResult(redirectTo);
+                    return;
                 }
             }
+            base.OnActionExecuting(filterContext);
         }
     }
 }
