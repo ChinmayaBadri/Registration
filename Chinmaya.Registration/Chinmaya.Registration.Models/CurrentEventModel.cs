@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Chinmaya.Registration.Models
 {
@@ -14,7 +15,9 @@ namespace Chinmaya.Registration.Models
 		public string Description { get; set; }
 		public string Weekday { get; set; }
 		public string Frequency { get; set; }
+		[DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
 		public System.TimeSpan StartTime { get; set; }
+		[DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
 		public System.TimeSpan EndTime { get; set; }
 		public Nullable<int> AgeFrom { get; set; }
 		public Nullable<int> AgeTo { get; set; }

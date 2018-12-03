@@ -7,6 +7,8 @@
 
 <html>
 <head>
+	<link href="~/Content/bootstrap-datepicker.standalone.min.css" rel="stylesheet" />
+	<script src="~/Scripts/bootstrap-datepicker.min.js"></script>
 	<style>
 		.requiredA:after {
 			content: " *";
@@ -86,7 +88,7 @@
 									<td>@ev.Name</td>
 									<td>@ev.Weekday</td>
 									<td>@ev.Frequency</td>
-									<td>@ev.Amount</td>
+									<td>$(@ev.Amount)</td>
 									<td><a href="@Url.Action("Edit","Account", new { id = ev.Id })"><span class="label label-orange">Edit</span></a></td>
 								</tr>
 							}
@@ -154,12 +156,20 @@
 							</div>
 							<div class="col-md-4">
 								@Html.LabelFor(m => m.events.StartDate)
-								@Html.TextBoxFor(m => m.events.StartDate, new { @class = "form-control", @type = "date", @Name = "StartDate" })
+								@*@Html.TextBoxFor(m => m.events.StartDate, new { @class = "form-control", @type = "date", @Name = "StartDate" })*@
+								<div class="input-group date">
+									@Html.TextBoxFor(m => m.events.StartDate, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "eventStartDate", @value = "" })
+									<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
+								</div>
 								@Html.ValidationMessageFor(m => m.events.StartDate)
 							</div>
 							<div class="col-md-4">
 								@Html.LabelFor(m => m.events.EndDate)
-								@Html.TextBoxFor(m => m.events.EndDate, new { @class = "form-control", @type = "date", @Name = "EndDate" })
+								@*@Html.TextBoxFor(m => m.events.EndDate, new { @class = "form-control", @type = "date", @Name = "EndDate" })*@
+								<div class="input-group date">
+									@Html.TextBoxFor(m => m.events.EndDate, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "eventEndDate", @value = "" })
+									<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
+								</div>
 								@Html.ValidationMessageFor(m => m.events.EndDate)
 							</div>
 						</div>
@@ -208,7 +218,11 @@
 							</div>
 							<div class="col-md-6">
 								@Html.LabelFor(m => m.events.HolidayDate)
-								@Html.TextBoxFor(m => m.events.HolidayDate, new { @class = "form-control", @type = "date", @Name = "HolidayDate" })
+								@*@Html.TextBoxFor(m => m.events.HolidayDate, new { @class = "form-control", @type = "date", @Name = "HolidayDate" })*@
+								<div class="input-group date">
+									@Html.TextBoxFor(m => m.events.HolidayDate, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "eventHolidayDate", @value = "" })
+									<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
+								</div>
 								@Html.ValidationMessageFor(m => m.events.HolidayDate)
 							</div>
 						</div>
@@ -225,15 +239,24 @@
 		}
 	</div>
 	
-	<script src="~/Scripts/popper.js"></script>
+	@*<script src="~/Scripts/popper.js"></script>*@
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="~/Scripts/bootstrap.min.js"></script>
+	@*<script src="~/Scripts/bootstrap.min.js"></script>*@
 	<script>
 
 		$(function () {
-			$("#programEventRegistration").hide();
+			//$("#programEventRegistration").hide();
 			$('[data-toggle="tooltip"]').tooltip()
 		})
+
+		$(document).ready(function () {
+			$('.datepicker').datepicker({
+				todayHighlight: true,
+				autoclose: true,
+				dateFormat: 'mm-dd-yyyy',
+			});
+				
+		});
 
 		
 		$("#eventModal").on("hidden.bs.modal", function () {
