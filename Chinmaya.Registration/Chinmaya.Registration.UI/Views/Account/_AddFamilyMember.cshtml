@@ -108,67 +108,43 @@
 
 <script>
 
-	$(document).ready(function () {
-		var date = new Date($("#DateValue").val());
-		if ($("#DateValue").val() != null && $("#DateValue").val() != "") {
-			$('.datepicker').datepicker({
-				todayHighlight: true,
-				autoclose: true,
-				dateFormat: 'mm-dd-yyyy'
-			});
-			if ($("#DateValue").val() == "1/1/0001 12:00:00 AM") {
-				$("#DOB").val("");
-			}
-			var today = new Date();
-			var age = Math.floor((today - date) / (365.25 * 24 * 60 * 60 * 1000));
-			if (age >= 18) {
-				$("div#GradeSelectBox").hide();
-			}
-			else {
-				$("div#EmailAddress").hide();
-			}
-		}
-		
-		$("#DOB").on("blur", function () {
-			$("div#GradeSelectBox").show();
-			$("div#EmailAddress").show();
-			var dob = new Date($(this).val());
-			var today = new Date();
+    $(document).ready(function () {
 
-			var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
-			if (age >= 18) {
-				$("div#GradeSelectBox").hide();
-			}
-			else {
-				$("div#EmailAddress").hide();
-			}
-		});
+        $('.datepicker').datepicker({
+            todayHighlight: true,
+            autoclose: true,
+            dateFormat: 'mm-dd-yyyy'
+        });
 
-		$("#Email").on("blur", function () {
-			var content = "Dear Family Member, Would you like to subscribe to our Newsletter?";
-			 $.confirm({
-				 title: 'Alert!',
-				content: content,
-				 buttons: {
-					 confirm: {
-						 text: 'Okay',
-						 btnClass: 'btn-blue',
-						 keys: ['enter', 'shift'],
-						 action: function () {							 
-						 }
-					 },
-					 danger: {
-						 text: 'Cancel',
-						 keys: ['enter', 'shift'],
-						 action: function () {
-							 
-						 }
-					 }
-				 }
-			 });
-		});
+	    $('.datepicker').datepicker().on("changeDate", function (e) {
+	        var dob = new Date($(this).val());
+	        calculateDate(dob);
+	    });
+
+	    $("#Email").on("blur", function () {
+	        var content = "Dear Family Member, Would you like to subscribe to our Newsletter?";
+	        $.confirm({
+	            title: 'Alert!',
+	            content: content,
+	            buttons: {
+	                confirm: {
+	                    text: 'Okay',
+	                    btnClass: 'btn-blue',
+	                    keys: ['enter', 'shift'],
+	                    action: function () {
+	                    }
+	                },
+	                danger: {
+	                    text: 'Cancel',
+	                    keys: ['enter', 'shift'],
+	                    action: function () {
+
+	                    }
+	                }
+	            }
+	        });
+	    });
 	});
-
 
 	function OnSuccess(response) {
 		if (typeof (response.Message) !== 'undefined') {
