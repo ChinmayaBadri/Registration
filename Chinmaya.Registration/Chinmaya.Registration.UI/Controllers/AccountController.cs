@@ -31,17 +31,6 @@ namespace Chinmaya.Registration.UI.Controllers
         [AllowAnonymous]
 		public ActionResult Login(string returnUrl)
 		{
-            if (User != null)
-            {
-                if (User.roles.Contains("Admin"))
-                {
-                    return RedirectToAction("Admin", "Account");
-                }
-                else
-                {
-                    return RedirectToAction("MyAccount", "Account");
-                }
-            }
             ViewBag.ReturnUrl = returnUrl;
 			return View();
 		}
@@ -96,19 +85,23 @@ namespace Chinmaya.Registration.UI.Controllers
 						Response.Cookies.Add(faCookie);
 						SessionVar.LoginUser = user;
 
-						if (roleName.Contains("Admin"))
-						{
-							return RedirectToAction("Admin", "Account");
-						}
-						else if (roleName.Contains("User"))
-						{
-							return RedirectToAction("MyAccount", "Account");
-						}
-						else
-						{
-							return RedirectToAction("Login", "Account");
-						}
-					}
+                        if (!string.IsNullOrEmpty(returnUrl)) return Redirect(returnUrl);
+                        else
+                        {
+                            if (roleName.Contains("Admin"))
+                            {
+                                return RedirectToAction("Admin", "Account");
+                            }
+                            else if (roleName.Contains("User"))
+                            {
+                                return RedirectToAction("MyAccount", "Account");
+                            }
+                            else
+                            {
+                                return RedirectToAction("Login", "Account");
+                            }
+                        }
+                    }
 				}
 			}
 			return View(model);
@@ -817,6 +810,12 @@ namespace Chinmaya.Registration.UI.Controllers
 			return PartialView("_AddFamilyMember", fm);
 		}
 
+		public async Task<List<CurrentEventModel>> GetEvents(int age)
+		{
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetEventsData/" + age, true);
+			return await Utility.DeserializeObject<List<CurrentEventModel>>(roleResponseMessage);
+		}
+
 		[AllowAnonymous]
 		public async Task<ActionResult> Event()
 		{
@@ -847,8 +846,13 @@ namespace Chinmaya.Registration.UI.Controllers
 		{
 			ProgramEventRegistrationModel programEventRegistrationModel = new ProgramEventRegistrationModel();
 			programEventRegistrationModel.uFamilyMembers = await _user.GetUserFamilyMemberData(User.UserId);
-			programEventRegistrationModel.Events = await _common.GetEvents();
-
+			foreach (var item in programEventRegistrationModel.uFamilyMembers)
+			{
+				DateTime today = DateTime.Today;
+				int age = today.Year - (item.DOB).Year;
+				item.Events = await GetEvents(age);
+				
+			}
 			if (prevBtn != null)
 			{
 				return RedirectToAction("MyAccount");
@@ -859,7 +863,16 @@ namespace Chinmaya.Registration.UI.Controllers
 				if (nextBtn != null)
 				{
 					List<ClassesConfirmModel> classesConfirm = new List<ClassesConfirmModel>();
-
+					//if (select == null)
+					//{
+					//	TempData["msg"] = "<script>alert('Please select atleast one Event');</script>";
+					//	return View("ProgramEventRegistration", programEventRegistrationModel);
+					//}
+					if (select == null)
+					{
+						return View("ClassesConfirm", classesConfirm);
+					}
+					else
 					if (select.Length != 0)
 					{
 						List<string> selectedId = new List<string>();
@@ -912,9 +925,12 @@ namespace Chinmaya.Registration.UI.Controllers
 							classConfirm.Events = currentEvents;
 							classesConfirm.Add(classConfirm);
 						}
+						TempData["mydata"] = classesConfirm;
+						return View("ClassesConfirm", classesConfirm);
 					}
-					
-					return View("ClassesConfirm", classesConfirm);
+									
+					else return View("ProgramEventRegistration", programEventRegistrationModel);
+
 				}
 			}
 			return View("ProgramEventRegistration", programEventRegistrationModel);
@@ -923,6 +939,17 @@ namespace Chinmaya.Registration.UI.Controllers
 		[AllowAnonymous]
 		public ActionResult ClassesConfirm(string prevBtn, string nextBtn)
 		{
+			List<ClassesConfirmModel> classesConfirm = new List<ClassesConfirmModel>();
+			classesConfirm = TempData["mydata"] as List<ClassesConfirmModel>;
+			decimal amount = 0;
+			foreach (var item in classesConfirm)
+			{
+				foreach (var ev in item.Events)
+				{
+					amount += (decimal)ev.Amount;
+				}
+			}
+			TempData["Amount"] = amount;
 			if (prevBtn != null)
 			{
 				return RedirectToAction("ProgramEventRegistration");
@@ -932,18 +959,33 @@ namespace Chinmaya.Registration.UI.Controllers
 			{
 				if (nextBtn != null)
 				{
+					if (classesConfirm == null)
+					{
+						TempData["msg"] = "<script>alert('Please select atleast one Event');</script>";
+						return RedirectToAction("ProgramEventRegistration");
+					}
 					var termCheckBox = Request.Form["termsandConditions"];
+					var dir = Request.Form["Directory"]; 
+					if (termCheckBox != "on")
+					{
+						TempData["msg"] = "<script>alert('Please agree to the terms and conditions');</script>";
+						return View("ClassesConfirm", classesConfirm);
+					}
+					
+
 					return RedirectToAction("PaymentMethod");
 				}
 			}
-			return View();
+			return View("ClassesConfirm", classesConfirm);
 		}
 
-		public async Task<string> AddtoDirectory(string Id)
+		[AllowAnonymous]
+		public async Task<ActionResult> AddtoDirectory(string Id)
 		{
 			var id = User.UserId;
 			HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/AddtoDirectory/" + id, Id, true);
-			return "ok";
+			string res = "Okay";
+			return Json(res, JsonRequestBehavior.AllowGet);
 		}
 
 		[AllowAnonymous]
@@ -960,7 +1002,7 @@ namespace Chinmaya.Registration.UI.Controllers
 			ViewBag.AccountType = await GetAccountType();
 			if (prevBtn != null)
 			{
-				return RedirectToAction("ProgramEventRegistration");
+				return RedirectToAction("ClassesConfirm");
 			}
 
 			else
@@ -969,11 +1011,14 @@ namespace Chinmaya.Registration.UI.Controllers
 				{
 					if (ModelState.IsValid && data.paymentType == "Check")
 					{
+						var amount = TempData["Amount"];
 						data.CreatedBy = User.UserId;
+						data.Amount = Convert.ToDecimal(amount);
 						HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostCheckPayment", data, true);
-						return View();
+						return RedirectToAction("MyAccount");
+
 					}
-					return View();
+					
 				}
 			}
 			return View();

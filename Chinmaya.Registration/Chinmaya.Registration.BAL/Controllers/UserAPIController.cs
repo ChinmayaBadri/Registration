@@ -92,6 +92,20 @@ namespace Chinmaya.Registration.BAL.Controllers
 			return _user.GetEventsData();
 		}
 
+		[Route("api/UserAPI/GetEventsData/{age}")]
+		[HttpGet]
+		public IEnumerable<CurrentEventModel> GetEventsData(int age)
+		{
+			return _user.GetEventsData(age);
+		}
+
+		//[Route("api/UserAPI/GetEventsListData/{id}")]
+		//[HttpGet]
+		//public IEnumerable<ProgramEventRegistrationModel> GetEventsListData(string id)
+		//{
+		//	return _user.GetEventsListData(id);
+		//}
+
 		[Route("api/UserAPI/PostUser")]
 		[HttpPost]
 		public IHttpActionResult PostUser(UserModel obj)

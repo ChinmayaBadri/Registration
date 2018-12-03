@@ -199,6 +199,76 @@ namespace Chinmaya.Registration.DAL
 			
 		}
 
+		public List<CurrentEventModel> GetEventsData(int age)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				var events = (from e in _ctx.Events
+							  where e.AgeFrom <= age && age <= e.AgeTo
+							  select new CurrentEventModel
+							  {
+								  Id = e.Id,
+								  Name = e.Name,
+								  Description = e.Description,
+								  Weekday = _ctx.Weekdays.Where(i => i.Id == e.WeekdayId).Select(i => i.Name).FirstOrDefault(),
+								  Frequency = _ctx.Frequencies.Where(i => i.Id == e.FrequencyId).Select(i => i.Name).FirstOrDefault(),
+								  StartTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.StartTime).FirstOrDefault(),
+								  EndTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.EndTime).FirstOrDefault(),
+								  AgeFrom = e.AgeFrom,
+								  AgeTo = e.AgeTo,
+								  Amount = e.Amount
+							  }).ToList();
+				return events;
+			}
+
+		}
+
+		//public List<ProgramEventRegistrationModel> GetEventsListData(string Id)
+		//{
+		//	//var config = new MapperConfiguration(cfg =>
+		//	//{
+		//	//	cfg.CreateMap<EventsModel, Event>().ReverseMap();
+		//	//});
+		//	//IMapper mapper = config.CreateMapper();
+
+
+		//	using (var _ctx = new ChinmayaEntities())
+		//	{
+		//		//var _eveData = mapper.Map<List<EventsModel>>(_ctx.Events);
+
+		//		//foreach (var item in _eveData)
+		//		//{
+		//		//	var EveSession = _ctx.EventSessions.FirstOrDefault(x => x.EventId == item.Id);
+		//		//	var Eveweek = _ctx.Weekdays.FirstOrDefault(x => x.Id == item.WeekdayId);
+		//		//	item.StartTime = EveSession.StartTime;
+		//		//	item.EndTime = EveSession.EndTime;
+		//		//	item.WeekdayName = Eveweek.Name;
+		//		//}
+
+		//		var events = (from f in _ctx.FamilyMembers
+		//					  where f.UpdatedBy == Id
+		//					  select new ProgramEventRegistrationModel
+		//					  {
+
+		//						  UserId = f.Id,
+		//						  FirstName = f.FirstName,
+		//						  LastName = f.LastName,
+		//						  Events = (from e in _ctx.Events
+		//									select new EventsModel
+		//									{
+		//										Id = e.Id,
+		//										Name = e.Name,
+		//										WeekdayName = _ctx.Weekdays.Where(i => i.Id == e.WeekdayId).Select(i => i.Name).FirstOrDefault(),
+		//										StartTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.StartTime).FirstOrDefault(),
+		//										EndTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.EndTime).FirstOrDefault(),
+		//										Amount = e.Amount
+		//									})
+		//					  }).ToList();
+		//		return events;
+		//	}
+
+		//}
+
 		public void PostUser(UserModel user)
 		{
 			using (var _ctx = new ChinmayaEntities())
