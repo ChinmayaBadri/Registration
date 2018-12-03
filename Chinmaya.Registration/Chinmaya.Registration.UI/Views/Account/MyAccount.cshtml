@@ -141,33 +141,30 @@
 	<!-- Modal Content Ends -->
 	<script>
 
-		$(document).ready(function () {
+        $(document).ready(function () {
+
 			$("#AddFamilyMember").on("click", function () {
 				$("#exampleModalCenter").load("/Account/RefreshFamilyMemberPartialView");
 				$("#exampleModalCenter").modal();
-				$('.datepicker').datepicker({
-					todayHighlight: true,
-					autoclose: true,
-					defaultDate: false,
-					dateFormat: 'mm-dd-yyyy',
-					setDate: null
-				});
 			});
+
 			$("#current-Events").hide();
 			$("#userList").hide();
+
 			$('[data-toggle="tooltip"]').tooltip({ position: 'right' });
 
-		});
+			$(".editFamilyMember").click(function () {
+			    var id = $(this).attr("id");
+			    $.ajax({
+			        "url": "../Account/EditFamilyMember/" + id,
+			        "type": "GET",
+			        success: function (data) {
+			            $("#exampleModalCenter").html(data);
+			            $("#exampleModalCenter").modal();
+			            DoTheCalculations();
+			        },
 
-		$(".editFamilyMember").click(function () {
-			var id = $(this).attr("id");
-			$.ajax({
-				"url": "../Account/EditFamilyMember/" + id,
-				"type": "GET",
-				success: function (data) {
-					$("#exampleModalCenter").html(data);
-					$("#exampleModalCenter").modal();
-				},
+			    });
 
 			});
 
@@ -187,6 +184,30 @@
 				$("div#EmailAddress").show();
 			});
 		});
+
+		function DoTheCalculations() {
+		    var date = new Date($("#DateValue").val());
+
+		    if ($("#DateValue").val() != null && $("#DateValue").val() != "") {
+		        calculateDate(date);
+		    }
+		}
+
+		function toggleGradeEmail(state) {
+		    $("div#GradeSelectBox").toggle(state);
+		    $("div#EmailAddress").toggle(!state);
+		}
+
+		function calculateDate(date) {
+		    var today = new Date();
+		    var age = Math.floor((today - date) / (365.25 * 24 * 60 * 60 * 1000));
+		    if (age >= 18) {
+		        toggleGradeEmail(false);
+		    }
+		    else {
+		        toggleGradeEmail(true);
+		    }
+		}
 
 	</script>
 </body>
