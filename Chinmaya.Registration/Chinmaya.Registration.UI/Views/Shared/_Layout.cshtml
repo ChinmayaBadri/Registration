@@ -36,16 +36,16 @@
 							<li class="nav-item active"> <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> </li>
 							<li class="nav-item"> <a class="nav-link" href="#">About Us</a> </li>
 							<li class="nav-item"> <a class="nav-link" href="#">Donate</a> </li>
-							<li class="nav-item"> @Html.ActionLink("Program/Event Registration", "ProgramEventRegistration", "Account", new { @class = "nav-link", @id = "programEventRegistration" }) </li>
-							<li class="nav-item"> @Html.ActionLink("UserList", "Admin", "Account", new { @class = "nav-link", @id = "userList" }) </li>
-							<li class="nav-item"> @Html.ActionLink("Current Events", "Event", "Account", new { @class = "nav-link", @id = "current-Events" })</li>
+							<li class="nav-item"> @Html.ActionLink("Program/Event Registration", "ProgramEventRegistration", new { controller = "Account" }, new { @class = "nav-link", @id = "programEventRegistration" }) </li>
+							<li class="nav-item"> @Html.ActionLink("UserList", "Admin", new { controller = "Account" }, new { @class = "nav-link", @id = "userList" }) </li>
+							<li class="nav-item"> @Html.ActionLink("Current Events", "Event", new { controller = "Account" }, new { @class = "nav-link", @id = "current-Events" })</li>
 							<li class="nav-item"> <a class="nav-link" href="#">Contact Us</a> </li>
 						</ul>
 						<div class="form-inline my-2 my-lg-0">
 							<span class="navbar-text">Welcome, @User.Identity.Name</span>
 							<ul class="navbar-nav mr-auto">
-								<li class="nav-item"> @Html.ActionLink("My Account", "MyAccount", "Account", new { @class = "nav-link" })</li>
-								<li class="nav-item"> @Html.ActionLink("Sign Out", "LogOff", "Account", new { @class = "nav-link" }) </li>
+								<li class="nav-item"> @Html.ActionLink("My Account", "MyAccount", new { controller = "Account" }, new { @class = "nav-link" })</li>
+								<li class="nav-item"> @Html.ActionLink("Sign Out", "LogOff", new { controller = "Account" }, new { @class = "nav-link" }) </li>
 							</ul>
 							<a href="#"><img src="~/Content/img/cart-icon.png"> <span class="cart-count">2</span></a>
 						</div>
