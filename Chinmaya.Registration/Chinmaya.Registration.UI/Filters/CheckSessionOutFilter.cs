@@ -24,7 +24,7 @@ namespace Chinmaya.Registration.UI
 
                 string redirectTo = "~/Account/Login";
                 string redirectOnSuccess = filterContext.HttpContext.Request.Url.ToString();
-                if (!redirectOnSuccess.Contains("/Account/Login") && context.Request.RawUrl != "/" && !string.IsNullOrEmpty(context.Request.RawUrl) && !context.Request.RawUrl.Contains("ReturnUrl"))
+                if (!redirectOnSuccess.Contains("/Account/") && context.Request.RawUrl != "/" && !string.IsNullOrEmpty(context.Request.RawUrl) && !context.Request.RawUrl.Contains("ReturnUrl"))
                 {
                     redirectTo = string.Format(redirectTo + "?returnUrl={0}", HttpUtility.UrlEncode(context.Request.RawUrl));
                     context.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
