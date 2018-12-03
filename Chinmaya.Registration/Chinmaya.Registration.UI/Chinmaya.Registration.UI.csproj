@@ -155,6 +155,9 @@
     <Compile Include="Providers\CustomPrincipal.cs" />
     <Compile Include="Providers\SessionVar.cs" />
     <Compile Include="Services\AccountService.cs" />
+    <Compile Include="Services\CommonService.cs" />
+    <Compile Include="Services\EventService.cs" />
+    <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-datepicker.standalone.min.css" />
