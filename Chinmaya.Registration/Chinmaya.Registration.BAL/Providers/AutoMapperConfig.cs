@@ -27,7 +27,8 @@ namespace Chinmaya.Registration.BAL.Providers
 				cfg.CreateMap<KeyValueModel, Relationship>();
 				cfg.CreateMap<KeyValueModel, Grade>();
 				cfg.CreateMap<FamilyMemberModel, FamilyMember>();
-			});
+                cfg.CreateMap<FamilyMember, FamilyMemberModel>();
+            });
         }
     }
 }
