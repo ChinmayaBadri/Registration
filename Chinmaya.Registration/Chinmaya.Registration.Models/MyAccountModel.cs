@@ -10,6 +10,7 @@ namespace Chinmaya.Registration.Models
 	{
 		public List<UserFamilyMember> userFamilyMember { get; set; }
         public FamilyMemberModel familyMemberModel { get; set; } = new FamilyMemberModel();
+		public UpdatePasswordModel updatePasswordModel { get; set; } = new UpdatePasswordModel();
 		public bool IsIndividual { get; set; }
 	}
 }

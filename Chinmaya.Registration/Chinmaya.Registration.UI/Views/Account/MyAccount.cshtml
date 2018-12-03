@@ -42,7 +42,7 @@
 				</li>
 
 				<ul class="sub-menu collapse" id="account">
-					<li><a href="#"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
+					<li><a class="Password" data-toggle="modal" data-target="#changePassword"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
 					<li class="active"><a href="#"><img alt="" src="~/Content/img/update-family-info-active.png"> Update Family Info</a></li>
 				</ul>
 
@@ -78,9 +78,9 @@
 				<div class="col-md-6 table-title">Family Information</div>
 				@if (!Model.IsIndividual)
 				{
-				<div class="col-md-6 text-right">
-					<a class="orange-links" id="AddFamilyMember" href="#"><i class="material-icons">add_circle_outline</i> Add Family Member</a>
-				</div>
+					<div class="col-md-6 text-right">
+						<a class="orange-links" id="AddFamilyMember" href="#"><i class="material-icons">add_circle_outline</i> Add Family Member</a>
+					</div>
 				}
 				<div class="modal fade" id="FamilyMemberPartial" role="dialog"></div>
 			</div>
@@ -104,23 +104,23 @@
 
 							@foreach (var m in Model.userFamilyMember)
 							{
-							<tr>
-								<td>@(m.FirstName + " " + m.LastName)</td>
-								<td>@(m.DOB.ToString("MMM dd, yyyy"))</td>
-								<td>@m.Relationship</td>
-								@if (@m.Grade != null)
-								{
-									<td>@m.Grade</td>
-								}
-								else
-								{
-									<td>-</td>
-								}
-								@if (@m.Relationship != "Self")
-								{
-								<td id="@m.Id" class="editFamilyMember"><a href="#" data-toggle="modal" data-target="#EditModal" class="Edit"><span class="label label-orange">Edit</span></a></td>
-								}
-							</tr>
+								<tr>
+									<td>@(m.FirstName + " " + m.LastName)</td>
+									<td>@(m.DOB.ToString("MMM dd, yyyy"))</td>
+									<td>@m.Relationship</td>
+									@if (@m.Grade != null)
+									{
+										<td>@m.Grade</td>
+									}
+									else
+									{
+										<td>-</td>
+									}
+									@if (@m.Relationship != "Self")
+									{
+										<td id="@m.Id" class="editFamilyMember"><a href="#" data-toggle="modal" data-target="#EditModal" class="Edit"><span class="label label-orange">Edit</span></a></td>
+									}
+								</tr>
 							}
 						</tbody>
 					</table>
@@ -128,10 +128,7 @@
 			</div>
 		</div>
 	</div>
-
-	<div id="dialog-edit" style="display: none">
-	</div>
-
+	
 	<!-- Modal Content starts -->
 	<div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
@@ -139,6 +136,12 @@
 
 	</div>
 	<!-- Modal Content Ends -->
+	<div class="modal fade bd-example-modal-lg" id="changePassword" tabindex="-1" role="dialog">
+
+		@Html.Partial("_ChangePassword", Model.updatePasswordModel)
+
+	</div>
+
 	<script>
 
 		$(document).ready(function () {
@@ -156,6 +159,10 @@
 			$("#current-Events").hide();
 			$("#userList").hide();
 			$('[data-toggle="tooltip"]').tooltip({ position: 'right' });
+			//$("#changePassword").on("click", function () {
+			//	//$("#exampleModalCenter").load("/Account/RefreshFamilyMemberPartialView");
+			//	$("#changePassword").modal();
+			//});
 
 		});
 
