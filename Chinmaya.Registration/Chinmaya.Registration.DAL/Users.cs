@@ -353,7 +353,7 @@ namespace Chinmaya.Registration.DAL
 					var fm = new FamilyMember();
                     fm.FirstName = family.FirstName;
                     fm.LastName = family.LastName;
-                    fm.DOB = family.DOB;
+                    fm.DOB = (DateTime)family.DOB;
                     fm.RelationshipId = family.RelationshipData;
                     fm.GradeId = family.Grade;
                     fm.GenderId = family.GenderData;

@@ -21,10 +21,10 @@ namespace Chinmaya.Registration.Models
 		[DisplayName("Last Name")]
 		public string LastName { get; set; }
 
-		[Required]
-		[DisplayName("Date of Birth")]
-		[DisplayFormat(DataFormatString = "{0:MMM d, yyyy}")]
-		public System.DateTime DOB { get; set; }
+        [Required]
+        [DisplayName("Date of Birth")]
+        [DisplayFormat(DataFormatString = "{0:MMM d, yyyy}")]
+        public Nullable<System.DateTime> DOB { get; set; } = null;
 
 		[Required]
 		[DisplayName("Relationship")]
