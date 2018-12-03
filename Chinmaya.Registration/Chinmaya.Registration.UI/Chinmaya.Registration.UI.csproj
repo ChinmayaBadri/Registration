@@ -204,6 +204,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\CustomPrincipal.cs" />
     <Compile Include="Providers\SessionVar.cs" />
+    <Compile Include="Services\AccountService.cs" />
+    <Compile Include="Services\CommonService.cs" />
+    <Compile Include="Services\EventService.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -592,10 +596,6 @@
     <ProjectReference Include="..\Chinmaya.Registration.BAL\Chinmaya.Registration.BAL.csproj">
       <Project>{5fb37811-ed1f-43ee-9def-417357693aca}</Project>
       <Name>Chinmaya.Registration.BAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Chinmaya.Registration.DAL\Chinmaya.Registration.DAL.csproj">
-      <Project>{97a07a3a-7cea-4229-be46-759a821d6c1a}</Project>
-      <Name>Chinmaya.Registration.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Chinmaya.Registration.Models\Chinmaya.Registration.Models.csproj">
       <Project>{e5882384-c0da-4af9-b0e4-28be2eb530bc}</Project>

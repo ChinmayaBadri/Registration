@@ -52,5 +52,6 @@ namespace Chinmaya.Registration.Models
         public List<KeyValueModel> genders { get; set; }
 
 		public int Year { get; set; }
-	}
+        public Nullable<System.DateTime> UpdatedDate { get; set; }
+    }
 }
