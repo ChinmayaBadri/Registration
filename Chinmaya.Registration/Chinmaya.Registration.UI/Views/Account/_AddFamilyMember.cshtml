@@ -109,17 +109,20 @@
 <script>
 
 	$(document).ready(function () {
+		var today = new Date();
 		var date = new Date($("#DateValue").val());
 		if ($("#DateValue").val() != null && $("#DateValue").val() != "") {
 			$('.datepicker').datepicker({
 				todayHighlight: true,
 				autoclose: true,
-				dateFormat: 'mm-dd-yyyy'
+				dateFormat: 'mm-dd-yyyy',
+				endDate: "today",
+				maxDate: today
 			});
 			if ($("#DateValue").val() == "1/1/0001 12:00:00 AM") {
 				$("#DOB").val("");
 			}
-			var today = new Date();
+			
 			var age = Math.floor((today - date) / (365.25 * 24 * 60 * 60 * 1000));
 			if (age >= 18) {
 				$("div#GradeSelectBox").hide();
