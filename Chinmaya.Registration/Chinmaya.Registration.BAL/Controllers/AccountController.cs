@@ -12,19 +12,20 @@ namespace Chinmaya.Registration.BAL.Controllers
     public class AccountController : ApiController
     {
 		Account _Account = new Account();
+        Common _common = new Common();
 
 		[Route("api/Account/GetState/{id}")]
 		[HttpGet]
 		public List<KeyValueModel> GetState(int id)
 		{
-			return _Account.GetStateName(id);
+			return _common.GetStateName(id);
 		}
 
 		[Route("api/Account/GetCity/{id}")]
 		[HttpGet]
 		public List<KeyValueModel> GetCity(int id)
 		{
-			return _Account.GetCityName(id);
+			return _common.GetCityName(id);
 		}
 
         [Route("api/Account/IsEmailExists/{email}/")]
@@ -45,7 +46,7 @@ namespace Chinmaya.Registration.BAL.Controllers
         [HttpGet]
         public IHttpActionResult GetEmailTemplate(int id)
         {
-            return Ok(_Account.GetEmailTemplateByID(id));
+            return Ok(_common.GetEmailTemplateByID(id));
         }
 
         [Route("api/Account/GetSecurityQuestionsByEmail/{email}/")]
@@ -62,13 +63,6 @@ namespace Chinmaya.Registration.BAL.Controllers
             return Ok(_Account.GetFamilyPrimaryAccountEmail(email));
         }
 
-        [Route("api/Account/GetUserFullNameByEmail/{email}/")]
-        [HttpGet]
-        public IHttpActionResult GetUserFullNameByEmail(string email)
-        {
-            return Ok(_Account.GetUserFullNameByEmail(email));
-        }
-
         [Route("api/Account/ResetUserPassword")]
         [HttpPost]
         public IHttpActionResult ResetUserPassword(ResetPasswordModel rpm)
@@ -83,13 +77,6 @@ namespace Chinmaya.Registration.BAL.Controllers
             return Ok(_Account.IsFamilyMember(email));
         }
 
-        [Route("api/Account/GetUserInfoByEmail/{email}/")]
-        [HttpGet]
-        public IHttpActionResult GetUserInfoByEmail(string email)
-        {
-            return Ok(_Account.GetUserInfoByEmail(email));
-        }
-
         [Route("api/Account/IsActiveUser/{email}/")]
         [HttpGet]
         public IHttpActionResult IsActiveUser(string email)
@@ -102,6 +89,28 @@ namespace Chinmaya.Registration.BAL.Controllers
         public IHttpActionResult GetUserIdByEmail(string email)
         {
             return Ok(_Account.GetUserIdByEmail(email));
+        }
+
+        [Route("api/Account/ChangeAccountType/{id}")]
+        [HttpPost]
+        public IHttpActionResult ChangeAccountType(string id)
+        {
+            try
+            {
+                _Account.ChangeAccountType(id);
+                return Ok("Success");
+            }
+            catch (Exception)
+            {
+                return Ok("Something went wrong");
+            }
+        }
+
+        [Route("api/Account/GetIsIndividual/{id}")]
+        [HttpGet]
+        public bool GetIsIndividual(string id)
+        {
+            return _Account.GetIsIndividual(id);
         }
     }
 }

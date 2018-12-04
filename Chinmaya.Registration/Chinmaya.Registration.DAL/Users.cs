@@ -102,28 +102,6 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
-		public void ChangeAccountType(string id)
-		{
-			using (var _ctx = new ChinmayaEntities())
-			{
-				var user = _ctx.Users.Where(i => i.Id == id).FirstOrDefault();
-				if (user != null)
-				{
-					user.IsIndividual = false;
-					_ctx.SaveChanges();
-				}
-			}
-		}
-
-
-		public bool GetIsIndividual(string Id)
-		{
-			using (var _ctx = new ChinmayaEntities())
-			{
-				return _ctx.Users.Where(r => r.Id == Id).Select(n => n.IsIndividual).FirstOrDefault();
-			}
-		}
-
 		public UserFamilyMember GetUserData(string Id)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -153,121 +131,6 @@ namespace Chinmaya.Registration.DAL
 				return userData;
 			}
 		}
-
-		public CurrentEventModel GetEventData(string Id)
-		{
-			using (var _ctx = new ChinmayaEntities())
-			{
-				var eventData = (from e in _ctx.Events
-								 where e.Id == Id
-								 select new CurrentEventModel
-								 {
-
-									 Id = e.Id,
-									 Name = e.Name,
-									 Description = e.Description,
-									 Weekday = _ctx.Weekdays.Where(i => i.Id == e.WeekdayId).Select(i => i.Name).FirstOrDefault(),
-									 Frequency = _ctx.Frequencies.Where(i => i.Id == e.FrequencyId).Select(i => i.Name).FirstOrDefault(),
-									 StartTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.StartTime).FirstOrDefault(),
-									 EndTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.EndTime).FirstOrDefault(),
-									 Amount = e.Amount
-								 }).FirstOrDefault();
-				return eventData;
-			}
-		}
-
-		public List<CurrentEventModel> GetEventsData()
-		{
-			
-			using (var _ctx = new ChinmayaEntities())
-			{
-				var events = (from e in _ctx.Events
-							  select new CurrentEventModel
-							  {
-
-								  Id = e.Id,
-								  Name = e.Name,
-								  Description = e.Description,
-								  Weekday = _ctx.Weekdays.Where(i => i.Id == e.WeekdayId).Select(i => i.Name).FirstOrDefault(),
-								  Frequency = _ctx.Frequencies.Where(i => i.Id == e.FrequencyId).Select(i => i.Name).FirstOrDefault(),
-								  StartTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.StartTime).FirstOrDefault(),
-								  EndTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.EndTime).FirstOrDefault(),
-								  Amount = e.Amount
-							  }).ToList();
-				return events;
-			}
-			
-		}
-
-		public List<CurrentEventModel> GetEventsData(int age)
-		{
-			using (var _ctx = new ChinmayaEntities())
-			{
-				var events = (from e in _ctx.Events
-							  where e.AgeFrom <= age && age <= e.AgeTo
-							  select new CurrentEventModel
-							  {
-								  Id = e.Id,
-								  Name = e.Name,
-								  Description = e.Description,
-								  Weekday = _ctx.Weekdays.Where(i => i.Id == e.WeekdayId).Select(i => i.Name).FirstOrDefault(),
-								  Frequency = _ctx.Frequencies.Where(i => i.Id == e.FrequencyId).Select(i => i.Name).FirstOrDefault(),
-								  StartTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.StartTime).FirstOrDefault(),
-								  EndTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.EndTime).FirstOrDefault(),
-								  AgeFrom = e.AgeFrom,
-								  AgeTo = e.AgeTo,
-								  Amount = e.Amount
-							  }).ToList();
-				return events;
-			}
-
-		}
-
-		//public List<ProgramEventRegistrationModel> GetEventsListData(string Id)
-		//{
-		//	//var config = new MapperConfiguration(cfg =>
-		//	//{
-		//	//	cfg.CreateMap<EventsModel, Event>().ReverseMap();
-		//	//});
-		//	//IMapper mapper = config.CreateMapper();
-
-
-		//	using (var _ctx = new ChinmayaEntities())
-		//	{
-		//		//var _eveData = mapper.Map<List<EventsModel>>(_ctx.Events);
-
-		//		//foreach (var item in _eveData)
-		//		//{
-		//		//	var EveSession = _ctx.EventSessions.FirstOrDefault(x => x.EventId == item.Id);
-		//		//	var Eveweek = _ctx.Weekdays.FirstOrDefault(x => x.Id == item.WeekdayId);
-		//		//	item.StartTime = EveSession.StartTime;
-		//		//	item.EndTime = EveSession.EndTime;
-		//		//	item.WeekdayName = Eveweek.Name;
-		//		//}
-
-		//		var events = (from f in _ctx.FamilyMembers
-		//					  where f.UpdatedBy == Id
-		//					  select new ProgramEventRegistrationModel
-		//					  {
-
-		//						  UserId = f.Id,
-		//						  FirstName = f.FirstName,
-		//						  LastName = f.LastName,
-		//						  Events = (from e in _ctx.Events
-		//									select new EventsModel
-		//									{
-		//										Id = e.Id,
-		//										Name = e.Name,
-		//										WeekdayName = _ctx.Weekdays.Where(i => i.Id == e.WeekdayId).Select(i => i.Name).FirstOrDefault(),
-		//										StartTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.StartTime).FirstOrDefault(),
-		//										EndTime = _ctx.EventSessions.Where(i => i.EventId == e.Id).Select(i => i.EndTime).FirstOrDefault(),
-		//										Amount = e.Amount
-		//									})
-		//					  }).ToList();
-		//		return events;
-		//	}
-
-		//}
 
 		public void PostUser(UserModel user)
 		{
@@ -394,158 +257,51 @@ namespace Chinmaya.Registration.DAL
 				}
 			}
 		}
-		
-		public void PostEvent(EventsModel ev)
-		{
-			using (var _ctx = new ChinmayaEntities())
-			{
-				var config = new MapperConfiguration(cfg =>
-				{
-					cfg.CreateMap<EventsModel, Event>();
-				});
-				IMapper mapper = config.CreateMapper();
 
-				var eve = new Event
-				{
-					Id = Guid.NewGuid().ToString(),
-					Name = ev.Name,
-					Description = ev.Description,
-					WeekdayId = ev.WeekdayId,
-					FrequencyId = ev.FrequencyId,
-					AgeFrom = ev.AgeFrom,
-					AgeTo = ev.AgeTo,
-					Amount = ev.Amount,
-					Status = true,
-					CreatedBy = ev.CreatedBy,
-					CreatedDate = DateTime.Now
-				};
+        public UserModel GetUserInfoByEmail(string email)
+        {
+            using (var _ctx = new ChinmayaEntities())
+            {
+                UserModel um = new UserModel();
+                var objUser = _ctx.Users.FirstOrDefault(x => x.Email == email);
+                if (objUser != null)
+                {
+                    var config = new MapperConfiguration(cfg =>
+                    {
+                        cfg.CreateMap<User, UserModel>();
+                    });
+                    IMapper mapper = config.CreateMapper();
+                    return mapper.Map(objUser, um);
+                }
+                return um;
+            }
+        }
 
-				var evs = new EventSession
-				{
-					EventId = eve.Id,
-					SessionId = ev.SessionId,
-					StartDate = ev.StartDate,
-					EndDate = ev.EndDate,
-					StartTime = ev.StartTime,
-					EndTime = ev.EndTime,
-					Location = ev.Location,
-					Instructor = ev.Instructor,
-					Contact = ev.Contact,
-					Other = ev.Other
-				};
+        public string GetUserFullNameByEmail(string email)
+        {
+            string fullname = string.Empty;
+            if (!string.IsNullOrEmpty(email))
+            {
+                using (var _ctx = new ChinmayaEntities())
+                {
+                    var objUser = _ctx.Users.FirstOrDefault(x => x.Email == email);
+                    if (objUser != null)
+                    {
+                        fullname = objUser.FirstName + " " + objUser.LastName;
+                    }
+                    else
+                    {
+                        var objFamilyUser = _ctx.FamilyMembers.FirstOrDefault(x => x.Email == email);
+                        if (objFamilyUser != null)
+                        {
+                            fullname = objFamilyUser.FirstName + " " + objFamilyUser.LastName;
+                        }
+                    }
 
-
-				if (ev.HolidayDate != null)
-				{
-					var eHoliday = new EventHoliday
-					{
-						EventId = eve.Id,
-						HolidayDate = ev.HolidayDate
-					};
-					_ctx.EventHolidays.Add(eHoliday);
-				}
-				_ctx.Events.Add(eve);
-				_ctx.EventSessions.Add(evs);
-				
-				try
-				{
-					_ctx.SaveChanges();
-				}
-				catch (DbEntityValidationException e)
-				{
-					foreach (var even in e.EntityValidationErrors)
-					{
-						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-							even.Entry.Entity.GetType().Name, even.Entry.State);
-						foreach (var ve in even.ValidationErrors)
-						{
-							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-								ve.PropertyName, ve.ErrorMessage);
-						}
-					}
-
-				}
-			}
-		}
-		
-		public void AddtoDirectory(string id)
-		{
-			using (var _ctx = new ChinmayaEntities())
-			{
-				var user = _ctx.Directories.Where(r => r.UserId == id).Select(n => n.UserId).FirstOrDefault();
-				if (user == null)
-				{
-					var dir = new Directory
-					{
-						UserId = id
-					};
-					_ctx.Directories.Add(dir);
-				}
-				try
-				{
-					_ctx.SaveChanges();
-				}
-				catch (DbEntityValidationException e)
-				{
-					foreach (var even in e.EntityValidationErrors)
-					{
-						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-							even.Entry.Entity.GetType().Name, even.Entry.State);
-						foreach (var ve in even.ValidationErrors)
-						{
-							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-								ve.PropertyName, ve.ErrorMessage);
-						}
-					}
-
-				}
-			}
-		}
-
-		public void PostCheckPayment(CheckPaymentModel chkp)
-		{
-			using (var _ctx = new ChinmayaEntities())
-			{
-				var config = new MapperConfiguration(cfg =>
-				{
-					cfg.CreateMap<CheckPaymentModel, CheckPayment>();
-				});
-				IMapper mapper = config.CreateMapper();
-
-				var chk = new CheckPayment
-				{
-					AccountHolderName = chkp.AccountHolderName,
-					AccountTypeId = chkp.AccountTypeId,
-					BankName = chkp.BankName,
-					AccountNumber = chkp.AccountNumber,
-					RoutingNumber = chkp.RoutingNumber,
-					Amount = chkp.Amount,
-					StatusId = 1,
-					CreatedBy = chkp.CreatedBy,
-					CreatedDate = DateTime.Now
-				};
-
-				_ctx.CheckPayments.Add(chk);
-				try
-				{
-					_ctx.SaveChanges();
-				}
-				catch (DbEntityValidationException e)
-				{
-					foreach (var even in e.EntityValidationErrors)
-					{
-						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-							even.Entry.Entity.GetType().Name, even.Entry.State);
-						foreach (var ve in even.ValidationErrors)
-						{
-							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-								ve.PropertyName, ve.ErrorMessage);
-						}
-					}
-
-				}
-			}
-		}
-	}
+                }
+            }
+            return fullname;
+        }
+    }
 }
 

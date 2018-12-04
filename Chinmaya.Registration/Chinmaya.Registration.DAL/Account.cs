@@ -12,30 +12,6 @@ namespace Chinmaya.Registration.DAL
 {
 	public class Account
 	{
-		public List<KeyValueModel> GetStateName(int id)
-		{
-			using (var _ctx = new ChinmayaEntities())
-			{
-				return _ctx.States.Where(s => s.CountryID == id).Select(x => new KeyValueModel
-				{
-					Id = x.Id,
-					Name = x.Name
-				}).ToList();
-			}
-		}
-
-		public List<KeyValueModel> GetCityName(int id)
-		{
-			using (var _ctx = new ChinmayaEntities())
-			{
-				return _ctx.Cities.Where(s => s.StateID == id).Select(x => new KeyValueModel
-				{
-					Id = x.Id,
-					Name = x.Name
-				}).ToList();
-			}
-		}
-
         public bool IsEmailExists(string email)
         {
             using (var _ctx = new ChinmayaEntities())
@@ -69,6 +45,7 @@ namespace Chinmaya.Registration.DAL
                 if (_ctx.Users.Any(u => u.HomePhone == cd.HomePhone))
                 {
                     isMatched = true;
+                    return isMatched;
                 }
 
                 var objUserList = _ctx.Users.Where(u => u.Address == cd.Address).ToList();
@@ -84,20 +61,6 @@ namespace Chinmaya.Registration.DAL
                 }
 
                 return isMatched;
-            }
-        }
-
-        public EmailTemplateModel GetEmailTemplateByID(int id)
-        {
-            using (var _ctx = new ChinmayaEntities())
-            {
-                var config = new MapperConfiguration(cfg =>
-                {
-                    cfg.CreateMap<EmailTemplate, EmailTemplateModel>();
-                });
-                IMapper mapper = config.CreateMapper();
-                EmailTemplateModel etm = new EmailTemplateModel();
-                return mapper.Map(_ctx.EmailTemplates.FirstOrDefault(et => et.ID == id), etm);
             }
         }
 
@@ -169,31 +132,6 @@ namespace Chinmaya.Registration.DAL
             return result;
         }
 
-        public string GetUserFullNameByEmail(string email)
-        {
-            string fullname = string.Empty;
-            if(!string.IsNullOrEmpty(email))
-            {
-                using (var _ctx = new ChinmayaEntities())
-                {
-                    var objUser = _ctx.Users.FirstOrDefault(x => x.Email == email);
-                    if(objUser != null)
-                    {
-                        fullname = objUser.FirstName + " " + objUser.LastName;
-                    } else
-                    {
-                        var objFamilyUser = _ctx.FamilyMembers.FirstOrDefault(x => x.Email == email);
-                        if(objFamilyUser != null)
-                        {
-                            fullname = objFamilyUser.FirstName + " " + objFamilyUser.LastName;
-                        }
-                    }
-
-                }
-            }
-            return fullname;
-        }
-
         public bool ResetUserPassword(ResetPasswordModel rpm)
         {
             if(!string.IsNullOrEmpty(rpm.Email) && !string.IsNullOrEmpty(rpm.Password))
@@ -214,22 +152,24 @@ namespace Chinmaya.Registration.DAL
             return false;
         }
 
-        public UserModel GetUserInfoByEmail(string email)
+        public void ChangeAccountType(string id)
         {
             using (var _ctx = new ChinmayaEntities())
             {
-                UserModel um = new UserModel();
-                var objUser = _ctx.Users.FirstOrDefault(x => x.Email == email);
-                if(objUser != null)
+                var user = _ctx.Users.Where(i => i.Id == id).FirstOrDefault();
+                if (user != null)
                 {
-                    var config = new MapperConfiguration(cfg =>
-                    {
-                        cfg.CreateMap<User, UserModel>();
-                    });
-                    IMapper mapper = config.CreateMapper();
-                    return mapper.Map(objUser, um);
+                    user.IsIndividual = false;
+                    _ctx.SaveChanges();
                 }
-                return um;
+            }
+        }
+
+        public bool GetIsIndividual(string Id)
+        {
+            using (var _ctx = new ChinmayaEntities())
+            {
+                return _ctx.Users.Where(r => r.Id == Id).Select(n => n.IsIndividual).FirstOrDefault();
             }
         }
     }

@@ -120,6 +120,7 @@
       <DependentUpon>ChinmayiModel.tt</DependentUpon>
     </Compile>
     <Compile Include="CodeConfig.cs" />
+    <Compile Include="Common.cs" />
     <Compile Include="Country.cs">
       <DependentUpon>ChinmayiModel.tt</DependentUpon>
     </Compile>
@@ -144,6 +145,7 @@
     <Compile Include="EventRegistration.cs">
       <DependentUpon>ChinmayiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Events.cs" />
     <Compile Include="EventSession.cs">
       <DependentUpon>ChinmayiModel.tt</DependentUpon>
     </Compile>
@@ -178,6 +180,7 @@
     <Compile Include="PaymentMethod.cs">
       <DependentUpon>ChinmayiModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Payments.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Relationship.cs">
       <DependentUpon>ChinmayiModel.tt</DependentUpon>

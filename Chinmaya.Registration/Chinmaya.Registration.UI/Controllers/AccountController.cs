@@ -47,8 +47,8 @@ namespace Chinmaya.Registration.UI.Controllers
                 EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
 				model.Password = objEncryptDecrypt.Encrypt(model.Password, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
 				Utility.MasterType masterValue = Utility.MasterType.ROLE;
-				HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
-				HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/", model, true);
+				HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/Master/GetMasterData", masterValue, true);
+				HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/", model, true);
 
 				if (userResponseMessage.IsSuccessStatusCode && roleResponseMessage.IsSuccessStatusCode)
 				{
@@ -61,7 +61,7 @@ namespace Chinmaya.Registration.UI.Controllers
                             ViewBag.UserNotActivated = "Please verify your registered email address and try to login again.";
                             return View("Login");
                         }
-						HttpResponseMessage roleNameResponseMessage = await Utility.GetObject("/api/UserAPI/" + user.RoleId, true);
+						HttpResponseMessage roleNameResponseMessage = await Utility.GetObject("/api/User/" + user.RoleId, true);
 						string roleName = await Utility.DeserializeObject<string>(roleNameResponseMessage);
                         List<string> userRoles = new List<string>{ roleName };
 
@@ -90,7 +90,7 @@ namespace Chinmaya.Registration.UI.Controllers
                         {
                             if (roleName.Contains("Admin"))
                             {
-                                return RedirectToAction("Admin", "Account");
+                                return RedirectToAction("Index", "Admin");
                             }
                             else if (roleName.Contains("User"))
                             {
@@ -107,42 +107,12 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View(model);
 		}
 
-
-		[CustomAuthorize(Roles = "Admin")]
-		public ActionResult Admin()
-		{
-			return View();
-		}
-
         [HttpGet]
         public ActionResult NotAuthorized()
         {
             return View();
         }
-
-        [CustomAuthorize(Roles = "Admin")]
-        public async Task<ActionResult> GetAllUsers()
-		{
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetAllUsers", true);
-			var users = await Utility.DeserializeObject<List<UserInfoModel>>(roleResponseMessage);
-			return Json(new { data = users }, JsonRequestBehavior.AllowGet);
-		}
-
-        [CustomAuthorize(Roles = "Admin")]
-        public async Task<ActionResult> GetAllFamilyMembers(string Id)
-		{
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetAllFamilyMembers/" + Id, true);
-			var familyMembers = await Utility.DeserializeObject<List<UFamilyMember>>(roleResponseMessage);
-			return Json(new { data = familyMembers }, JsonRequestBehavior.AllowGet);
-		}
-
-        [CustomAuthorize(Roles = "Admin")]
-        public async Task<ActionResult> ChangeAccountType(string Id)
-		{
-			HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/ChangeAccountType/" + Id, Id, true);
-			return RedirectToAction("Admin");
-		}
-		
+        		
 		//
 		// GET: /Account/Register
 		[AllowAnonymous]
@@ -349,13 +319,24 @@ namespace Chinmaya.Registration.UI.Controllers
 		}
 
 		[AllowAnonymous]
-		public async Task<ActionResult> BindingDataPersonalDetails()
+        [HttpGet]
+		public async Task<ActionResult> PersonalDetails(PersonalDetails pd = null)
 		{
-			ViewBag.Gender = await _common.GetGenderData();
+            ViewBag.Gender = await _common.GetGenderData();
 			ViewBag.SelectedGender = null;
 			ViewBag.AgeGroup = await _common.GetAgeGroupData();
 			ViewBag.SelectedAgeGroup = null;
-			return View("PersonalDetails");
+
+            return View();
+            //return View("PersonalDetails", null);
+            //if(string.IsNullOrEmpty(pd.FirstName))
+            //{
+            //    return View();
+            //}
+            //else
+            //{
+            //    return View(pd);
+            //}
 		}
 
 		[HttpPost]
@@ -375,16 +356,24 @@ namespace Chinmaya.Registration.UI.Controllers
 
 					UserObj.FirstName = DetailsData.FirstName;
 					UserObj.LastName = DetailsData.LastName;
-					UserObj.DOB = DetailsData.DOB;
+					UserObj.DOB = (DateTime)DetailsData.DOB;
 					UserObj.GenderId = DetailsData.GenderData;
 					UserObj.AgeGroupId = DetailsData.AgeGroupData;
-					return View("ContactDetails");
+                    return RedirectToAction("ContactDetails");
 				}
 			}
 			return View();
 		}
 
-		[HttpPost]
+        [HttpGet]
+        public async Task<ActionResult> ContactDetails(ContactDetails cd = null)
+        {
+            ViewBag.CountryList = await _common.GetCountryData();
+            ViewBag.SelectedCountry = 231;
+            return View(cd);
+        }
+
+        [HttpPost]
 		[AllowAnonymous]
 		public async Task<ActionResult> ContactDetails(ContactDetails data, string prevBtn, string nextBtn)
 		{
@@ -404,7 +393,7 @@ namespace Chinmaya.Registration.UI.Controllers
 				ViewBag.SelectedGender = obj.GenderId;
 				ViewBag.AgeGroup = await _common.GetAgeGroupData();
 				ViewBag.SelectedAgeGroup = (int)obj.AgeGroupId;
-				return View("PersonalDetails", pd);
+                return RedirectToAction("PersonalDetails", pd);
 			}
 
 			if (nextBtn != null)
@@ -420,13 +409,21 @@ namespace Chinmaya.Registration.UI.Controllers
 					obj.CellPhone = data.CellPhone;
 					AccountDetails Ad = new AccountDetails();
 					Ad.SecurityQuestionsModel = await _common.GetSecurityQuestions();
-					return View("AccountDetails", Ad);
+                    return RedirectToAction("AccountDetails");
 				}
 			}
 			return View();
 		}
 
-		[HttpPost]
+        [HttpGet]
+        public async Task<ActionResult> AccountDetails()
+        {
+            AccountDetails Ad = new AccountDetails();
+            ViewBag.SecurityQuestions = await _common.GetSecurityQuestions();
+            return View(Ad);
+        }
+
+        [HttpPost]
 		[AllowAnonymous]
 		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> AccountDetails(AccountDetails data, string prevBtn, string nextBtn)
@@ -449,7 +446,8 @@ namespace Chinmaya.Registration.UI.Controllers
 
             if (prevBtn != null)
 			{
-				return View("ContactDetails", cd);
+                //return View("ContactDetails", cd);
+                return RedirectToAction("ContactDetails", cd);
 			}
 			if (nextBtn != null)
 			{
@@ -529,7 +527,7 @@ namespace Chinmaya.Registration.UI.Controllers
                                     // so we have to reset the approval request
                                     um.IsApproved = null;
                                     // we need to update the user
-                                    HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostUser", um, true);
+                                    HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/PostUser", um, true);
                                 }
 
                                 // approval mail sent to primary a/c and not yet decided
@@ -571,14 +569,14 @@ namespace Chinmaya.Registration.UI.Controllers
                             ViewBag.ApproveContent = "An approval email has been sent to primary account holder of your family..! Your account will be activated once your request has been approved.";
                             if (!userRejected)
                             {
-                                HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostUser", obj, true);
+                                HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/PostUser", obj, true);
                             }
 
                             return View("AccountDetails", Ad);
                         }
 
                         // If user is not a family member, allow him to register normally
-                        HttpResponseMessage userResponseMessage1 = await Utility.GetObject("/api/UserAPI/PostUser", obj, true);
+                        HttpResponseMessage userResponseMessage1 = await Utility.GetObject("/api/User/PostUser", obj, true);
 
                         // if user registered successfully, then send an activation link
                         if (userResponseMessage1.IsSuccessStatusCode)
@@ -619,7 +617,7 @@ namespace Chinmaya.Registration.UI.Controllers
             if(um != null)
             {
                 um.EmailConfirmed = true;
-                HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostUser", um, true);
+                HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/PostUser", um, true);
                 if (userResponseMessage.IsSuccessStatusCode)
                 {
                     tm.IsSuccess = true;
@@ -662,7 +660,7 @@ namespace Chinmaya.Registration.UI.Controllers
             UserModel um = await _user.GetUserInfo(arm.Email);
             um.IsApproved = arm.IsApproved;
             um.Status = arm.IsApproved ? true : false;
-            HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostUser", um, true);
+            HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/PostUser", um, true);
 
             string status = arm.IsApproved ? "Approved" : "Rejected";
             if (userResponseMessage.IsSuccessStatusCode)
@@ -702,7 +700,7 @@ namespace Chinmaya.Registration.UI.Controllers
                     fm.RelationshipData = 6;
                     fm.UpdatedBy = await _user.GetUserIdByEmail(um.Email);
 
-                    HttpResponseMessage addFamilyMemberRes = await Utility.GetObject("/api/UserAPI/PostFamilyMember", fm, true);
+                    HttpResponseMessage addFamilyMemberRes = await Utility.GetObject("/api/User/PostFamilyMember", fm, true);
                 }
             }
             return Json(new { IsSuccess = userResponseMessage.IsSuccessStatusCode });
@@ -713,7 +711,7 @@ namespace Chinmaya.Registration.UI.Controllers
 		public async Task<JsonResult> FillState(int Id)
 		{
 			Utility.MasterType masterValue = Utility.MasterType.STATE;
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/Master/GetMasterData", masterValue, true);
 			HttpResponseMessage roleNameResponseMessage = await Utility.GetObject("/api/Account/GetState/" + Id, true);
 			var serializedStates = await Utility.DeserializeList<KeyValueModel>(roleNameResponseMessage);
 			return Json(serializedStates, JsonRequestBehavior.AllowGet);
@@ -724,7 +722,7 @@ namespace Chinmaya.Registration.UI.Controllers
 		public async Task<JsonResult> FillCity(int Id)
 		{
 			Utility.MasterType masterValue = Utility.MasterType.CITY;
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/Master/GetMasterData", masterValue, true);
 			HttpResponseMessage roleNameResponseMessage = await Utility.GetObject("/api/Account/GetCity/" + Id, true);
 			var serializedCities = await Utility.DeserializeList<KeyValueModel>(roleNameResponseMessage);
 			return Json(serializedCities, JsonRequestBehavior.AllowGet);
@@ -773,7 +771,7 @@ namespace Chinmaya.Registration.UI.Controllers
                     bool isEmailExists = string.IsNullOrEmpty(MemberInformation.Email) ? false : await _account.CheckIsEmailExists(MemberInformation.Email);
                     if (!isEmailExists)
                     {
-						HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostFamilyMember", MemberInformation, true);
+						HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/PostFamilyMember", MemberInformation, true);
 						tm.IsSuccess = true;
                         tm.Message = "Family member added/updated successfully";
                     } else
@@ -808,220 +806,6 @@ namespace Chinmaya.Registration.UI.Controllers
 			fm.genders = await _common.GetGenderData();
 
 			return PartialView("_AddFamilyMember", fm);
-		}
-
-		public async Task<List<CurrentEventModel>> GetEvents(int age)
-		{
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetEventsData/" + age, true);
-			return await Utility.DeserializeObject<List<CurrentEventModel>>(roleResponseMessage);
-		}
-
-		[AllowAnonymous]
-		public async Task<ActionResult> Event()
-		{
-			MainEventModel mainEventModel = new MainEventModel();
-			mainEventModel.currentEventModel = await _common.GetEvents();
-			mainEventModel.weekday = await _common.GetWeekdayData();
-			mainEventModel.frequencies = await _common.GetFrequencyData();
-			mainEventModel.sessions = await _common.GetSessionData();
-
-			return View("Event", mainEventModel);
-		}
-
-		[HttpPost]
-		[AllowAnonymous]
-		public async Task<ActionResult> AddEvent(EventsModel data)
-		{
-			if (ModelState.IsValid)
-			{
-				data.CreatedBy = User.UserId;
-				HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostEvent", data, true);
-				return RedirectToAction("Event");
-			}
-			return RedirectToAction("Event");
-		}
-
-		[AllowAnonymous]
-		public async Task<ActionResult> ProgramEventRegistration(string[] select, string prevBtn, string nextBtn)
-		{
-			ProgramEventRegistrationModel programEventRegistrationModel = new ProgramEventRegistrationModel();
-			programEventRegistrationModel.uFamilyMembers = await _user.GetUserFamilyMemberData(User.UserId);
-			foreach (var item in programEventRegistrationModel.uFamilyMembers)
-			{
-				DateTime today = DateTime.Today;
-				int age = today.Year - (item.DOB).Year;
-				item.Events = await GetEvents(age);
-				
-			}
-			if (prevBtn != null)
-			{
-				return RedirectToAction("MyAccount");
-			}
-
-			else
-			{
-				if (nextBtn != null)
-				{
-					List<ClassesConfirmModel> classesConfirm = new List<ClassesConfirmModel>();
-					//if (select == null)
-					//{
-					//	TempData["msg"] = "<script>alert('Please select atleast one Event');</script>";
-					//	return View("ProgramEventRegistration", programEventRegistrationModel);
-					//}
-					if (select == null)
-					{
-						return View("ClassesConfirm", classesConfirm);
-					}
-					else
-					if (select.Length != 0)
-					{
-						List<string> selectedId = new List<string>();
-						List<List<string>> selectedEventId = new List<List<string>>();
-
-						for (int i = 0; i < select.Length; i++)
-						{
-							var arr = select[i].Split('_');
-							var ar1 = arr[0];
-							var ar2 = arr[1];
-							selectedId.Add(ar2);
-						}
-						List<string> userIds = selectedId.Distinct().ToList();
-						List<string> testList = new List<string>();
-						Dictionary<string, List<string>> dict = new Dictionary<string, List<string>>();
-						foreach (var item in userIds)
-						{
-
-							for (int i = 0; i < select.Length; i++)
-							{
-								var arr = select[i].Split('_');
-								var ar1 = arr[0];
-								var ar2 = arr[1];
-								if (ar2 == item)
-								{
-
-									testList.Add(ar1);
-
-								}
-							}
-							dict.Add(item, new List<string>(testList));
-							testList.Clear();
-						}
-
-
-						List<CurrentEventModel> currentEvents = new List<CurrentEventModel>();
-						foreach (KeyValuePair<string, List<string>> entry in dict)
-						{
-							var userData = await _user.GetUserData(entry.Key);
-							currentEvents.Clear();
-
-							foreach (var ev in entry.Value)
-							{
-								var eventData = await _event.GetEventData(ev);
-								currentEvents.Add(eventData);
-							}
-
-							ClassesConfirmModel classConfirm = new ClassesConfirmModel();
-							classConfirm.uFamilyMembers = userData;
-							classConfirm.Events = currentEvents;
-							classesConfirm.Add(classConfirm);
-						}
-						TempData["mydata"] = classesConfirm;
-						return View("ClassesConfirm", classesConfirm);
-					}
-									
-					else return View("ProgramEventRegistration", programEventRegistrationModel);
-
-				}
-			}
-			return View("ProgramEventRegistration", programEventRegistrationModel);
-		}
-
-		[AllowAnonymous]
-		public ActionResult ClassesConfirm(string prevBtn, string nextBtn)
-		{
-			List<ClassesConfirmModel> classesConfirm = new List<ClassesConfirmModel>();
-			classesConfirm = TempData["mydata"] as List<ClassesConfirmModel>;
-			decimal amount = 0;
-			foreach (var item in classesConfirm)
-			{
-				foreach (var ev in item.Events)
-				{
-					amount += (decimal)ev.Amount;
-				}
-			}
-			TempData["Amount"] = amount;
-			if (prevBtn != null)
-			{
-				return RedirectToAction("ProgramEventRegistration");
-			}
-
-			else
-			{
-				if (nextBtn != null)
-				{
-					if (classesConfirm == null)
-					{
-						TempData["msg"] = "<script>alert('Please select atleast one Event');</script>";
-						return RedirectToAction("ProgramEventRegistration");
-					}
-					var termCheckBox = Request.Form["termsandConditions"];
-					var dir = Request.Form["Directory"]; 
-					if (termCheckBox != "on")
-					{
-						TempData["msg"] = "<script>alert('Please agree to the terms and conditions');</script>";
-						return View("ClassesConfirm", classesConfirm);
-					}
-					
-
-					return RedirectToAction("PaymentMethod");
-				}
-			}
-			return View("ClassesConfirm", classesConfirm);
-		}
-
-		[AllowAnonymous]
-		public async Task<ActionResult> AddtoDirectory(string Id)
-		{
-			var id = User.UserId;
-			HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/AddtoDirectory/" + id, Id, true);
-			string res = "Okay";
-			return Json(res, JsonRequestBehavior.AllowGet);
-		}
-
-		[AllowAnonymous]
-		public async Task<object> GetAccountType()
-		{
-			Utility.MasterType masterValue = Utility.MasterType.ACCOUNTTYPE;
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/MasterAPI/GetMasterData", masterValue, true);
-			return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
-		}
-
-		[AllowAnonymous]
-		public async Task<ActionResult> PaymentMethod(CheckPaymentModel data, string prevBtn, string nextBtn)
-		{
-			ViewBag.AccountType = await GetAccountType();
-			if (prevBtn != null)
-			{
-				return RedirectToAction("ClassesConfirm");
-			}
-
-			else
-			{
-				if (nextBtn != null)
-				{
-					if (ModelState.IsValid && data.paymentType == "Check")
-					{
-						var amount = TempData["Amount"];
-						data.CreatedBy = User.UserId;
-						data.Amount = Convert.ToDecimal(amount);
-						HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/PostCheckPayment", data, true);
-						return RedirectToAction("MyAccount");
-
-					}
-					
-				}
-			}
-			return View();
 		}
 	}
 }
