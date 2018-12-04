@@ -34,6 +34,8 @@ namespace Chinmaya.Registration.Models
         public Nullable<bool> IsApproved { get; set; }
         public Nullable<bool> IsApproveMailSent { get; set; }
         public Dictionary<int, string> UserSecurityQuestions = new Dictionary<int, string>();
+
+		
 	}
 
 	public class UserInfoModel
@@ -45,4 +47,7 @@ namespace Chinmaya.Registration.Models
 		public string HomePhone { get; set; }
 		public string CellPhone { get; set; }
 	}
+
+
+
 }

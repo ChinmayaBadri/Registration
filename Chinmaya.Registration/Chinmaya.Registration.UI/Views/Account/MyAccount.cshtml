@@ -42,7 +42,7 @@
 				</li>
 
 				<ul class="sub-menu collapse" id="account">
-					<li><a href="#"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
+					<li><a class="Password" data-toggle="modal" data-target="#changePassword"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
 					<li class="active"><a href="#"><img alt="" src="~/Content/img/update-family-info-active.png"> Update Family Info</a></li>
 				</ul>
 
@@ -50,9 +50,9 @@
 					<a href="#"> Update Contact Info <span class="arrow"></span></a>
 				</li>
 				<ul class="sub-menu collapse" id="contact">
-					<li><a href="#"><img alt="" src="~/Content/img/phone.png"> Phone</a></li>
-					<li><a href="#"><img alt="" src="~/Content/img/email.png"> Email</a></li>
-					<li><a href="#"><img alt="" src="~/Content/img/address.png"> Address</a></li>
+					<li><a class="Phone" id="@User.Identity.Name" data-toggle="modal" data-target="#changePhone"><img alt="" src="~/Content/img/phone.png"> Phone</a></li>
+					<li><a class="Email" id="@User.Identity.Name" data-toggle="modal" data-target="#changeEmail"><img alt="" src="~/Content/img/email.png"> Email</a></li>
+					<li><a class="Address" id="@User.Identity.Name" data-toggle="modal" data-target="#changeAddress"><img alt="" src="~/Content/img/address.png"> Address</a></li>
 				</ul>
 
 				<li class="collapsed" aria-expanded="false" data-target="#payment" data-toggle="collapse">
@@ -78,9 +78,9 @@
 				<div class="col-md-6 table-title">Family Information</div>
 				@if (!Model.IsIndividual)
 				{
-				<div class="col-md-6 text-right">
-					<a class="orange-links" id="AddFamilyMember" href="#"><i class="material-icons">add_circle_outline</i> Add Family Member</a>
-				</div>
+					<div class="col-md-6 text-right">
+						<a class="orange-links" id="AddFamilyMember" href="#"><i class="material-icons">add_circle_outline</i> Add Family Member</a>
+					</div>
 				}
 				<div class="modal fade" id="FamilyMemberPartial" role="dialog"></div>
 			</div>
@@ -104,32 +104,29 @@
 
 							@foreach (var m in Model.userFamilyMember)
 							{
-							<tr>
-								<td>@(m.FirstName + " " + m.LastName)</td>
-								<td>@(m.DOB.ToString("MMM dd, yyyy"))</td>
-								<td>@m.Relationship</td>
-								@if (@m.Grade != null)
-								{
-									<td>@m.Grade</td>
-								}
-								else
-								{
-									<td>-</td>
-								}
-								@if (@m.Relationship != "Self")
-								{
-								<td id="@m.Id" class="editFamilyMember"><a href="#" data-toggle="modal" data-target="#EditModal" class="Edit"><span class="label label-orange">Edit</span></a></td>
-								}
-							</tr>
+								<tr>
+									<td>@(m.FirstName + " " + m.LastName)</td>
+									<td>@(m.DOB.ToString("MMM dd, yyyy"))</td>
+									<td>@m.Relationship</td>
+									@if (@m.Grade != null)
+									{
+										<td>@m.Grade</td>
+									}
+									else
+									{
+										<td>-</td>
+									}
+									@if (@m.Relationship != "Self")
+									{
+										<td id="@m.Id" class="editFamilyMember"><a href="#" data-toggle="modal" data-target="#EditModal" class="Edit"><span class="label label-orange">Edit</span></a></td>
+									}
+								</tr>
 							}
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
-	</div>
-
-	<div id="dialog-edit" style="display: none">
 	</div>
 
 	<!-- Modal Content starts -->
@@ -139,9 +136,31 @@
 
 	</div>
 	<!-- Modal Content Ends -->
+	<div class="modal fade bd-example-modal-lg" id="changePassword" tabindex="-1" role="dialog">
+
+		@Html.Partial("_ChangePassword", Model.updatePasswordModel)
+
+	</div>
+	<div class="modal fade bd-example-modal-lg" id="changePhone" tabindex="-1" role="dialog">
+
+		@Html.Partial("_ChangePhone", Model.updatePhone)
+
+	</div>
+	<div class="modal fade bd-example-modal-lg" id="changeEmail" tabindex="-1" role="dialog">
+
+		@Html.Partial("_ChangeEmail", Model.updateMailModel)
+
+	</div>
+
+	<div class="modal fade bd-example-modal-lg" id="changeAddress" tabindex="-1" role="dialog">
+
+		@Html.Partial("_ChangeAddress", Model.updateAddressModel)
+
+	</div>
+
 	<script>
 
-        $(document).ready(function () {
+		$(document).ready(function () {
 
 			$("#AddFamilyMember").on("click", function () {
 				$("#exampleModalCenter").load("/Account/RefreshFamilyMemberPartialView");
@@ -152,22 +171,60 @@
 			$("#userList").hide();
 
 			$('[data-toggle="tooltip"]').tooltip({ position: 'right' });
+			//$("#changePassword").on("click", function () {
+			//	//$("#exampleModalCenter").load("/Account/RefreshFamilyMemberPartialView");
+			//	$("#changePassword").modal();
+			//});
 
-			$(".editFamilyMember").click(function () {
-			    var id = $(this).attr("id");
-			    $.ajax({
-			        "url": "../Account/EditFamilyMember/" + id,
-			        "type": "GET",
-			        success: function (data) {
-			            $("#exampleModalCenter").html(data);
-			            $("#exampleModalCenter").modal();
-			            DoTheCalculations();
-			        },
-
-			    });
-
+			$(".Phone").click(function () {
+				var Email = $(this).attr("id");
+				//alert(Email)
+				$.ajax({
+					"url": "../Account/EditPhoneNumber/?Email=" + Email,
+					"type": "GET",
+					success: function (data) {
+						$("#changePhone").html(data);
+						$("#changePhone").modal();
+					},
+				});
 			});
 
+			$(".Email").click(function () {
+				var Email = $(this).attr("id");
+				$.ajax({
+					"url": "../Account/EditEmail/?Email=" + Email,
+					"type": "GET",
+					success: function (data) {
+						$("#changeEmail").html(data);
+						$("#changeEmail").modal();
+					},
+				});
+			});
+
+			$(".Address").click(function () {
+				var Email = $(this).attr("id");
+				$.ajax({
+					"url": "../Account/EditAddress/?Email=" + Email,
+					"type": "GET",
+					success: function (data) {
+						$("#changeAddress").html(data);
+						$("#changeAddress").modal();
+					},
+				});
+			});
+
+			$(".editFamilyMember").click(function () {
+				var id = $(this).attr("id");
+				$.ajax({
+					"url": "../Account/EditFamilyMember/" + id,
+					"type": "GET",
+					success: function (data) {
+						$("#exampleModalCenter").html(data);
+						$("#exampleModalCenter").modal();
+						DoTheCalculations();
+					},
+				});
+			});
 		});
 
 		$(function () {
@@ -186,27 +243,27 @@
 		});
 
 		function DoTheCalculations() {
-		    var date = new Date($("#DateValue").val());
+			var date = new Date($("#DateValue").val());
 
-		    if ($("#DateValue").val() != null && $("#DateValue").val() != "") {
-		        calculateDate(date);
-		    }
+			if ($("#DateValue").val() != null && $("#DateValue").val() != "") {
+				calculateDate(date);
+			}
 		}
 
 		function toggleGradeEmail(state) {
-		    $("div#GradeSelectBox").toggle(state);
-		    $("div#EmailAddress").toggle(!state);
+			$("div#GradeSelectBox").toggle(state);
+			$("div#EmailAddress").toggle(!state);
 		}
 
 		function calculateDate(date) {
-		    var today = new Date();
-		    var age = Math.floor((today - date) / (365.25 * 24 * 60 * 60 * 1000));
-		    if (age >= 18) {
-		        toggleGradeEmail(false);
-		    }
-		    else {
-		        toggleGradeEmail(true);
-		    }
+			var today = new Date();
+			var age = Math.floor((today - date) / (365.25 * 24 * 60 * 60 * 1000));
+			if (age >= 18) {
+				toggleGradeEmail(false);
+			}
+			else {
+				toggleGradeEmail(true);
+			}
 		}
 
 	</script>

@@ -741,6 +741,7 @@ namespace Chinmaya.Registration.UI.Controllers
 			myAccountModel.familyMemberModel.grades = await _common.GetGradeData();
 			myAccountModel.familyMemberModel.genders = await _common.GetGenderData();
 			myAccountModel.IsIndividual = await _account.GetIsIndividual(User.UserId);
+			ViewBag.CountryList = await _common.GetCountryData();
 
 			DateTime todaysDate = DateTime.Now.Date;
 			int day = todaysDate.Day;
@@ -786,6 +787,119 @@ namespace Chinmaya.Registration.UI.Controllers
 			return RedirectToAction("MyAccount");
 		}
 
+		[HttpPost]
+		[AllowAnonymous]
+		public async Task<ActionResult> ChangePassword(UpdatePasswordModel Info, string nextBtn)
+		{
+			ToastModel tm = new ToastModel();
+			if (nextBtn != null)
+			{
+				if (ModelState.IsValid)
+				{
+					if (Info.OldPassword == Info.NewPassword)
+					{
+						tm.IsSuccess = true;
+						tm.Message = "Please give new Password that should not match the Old";
+						return Json(tm);
+					}
+					else
+					{
+						UpdatePasswordModel passwordModel = new UpdatePasswordModel();
+						passwordModel.Email = User.Identity.Name;
+						EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
+						passwordModel.OldPassword = objEncryptDecrypt.Encrypt(Info.OldPassword, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
+						EncryptDecrypt objEncryptDecrypt1 = new EncryptDecrypt();
+						passwordModel.NewPassword = objEncryptDecrypt.Encrypt(Info.NewPassword, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
+						HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/UpdatePassword", passwordModel, true);
+						tm.IsSuccess = true;
+						tm.Message = "Password updated successfully";
+						return Json(tm);
+					}
+				}
+			}
+			return RedirectToAction("MyAccount");
+		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		public async Task<ActionResult> ChangePhone(UpdatePhone Info, string nextBtn)
+		{
+			ToastModel tm = new ToastModel();
+			if (nextBtn != null)
+			{
+				if (ModelState.IsValid)
+				{
+					UpdatePhone phoneModel = new UpdatePhone();
+					phoneModel.Email = User.Identity.Name;
+					phoneModel.OldPhone = Info.OldPhone;
+					HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/UpdatePhone", phoneModel, true);
+					tm.IsSuccess = true;
+					tm.Message = "Phone updated successfully";
+					return Json(tm);
+					
+				}
+			}
+			return RedirectToAction("MyAccount");
+		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		public async Task<ActionResult> ChangeEmail(UpdateEmail em, string nextBtn)
+		{
+			ToastModel tm = new ToastModel();
+			if (nextBtn != null)
+			{
+				if (ModelState.IsValid)
+				{
+					string uId = await _user.GetUserIdByEmail(User.Identity.Name);
+					bool isEmailExists = await _account.CheckIsEmailExists(em.email);
+					if (isEmailExists)
+					{
+						tm.IsSuccess = true;
+						tm.Message = "Select Email which does not exist already...!";
+						return Json(tm);
+					}
+					else
+					{
+						UpdateEmail emailModel = new UpdateEmail();
+						emailModel.userId = uId;
+						emailModel.email = em.email;
+						HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/UpdateEmailAddress", emailModel, true);
+						tm.IsSuccess = true;
+						tm.Message = "Email updated successfully";
+						return Json(tm);
+					}
+				}
+			}
+			return RedirectToAction("MyAccount");
+		}
+
+		[HttpPost]
+		[AllowAnonymous]
+		public async Task<ActionResult> ChangeAddress(ContactDetails Info, string nextBtn)
+		{
+			ToastModel tm = new ToastModel();
+			if (nextBtn != null)
+			{
+				if (ModelState.IsValid)
+				{
+					ContactDetails cntd = new ContactDetails();
+					cntd.Email = User.Identity.Name;
+					cntd.Address = Info.Address;
+					cntd.City = Info.City;
+					cntd.State = Info.State;
+					cntd.Country = Info.Country;
+					cntd.ZipCode = Info.ZipCode;
+					cntd.HomePhone = Info.HomePhone;
+					HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/UpdateAddress", cntd, true);
+					tm.IsSuccess = true;
+					tm.Message = "Address updated successfully";
+					return Json(tm);
+				}
+			}
+			return RedirectToAction("MyAccount");
+		}
+
 		[HttpGet]
 		[AllowAnonymous]
 		public async Task<PartialViewResult> RefreshFamilyMemberPartialView() {
@@ -794,6 +908,33 @@ namespace Chinmaya.Registration.UI.Controllers
 			fm.grades = await _common.GetGradeData();
 			fm.genders = await _common.GetGenderData();
 			return PartialView("_AddFamilyMember", fm);
+		}
+
+		[HttpGet]
+		[AllowAnonymous]
+		public async Task<PartialViewResult> EditPhoneNumber(string Email)
+		{
+			UpdatePhone phone = await _user.getPhoneNumber(Email);
+			return PartialView("_ChangePhone", phone);
+		}
+
+		[HttpGet]
+		[AllowAnonymous]
+		public async Task<PartialViewResult> EditEmail(string Email)
+		{
+			UpdateEmail email = await _user.getEmail(Email);
+			return PartialView("_ChangeEmail", email);
+		}
+
+		[HttpGet]
+		[AllowAnonymous]
+		public async Task<PartialViewResult> EditAddress(string Email)
+		{
+			ContactDetails cd = await _user.getAddress(Email);
+			ViewBag.CountryList = await _common.GetCountryData();
+			ViewBag.SelectedCountry = cd.Country;
+			ViewBag.SelectedState = cd.State;
+			return PartialView("_ChangeAddress", cd);
 		}
 
 		public async Task<PartialViewResult> EditFamilyMember(string Id)

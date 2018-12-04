@@ -190,6 +190,54 @@ namespace Chinmaya.Registration.DAL
             }
 		}
 
+		public UpdatePhone getPhoneNumber(string Id)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				UpdatePhone phone = new UpdatePhone();
+				var pData = _ctx.Users.Where(f => f.Email == Id).FirstOrDefault();
+				if (pData != null)
+				{
+					phone.Email = Id;
+					phone.OldPhone = pData.CellPhone;
+				}
+				return phone;
+			}
+		}
+
+		public UpdateEmail getEmail(string Id)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				UpdateEmail mail = new UpdateEmail();
+				var eData = _ctx.Users.Where(f => f.Email == Id).FirstOrDefault();
+				if (eData != null)
+				{
+					mail.email = Id;
+				}
+				return mail;
+			}
+		}
+
+		public ContactDetails getAddress(string Id)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				ContactDetails cd = new ContactDetails();
+				var aData = _ctx.Users.Where(f => f.Email == Id).FirstOrDefault();
+				if (aData != null)
+				{
+					cd.Address = aData.Address;
+					cd.City = aData.City;
+					cd.State = aData.StateId;
+					cd.Country = aData.CountryId;
+					cd.ZipCode = aData.ZipCode;
+					cd.HomePhone = aData.HomePhone;
+				}
+				return cd;
+			}
+		}
+
 		public FamilyMemberModel GetFamilyMemberDetails(string Id)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -248,6 +296,134 @@ namespace Chinmaya.Registration.DAL
 						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
 							eve.Entry.Entity.GetType().Name, eve.Entry.State);
 						foreach (var ve in eve.ValidationErrors)
+						{
+							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+								ve.PropertyName, ve.ErrorMessage);
+						}
+					}
+
+				}
+			}
+		}
+
+		public void UpdatePassword(UpdatePasswordModel pwd)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				var userEmail = _ctx.Users.Where(r => r.Email == pwd.Email && r.Password == pwd.OldPassword).FirstOrDefault();
+				if (userEmail != null)
+				{
+					userEmail.Password = pwd.NewPassword;					
+				}
+				try
+				{
+					_ctx.SaveChanges();
+				}
+				catch (DbEntityValidationException e)
+				{
+					foreach (var even in e.EntityValidationErrors)
+					{
+						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+							even.Entry.Entity.GetType().Name, even.Entry.State);
+						foreach (var ve in even.ValidationErrors)
+						{
+							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+								ve.PropertyName, ve.ErrorMessage);
+						}
+					}
+
+				}
+			}
+		}
+
+		public void UpdatePhone(UpdatePhone phone)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				var user = _ctx.Users.Where(r => r.Email == phone.Email).FirstOrDefault();
+				if (user != null)
+				{
+					user.CellPhone = phone.OldPhone;
+				}
+				try
+				{
+					_ctx.SaveChanges();
+				}
+				catch (DbEntityValidationException e)
+				{
+					foreach (var even in e.EntityValidationErrors)
+					{
+						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+							even.Entry.Entity.GetType().Name, even.Entry.State);
+						foreach (var ve in even.ValidationErrors)
+						{
+							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+								ve.PropertyName, ve.ErrorMessage);
+						}
+					}
+
+				}
+			}
+		}
+		
+		public bool UpdateEmailAddress(UpdateEmail el)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				var user = _ctx.Users.Where(r => r.Id == el.userId).FirstOrDefault();
+				if (user != null)
+				{
+					user.Email = el.email;
+				}
+				try
+				{
+					_ctx.Entry(user).State = EntityState.Modified;
+					_ctx.SaveChanges();
+					return true;
+				}
+				catch (DbEntityValidationException e)
+				{
+					foreach (var even in e.EntityValidationErrors)
+					{
+						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+							even.Entry.Entity.GetType().Name, even.Entry.State);
+						foreach (var ve in even.ValidationErrors)
+						{
+							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+								ve.PropertyName, ve.ErrorMessage);
+						}
+					}
+					return false;
+
+				}
+			}
+		}
+
+		public void UpdateAddress(ContactDetails cd)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				var user = _ctx.Users.Where(r => r.Email == cd.Email).FirstOrDefault();
+				if (user != null)
+				{
+					user.Address = cd.Address;
+					user.City = cd.City;
+					user.StateId = cd.State;
+					user.CountryId = cd.Country;
+					user.ZipCode = cd.ZipCode;
+					user.HomePhone = cd.HomePhone;
+				}
+				try
+				{
+					_ctx.SaveChanges();
+				}
+				catch (DbEntityValidationException e)
+				{
+					foreach (var even in e.EntityValidationErrors)
+					{
+						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+							even.Entry.Entity.GetType().Name, even.Entry.State);
+						foreach (var ve in even.ValidationErrors)
 						{
 							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
 								ve.PropertyName, ve.ErrorMessage);

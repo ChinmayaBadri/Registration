@@ -581,6 +581,10 @@
     <Content Include="Views\Account\UserActivation.cshtml" />
     <Content Include="Views\Shared\_LayoutPageRegister.cshtml" />
     <Content Include="Views\Account\NotAuthorized.cshtml" />
+    <Content Include="Views\Account\_ChangePassword.cshtml" />
+    <Content Include="Views\Account\_ChangeAddress.cshtml" />
+    <Content Include="Views\Account\_ChangePhone.cshtml" />
+    <Content Include="Views\Account\_ChangeEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
