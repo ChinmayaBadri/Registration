@@ -166,19 +166,11 @@ namespace Chinmaya.Registration.BAL.Controllers
 			}
 		}
 
-		[Route("api/UserAPI/UpdateEmail")]
+		[Route("api/UserAPI/UpdateEmailAddress")]
 		[HttpPost]
 		public IHttpActionResult UpdateEmailAddress(UpdateEmail obj)
 		{
-			try
-			{
-				_user.UpdateEmailAddress(obj);
-				return Ok("Success");
-			}
-			catch (Exception)
-			{
-				return Ok("Something went wrong");
-			}
+			return Ok(_user.UpdateEmailAddress(obj));
 		}
 
 		[Route("api/UserAPI/UpdateAddress")]

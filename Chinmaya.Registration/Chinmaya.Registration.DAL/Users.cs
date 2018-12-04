@@ -503,7 +503,7 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 		
-		public void UpdateEmailAddress(UpdateEmail el)
+		public bool UpdateEmailAddress(UpdateEmail el)
 		{
 			using (var _ctx = new ChinmayaEntities())
 			{
@@ -514,7 +514,9 @@ namespace Chinmaya.Registration.DAL
 				}
 				try
 				{
+					_ctx.Entry(user).State = EntityState.Modified;
 					_ctx.SaveChanges();
+					return true;
 				}
 				catch (DbEntityValidationException e)
 				{
@@ -528,6 +530,7 @@ namespace Chinmaya.Registration.DAL
 								ve.PropertyName, ve.ErrorMessage);
 						}
 					}
+					return false;
 
 				}
 			}
