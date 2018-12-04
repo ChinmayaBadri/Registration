@@ -65,7 +65,9 @@
     <Compile Include="ResetPasswordModel.cs" />
     <Compile Include="SecurityQuestionsModel.cs" />
     <Compile Include="ToastModel.cs" />
+    <Compile Include="UpdateEmail.cs" />
     <Compile Include="UpdatePasswordModel.cs" />
+    <Compile Include="UpdatePhone.cs" />
     <Compile Include="UserAccountModel.cs" />
     <Compile Include="UserFamilyMember.cs" />
     <Compile Include="UserModel.cs" />

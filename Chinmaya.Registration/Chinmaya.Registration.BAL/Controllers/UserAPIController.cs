@@ -136,11 +136,92 @@ namespace Chinmaya.Registration.BAL.Controllers
 			}
 		}
 
+		[Route("api/UserAPI/UpdatePassword")]
+		[HttpPost]
+		public IHttpActionResult UpdatePassword(UpdatePasswordModel obj)
+		{
+			try
+			{
+				_user.UpdatePassword(obj);
+				return Ok("Success");
+			}
+			catch (Exception)
+			{
+				return Ok("Something went wrong");
+			}
+		}
+
+		[Route("api/UserAPI/UpdatePhone")]
+		[HttpPost]
+		public IHttpActionResult UpdatePhone(UpdatePhone obj)
+		{
+			try
+			{
+				_user.UpdatePhone(obj);
+				return Ok("Success");
+			}
+			catch (Exception)
+			{
+				return Ok("Something went wrong");
+			}
+		}
+
+		[Route("api/UserAPI/UpdateEmail")]
+		[HttpPost]
+		public IHttpActionResult UpdateEmailAddress(UpdateEmail obj)
+		{
+			try
+			{
+				_user.UpdateEmailAddress(obj);
+				return Ok("Success");
+			}
+			catch (Exception)
+			{
+				return Ok("Something went wrong");
+			}
+		}
+
+		[Route("api/UserAPI/UpdateAddress")]
+		[HttpPost]
+		public IHttpActionResult UpdateAddress(ContactDetails obj)
+		{
+			try
+			{
+				_user.UpdateAddress(obj);
+				return Ok("Success");
+			}
+			catch (Exception)
+			{
+				return Ok("Something went wrong");
+			}
+		}
+
 		[Route("api/UserAPI/GetFamilyMemberDetails/{id}")]
 		[HttpGet]
 		public FamilyMemberModel GetFamilyMemberDetails(string id)
 		{
 			return _user.GetFamilyMemberDetails(id);
+		}
+
+		[Route("api/UserAPI/getPhoneNumber/{email}/")]
+		[HttpGet]
+		public UpdatePhone getPhoneNumber(string email)
+		{
+			return _user.getPhoneNumber(email);
+		}
+
+		[Route("api/UserAPI/getEmail/{email}/")]
+		[HttpGet]
+		public UpdateEmail getEmail(string email)
+		{
+			return _user.getEmail(email);
+		}
+
+		[Route("api/UserAPI/getAddress/{email}/")]
+		[HttpGet]
+		public ContactDetails getAddress(string email)
+		{
+			return _user.getAddress(email);
 		}
 
 		[Route("api/UserAPI/PostEvent")]

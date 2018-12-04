@@ -10,6 +10,7 @@ namespace Chinmaya.Registration.Models
 {
 	public class ContactDetails
 	{
+		public string Email { get; set; }
 		[Required]
 		[StringLength(500, ErrorMessage = "Address should not be more than 500 characters")]
 		[DisplayName("Address")]

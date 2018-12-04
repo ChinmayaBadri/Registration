@@ -1,0 +1,122 @@
+﻿@model Chinmaya.Registration.Models.ContactDetails
+
+<div class="modal-dialog modal-dialog-centered modal-lg" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				@using (Ajax.BeginForm("ChangeAddress", "Account", FormMethod.Post,
+						new AjaxOptions
+						{
+							OnSuccess = "OnSuccess",
+							OnFailure = "OnFailure",
+							OnBegin = "OnBegin"
+						}))
+				{
+					@Html.AntiForgeryToken()
+					<h5 class="modal-title">Change Address</h5>
+					@Html.HiddenFor(m => m.Email, new { id = "uEmail" })
+						<div class="row">
+							<div class="col-md-6">
+								@Html.LabelFor(m => m.Address, new { @class = "requiredA" })
+								@Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+							</div>
+							<div class="col-md-6">
+								@Html.LabelFor(m => m.Country, new { @class = "requiredA" })
+								@Html.DropDownList("Country", new SelectList(ViewBag.CountryList, "Id", "Name", ViewBag.SelectedCountry), "Select", new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								@Html.LabelFor(m => m.State, new { @class = "requiredA" })
+								@Html.DropDownList("State", new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Name", ViewBag.SelectedState), "Select State", new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger" })
+							</div>
+							<div class="col-md-6">
+								@Html.LabelFor(m => m.City, new { @class = "requiredA" })
+								@Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								@Html.LabelFor(m => m.ZipCode, new { @class = "requiredA" })
+								@Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.ZipCode, "", new { @class = "text-danger" })
+							</div>
+							<div class="col-md-6">
+								@Html.LabelFor(m => m.HomePhone, new { @class = "requiredA" })
+								@Html.TextBoxFor(m => m.HomePhone, new { @class = "form-control" })
+								@Html.ValidationMessageFor(m => m.HomePhone, "", new { @class = "text-danger" })
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<button class="btn btn-secondary float-left mr-3" id="btnCancel" type="button" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
+								<button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Submit <i class="material-icons">check_circle</i></button>
+							</div>
+						</div>
+				}
+				</div>
+		</div>
+	</div>
+</div>
+<script>
+
+	$(document).ready(function () {
+		var selectedCountry = "@ViewBag.SelectedCountry";
+			var selectedState = "@ViewBag.SelectedState";
+
+			if (selectedCountry == 231 && selectedState == "") {
+				var id = 231;
+				$.get("FillState", { Id: id }, function (data) {
+					var v = "<option>Select State</option>";
+					$.each(data, function (i, v1) {
+						v += "<option value=" + v1.Id + ">" + v1.Name + "</option>";
+					});
+					$("#State").html(v);
+				});
+			}
+
+			$("#Country").change(function () {
+				var id = $(this).val();
+				$("#State").empty();
+				$.get("FillState", { Id: id }, function (data) {
+					var v = "<option>Select State</option>";
+					$.each(data, function (i, v1) {
+						v += "<option value=" + v1.Id + ">" + v1.Name + "</option>";
+					});
+					$("#State").html(v);
+				});
+			});
+
+			var selectedState = "@ViewBag.SelectedState";
+			if (selectedState != "") {
+				$("#State").empty();
+				$.get("FillState", { Id: selectedCountry }, function (data) {
+					var v = "";
+					$.each(data, function (i, v1) {
+						if (v1.Id == selectedState)
+							v += "<option value=" + v1.Id + ">" + v1.Name + "</option>";
+					});
+					$("#State").html(v);
+				});
+			}
+		function OnSuccess(response) {
+			if (typeof (response.Message) !== 'undefined') {
+				if (response.IsSuccess) {
+					toastr.success(response.Message, "Change Address", { timeOut: 3000 });
+					setTimeout(function () {
+						window.location.reload();
+					}, 2000);
+					return;
+				}
+				toastr.error(response.Message, "Change Address");
+			}
+			$("#btnsubmit").prop("disabled", false);
+			$("#btnCancel").prop("disabled", false);
+		}
+	});
+</script>
+

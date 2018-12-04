@@ -39,7 +39,25 @@ namespace Chinmaya.Registration.UI.Services
             return await Utility.DeserializeObject<FamilyMemberModel>(roleResponseMessage);
         }
 
-        public async Task<bool> IsFamilyMember(string email)
+		public async Task<UpdatePhone> getPhoneNumber(string email)
+		{
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/getPhoneNumber/" + email + "/", true);
+			return await Utility.DeserializeObject<UpdatePhone>(roleResponseMessage);
+		}
+
+		public async Task<UpdateEmail> getEmail(string email)
+		{
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/getEmail/" + email + "/", true);
+			return await Utility.DeserializeObject<UpdateEmail>(roleResponseMessage);
+		}
+
+		public async Task<ContactDetails> getAddress(string email)
+		{
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/getAddress/" + email + "/", true);
+			return await Utility.DeserializeObject<ContactDetails>(roleResponseMessage);
+		}
+
+		public async Task<bool> IsFamilyMember(string email)
         {
             string urlAction = "api/Account/IsFamilyMember/" + email + "/";
             HttpResponseMessage isEmailExistResponse = await Utility.GetObject(urlAction);
