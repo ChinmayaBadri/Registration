@@ -50,8 +50,8 @@ namespace Chinmaya.Registration.Models
         public List<KeyValueModel> relationships { get; set; }
         public List<KeyValueModel> grades { get; set; }
         public List<KeyValueModel> genders { get; set; }
-
-		public int Year { get; set; }
+        public bool Status { get; set; }
+        public int Year { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
     }
 }

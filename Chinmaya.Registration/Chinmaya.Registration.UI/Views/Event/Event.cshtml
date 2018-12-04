@@ -101,7 +101,7 @@
 	<!-- Modal -->
 
 	<div tabindex="-1" class="modal fade bd-example-modal-lg" id="eventModal" role="dialog" aria-hidden="true" aria-labelledby="eventModalTitle">
-		@using (Html.BeginForm("AddEvent", "Account", FormMethod.Post))
+		@using (Html.BeginForm("AddEvent", "Event", FormMethod.Post))
 		{
 			@Html.AntiForgeryToken()
 			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">

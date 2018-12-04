@@ -20,11 +20,11 @@ namespace Chinmaya.Registration.Models
 		[DisplayName("Last Name")]
 		public string LastName { get; set; }
 
-		[Required]
-		[DisplayName("Date of Birth")]
-		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
-		[DataType(DataType.Date)]
-		public DateTime DOB { get; set; }
+        [Required]
+        [DisplayName("Date of Birth")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
+        [DataType(DataType.Date)]
+        public Nullable<DateTime> DOB { get; set; } = null;
 
 		[Required]
 		[DisplayName("Gender")]

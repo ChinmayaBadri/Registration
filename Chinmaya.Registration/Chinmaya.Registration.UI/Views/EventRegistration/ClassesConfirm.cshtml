@@ -72,7 +72,7 @@
 				</div>
 			</div>
 		</div>
-		@using (Html.BeginForm("ClassesConfirm", "Account", FormMethod.Post))
+		@using (Html.BeginForm("ClassesConfirm", "EventRegistration", FormMethod.Post))
 		{
 			@Html.AntiForgeryToken()
 				if (Model != null)
@@ -172,7 +172,7 @@
 			var directoryCheckBox = $(this).val();
 			if (directoryCheckBox)
 			$.ajax({
-				"url": "../Account/AddtoDirectory/",
+				"url": "../EventRegistration/AddtoDirectory/",
 				"type": "POST",
 				"data": "directoryCheckBox",
 				success: function (ok) {

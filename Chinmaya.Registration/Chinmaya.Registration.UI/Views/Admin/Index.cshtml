@@ -73,7 +73,7 @@
 			function format(Id, tr, row) {
 				$.ajax({
 					"type": "GET",
-					url: "../Account/GetAllFamilyMembers/" + Id,
+					url: "../Admin/GetAllFamilyMembers/" + Id,
 					"datatype": "json",
 					success: function (res) {
 						if (res.data.length>0) {
@@ -101,7 +101,7 @@
 			var table = $('#example').DataTable({
 				"order": [],
 				ajax: {
-					"url": "../Account/GetAllUsers",
+					"url": "../Admin/GetAllUsers",
 					"type": "GET",
 					"datatype": "json"
 				},
@@ -175,7 +175,7 @@
 			$('#example tbody').on('change', 'input.editor-active', function () {
 				var id = $(this).attr("Id");
 				$.ajax({
-					"url": "../Account/ChangeAccountType/" + id,
+					"url": "../Admin/ChangeAccountType/" + id,
 					"type": "POST",
 					"data": id,
 					success: function (res) {
