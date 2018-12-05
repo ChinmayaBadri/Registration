@@ -20,6 +20,13 @@ namespace Chinmaya.Registration.UI.Controllers
             return View();
         }
 
+        /// <summary>
+        /// takes check payment data save it to the database
+        /// </summary>
+        /// <param name="data">Check Payment Model</param>
+        /// <param name="prevBtn"> back button name </param>
+        /// <param name="nextBtn"> next button name </param>
+        /// <returns> My account view or Classes confirm view </returns>
         [AllowAnonymous]
         public async Task<ActionResult> PaymentMethod(CheckPaymentModel data, string prevBtn, string nextBtn)
         {

@@ -26,8 +26,11 @@ namespace Chinmaya.Registration.UI.Controllers
         EventService _event = new EventService();
 
         System.Collections.Specialized.NameValueCollection configMngr = ConfigurationManager.AppSettings;
-        //
-        // GET: /Account/Login
+        /// <summary>
+        /// Loads login interface
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns> Login View </returns>
         [AllowAnonymous]
 		public ActionResult Login(string returnUrl)
 		{
@@ -35,8 +38,12 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View();
 		}
 
-		//
-		// POST: /Account/Login
+		/// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model">Login View Model</param>
+        /// <param name="returnUrl"></param>
+        /// <returns> returns view according to the user role </returns>
 		[HttpPost]
 		[AllowAnonymous]
 		[ValidateAntiForgeryToken]
@@ -107,32 +114,20 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View(model);
 		}
 
+        /// <summary>
+        /// Shows "Not Authorized" view
+        /// </summary>
+        /// <returns>"Not Authorized" view</returns>
         [HttpGet]
         public ActionResult NotAuthorized()
         {
             return View();
         }
-        		
-		//
-		// GET: /Account/Register
-		[AllowAnonymous]
-		public ActionResult Register()
-		{
-			return View();
-		}
 
-		[AllowAnonymous]
-		public ActionResult ConfirmEmail(string userId, string code)
-		{
-			if (userId == null || code == null)
-			{
-				return View("Error");
-			}
-			return View("Error");
-		}
-
-		//
-		// GET: /Account/ForgotPassword
+		/// <summary>
+        /// Shows Forgot password interface
+        /// </summary>
+        /// <returns> Forgot Password View </returns>
 		[AllowAnonymous]
 		public ActionResult ForgotPassword()
 		{
@@ -140,6 +135,11 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View(fm);
 		}
 
+        /// <summary>
+        /// Send instructions to reset forgot password through email
+        /// </summary>
+        /// <param name="model"> Forgot Password view model </param>
+        /// <returns> Json string </returns>
        [HttpPost]
        [AllowAnonymous]
         public async Task<JsonResult> ForgotPassword(ForgotPasswordModel model)
@@ -183,14 +183,14 @@ namespace Chinmaya.Registration.UI.Controllers
             }
             
         }
-        //
-        // GET: /Account/ForgotPasswordConfirmation
-        [AllowAnonymous]
-		public ActionResult ForgotPasswordConfirmation()
-		{
-			return View();
-		}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"> gets encrypted user email</param>
+        /// <param name="isRedirected"> when this method is called from some other action method "isRedirected" parameter
+        /// becomes true or false.</param>
+        /// <returns> Returns view if email is valid or redirected to login page </returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult> ResetForgotPassword(string user, bool isRedirected = false)
@@ -214,6 +214,11 @@ namespace Chinmaya.Registration.UI.Controllers
             return RedirectToAction("Login");
         }
 
+        /// <summary>
+        /// It will resets user password
+        /// </summary>
+        /// <param name="model">Reset Forgot Password Model</param>
+        /// <returns>Reset Password Confirmation view </returns>
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult> ResetForgotPassword(ResetForgotPasswordModel model)
@@ -266,35 +271,10 @@ namespace Chinmaya.Registration.UI.Controllers
             return View("ResetPasswordConfirmation", tm);
         }
 
-        //
-        // GET: /Account/ResetPassword
-        [AllowAnonymous]
-		public ActionResult ResetPassword(string code)
-		{
-			return code == null ? View("Error") : View();
-		}
-
-		//
-		// POST: /Account/ResetPassword
-		[HttpPost]
-		[AllowAnonymous]
-		[ValidateAntiForgeryToken]
-		public ActionResult ResetPassword()
-		{
-
-			return View();
-		}
-
-		//
-		// GET: /Account/ResetPasswordConfirmation
-		[AllowAnonymous]
-		public ActionResult ResetPasswordConfirmation()
-		{
-			return View();
-		}
-
-		//
-		// POST: /Account/LogOff
+		/// <summary>
+        /// Signouts the user from application
+        /// </summary>
+        /// <returns> Login view </returns>
 		[HttpGet]
 		public ActionResult LogOff()
 		{
@@ -305,6 +285,10 @@ namespace Chinmaya.Registration.UI.Controllers
             return RedirectToAction("Login", "Account");
 		}
 
+        /// <summary>
+        /// Gets current user info
+        /// </summary>
+        /// <returns> User Model</returns>
 		[AllowAnonymous]
 		private UserModel GetUser()
 		{
@@ -312,12 +296,21 @@ namespace Chinmaya.Registration.UI.Controllers
 			return (UserModel)Session["user"];
 		}
 
+        /// <summary>
+        /// Shows Registration view
+        /// </summary>
+        /// <returns> Registration View </returns>
 		[AllowAnonymous]
 		public ActionResult Registration()
 		{
 			return View();
 		}
 
+        /// <summary>
+        /// Shows Personal details interface
+        /// </summary>
+        /// <param name="pd"> Personal Details model </param>
+        /// <returns>Personal details View </returns>
 		[AllowAnonymous]
         [HttpGet]
 		public async Task<ActionResult> PersonalDetails(PersonalDetails pd = null)
@@ -330,6 +323,13 @@ namespace Chinmaya.Registration.UI.Controllers
             return View();
 		}
 
+        /// <summary>
+        /// takes personal details data and bind it to the view
+        /// </summary>
+        /// <param name="DetailsData">Personal Details Model</param>
+        /// <param name="BtnPrevious"> Back button name </param>
+        /// <param name="BtnNext"> Next button name </param>
+        /// <returns> Contact Details view or Personal Dateils view </returns>
 		[HttpPost]
 		[AllowAnonymous]
 		public async Task<ActionResult> PersonalDetails(PersonalDetails DetailsData, string BtnPrevious, string BtnNext)
@@ -357,6 +357,11 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View();
 		}
 
+        /// <summary>
+        /// Shows Contact details interface
+        /// </summary>
+        /// <param name="cd"> Contact Details model </param>
+        /// <returns>Contact Details view </returns>
         [HttpGet]
         public async Task<ActionResult> ContactDetails(ContactDetails cd = null)
         {
@@ -365,6 +370,13 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View(cd);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"> Contact Detaila model </param>
+        /// <param name="prevBtn"> Back button name </param>
+        /// <param name="nextBtn"> Next button name </param>
+        /// <returns> Contact Details view or Personal Dateils view or Account Deatails view </returns>
         [HttpPost]
 		[AllowAnonymous]
 		public async Task<ActionResult> ContactDetails(ContactDetails data, string prevBtn, string nextBtn)
@@ -407,6 +419,10 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View();
 		}
 
+        /// <summary>
+        /// Shows Account Details interface
+        /// </summary>
+        /// <returns> Account Details view </returns>
         [HttpGet]
         public async Task<ActionResult> AccountDetails()
         {
@@ -415,6 +431,13 @@ namespace Chinmaya.Registration.UI.Controllers
             return View(Ad);
         }
 
+        /// <summary>
+        /// Takes Account details model data and bind it to the view 
+        /// </summary>
+        /// <param name="data"> Account details model </param>
+        /// <param name="prevBtn"> Back button name </param>
+        /// <param name="nextBtn"> Next button name </param>
+        /// <returns> Contact Details view or Account details view or Login view </returns>
         [HttpPost]
 		[AllowAnonymous]
 		[ValidateAntiForgeryToken]
@@ -599,6 +622,11 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View();
 		}
 
+        /// <summary>
+        /// Shows user activation success or failed
+        /// </summary>
+        /// <param name="user"> encrypted user email </param>
+        /// <returns> User activation view </returns>
         [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult> UserActivation(string user)
@@ -630,6 +658,12 @@ namespace Chinmaya.Registration.UI.Controllers
             return View(tm);
         }
 
+        /// <summary>
+        /// Shows shared account request interface
+        /// </summary>
+        /// <param name="user"> encrypted user email </param>
+        /// <param name="aadm"> Are user address details matched or not </param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult> SharedAccountRequest(string user, bool aadm = false)
@@ -645,6 +679,11 @@ namespace Chinmaya.Registration.UI.Controllers
             return View(arm);
         }
 
+        /// <summary>
+        /// Sends email to the user with approved/rejected status
+        /// </summary>
+        /// <param name="arm">Approve Reject Model</param>
+        /// <returns> Is success or failed json result </returns>
         [AllowAnonymous]
         [HttpPost]
         public async Task<JsonResult> SharedAccountRequest(ApproveRejectModel arm)
@@ -698,6 +737,11 @@ namespace Chinmaya.Registration.UI.Controllers
             return Json(new { IsSuccess = userResponseMessage.IsSuccessStatusCode });
         }
 
+        /// <summary>
+        /// Gets all the states
+        /// </summary>
+        /// <param name="Id"> Country Id </param>
+        /// <returns>serialized States json result </returns>
         [HttpGet]
 		[AllowAnonymous]
 		public async Task<JsonResult> FillState(int Id)
@@ -709,6 +753,11 @@ namespace Chinmaya.Registration.UI.Controllers
 			return Json(serializedStates, JsonRequestBehavior.AllowGet);
 		}
 
+        /// <summary>
+        /// Gets all the Cities
+        /// </summary>
+        /// <param name="Id"> State Id </param>
+        /// <returns>serialized Cities json result </returns>
 		[HttpGet]
 		[AllowAnonymous]
 		public async Task<JsonResult> FillCity(int Id)
@@ -720,6 +769,11 @@ namespace Chinmaya.Registration.UI.Controllers
 			return Json(serializedCities, JsonRequestBehavior.AllowGet);
 		}
 
+        /// <summary>
+        /// Shows Family members details/self details 
+        /// </summary>
+        /// <param name="tm"> Toast message model </param>
+        /// <returns> My account view </returns>
 		[AllowAnonymous]
 		public async Task<ActionResult> MyAccount(ToastModel tm = null)
 		{
@@ -748,6 +802,12 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View("MyAccount", myAccountModel);
 		}
 
+        /// <summary>
+        /// adds family member
+        /// </summary>
+        /// <param name="MemberInformation"> Family Member Model </param>
+        /// <param name="nextBtn"> submit button name </param>
+        /// <returns> My Account view </returns>
 		[HttpPost]
 		[AllowAnonymous]
 		public async Task<ActionResult> AddFamilyMember(FamilyMemberModel MemberInformation, string nextBtn)
@@ -780,6 +840,12 @@ namespace Chinmaya.Registration.UI.Controllers
 			return RedirectToAction("MyAccount");
 		}
 
+        /// <summary>
+        /// Changes user account password
+        /// </summary>
+        /// <param name="Info"> Update Password Model</param>
+        /// <param name="nextBtn"> </param>
+        /// <returns> My Account view </returns>
 		[HttpPost]
 		[AllowAnonymous]
 		public async Task<ActionResult> ChangePassword(UpdatePasswordModel Info, string nextBtn)
@@ -813,6 +879,12 @@ namespace Chinmaya.Registration.UI.Controllers
 			return RedirectToAction("MyAccount");
 		}
 
+        /// <summary>
+        /// Changes user phone no.
+        /// </summary>
+        /// <param name="Info"> Update phone model </param>
+        /// <param name="nextBtn"></param>
+        /// <returns> My Account view </returns>
 		[HttpPost]
 		[AllowAnonymous]
 		public async Task<ActionResult> ChangePhone(UpdatePhone Info, string nextBtn)
@@ -835,6 +907,12 @@ namespace Chinmaya.Registration.UI.Controllers
 			return RedirectToAction("MyAccount");
 		}
 
+        /// <summary>
+        /// Changes User account email
+        /// </summary>
+        /// <param name="em">Update Email model </param>
+        /// <param name="nextBtn"></param>
+        /// <returns> My Account view </returns>
 		[HttpPost]
 		[AllowAnonymous]
 		public async Task<ActionResult> ChangeEmail(UpdateEmail em, string nextBtn)
@@ -867,6 +945,12 @@ namespace Chinmaya.Registration.UI.Controllers
 			return RedirectToAction("MyAccount");
 		}
 
+        /// <summary>
+        /// Changes user address
+        /// </summary>
+        /// <param name="Info"> Contact Details model </param>
+        /// <param name="nextBtn"></param>
+        /// <returns> My Account view </returns>
 		[HttpPost]
 		[AllowAnonymous]
 		public async Task<ActionResult> ChangeAddress(ContactDetails Info, string nextBtn)
@@ -893,6 +977,10 @@ namespace Chinmaya.Registration.UI.Controllers
 			return RedirectToAction("MyAccount");
 		}
 
+        /// <summary>
+        /// gets family member partial view with data binding
+        /// </summary>
+        /// <returns> family member partial view </returns>
 		[HttpGet]
 		[AllowAnonymous]
 		public async Task<PartialViewResult> RefreshFamilyMemberPartialView() {
@@ -903,6 +991,11 @@ namespace Chinmaya.Registration.UI.Controllers
 			return PartialView("_AddFamilyMember", fm);
 		}
 
+        /// <summary>
+        /// gets User phone no.
+        /// </summary>
+        /// <param name="Email"> user email </param>
+        /// <returns> change phone partial view </returns>
 		[HttpGet]
 		[AllowAnonymous]
 		public async Task<PartialViewResult> EditPhoneNumber(string Email)
@@ -911,6 +1004,11 @@ namespace Chinmaya.Registration.UI.Controllers
 			return PartialView("_ChangePhone", phone);
 		}
 
+        /// <summary>
+        /// gets user email
+        /// </summary>
+        /// <param name="Email"> user email </param>
+        /// <returns> Change Email partial view </returns>
 		[HttpGet]
 		[AllowAnonymous]
 		public PartialViewResult EditEmail(string Email)
@@ -920,6 +1018,11 @@ namespace Chinmaya.Registration.UI.Controllers
 			return PartialView("_ChangeEmail", em);
 		}
 
+        /// <summary>
+        /// gets user address
+        /// </summary>
+        /// <param name="Email"> user email </param>
+        /// <returns> Change Address partial view </returns>
 		[HttpGet]
 		[AllowAnonymous]
 		public async Task<PartialViewResult> EditAddress(string Email)
@@ -931,6 +1034,11 @@ namespace Chinmaya.Registration.UI.Controllers
 			return PartialView("_ChangeAddress", cd);
 		}
 
+        /// <summary>
+        /// gets family member details
+        /// </summary>
+        /// <param name="Id"> family member id </param>
+        /// <returns> family member partial view </returns>
 		public async Task<PartialViewResult> EditFamilyMember(string Id)
 		{
             FamilyMemberModel fm = await _user.FamilyMemberDetails(Id);
