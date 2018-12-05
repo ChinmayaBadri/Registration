@@ -152,7 +152,7 @@ namespace Chinmaya.Registration.UI.Controllers
                 {
                     EmailTemplateModel etm = await _account.GetEmailTemplate(8);
                     EncryptDecrypt ed = new EncryptDecrypt();
-                    string fullName = await _account.GetUserFullName(model.Email);
+                    string fullName = await _user.GetUserFullName(model.Email);
                     string forgotPasswordResetLink = configMngr["ResetForgotPasswordLink"] + ed.Encrypt(model.Email, configMngr["ServiceAccountPassword"]);
                     string emaiBody = etm.Body.Replace("[Username]", fullName)
                         .Replace("[URL]", forgotPasswordResetLink);
@@ -483,7 +483,7 @@ namespace Chinmaya.Registration.UI.Controllers
 					{
                         bool userRejected = false;
                         bool isEmailExists = await _account.CheckIsEmailExists(data.Email);
-                        bool isFamilyMember = await _user.IsFamilyMember(data.Email);
+                        bool isFamilyMember = await _account.IsFamilyMember(data.Email);
                         bool isAddressOrHomePhoneMatched = await _account.IsAddressOrHomePhoneMatched(cd);
                         if (isEmailExists)
                         {
@@ -534,9 +534,9 @@ namespace Chinmaya.Registration.UI.Controllers
 
                             ViewBag.IsFamilyMember = true;
                             EmailTemplateModel etm1 = await _account.GetEmailTemplate(emailTemplateId);
-                            string toUserFullname = await _account.GetUserFullName(data.Email);
+                            string toUserFullname = await _user.GetUserFullName(data.Email);
                             string primaryAccountEmail = await _account.GetFamilyPrimaryAccountEmail(data.Email);
-                            string fromUserFullname = await _account.GetUserFullName(primaryAccountEmail);
+                            string fromUserFullname = await _user.GetUserFullName(primaryAccountEmail);
 
                             string approvalLink1 = configMngr["SharedAccountRequestLink"]
                                 + objEncryptDecrypt.Encrypt(data.Email, configMngr["ServiceAccountPassword"])
@@ -638,7 +638,7 @@ namespace Chinmaya.Registration.UI.Controllers
             string email = objEncryptDecrypt.Decrypt(user, configMngr["ServiceAccountPassword"]);
 
             ApproveRejectModel arm = new ApproveRejectModel();
-            arm.FullName = await _account.GetUserFullName(email);
+            arm.FullName = await _user.GetUserFullName(email);
             arm.Email = email;
             arm.AreAddressDetailsMatched = aadm;
 
@@ -659,7 +659,7 @@ namespace Chinmaya.Registration.UI.Controllers
             {
                 EmailTemplateModel etm = await _account.GetEmailTemplate(3);
                 string primaryAccountEmail = await _account.GetFamilyPrimaryAccountEmail(arm.Email);
-                string fromUserFullname = await _account.GetUserFullName(primaryAccountEmail);
+                string fromUserFullname = await _user.GetUserFullName(primaryAccountEmail);
 
                 string emailSubject = etm.Subject
                     .Replace("[Status]", status);
@@ -690,7 +690,7 @@ namespace Chinmaya.Registration.UI.Controllers
                     fm.GenderData = um.GenderId;
                     fm.LastName = um.LastName;
                     fm.RelationshipData = 6;
-                    fm.UpdatedBy = await _user.GetUserIdByEmail(um.Email);
+                    fm.UpdatedBy = await _account.GetUserIdByEmail(um.Email);
 
                     HttpResponseMessage addFamilyMemberRes = await Utility.GetObject("/api/User/PostFamilyMember", fm, true);
                 }
@@ -844,7 +844,7 @@ namespace Chinmaya.Registration.UI.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					string uId = await _user.GetUserIdByEmail(User.Identity.Name);
+					string uId = await _account.GetUserIdByEmail(User.Identity.Name);
 					bool isEmailExists = await _account.CheckIsEmailExists(em.email);
 					if (isEmailExists)
 					{

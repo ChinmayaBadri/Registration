@@ -13,18 +13,10 @@ namespace Chinmaya.Registration.UI.Services
     {
         public async Task<UserModel> GetUserInfo(string email)
         {
-            string urlAction = "api/Account/GetUserInfoByEmail/" + email + "/";
+            string urlAction = "api/User/GetUserInfoByEmail/" + email + "/";
             HttpResponseMessage getUserInfoResponse = await Utility.GetObject(urlAction);
 
             return await Utility.DeserializeObject<UserModel>(getUserInfoResponse);
-        }
-
-        public async Task<string> GetUserIdByEmail(string email)
-        {
-            string urlAction = "api/Account/GetUserIdByEmail/" + email + "/";
-            HttpResponseMessage getUserIDResponse = await Utility.GetObject(urlAction);
-
-            return await Utility.DeserializeObject<string>(getUserIDResponse);
         }
 
         public async Task<List<UserFamilyMember>> GetUserFamilyMemberData(string Id)
@@ -57,17 +49,18 @@ namespace Chinmaya.Registration.UI.Services
 			return await Utility.DeserializeObject<ContactDetails>(roleResponseMessage);
 		}
 
-		public async Task<bool> IsFamilyMember(string email)
-        {
-            string urlAction = "api/Account/IsFamilyMember/" + email + "/";
-            HttpResponseMessage isEmailExistResponse = await Utility.GetObject(urlAction);
-            return await Utility.DeserializeObject<bool>(isEmailExistResponse);
-        }
-
         public async Task<UserFamilyMember> GetUserData(string Id)
         {
             HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/User/GetUserData/" + Id, true);
             return await Utility.DeserializeObject<UserFamilyMember>(roleResponseMessage);
+        }
+
+        public async Task<string> GetUserFullName(string email)
+        {
+            string urlAction = "api/User/GetUserFullNameByEmail/" + email + "/";
+            HttpResponseMessage getFullnameResponse = await Utility.GetObject(urlAction);
+
+            return await Utility.DeserializeObject<string>(getFullnameResponse);
         }
     }
 }
