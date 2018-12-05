@@ -328,15 +328,6 @@ namespace Chinmaya.Registration.UI.Controllers
 			ViewBag.SelectedAgeGroup = null;
 
             return View();
-            //return View("PersonalDetails", null);
-            //if(string.IsNullOrEmpty(pd.FirstName))
-            //{
-            //    return View();
-            //}
-            //else
-            //{
-            //    return View(pd);
-            //}
 		}
 
 		[HttpPost]
