@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Chinmaya.Utilities
 {
+    /// <summary>
+    /// Sends email using smtp
+    /// </summary>
     public class EmailManager
     {
         #region Declaration of variables
