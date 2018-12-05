@@ -857,7 +857,7 @@ namespace Chinmaya.Registration.UI.Controllers
 				{
 					if (Info.OldPassword == Info.NewPassword)
 					{
-						tm.IsSuccess = true;
+						tm.IsSuccess = false;
 						tm.Message = "Please give new Password that should not match the Old";
 						return Json(tm);
 					}
