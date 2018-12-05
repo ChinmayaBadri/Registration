@@ -10,6 +10,12 @@ namespace Chinmaya.Registration.Utilities
 {
     public class EncryptDecrypt
     {
+        /// <summary>
+        /// Gets encrypted content
+        /// </summary>
+        /// <param name="source"> source to be encrypted </param>
+        /// <param name="EncryptDecryptPassword"> service password </param>
+        /// <returns> return encrypted content </returns>
         public string Encrypt(string source, string EncryptDecryptPassword)
         {
             byte[] initializer = Encoding.ASCII.GetBytes("@1B2c3D4e5F6g7H8");
@@ -34,6 +40,12 @@ namespace Chinmaya.Registration.Utilities
             return ciphered;
         }
 
+        /// <summary>
+        /// Gets decrypted content
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="EncryptDecryptPassword"> service password </param>
+        /// <returns> return encrypted content </returns>
         public string Decrypt(string ciphered, string EncryptDecryptPassword)
         {
             byte[] initializer = Encoding.ASCII.GetBytes("@1B2c3D4e5F6g7H8");
