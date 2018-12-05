@@ -59,12 +59,6 @@ namespace Chinmaya.Registration.UI.Services
 			return await Utility.DeserializeObject<UpdatePhone>(roleResponseMessage);
 		}
 
-		public async Task<UpdateEmail> getEmail(string email)
-		{
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/User/getEmail/" + email + "/", true);
-			return await Utility.DeserializeObject<UpdateEmail>(roleResponseMessage);
-		}
-
         /// <summary>
         /// gets user address by email
         /// </summary>

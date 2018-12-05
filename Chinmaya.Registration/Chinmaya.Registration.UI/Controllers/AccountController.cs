@@ -857,7 +857,7 @@ namespace Chinmaya.Registration.UI.Controllers
 				{
 					if (Info.OldPassword == Info.NewPassword)
 					{
-						tm.IsSuccess = true;
+						tm.IsSuccess = false;
 						tm.Message = "Please give new Password that should not match the Old";
 						return Json(tm);
 					}
@@ -1011,10 +1011,11 @@ namespace Chinmaya.Registration.UI.Controllers
         /// <returns> Change Email partial view </returns>
 		[HttpGet]
 		[AllowAnonymous]
-		public async Task<PartialViewResult> EditEmail(string Email)
+		public PartialViewResult EditEmail(string Email)
 		{
-			UpdateEmail email = await _user.getEmail(Email);
-			return PartialView("_ChangeEmail", email);
+			UpdateEmail em = new UpdateEmail();
+			em.email = User.Identity.Name;
+			return PartialView("_ChangeEmail", em);
 		}
 
         /// <summary>
