@@ -11,14 +11,6 @@ namespace Chinmaya.Registration.UI.Services
 {
     public class AccountService
     {
-        public async Task<string> GetUserFullName(string email)
-        {
-            string urlAction = "api/Account/GetUserFullNameByEmail/" + email + "/";
-            HttpResponseMessage getFullnameResponse = await Utility.GetObject(urlAction);
-
-            return await Utility.DeserializeObject<string>(getFullnameResponse);
-        }
-
 		public async Task<int> GetCountryId(string name)
 		{
 			string urlAction = "api/Account/GetCountryId/" + name;
@@ -69,6 +61,21 @@ namespace Chinmaya.Registration.UI.Services
         public async Task<bool> CheckIsEmailExists(string email)
         {
             string urlAction = "api/Account/IsEmailExists/" + email + "/";
+            HttpResponseMessage isEmailExistResponse = await Utility.GetObject(urlAction);
+            return await Utility.DeserializeObject<bool>(isEmailExistResponse);
+        }
+
+        public async Task<string> GetUserIdByEmail(string email)
+        {
+            string urlAction = "api/Account/GetUserIdByEmail/" + email + "/";
+            HttpResponseMessage getUserIDResponse = await Utility.GetObject(urlAction);
+
+            return await Utility.DeserializeObject<string>(getUserIDResponse);
+        }
+
+        public async Task<bool> IsFamilyMember(string email)
+        {
+            string urlAction = "api/Account/IsFamilyMember/" + email + "/";
             HttpResponseMessage isEmailExistResponse = await Utility.GetObject(urlAction);
             return await Utility.DeserializeObject<bool>(isEmailExistResponse);
         }
