@@ -35,7 +35,15 @@ namespace Chinmaya.Registration.DAL
             }
         }
 
-        public EmailTemplateModel GetEmailTemplateByID(int id)
+		public int GetCountryId(string name)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				return _ctx.Countries.Where(c => c.Name == name).Select(n => n.Id).FirstOrDefault();
+			}
+		}
+
+		public EmailTemplateModel GetEmailTemplateByID(int id)
         {
             using (var _ctx = new ChinmayaEntities())
             {

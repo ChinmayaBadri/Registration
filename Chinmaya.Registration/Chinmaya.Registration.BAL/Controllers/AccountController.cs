@@ -28,7 +28,14 @@ namespace Chinmaya.Registration.BAL.Controllers
 			return _common.GetCityName(id);
 		}
 
-        [Route("api/Account/IsEmailExists/{email}/")]
+		[Route("api/Account/GetCountryId/{name}")]
+		[HttpGet]
+		public int GetCountryId(string name)
+		{
+			return _common.GetCountryId(name);
+		}
+
+		[Route("api/Account/IsEmailExists/{email}/")]
         [HttpGet]
         public bool IsEmailExists(string email)
         {

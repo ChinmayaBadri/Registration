@@ -106,5 +106,26 @@ namespace Chinmaya.Registration.BAL.Controllers
         {
             return Ok(_user.GetUserInfoByEmail(email));
         }
-    }
+
+		[Route("api/User/getPhoneNumber/{email}/")]
+		[HttpGet]
+		public UpdatePhone getPhoneNumber(string email)
+		{
+			return _user.getPhoneNumber(email);
+		}
+
+		[Route("api/User/getEmail/{email}/")]
+		[HttpGet]
+		public UpdateEmail getEmail(string email)
+		{
+			return _user.getEmail(email);
+		}
+
+		[Route("api/User/getAddress/{email}/")]
+		[HttpGet]
+		public ContactDetails getAddress(string email)
+		{
+			return _user.getAddress(email);
+		}
+	}
 }

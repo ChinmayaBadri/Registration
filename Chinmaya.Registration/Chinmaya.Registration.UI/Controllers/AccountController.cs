@@ -346,6 +346,7 @@ namespace Chinmaya.Registration.UI.Controllers
 			ViewBag.Gender = await _common.GetGenderData();
 			ViewBag.AgeGroup = await _common.GetAgeGroupData();
 			ViewBag.CountryList = await _common.GetCountryData();
+			//ViewBag.SelectedCountry = await _account.GetCountryId("United States");
 			ViewBag.SelectedCountry = 231;
 
 			if (BtnNext != null)
@@ -810,7 +811,7 @@ namespace Chinmaya.Registration.UI.Controllers
 						passwordModel.OldPassword = objEncryptDecrypt.Encrypt(Info.OldPassword, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
 						EncryptDecrypt objEncryptDecrypt1 = new EncryptDecrypt();
 						passwordModel.NewPassword = objEncryptDecrypt.Encrypt(Info.NewPassword, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
-						HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/UpdatePassword", passwordModel, true);
+						HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/UpdatePassword", passwordModel, true);
 						tm.IsSuccess = true;
 						tm.Message = "Password updated successfully";
 						return Json(tm);
@@ -832,7 +833,7 @@ namespace Chinmaya.Registration.UI.Controllers
 					UpdatePhone phoneModel = new UpdatePhone();
 					phoneModel.Email = User.Identity.Name;
 					phoneModel.OldPhone = Info.OldPhone;
-					HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/UpdatePhone", phoneModel, true);
+					HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/UpdatePhone", phoneModel, true);
 					tm.IsSuccess = true;
 					tm.Message = "Phone updated successfully";
 					return Json(tm);
@@ -864,7 +865,7 @@ namespace Chinmaya.Registration.UI.Controllers
 						UpdateEmail emailModel = new UpdateEmail();
 						emailModel.userId = uId;
 						emailModel.email = em.email;
-						HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/UpdateEmailAddress", emailModel, true);
+						HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/UpdateEmailAddress", emailModel, true);
 						tm.IsSuccess = true;
 						tm.Message = "Email updated successfully";
 						return Json(tm);
@@ -891,7 +892,7 @@ namespace Chinmaya.Registration.UI.Controllers
 					cntd.Country = Info.Country;
 					cntd.ZipCode = Info.ZipCode;
 					cntd.HomePhone = Info.HomePhone;
-					HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/UserAPI/UpdateAddress", cntd, true);
+					HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/UpdateAddress", cntd, true);
 					tm.IsSuccess = true;
 					tm.Message = "Address updated successfully";
 					return Json(tm);

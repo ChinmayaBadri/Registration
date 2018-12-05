@@ -29,31 +29,31 @@ namespace Chinmaya.Registration.UI.Services
 
         public async Task<List<UserFamilyMember>> GetUserFamilyMemberData(string Id)
         {
-            HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetUserFamilyMemberData/" + Id, true);
+            HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/User/GetUserFamilyMemberData/" + Id, true);
             return await Utility.DeserializeObject<List<UserFamilyMember>>(roleResponseMessage);
         }
 
         public async Task<FamilyMemberModel> FamilyMemberDetails(string Id)
         {
-            HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetFamilyMemberDetails/" + Id, true);
+            HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/User/GetFamilyMemberDetails/" + Id, true);
             return await Utility.DeserializeObject<FamilyMemberModel>(roleResponseMessage);
         }
 
 		public async Task<UpdatePhone> getPhoneNumber(string email)
 		{
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/getPhoneNumber/" + email + "/", true);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/User/getPhoneNumber/" + email + "/", true);
 			return await Utility.DeserializeObject<UpdatePhone>(roleResponseMessage);
 		}
 
 		public async Task<UpdateEmail> getEmail(string email)
 		{
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/getEmail/" + email + "/", true);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/User/getEmail/" + email + "/", true);
 			return await Utility.DeserializeObject<UpdateEmail>(roleResponseMessage);
 		}
 
 		public async Task<ContactDetails> getAddress(string email)
 		{
-			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/getAddress/" + email + "/", true);
+			HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/User/getAddress/" + email + "/", true);
 			return await Utility.DeserializeObject<ContactDetails>(roleResponseMessage);
 		}
 
@@ -66,7 +66,7 @@ namespace Chinmaya.Registration.UI.Services
 
         public async Task<UserFamilyMember> GetUserData(string Id)
         {
-            HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetUserData/" + Id, true);
+            HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/User/GetUserData/" + Id, true);
             return await Utility.DeserializeObject<UserFamilyMember>(roleResponseMessage);
         }
     }

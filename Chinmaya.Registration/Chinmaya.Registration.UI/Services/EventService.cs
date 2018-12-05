@@ -13,7 +13,7 @@ namespace Chinmaya.Registration.UI.Services
     {
         public async Task<CurrentEventModel> GetEventData(string Id)
         {
-            HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetEventData/" + Id, true);
+            HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/Event/GetEventData/" + Id, true);
             return await Utility.DeserializeObject<CurrentEventModel>(roleResponseMessage);
         }
     }

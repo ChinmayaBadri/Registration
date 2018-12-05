@@ -19,7 +19,15 @@ namespace Chinmaya.Registration.UI.Services
             return await Utility.DeserializeObject<string>(getFullnameResponse);
         }
 
-        public async Task<EmailTemplateModel> GetEmailTemplate(int id)
+		public async Task<int> GetCountryId(string name)
+		{
+			string urlAction = "api/Account/GetCountryId/" + name;
+			HttpResponseMessage getFullnameResponse = await Utility.GetObject(urlAction);
+
+			return await Utility.DeserializeObject<int>(getFullnameResponse);
+		}
+
+		public async Task<EmailTemplateModel> GetEmailTemplate(int id)
         {
             string urlAction = "api/Account/GetEmailTemplateByID/" + id;
 
@@ -54,7 +62,7 @@ namespace Chinmaya.Registration.UI.Services
 
         public async Task<bool> GetIsIndividual(string Id)
         {
-            HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/UserAPI/GetIsIndividual/" + Id, true);
+            HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/Account/GetIsIndividual/" + Id, true);
             return await Utility.DeserializeObject<bool>(roleResponseMessage);
         }
 
