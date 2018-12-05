@@ -7,16 +7,20 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Chinmaya.Registration.UI.Services;
 
 namespace Chinmaya.Registration.UI.Controllers
 {
     [CustomAuthorize(Roles = "Admin")]
     public class AdminController : BaseController
     {
-        // GET: Admin
-        public ActionResult Index()
+		AccountService _account = new AccountService();
+
+		// GET: Admin
+		public async Task<ActionResult> Index()
         {
-            return View();
+			ViewBag.Fullname = await _account.GetUserFullName(User.Identity.Name);
+			return View();
         }
 
         public async Task<ActionResult> GetAllUsers()

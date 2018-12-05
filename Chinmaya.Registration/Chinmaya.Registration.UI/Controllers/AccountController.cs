@@ -732,7 +732,8 @@ namespace Chinmaya.Registration.UI.Controllers
 		[AllowAnonymous]
 		public async Task<ActionResult> MyAccount(ToastModel tm = null)
 		{
-            if(!string.IsNullOrEmpty(tm.Message))
+			ViewBag.Fullname = await _account.GetUserFullName(User.Identity.Name);
+			if (!string.IsNullOrEmpty(tm.Message))
             {
                 ViewBag.tm = tm;
             }
