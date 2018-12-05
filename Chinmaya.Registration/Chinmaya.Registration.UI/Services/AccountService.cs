@@ -13,7 +13,7 @@ namespace Chinmaya.Registration.UI.Services
     {
 		public async Task<int> GetCountryId(string name)
 		{
-			string urlAction = "api/Account/GetCountryId/" + name;
+			string urlAction = "api/Account/GetCountryId/" + name + "/";
 			HttpResponseMessage getFullnameResponse = await Utility.GetObject(urlAction);
 
 			return await Utility.DeserializeObject<int>(getFullnameResponse);

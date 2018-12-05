@@ -24,5 +24,6 @@ namespace Chinmaya.Registration.Models
 		public Nullable<decimal> Amount { get; set; }
 		public bool select { get; set; }
 		public bool termsandConditions { get; set; }
+		public int ChangeAmount { get; set; }
 	}
 }

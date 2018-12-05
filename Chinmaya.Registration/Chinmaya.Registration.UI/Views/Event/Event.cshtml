@@ -88,7 +88,7 @@
 									<td>@ev.Name</td>
 									<td>@ev.Weekday</td>
 									<td>@ev.Frequency</td>
-									<td>$(@ev.Amount)</td>
+									<td>$@ev.ChangeAmount</td>
 									<td><a href="@Url.Action("Edit","Account", new { id = ev.Id })"><span class="label label-orange">Edit</span></a></td>
 								</tr>
 							}

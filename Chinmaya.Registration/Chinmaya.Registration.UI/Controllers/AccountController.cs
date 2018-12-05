@@ -337,8 +337,8 @@ namespace Chinmaya.Registration.UI.Controllers
 			ViewBag.Gender = await _common.GetGenderData();
 			ViewBag.AgeGroup = await _common.GetAgeGroupData();
 			ViewBag.CountryList = await _common.GetCountryData();
-			//ViewBag.SelectedCountry = await _account.GetCountryId("United States");
-			ViewBag.SelectedCountry = 231;
+			ViewBag.SelectedCountry = await _account.GetCountryId("United States");
+			//ViewBag.SelectedCountry = 231;
 
 			if (BtnNext != null)
 			{
@@ -361,8 +361,8 @@ namespace Chinmaya.Registration.UI.Controllers
         public async Task<ActionResult> ContactDetails(ContactDetails cd = null)
         {
             ViewBag.CountryList = await _common.GetCountryData();
-            ViewBag.SelectedCountry = 231;
-            return View(cd);
+			ViewBag.SelectedCountry = await _account.GetCountryId("United States");
+			return View(cd);
         }
 
         [HttpPost]
@@ -371,7 +371,7 @@ namespace Chinmaya.Registration.UI.Controllers
 		{
 			UserModel obj = GetUser();
 			ViewBag.CountryList = await _common.GetCountryData();
-			ViewBag.SelectedCountry = 231;
+			ViewBag.SelectedCountry = await _account.GetCountryId("United States");
 
 			if (prevBtn != null)
 			{

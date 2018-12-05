@@ -37,8 +37,12 @@ namespace Chinmaya.Registration.UI.Controllers
                 DateTime today = DateTime.Today;
                 int age = today.Year - (item.DOB).Year;
                 item.Events = await GetEvents(age);
+				foreach (var i in item.Events)
+				{
+					i.ChangeAmount = (int)i.Amount;
+				}
 
-            }
+			}
             if (prevBtn != null)
             {
                 return RedirectToAction("MyAccount", "Account");
@@ -98,7 +102,8 @@ namespace Chinmaya.Registration.UI.Controllers
                             foreach (var ev in entry.Value)
                             {
                                 var eventData = await _event.GetEventData(ev);
-                                currentEvents.Add(eventData);
+								eventData.ChangeAmount = (int)eventData.Amount;
+								currentEvents.Add(eventData);
                             }
 
                             ClassesConfirmModel classConfirm = new ClassesConfirmModel();

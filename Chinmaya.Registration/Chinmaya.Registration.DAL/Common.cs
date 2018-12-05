@@ -39,7 +39,7 @@ namespace Chinmaya.Registration.DAL
 		{
 			using (var _ctx = new ChinmayaEntities())
 			{
-				return _ctx.Countries.Where(c => c.Name == name).Select(n => n.Id).FirstOrDefault();
+				return _ctx.Countries.Where(c => c.Name == name).FirstOrDefault().Id;
 			}
 		}
 

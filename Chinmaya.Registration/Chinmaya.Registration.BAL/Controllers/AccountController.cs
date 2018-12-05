@@ -28,7 +28,7 @@ namespace Chinmaya.Registration.BAL.Controllers
 			return _common.GetCityName(id);
 		}
 
-		[Route("api/Account/GetCountryId/{name}")]
+		[Route("api/Account/GetCountryId/{name}/")]
 		[HttpGet]
 		public int GetCountryId(string name)
 		{

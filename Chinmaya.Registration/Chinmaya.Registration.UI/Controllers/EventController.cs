@@ -25,7 +25,12 @@ namespace Chinmaya.Registration.UI.Controllers
         {
             MainEventModel mainEventModel = new MainEventModel();
             mainEventModel.currentEventModel = await _common.GetEvents();
-            mainEventModel.weekday = await _common.GetWeekdayData();
+			foreach (var item in mainEventModel.currentEventModel)
+			{
+				item.ChangeAmount = (int)item.Amount;
+			}
+
+			mainEventModel.weekday = await _common.GetWeekdayData();
             mainEventModel.frequencies = await _common.GetFrequencyData();
             mainEventModel.sessions = await _common.GetSessionData();
 
