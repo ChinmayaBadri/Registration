@@ -15,11 +15,12 @@ namespace Chinmaya.Registration.UI.Controllers
     public class AdminController : BaseController
     {
 		AccountService _account = new AccountService();
+        UserService _user = new UserService();
 
 		// GET: Admin
 		public async Task<ActionResult> Index()
         {
-			ViewBag.Fullname = await _account.GetUserFullName(User.Identity.Name);
+			ViewBag.Fullname = await _user.GetUserFullName(User.Identity.Name);
 			return View();
         }
 
