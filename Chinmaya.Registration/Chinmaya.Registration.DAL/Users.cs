@@ -205,20 +205,6 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
-		public UpdateEmail getEmail(string Id)
-		{
-			using (var _ctx = new ChinmayaEntities())
-			{
-				UpdateEmail mail = new UpdateEmail();
-				var eData = _ctx.Users.Where(f => f.Email == Id).FirstOrDefault();
-				if (eData != null)
-				{
-					mail.email = Id;
-				}
-				return mail;
-			}
-		}
-
 		public ContactDetails getAddress(string Id)
 		{
 			using (var _ctx = new ChinmayaEntities())

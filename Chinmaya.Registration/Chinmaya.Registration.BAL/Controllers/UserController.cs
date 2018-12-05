@@ -114,13 +114,6 @@ namespace Chinmaya.Registration.BAL.Controllers
 			return _user.getPhoneNumber(email);
 		}
 
-		[Route("api/User/getEmail/{email}/")]
-		[HttpGet]
-		public UpdateEmail getEmail(string email)
-		{
-			return _user.getEmail(email);
-		}
-
 		[Route("api/User/getAddress/{email}/")]
 		[HttpGet]
 		public ContactDetails getAddress(string email)
