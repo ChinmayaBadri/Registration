@@ -13,6 +13,11 @@ namespace Chinmaya.BAL.Controllers
     {
         Events _event = new Events();
 
+        /// <summary>
+        /// gets event data by event id
+        /// </summary>
+        /// <param name="Id"> event id </param>
+        /// <returns> current event model </returns>
         [Route("api/Event/GetEventData/{id}")]
         [HttpGet]
         public CurrentEventModel GetEventData(string id)
@@ -20,6 +25,10 @@ namespace Chinmaya.BAL.Controllers
             return _event.GetEventData(id);
         }
 
+        /// <summary>
+        /// gets all events data
+        /// </summary>
+        /// <returns> list of current event model </returns>
         [Route("api/Event/GetEventsData/")]
         [HttpGet]
         public IEnumerable<CurrentEventModel> GetEventsData()
@@ -27,6 +36,11 @@ namespace Chinmaya.BAL.Controllers
             return _event.GetEventsData();
         }
 
+        /// <summary>
+        /// gets all events data by user age
+        /// </summary>
+        /// <param name="age"> user age </param>
+        /// <returns> list of current event model </returns>
         [Route("api/Event/GetEventsData/{age}")]
         [HttpGet]
         public IEnumerable<CurrentEventModel> GetEventsData(int age)
@@ -34,7 +48,10 @@ namespace Chinmaya.BAL.Controllers
             return _event.GetEventsData(age);
         }
 
-
+        /// <summary>
+        /// adds event
+        /// </summary>
+        /// <param name="ev"> Event Model </param>
         [Route("api/Event/PostEvent")]
         [HttpPost]
         public IHttpActionResult PostEvent(EventsModel obj)
@@ -50,6 +67,10 @@ namespace Chinmaya.BAL.Controllers
             }
         }
 
+        /// <summary>
+        /// adds user to directory by using user id
+        /// </summary>
+        /// <param name="id"> user id </param>
         [Route("api/Event/AddtoDirectory/{id}")]
         [HttpPost]
         public IHttpActionResult AddtoDirectory(string id)

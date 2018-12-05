@@ -13,6 +13,10 @@ namespace Chinmaya.Registration.DAL
 {
     public class Payments
     {
+        /// <summary>
+        /// saves check payment details 
+        /// </summary>
+        /// <param name="chkp"> Check Payment Model </param>
         public void PostCheckPayment(CheckPaymentModel chkp)
         {
             using (var _ctx = new ChinmayaEntities())

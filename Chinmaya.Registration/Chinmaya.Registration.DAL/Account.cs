@@ -12,6 +12,11 @@ namespace Chinmaya.Registration.DAL
 {
 	public class Account
 	{
+        /// <summary>
+        /// Check user email exists or not
+        /// </summary>
+        /// <param name="email"> user email </param>
+        /// <returns> true or false </returns>
         public bool IsEmailExists(string email)
         {
             using (var _ctx = new ChinmayaEntities())
@@ -20,6 +25,11 @@ namespace Chinmaya.Registration.DAL
             }
         }
 
+        /// <summary>
+        /// checks whether user is active or inactive user
+        /// </summary>
+        /// <param name="email"> user email </param>
+        /// <returns> true or false </returns>
         public bool IsActiveUser(string email)
         {
             using (var _ctx = new ChinmayaEntities())
@@ -28,6 +38,11 @@ namespace Chinmaya.Registration.DAL
             }
         }
 
+        /// <summary>
+        /// checks is user family member or not
+        /// </summary>
+        /// <param name="email"> user email </param>
+        /// <returns> true or false </returns>
         public bool IsFamilyMember(string email)
         {
             using (var _ctx = new ChinmayaEntities())
@@ -36,6 +51,11 @@ namespace Chinmaya.Registration.DAL
             }
         }
 
+        /// <summary>
+        /// checks user addess or home phone is matched with any other account's address or home phone
+        /// </summary>
+        /// <param name="cd"> contact details model </param>
+        /// <returns> true or false </returns>
         public bool AreAddressDetailsMatched(ContactDetails cd)
         {
             using (var _ctx = new ChinmayaEntities())
@@ -64,6 +84,11 @@ namespace Chinmaya.Registration.DAL
             }
         }
 
+        /// <summary>
+        /// gets user id by email
+        /// </summary>
+        /// <param name="email"> user email </param>
+        /// <returns> User id </returns>
         public string GetUserIdByEmail(string email)
         {
             try
@@ -83,6 +108,11 @@ namespace Chinmaya.Registration.DAL
             
         }
 
+        /// <summary>
+        /// Gets security questions by email
+        /// </summary>
+        /// <param name="email"> user email </param>
+        /// <returns> list of security questions model </returns>
         public List<SecurityQuestionsModel> GetSecurityQuestionsByEmail(string email)
         {
             using (var _ctx = new ChinmayaEntities())
@@ -107,6 +137,11 @@ namespace Chinmaya.Registration.DAL
             }
         }
 
+        /// <summary>
+        /// Get family primary account email id
+        /// </summary>
+        /// <param name="email"> user email </param>
+        /// <returns> primary account email id </returns>
         public string GetFamilyPrimaryAccountEmail(string email)
         {
             string result = string.Empty;
@@ -132,6 +167,11 @@ namespace Chinmaya.Registration.DAL
             return result;
         }
 
+        /// <summary>
+        /// update user password
+        /// </summary>
+        /// <param name="rpm">Reset Password Model</param>
+        /// <returns> true or false </returns>
         public bool ResetUserPassword(ResetPasswordModel rpm)
         {
             if(!string.IsNullOrEmpty(rpm.Email) && !string.IsNullOrEmpty(rpm.Password))
@@ -152,6 +192,10 @@ namespace Chinmaya.Registration.DAL
             return false;
         }
 
+        /// <summary>
+        /// user account type will changed
+        /// </summary>
+        /// <param name="id"> user id </param>
         public void ChangeAccountType(string id)
         {
             using (var _ctx = new ChinmayaEntities())
@@ -165,6 +209,11 @@ namespace Chinmaya.Registration.DAL
             }
         }
 
+        /// <summary>
+        /// gets user account type
+        /// </summary>
+        /// <param name="Id"> user id </param>
+        /// <returns> true or false </returns>
         public bool GetIsIndividual(string Id)
         {
             using (var _ctx = new ChinmayaEntities())

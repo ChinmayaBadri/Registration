@@ -15,8 +15,12 @@ namespace Chinmaya.Registration.DAL
 	[DbConfigurationType(typeof(CodeConfig))] // point to the class that inherit from DbConfiguration
 	public class Users
 	{
-		//Get Specific user details based on username and password
-		public UserModel GetUserInfo(LoginViewModel entity)
+        /// <summary>
+        /// gets user info by email
+        /// </summary>
+        /// <param name="entity"> Login View Model </param>
+        /// <returns> User model </returns>
+        public UserModel GetUserInfo(LoginViewModel entity)
 		{
 			using (var _ctx = new ChinmayaEntities())
 			{
@@ -33,6 +37,12 @@ namespace Chinmaya.Registration.DAL
 				return mapper.Map(objUserInfo, ur);
 			}
 		}
+
+        /// <summary>
+        /// gets user role name
+        /// </summary>
+        /// <param name="id"> user id </param>
+        /// <returns> user role </returns>
 		public string GetRoleName(int id)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -41,6 +51,11 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
+        /// <summary>
+        /// gets user family members data by user id
+        /// </summary>
+        /// <param name="Id"> user id </param>
+        /// <returns> User Family member model </returns>
 		public List<GetFamilyMemberForUser_Result> GetUserFamilyMemberData(string Id)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -49,6 +64,10 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
+        /// <summary>
+        /// gets all users details
+        /// </summary>
+        /// <returns> list of users object </returns>
 		public object GetAllUsers()
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -77,6 +96,11 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
+        /// <summary>
+        /// gets all family members details
+        /// </summary>
+        /// <param name="id"> user id </param>
+        /// <returns> list of family members object </returns>
 		public object GetAllFamilyMembers(string id)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -102,6 +126,11 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
+        /// <summary>
+        /// gets user data
+        /// </summary>
+        /// <param name="Id"> user id </param>
+        /// <returns>User Family Member model </returns>
 		public UserFamilyMember GetUserData(string Id)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -132,6 +161,10 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
+        /// <summary>
+        /// add or update user data
+        /// </summary>
+        /// <param name="user"> User Model </param>
 		public void PostUser(UserModel user)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -190,6 +223,11 @@ namespace Chinmaya.Registration.DAL
             }
 		}
 
+        /// <summary>
+        /// gets User phone no.
+        /// </summary>
+        /// <param name="Email"> user email </param>
+        /// <returns> Update Phone model </returns>
 		public UpdatePhone getPhoneNumber(string Id)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -205,6 +243,11 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
+        /// <summary>
+        /// gets user email
+        /// </summary>
+        /// <param name="Email"> user email </param>
+        /// <returns> Update email model  </returns>
 		public UpdateEmail getEmail(string Id)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -219,6 +262,11 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
+        /// <summary>
+        /// gets user address
+        /// </summary>
+        /// <param name="Email"> user email </param>
+        /// <returns> Contact Details model </returns>
 		public ContactDetails getAddress(string Id)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -238,6 +286,11 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
+        /// <summary>
+        /// get family member details
+        /// </summary>
+        /// <param name="Id"> family member id </param>
+        /// <returns> family member model </returns>
 		public FamilyMemberModel GetFamilyMemberDetails(string Id)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -255,6 +308,10 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
+        /// <summary>
+        /// add or edit family member details
+        /// </summary>
+        /// <param name="family"> Family Member Model </param>
 		public void PostFamilyMember(FamilyMemberModel family)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -306,6 +363,10 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
+        /// <summary>
+        /// updates password
+        /// </summary>
+        /// <param name="pwd"> Update Password Model </param>
 		public void UpdatePassword(UpdatePasswordModel pwd)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -336,6 +397,10 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
+        /// <summary>
+        /// updates phone number
+        /// </summary>
+        /// <param name="phone"> phone number </param>
 		public void UpdatePhone(UpdatePhone phone)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -366,6 +431,11 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 		
+        /// <summary>
+        /// updates email address
+        /// </summary>
+        /// <param name="el"> update email model </param>
+        /// <returns> true or false </returns>
 		public bool UpdateEmailAddress(UpdateEmail el)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -399,6 +469,10 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
+        /// <summary>
+        /// updates user address
+        /// </summary>
+        /// <param name="cd"> Contact Details model </param>
 		public void UpdateAddress(ContactDetails cd)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -434,6 +508,11 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
+        /// <summary>
+        /// get user info by email address
+        /// </summary>
+        /// <param name="email"> user email </param>
+        /// <returns> User Model </returns>
         public UserModel GetUserInfoByEmail(string email)
         {
             using (var _ctx = new ChinmayaEntities())
@@ -453,6 +532,11 @@ namespace Chinmaya.Registration.DAL
             }
         }
 
+        /// <summary>
+        /// gets user full name by email
+        /// </summary>
+        /// <param name="email"> user email </param>
+        /// <returns> user full name </returns>
         public string GetUserFullNameByEmail(string email)
         {
             string fullname = string.Empty;

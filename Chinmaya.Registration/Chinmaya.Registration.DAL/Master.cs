@@ -14,7 +14,11 @@ namespace Chinmaya.Registration.DAL
     [DbConfigurationType(typeof(CodeConfig))] // point to the class that inherit from DbConfiguration
     public class Master
     {
-        //Get all Employees
+        /// <summary>
+        /// gets key value model list by the master type
+        /// </summary>
+        /// <param name="masterValue"> master type </param>
+        /// <returns> key value model </returns>
         public IEnumerable<KeyValueModel> GetMasterData(Utility.MasterType masterValue)
         {
             using (var _ctx = new ChinmayaEntities())
