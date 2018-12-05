@@ -577,6 +577,7 @@
     <Content Include="Views\Account\_ChangeAddress.cshtml" />
     <Content Include="Views\Account\_ChangePhone.cshtml" />
     <Content Include="Views\Account\_ChangeEmail.cshtml" />
+    <Content Include="Views\Shared\_LayoutPageRegistration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

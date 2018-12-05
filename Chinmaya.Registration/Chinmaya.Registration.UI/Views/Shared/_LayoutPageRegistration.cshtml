@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+	<meta name="viewport" content="width=device-width" />
+	<title>@ViewBag.Title</title>
+
+	@Styles.Render("~/Content/css")
+	@RenderSection("Styles", false)
+
+	@Scripts.Render("~/bundles/jquery")
+
+</head>
+<body class="theme_bg">
+	<div class="login-logo">
+		<img src="~/Content/img/registration-logo.png" alt="logo" class="center-block" />
+	</div>
+	<div class="login-box">
+		<div class="row" id="login">
+			<div class="col-md-12">
+				@RenderBody()
+			</div>
+		</div>
+	</div>
+
+	@Scripts.Render("~/bundles/bootstrap")
+	@RenderSection("Scripts", false)
+</body>
+</html>
