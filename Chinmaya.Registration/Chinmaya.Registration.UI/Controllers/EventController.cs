@@ -14,12 +14,11 @@ namespace Chinmaya.Registration.UI.Controllers
     public class EventController : BaseController
     {
         CommonService _common = new CommonService();
-        // GET: Event
-        public ActionResult Index()
-        {
-            return View();
-        }
 
+        /// <summary>
+        /// Shows all events
+        /// </summary>
+        /// <returns> event view </returns>
         [AllowAnonymous]
         public async Task<ActionResult> Event()
         {
@@ -37,6 +36,11 @@ namespace Chinmaya.Registration.UI.Controllers
             return View("Event", mainEventModel);
         }
 
+        /// <summary>
+        /// adds event
+        /// </summary>
+        /// <param name="data">Events model </param>
+        /// <returns> Event view </returns>
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult> AddEvent(EventsModel data)
