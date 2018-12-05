@@ -15,6 +15,11 @@ namespace Chinmaya.Registration.BAL.Controllers
     {
         Master _master = new Master();
 
+        /// <summary>
+        /// gets list of key value model by using master value
+        /// </summary>
+        /// <param name="masterValue"> master value type </param>
+        /// <returns> key value model </returns>
         [HttpPost]
         [ResponseType(typeof(List<KeyValueModel>))]
         public IHttpActionResult GetMasterData([FromBody]Utility.MasterType masterValue)

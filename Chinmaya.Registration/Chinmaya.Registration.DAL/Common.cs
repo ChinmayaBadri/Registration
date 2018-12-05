@@ -11,6 +11,11 @@ namespace Chinmaya.Registration.DAL
 {
     public class Common
     {
+        /// <summary>
+        /// gets states
+        /// </summary>
+        /// <param name="id"> country id </param>
+        /// <returns> list of states </returns>
         public List<KeyValueModel> GetStateName(int id)
         {
             using (var _ctx = new ChinmayaEntities())
@@ -23,6 +28,11 @@ namespace Chinmaya.Registration.DAL
             }
         }
 
+        /// <summary>
+        /// gets cities
+        /// </summary>
+        /// <param name="id"> state id </param>
+        /// <returns> list of cities </returns>
         public List<KeyValueModel> GetCityName(int id)
         {
             using (var _ctx = new ChinmayaEntities())
@@ -35,6 +45,11 @@ namespace Chinmaya.Registration.DAL
             }
         }
 
+        /// <summary>
+        /// gets country id
+        /// </summary>
+        /// <param name="name"> country name </param>
+        /// <returns> country id </returns>
 		public int GetCountryId(string name)
 		{
 			using (var _ctx = new ChinmayaEntities())
@@ -43,6 +58,11 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
+        /// <summary>
+        /// gets email template by template id
+        /// </summary>
+        /// <param name="id"> template id </param>
+        /// <returns> email template model </returns>
 		public EmailTemplateModel GetEmailTemplateByID(int id)
         {
             using (var _ctx = new ChinmayaEntities())

@@ -13,6 +13,10 @@ namespace Chinmaya.BAL.Controllers
     {
         Payments _payment = new Payments();
 
+        /// <summary>
+        /// saves check payment details 
+        /// </summary>
+        /// <param name="obj"> Check Payment Model </param>
         [Route("api/Payment/PostCheckPayment")]
         [HttpPost]
         public IHttpActionResult PostCheckPayment(CheckPaymentModel obj)

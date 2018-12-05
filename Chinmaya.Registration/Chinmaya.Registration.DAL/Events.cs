@@ -13,6 +13,11 @@ namespace Chinmaya.Registration.DAL
 {
     public class Events
     {
+        /// <summary>
+        /// gets event data by event id
+        /// </summary>
+        /// <param name="Id"> event id </param>
+        /// <returns> current event model </returns>
         public CurrentEventModel GetEventData(string Id)
         {
             using (var _ctx = new ChinmayaEntities())
@@ -35,6 +40,10 @@ namespace Chinmaya.Registration.DAL
             }
         }
 
+        /// <summary>
+        /// gets all events data
+        /// </summary>
+        /// <returns> list of current event model </returns>
         public List<CurrentEventModel> GetEventsData()
         {
 
@@ -58,6 +67,11 @@ namespace Chinmaya.Registration.DAL
 
         }
 
+        /// <summary>
+        /// gets all events data by user age
+        /// </summary>
+        /// <param name="age"> user age </param>
+        /// <returns> list of current event model </returns>
         public List<CurrentEventModel> GetEventsData(int age)
         {
             using (var _ctx = new ChinmayaEntities())
@@ -82,6 +96,10 @@ namespace Chinmaya.Registration.DAL
 
         }
 
+        /// <summary>
+        /// adds event
+        /// </summary>
+        /// <param name="ev"> Event Model </param>
         public void PostEvent(EventsModel ev)
         {
             using (var _ctx = new ChinmayaEntities())
@@ -155,6 +173,10 @@ namespace Chinmaya.Registration.DAL
             }
         }
 
+        /// <summary>
+        /// adds user to directory by using user id
+        /// </summary>
+        /// <param name="id"> user id </param>
         public void AddtoDirectory(string id)
         {
             using (var _ctx = new ChinmayaEntities())
