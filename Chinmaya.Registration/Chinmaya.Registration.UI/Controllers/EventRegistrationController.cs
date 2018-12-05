@@ -15,18 +15,25 @@ namespace Chinmaya.Registration.UI.Controllers
     {
         UserService _user = new UserService();
         EventService _event = new EventService();
-        // GET: EventRegistration
-        public ActionResult Index()
-        {
-            return View();
-        }
 
+        /// <summary>
+        /// get events
+        /// </summary>
+        /// <param name="age"> user age </param>
+        /// <returns> List of current events </returns>
         public async Task<List<CurrentEventModel>> GetEvents(int age)
         {
             HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/Event/GetEventsData/" + age, true);
             return await Utility.DeserializeObject<List<CurrentEventModel>>(roleResponseMessage);
         }
 
+        /// <summary>
+        /// subscribe events to the users
+        /// </summary>
+        /// <param name="select"> selected events id's in list of string </param>
+        /// <param name="prevBtn"> back button name </param>
+        /// <param name="nextBtn"> next button name </param>
+        /// <returns> Program Event Registration view or My account view or classes confirm view </returns>
         [AllowAnonymous]
         public async Task<ActionResult> ProgramEventRegistration(string[] select, string prevBtn, string nextBtn)
         {
@@ -117,6 +124,12 @@ namespace Chinmaya.Registration.UI.Controllers
             return View("ProgramEventRegistration", programEventRegistrationModel);
         }
 
+        /// <summary>
+        /// display selected events with users
+        /// </summary>
+        /// <param name="prevBtn"></param>
+        /// <param name="nextBtn"></param>
+        /// <returns> payment method view or Program Event Registration view or Classes Confirm view </returns>
         [AllowAnonymous]
         public ActionResult ClassesConfirm(string prevBtn, string nextBtn)
         {
@@ -160,6 +173,11 @@ namespace Chinmaya.Registration.UI.Controllers
             return View("ClassesConfirm", classesConfirm);
         }
 
+        /// <summary>
+        /// Adds current user to the chinmaya directory
+        /// </summary>
+        /// <param name="Id"> current user id </param>
+        /// <returns> Json string </returns>
         [AllowAnonymous]
         public async Task<ActionResult> AddtoDirectory(string Id)
         {

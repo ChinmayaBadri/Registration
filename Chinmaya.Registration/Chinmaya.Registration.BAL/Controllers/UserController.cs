@@ -93,7 +93,7 @@ namespace Chinmaya.Registration.BAL.Controllers
 			return _user.GetFamilyMemberDetails(id);
 		}
 
-        [Route("api/Account/GetUserFullNameByEmail/{email}/")]
+        [Route("api/User/GetUserFullNameByEmail/{email}/")]
         [HttpGet]
         public IHttpActionResult GetUserFullNameByEmail(string email)
         {
