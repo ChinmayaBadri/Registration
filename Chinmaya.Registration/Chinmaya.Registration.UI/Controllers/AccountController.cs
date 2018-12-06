@@ -507,7 +507,7 @@ namespace Chinmaya.Registration.UI.Controllers
 					if (ModelState.IsValid)
 					{
                         bool userRejected = false;
-                        bool isEmailExists = await _account.CheckIsEmailExists(data.Email);
+                        bool isEmailExists = await _account.IsActiveUser(data.Email);
                         bool isFamilyMember = await _account.IsFamilyMember(data.Email);
 						int isAddressOrHomePhoneMatched = await _account.IsAddressOrHomePhoneMatched(cd);
                         if (isEmailExists)
@@ -651,6 +651,7 @@ namespace Chinmaya.Registration.UI.Controllers
             if(um != null)
             {
                 um.EmailConfirmed = true;
+				um.Status = true;
                 HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/PostUser", um, true);
                 if (userResponseMessage.IsSuccessStatusCode)
                 {
@@ -705,7 +706,9 @@ namespace Chinmaya.Registration.UI.Controllers
             UserModel um = await _user.GetUserInfo(arm.Email);
             um.IsApproved = arm.IsApproved;
             um.Status = arm.IsApproved ? true : false;
-            HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/PostUser", um, true);
+			um.EmailConfirmed = um.Status;
+
+			HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/PostUser", um, true);
 
             string status = arm.IsApproved ? "Approved" : "Rejected";
             if (userResponseMessage.IsSuccessStatusCode)

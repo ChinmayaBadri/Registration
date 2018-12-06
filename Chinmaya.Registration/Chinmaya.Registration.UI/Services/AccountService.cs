@@ -149,5 +149,17 @@ namespace Chinmaya.Registration.UI.Services
             HttpResponseMessage isEmailExistResponse = await Utility.GetObject(urlAction);
             return await Utility.DeserializeObject<bool>(isEmailExistResponse);
         }
-    }
+
+		/// <summary>
+		/// Checks whether user is active or not
+		/// </summary>
+		/// <param name="email"> user email </param>
+		/// <returns> true or false </returns>
+		public async Task<bool> IsActiveUser(string email)
+		{
+			string urlAction = "api/Account/IsActiveUser/" + email + "/";
+			HttpResponseMessage isActiveUserResponse = await Utility.GetObject(urlAction);
+			return await Utility.DeserializeObject<bool>(isActiveUserResponse);
+		}
+	}
 }
