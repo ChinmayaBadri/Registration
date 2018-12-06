@@ -11,7 +11,8 @@ using Chinmaya.Registration.UI.Services;
 
 namespace Chinmaya.Registration.UI.Controllers
 {
-    public class EventRegistrationController : BaseController
+	[CustomAuthorize(Roles = "User")]
+	public class EventRegistrationController : BaseController
     {
         UserService _user = new UserService();
         EventService _event = new EventService();

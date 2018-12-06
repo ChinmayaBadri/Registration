@@ -66,20 +66,44 @@ namespace Chinmaya.Registration.BAL.Controllers
         /// checks user addess or home phone is matched with any other account's address or home phone
         /// </summary>
         /// <param name="cd"> contact details model </param>
-        /// <returns> true or false </returns>
+        /// <returns> int </returns>
         [Route("api/Account/AreAddressDetailsMatched")]
         [HttpPost]
-        public bool AreAddressDetailsMatched(ContactDetails cd)
+        public int AreAddressDetailsMatched(ContactDetails cd)
         {
             return _Account.AreAddressDetailsMatched(cd);
         }
 
-        /// <summary>
-        /// gets email template by template id
-        /// </summary>
-        /// <param name="id"> template id </param>
-        /// <returns> email template model </returns>
-        [Route("api/Account/GetEmailTemplateByID/{id}")]
+		/// <summary>
+		/// Gets Email by HomePhone
+		/// </summary>
+		/// <param name="homephone"></param>
+		/// <returns></returns>
+		[Route("api/Account/GetPrimaryAccountEmailByHomePhone/{homephone}")]
+		[HttpGet]
+		public string GetPrimaryAccountEmailByHomePhone(string homephone)
+		{
+			return _Account.GetPrimaryAccountEmailByHomePhone(homephone);
+		}
+
+		/// <summary>
+		/// Gets Email by Address
+		/// </summary>
+		/// <param name="cd"></param>
+		/// <returns></returns>
+		[Route("api/Account/GetPrimaryAccountEmailByAddress")]
+		[HttpPost]
+		public string GetPrimaryAccountEmailByAddress(ContactDetails cd)
+		{
+			return _Account.GetPrimaryAccountEmailByAddress(cd);
+		}
+
+		/// <summary>
+		/// gets email template by template id
+		/// </summary>
+		/// <param name="id"> template id </param>
+		/// <returns> email template model </returns>
+		[Route("api/Account/GetEmailTemplateByID/{id}")]
         [HttpGet]
         public IHttpActionResult GetEmailTemplate(int id)
         {

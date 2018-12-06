@@ -363,22 +363,29 @@ namespace Chinmaya.Registration.DAL
 			}
 		}
 
-        /// <summary>
-        /// updates password
-        /// </summary>
-        /// <param name="pwd"> Update Password Model </param>
-		public void UpdatePassword(UpdatePasswordModel pwd)
+		/// <summary>
+		/// updates password
+		/// </summary>
+		/// <param name="pwd"> Update Password Model </param>
+		/// <returns> true or false </returns>
+		public bool UpdatePassword(UpdatePasswordModel pwd)
 		{
 			using (var _ctx = new ChinmayaEntities())
 			{
 				var userEmail = _ctx.Users.Where(r => r.Email == pwd.Email && r.Password == pwd.OldPassword).FirstOrDefault();
-				if (userEmail != null)
+				if (userEmail == null)
 				{
-					userEmail.Password = pwd.NewPassword;					
+					return false;
+				}
+
+				else if (userEmail != null)
+				{
+					userEmail.Password = pwd.NewPassword;
 				}
 				try
 				{
 					_ctx.SaveChanges();
+					return true;
 				}
 				catch (DbEntityValidationException e)
 				{
@@ -392,7 +399,7 @@ namespace Chinmaya.Registration.DAL
 								ve.PropertyName, ve.ErrorMessage);
 						}
 					}
-
+					return false;
 				}
 			}
 		}

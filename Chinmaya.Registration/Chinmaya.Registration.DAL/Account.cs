@@ -55,17 +55,14 @@ namespace Chinmaya.Registration.DAL
         /// checks user addess or home phone is matched with any other account's address or home phone
         /// </summary>
         /// <param name="cd"> contact details model </param>
-        /// <returns> true or false </returns>
-        public bool AreAddressDetailsMatched(ContactDetails cd)
+        /// <returns> int </returns>
+        public int AreAddressDetailsMatched(ContactDetails cd)
         {
             using (var _ctx = new ChinmayaEntities())
             {
-                bool isMatched = false;
-
                 if (_ctx.Users.Any(u => u.HomePhone == cd.HomePhone))
                 {
-                    isMatched = true;
-                    return isMatched;
+                    return 1;
                 }
 
                 var objUserList = _ctx.Users.Where(u => u.Address == cd.Address).ToList();
@@ -75,21 +72,81 @@ namespace Chinmaya.Registration.DAL
                     {
                         if (_ctx.Users.Any(u => u.StateId == cd.State))
                         {
-                            isMatched = true;
+							return 2;
                         }
                     }
                 }
 
-                return isMatched;
+                return 0;
             }
         }
 
-        /// <summary>
-        /// gets user id by email
-        /// </summary>
-        /// <param name="email"> user email </param>
-        /// <returns> User id </returns>
-        public string GetUserIdByEmail(string email)
+		/// <summary>
+		/// Gets Email by HomePhone
+		/// </summary>
+		/// <param name="homephone"></param>
+		/// <returns></returns>
+		public string GetPrimaryAccountEmailByHomePhone(string homephone)
+		{
+			try
+			{
+				if (!string.IsNullOrEmpty(homephone))
+				{
+					using (var _ctx = new ChinmayaEntities())
+					{
+						return _ctx.Users.SingleOrDefault(u => u.HomePhone == homephone && u.IsIndividual == false).Email;
+					}
+				}
+				return string.Empty;
+			}
+			catch (Exception)
+			{
+				return string.Empty;
+			}
+
+		}
+
+		/// <summary>
+		/// Gets Email by Address
+		/// </summary>
+		/// <param name="cd"></param>
+		/// <returns></returns>
+		public string GetPrimaryAccountEmailByAddress(ContactDetails cd)
+		{
+			try
+			{
+				using (var _ctx = new ChinmayaEntities())
+				{
+					var email = "";
+					var objUserList = _ctx.Users.Where(u => u.Address == cd.Address && u.IsIndividual == false).ToList();
+					foreach (User objUser in objUserList)
+					{
+						if (objUser.City.ToLower() == cd.City.ToLower())
+						{
+							if (objUser.StateId == cd.State)
+							{
+								email = objUser.Email;
+								return email;
+							}
+						}
+						else email = "";
+					}
+					return email;
+				}
+			}
+			catch (Exception)
+			{
+				return string.Empty;
+			}
+
+		}
+
+		/// <summary>
+		/// gets user id by email
+		/// </summary>
+		/// <param name="email"> user email </param>
+		/// <returns> User id </returns>
+		public string GetUserIdByEmail(string email)
         {
             try
             {

@@ -11,7 +11,8 @@ using Chinmaya.Registration.UI.Services;
 
 namespace Chinmaya.Registration.UI.Controllers
 {
-    public class EventController : BaseController
+	[CustomAuthorize(Roles = "Admin")]
+	public class EventController : BaseController
     {
         CommonService _common = new CommonService();
 

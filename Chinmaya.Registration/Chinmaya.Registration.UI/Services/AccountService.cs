@@ -54,21 +54,47 @@ namespace Chinmaya.Registration.UI.Services
         /// checks user addess or home phone is matched with any other account's address or home phone
         /// </summary>
         /// <param name="cd"> contact details model </param>
-        /// <returns> true or false </returns>
-        public async Task<bool> IsAddressOrHomePhoneMatched(ContactDetails cd)
+        /// <returns> int </returns>
+        public async Task<int> IsAddressOrHomePhoneMatched(ContactDetails cd)
         {
             string urlAction = "api/Account/AreAddressDetailsMatched";
             HttpResponseMessage areDetailsMatchedRes = await Utility.GetObject(urlAction, cd, true);
 
-            return await Utility.DeserializeObject<bool>(areDetailsMatchedRes);
+            return await Utility.DeserializeObject<int>(areDetailsMatchedRes);
         }
 
-        /// <summary>
-        /// Gets security questions by email
-        /// </summary>
-        /// <param name="email"> user email </param>
-        /// <returns> list of security questions model </returns>
-        public async Task<List<SecurityQuestionsModel>> GetSecurityQuestionsByEmail(string email)
+		/// <summary>
+		/// Gets Email by HomePhone
+		/// </summary>
+		/// <param name="homephone"></param>
+		/// <returns></returns>
+		public async Task<string> GetPrimaryAccountEmailByHomePhone(string homephone)
+		{
+			string urlAction = "api/Account/GetPrimaryAccountEmailByHomePhone/" + homephone;
+			HttpResponseMessage isHomePhoneMatchedRes = await Utility.GetObject(urlAction, true);
+
+			return await Utility.DeserializeObject<string>(isHomePhoneMatchedRes);
+		}
+
+		/// <summary>
+		/// Gets Email by Address
+		/// </summary>
+		/// <param name="cd"></param>
+		/// <returns></returns>
+		public async Task<string> GetPrimaryAccountEmailByAddress(ContactDetails cd)
+		{
+			string urlAction = "api/Account/GetPrimaryAccountEmailByAddress";
+			HttpResponseMessage isAddressMatchedRes = await Utility.GetObject(urlAction, cd, true);
+
+			return await Utility.DeserializeObject<string>(isAddressMatchedRes);
+		}
+
+		/// <summary>
+		/// Gets security questions by email
+		/// </summary>
+		/// <param name="email"> user email </param>
+		/// <returns> list of security questions model </returns>
+		public async Task<List<SecurityQuestionsModel>> GetSecurityQuestionsByEmail(string email)
         {
             string urlAction2 = "api/Account/GetSecurityQuestionsByEmail/" + email + "/";
             HttpResponseMessage getSecurityQuestionsRes = await Utility.GetObject(urlAction2);

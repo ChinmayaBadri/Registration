@@ -24,8 +24,8 @@
 
 					<div class="row">
 						<div class="col-md-12">
-							<button class="btn btn-secondary float-left mr-3" id="btnCancel" type="button" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
-							<button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Submit <i class="material-icons">check_circle</i></button>
+							<button class="btn btn-secondary float-left mr-3" id="btnCancelEmail" type="button" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
+							<button class="btn btn-orange" id="btnsubmitEmail" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Submit <i class="material-icons">check_circle</i></button>
 						</div>
 					</div>
 				}
@@ -38,13 +38,13 @@
 		function OnSuccess(response) {
 			if (typeof (response.Message) !== 'undefined') {
 				if (response.IsSuccess) {
-					toastr.success(response.Message, "Change Email", { timeOut: 3000 });
+					toastr.success(response.Message, { timeOut: 3000 });
 					setTimeout(function () {
 						window.location.reload();
 					}, 2000);
 					return;
 				}
-				toastr.error(response.Message, "Change Email");
+				toastr.error(response.Message);
 			}
 			$("#btnsubmit").prop("disabled", false);
 			$("#btnCancel").prop("disabled", false);

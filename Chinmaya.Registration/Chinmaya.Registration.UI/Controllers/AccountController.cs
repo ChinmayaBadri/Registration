@@ -363,7 +363,8 @@ namespace Chinmaya.Registration.UI.Controllers
         /// <param name="cd"> Contact Details model </param>
         /// <returns>Contact Details view </returns>
         [HttpGet]
-        public async Task<ActionResult> ContactDetails(ContactDetails cd = null)
+		[AllowAnonymous]
+		public async Task<ActionResult> ContactDetails(ContactDetails cd = null)
         {
             ViewBag.CountryList = await _common.GetCountryData();
 			ViewBag.SelectedCountry = await _account.GetCountryId("United States");
@@ -424,7 +425,8 @@ namespace Chinmaya.Registration.UI.Controllers
         /// </summary>
         /// <returns> Account Details view </returns>
         [HttpGet]
-        public async Task<ActionResult> AccountDetails()
+		[AllowAnonymous]
+		public async Task<ActionResult> AccountDetails()
         {
             AccountDetails Ad = new AccountDetails();
             ViewBag.SecurityQuestions = await _common.GetSecurityQuestions();
@@ -483,7 +485,7 @@ namespace Chinmaya.Registration.UI.Controllers
 				Ad.RetypePassword = data.RetypePassword;
 				Ad.AccountType = data.AccountType;
 				Ad.SecurityQuestionsModel = await _common.GetSecurityQuestions();
-
+				ViewBag.SecurityQuestions = await _common.GetSecurityQuestions();
 				foreach (var item in SecurityQuestions)
 				{
 					Ad.SecurityQuestionsModel.ForEach(sq =>
@@ -507,7 +509,7 @@ namespace Chinmaya.Registration.UI.Controllers
                         bool userRejected = false;
                         bool isEmailExists = await _account.CheckIsEmailExists(data.Email);
                         bool isFamilyMember = await _account.IsFamilyMember(data.Email);
-                        bool isAddressOrHomePhoneMatched = await _account.IsAddressOrHomePhoneMatched(cd);
+						bool isAddressOrHomePhoneMatched = true; //await _account.IsAddressOrHomePhoneMatched(cd);
                         if (isEmailExists)
                         {
                             tm.IsSuccess = false;
@@ -557,7 +559,7 @@ namespace Chinmaya.Registration.UI.Controllers
 
                             ViewBag.IsFamilyMember = true;
                             EmailTemplateModel etm1 = await _account.GetEmailTemplate(emailTemplateId);
-                            string toUserFullname = await _user.GetUserFullName(data.Email);
+                            string toUserFullname = string.IsNullOrEmpty(um.Id) ? obj.FirstName + " " + obj.LastName : await _user.GetUserFullName(data.Email);
                             string primaryAccountEmail = await _account.GetFamilyPrimaryAccountEmail(data.Email);
                             string fromUserFullname = await _user.GetUserFullName(primaryAccountEmail);
 
@@ -855,13 +857,13 @@ namespace Chinmaya.Registration.UI.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					if (Info.OldPassword == Info.NewPassword)
-					{
-						tm.IsSuccess = false;
-						tm.Message = "Please give new Password that should not match the Old";
-						return Json(tm);
-					}
-					else
+					//if (Info.OldPassword == Info.NewPassword)
+					//{
+					//	tm.IsSuccess = false;
+					//	tm.Message = "Please give new Password that should not match the Old";
+					//	return Json(tm);
+					//}
+					//else
 					{
 						UpdatePasswordModel passwordModel = new UpdatePasswordModel();
 						passwordModel.Email = User.Identity.Name;

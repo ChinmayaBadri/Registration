@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Foolproof;
 
 namespace Chinmaya.Registration.Models
 {
@@ -19,6 +20,7 @@ namespace Chinmaya.Registration.Models
 		public string OldPassword { get; set; }
 
 		[Required]
+		[NotEqualTo("OldPassword", ErrorMessage = "New Password should not match with the Old Password.")]
 		[DataType(DataType.Password)]
 		[RegularExpression("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", ErrorMessage = "Passwords must have combination of atleast 1 Capital Letter, 1 Number, one Special Symbol($, #, @, !, %) and minimum length of 8. ")]
 		[DisplayName("New Password")]

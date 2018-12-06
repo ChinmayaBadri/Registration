@@ -11,7 +11,8 @@ using Chinmaya.Registration.Models;
 
 namespace Chinmaya.Registration.UI.Controllers
 {
-    public class PaymentController : BaseController
+	[CustomAuthorize(Roles = "User")]
+	public class PaymentController : BaseController
     {
         CommonService _common = new CommonService();
         // GET: Payment

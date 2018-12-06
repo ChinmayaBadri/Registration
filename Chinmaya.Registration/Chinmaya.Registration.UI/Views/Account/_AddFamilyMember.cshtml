@@ -86,14 +86,14 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<button class="btn btn-secondary float-left mr-3" id="btnCancel" type="button" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
+				<button class="btn btn-secondary float-left mr-3" id="btnCancelAdd" type="button" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
 				@if (!string.IsNullOrEmpty(Model.Id))
 				{
-					<button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Update <i class="material-icons">check_circle</i></button>
+					<button class="btn btn-orange" id="btnsubmitEdit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Update <i class="material-icons">check_circle</i></button>
 				}
 				else
 				{
-					<button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Submit <i class="material-icons">check_circle</i></button>
+					<button class="btn btn-orange" id="btnsubmitAdd" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Submit <i class="material-icons">check_circle</i></button>
 				}
 
 
