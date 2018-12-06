@@ -108,11 +108,13 @@
 
 <script>
     $(document).ready(function () {
-
+		var today = new Date();
         $('.datepicker').datepicker({
             todayHighlight: true,
             autoclose: true,
-            dateFormat: 'mm-dd-yyyy'
+			dateFormat: 'mm-dd-yyyy',
+			startDate: '-100y',
+			endDate: "today"
         });
 
 	    $('.datepicker').datepicker().on("changeDate", function (e) {

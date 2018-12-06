@@ -154,7 +154,7 @@
 								@Html.DropDownList("SessionId", new SelectList(Model.sessions, "Id", "Name"), "Select", new { @class = "form-control" })
 								@Html.ValidationMessageFor(m => m.events.SessionId)
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-4" id="StartDate">
 								@Html.LabelFor(m => m.events.StartDate)
 								@*@Html.TextBoxFor(m => m.events.StartDate, new { @class = "form-control", @type = "date", @Name = "StartDate" })*@
 								<div class="input-group date">
@@ -163,7 +163,7 @@
 								</div>
 								@Html.ValidationMessageFor(m => m.events.StartDate)
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-4" id="EndDate">
 								@Html.LabelFor(m => m.events.EndDate)
 								@*@Html.TextBoxFor(m => m.events.EndDate, new { @class = "form-control", @type = "date", @Name = "EndDate" })*@
 								<div class="input-group date">
@@ -250,14 +250,16 @@
 		})
 
 		$(document).ready(function () {
+			var today = new Date();
 			$('.datepicker').datepicker({
 				todayHighlight: true,
 				autoclose: true,
 				dateFormat: 'mm-dd-yyyy',
+				startDate: "today",
+				endDate: '+10y'
 			});
 				
 		});
-
 		
 		$("#eventModal").on("hidden.bs.modal", function () {
 			$('[data-toggle="tooltip"]').tooltip();

@@ -111,12 +111,15 @@
 @section Scripts {
 	<script type="text/javascript">
 		$(document).ready(function () {
+			var today = new Date();
 			$('.datepicker').datepicker({
 				todayHighlight: true,
 				autoclose: true,
 				defaultDate: false,
 				dateFormat: 'mm-dd-yyyy',
-				setDate: null
+				setDate: null,
+				startDate: '-100y',
+				endDate: "today"
 			});
 		});
 

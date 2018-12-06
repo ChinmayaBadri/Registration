@@ -926,7 +926,7 @@ namespace Chinmaya.Registration.UI.Controllers
 					bool isEmailExists = await _account.CheckIsEmailExists(em.email);
 					if (isEmailExists)
 					{
-						tm.IsSuccess = true;
+						tm.IsSuccess = false;
 						tm.Message = "Select Email which does not exist already...!";
 						return Json(tm);
 					}
