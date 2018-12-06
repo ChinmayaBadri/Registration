@@ -509,7 +509,7 @@ namespace Chinmaya.Registration.UI.Controllers
                         bool userRejected = false;
                         bool isEmailExists = await _account.CheckIsEmailExists(data.Email);
                         bool isFamilyMember = await _account.IsFamilyMember(data.Email);
-						bool isAddressOrHomePhoneMatched = true; //await _account.IsAddressOrHomePhoneMatched(cd);
+						int isAddressOrHomePhoneMatched = await _account.IsAddressOrHomePhoneMatched(cd);
                         if (isEmailExists)
                         {
                             tm.IsSuccess = false;
@@ -528,11 +528,13 @@ namespace Chinmaya.Registration.UI.Controllers
 
                         // case: If user is added as a member of someone else's family
                         // send approval mail to primary account holder and user should be in inactive status until request has approved.
-                        if (isFamilyMember || isAddressOrHomePhoneMatched)
+                        if (isFamilyMember || isAddressOrHomePhoneMatched != 0)
                         {
                             obj.IsIndividual = true;
                             obj.IsApproveMailSent = true;
-                            int emailTemplateId = isFamilyMember ? 2 : 9;
+							string primaryAccountEmail = string.Empty;
+
+							int emailTemplateId = isFamilyMember ? 2 : 9;
                             // if user has already requested for logins and again trying to get register
                             UserModel um = await _user.GetUserInfo(data.Email);
                             if(!string.IsNullOrEmpty(um.Id))
@@ -560,7 +562,17 @@ namespace Chinmaya.Registration.UI.Controllers
                             ViewBag.IsFamilyMember = true;
                             EmailTemplateModel etm1 = await _account.GetEmailTemplate(emailTemplateId);
                             string toUserFullname = string.IsNullOrEmpty(um.Id) ? obj.FirstName + " " + obj.LastName : await _user.GetUserFullName(data.Email);
-                            string primaryAccountEmail = await _account.GetFamilyPrimaryAccountEmail(data.Email);
+							if (isAddressOrHomePhoneMatched == 0)
+							{
+								primaryAccountEmail = await _account.GetFamilyPrimaryAccountEmail(data.Email);
+							}
+							else {
+								primaryAccountEmail =
+								isAddressOrHomePhoneMatched == 1
+								? await _account.GetPrimaryAccountEmailByHomePhone(obj.HomePhone)
+								: await _account.GetPrimaryAccountEmailByAddress(cd);
+							}
+                            
                             string fromUserFullname = await _user.GetUserFullName(primaryAccountEmail);
 
                             string approvalLink1 = configMngr["SharedAccountRequestLink"]
