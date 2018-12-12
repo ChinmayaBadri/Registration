@@ -879,14 +879,17 @@ namespace Chinmaya.Registration.UI.Controllers
 					EncryptDecrypt objEncryptDecrypt1 = new EncryptDecrypt();
 					passwordModel.NewPassword = objEncryptDecrypt.Encrypt(Info.NewPassword, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
 					HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/UpdatePassword", passwordModel, true);
-					tm.IsSuccess = true;
-					tm.Message = "Password updated successfully";
-					return Json(tm);
-				}
-				else
-				{
-					tm.IsSuccess = false;
-					tm.Message = "Please try again..!";
+					bool status = await Utility.DeserializeObject<bool>(userResponseMessage);
+					if (status == true)
+					{
+						tm.IsSuccess = true;
+						tm.Message = "Password updated successfully";
+					}
+					else
+					{
+						tm.IsSuccess = false;
+						tm.Message = "Password not updated";
+					}
 					return Json(tm);
 				}
 			}

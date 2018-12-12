@@ -7,7 +7,7 @@
 				@using (Ajax.BeginForm("ChangeAddress", "Account", FormMethod.Post,
 						new AjaxOptions
 						{
-							OnSuccess = "OnSuccess",
+							OnSuccess = "OnSuccessChangeAddress",
 							OnFailure = "OnFailure",
 							OnBegin = "OnBegin"
 						}))
@@ -103,21 +103,20 @@
 					$("#State").html(v);
 				});
 			}
-		function OnSuccess(response) {
-			if (typeof (response.Message) !== 'undefined') {
-				if (response.IsSuccess) {
-					toastr.success(response.Message, "Change Address", { timeOut: 3000 });
-					setTimeout(function () {
-						window.location.reload();
-					}, 2000);
-					return;
-				}
-				else
-				toastr.error(response.Message, "Change Address");
-			}
-			$("#btnsubmit").prop("disabled", false);
-			$("#btnCancel").prop("disabled", false);
-		}
 	});
+
+	function OnSuccessChangeAddress(response) {
+		if (typeof (response.Message) !== 'undefined') {
+			if (response.IsSuccess) {
+				toastr.success(response.Message, "Change Address", { timeOut: 3000 });
+				$('#changeAddress').modal('hide');
+				return;
+			}
+			else
+				toastr.error(response.Message, "Change Address");
+		}
+		$("#btnsubmit").prop("disabled", false);
+		$("#btnCancel").prop("disabled", false);
+	}
 </script>
 

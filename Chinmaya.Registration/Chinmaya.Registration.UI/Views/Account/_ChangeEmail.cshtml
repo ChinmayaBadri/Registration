@@ -6,7 +6,7 @@
 				@using (Ajax.BeginForm("ChangeEmail", "Account", FormMethod.Post,
 						new AjaxOptions
 						{
-							OnSuccess = "OnSuccess",
+							OnSuccess = "OnSuccessChangeEmail",
 							OnFailure = "OnFailure",
 							OnBegin = "OnBegin"
 						}))
@@ -34,22 +34,18 @@
 	</div>
 </div>
 <script>
-	$(document).ready(function () {
-		function OnSuccess(response) {
-			if (typeof (response.Message) !== 'undefined') {
-				if (response.IsSuccess) {
-					toastr.success(response.Message, { timeOut: 3000 });
-					setTimeout(function () {
-						window.location.reload();
-					}, 2000);
-					return;
-				}
-				toastr.error(response.Message);
+	function OnSuccessChangeEmail(response) {
+		if (typeof (response.Message) !== 'undefined') {
+			if (response.IsSuccess) {
+				toastr.success(response.Message, { timeOut: 3000 });
+				$('#changeEmail').modal('hide');
+				return;
 			}
-			$("#btnsubmit").prop("disabled", false);
-			$("#btnCancel").prop("disabled", false);
+			toastr.error(response.Message);
 		}
-	});
+		$("#btnsubmit").prop("disabled", false);
+		$("#btnCancel").prop("disabled", false);
+	}
 </script>
 
 

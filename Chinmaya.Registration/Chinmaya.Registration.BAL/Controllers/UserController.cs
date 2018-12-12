@@ -200,16 +200,17 @@ namespace Chinmaya.Registration.BAL.Controllers
 		/// <param name="obj">Update Password Model</param>
 		[Route("api/User/UpdatePassword")]
 		[HttpPost]
-		public IHttpActionResult UpdatePassword(UpdatePasswordModel obj)
+		public bool UpdatePassword(UpdatePasswordModel obj)
 		{
 			try
 			{
-				_user.UpdatePassword(obj);
-				return Ok("Success");
+				return _user.UpdatePassword(obj);
+				//return Ok("Success");
 			}
 			catch (Exception)
 			{
-				return Ok("Something went wrong");
+				return false;
+				//return Ok("Something went wrong");
 			}
 		}
 
@@ -236,7 +237,7 @@ namespace Chinmaya.Registration.BAL.Controllers
 		/// Update Email Address of User
 		/// </summary>
 		/// <param name="obj">Update Email Model</param>
-		[Route("api/User/UpdateEmail")]
+		[Route("api/User/UpdateEmailAddress")]
 		[HttpPost]
 		public IHttpActionResult UpdateEmailAddress(UpdateEmail obj)
 		{
