@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace Chinmaya.Registration.UI.Controllers
 {
+    [CustomAuthorize(Roles = "Admin, User")]
     public class CommonController : BaseController
     {
         AccountService _account = new AccountService();

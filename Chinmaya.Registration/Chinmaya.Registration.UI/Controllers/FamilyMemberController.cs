@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace Chinmaya.Registration.UI.Controllers
 {
+    [CustomAuthorize(Roles = "User")]
     public class FamilyMemberController : BaseController
     {
         CommonService _common = new CommonService();
