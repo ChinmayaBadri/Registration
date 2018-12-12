@@ -160,7 +160,7 @@ namespace Chinmaya.Registration.UI.Controllers
                     EmailManager em = new EmailManager
                     {
                         Body = etm.Body,
-                        To = "dinesh.medikonda@cesltd.com", //model.Email,
+                        To = model.Email,
                         Subject = etm.Subject,
                         From = ConfigurationManager.AppSettings["SMTPUsername"]
                     };
@@ -589,7 +589,7 @@ namespace Chinmaya.Registration.UI.Controllers
                             EmailManager em1 = new EmailManager
                             {
                                 Body = etm1.Body,
-                                To = "dinesh.medikonda@cesltd.com", // make it as dynamic
+                                To = data.Email,
                                 Subject = etm1.Subject,
                                 From = ConfigurationManager.AppSettings["SMTPUsername"]
                             };
@@ -622,7 +622,7 @@ namespace Chinmaya.Registration.UI.Controllers
                             EmailManager em = new EmailManager
                             {
                                 Body = etm.Body,
-                                To = "dinesh.medikonda@cesltd.com", // make it as dynamic
+                                To = data.Email,
                                 Subject = etm.Subject,
                                 From = ConfigurationManager.AppSettings["SMTPUsername"]
                             };
@@ -730,7 +730,7 @@ namespace Chinmaya.Registration.UI.Controllers
                 EmailManager em = new EmailManager
                 {
                     Body = etm.Body,
-                    To = "dinesh.medikonda@cesltd.com", // make it as dynamic
+                    To = arm.Email,
                     Subject = etm.Subject,
                     From = ConfigurationManager.AppSettings["SMTPUsername"]
                 };
