@@ -872,25 +872,22 @@ namespace Chinmaya.Registration.UI.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					//if (Info.OldPassword == Info.NewPassword)
-					//{
-					//	tm.IsSuccess = false;
-					//	tm.Message = "Please give new Password that should not match the Old";
-					//	return Json(tm);
-					//}
-					//else
-					{
-						UpdatePasswordModel passwordModel = new UpdatePasswordModel();
-						passwordModel.Email = User.Identity.Name;
-						EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
-						passwordModel.OldPassword = objEncryptDecrypt.Encrypt(Info.OldPassword, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
-						EncryptDecrypt objEncryptDecrypt1 = new EncryptDecrypt();
-						passwordModel.NewPassword = objEncryptDecrypt.Encrypt(Info.NewPassword, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
-						HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/UpdatePassword", passwordModel, true);
-						tm.IsSuccess = true;
-						tm.Message = "Password updated successfully";
-						return Json(tm);
-					}
+					UpdatePasswordModel passwordModel = new UpdatePasswordModel();
+					passwordModel.Email = User.Identity.Name;
+					EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
+					passwordModel.OldPassword = objEncryptDecrypt.Encrypt(Info.OldPassword, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
+					EncryptDecrypt objEncryptDecrypt1 = new EncryptDecrypt();
+					passwordModel.NewPassword = objEncryptDecrypt.Encrypt(Info.NewPassword, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
+					HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/UpdatePassword", passwordModel, true);
+					tm.IsSuccess = true;
+					tm.Message = "Password updated successfully";
+					return Json(tm);
+				}
+				else
+				{
+					tm.IsSuccess = false;
+					tm.Message = "Please try again..!";
+					return Json(tm);
 				}
 			}
 			return RedirectToAction("MyAccount");

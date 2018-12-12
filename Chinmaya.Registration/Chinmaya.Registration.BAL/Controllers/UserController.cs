@@ -193,5 +193,82 @@ namespace Chinmaya.Registration.BAL.Controllers
 		{
 			return _user.getAddress(email);
 		}
+
+		/// <summary>
+		/// updates the user password
+		/// </summary>
+		/// <param name="obj">Update Password Model</param>
+		[Route("api/User/UpdatePassword")]
+		[HttpPost]
+		public IHttpActionResult UpdatePassword(UpdatePasswordModel obj)
+		{
+			try
+			{
+				_user.UpdatePassword(obj);
+				return Ok("Success");
+			}
+			catch (Exception)
+			{
+				return Ok("Something went wrong");
+			}
+		}
+
+		/// <summary>
+		/// Updates Phone number of User
+		/// </summary>
+		/// <param name="obj">Update Phone Model</param>
+		[Route("api/User/UpdatePhone")]
+		[HttpPost]
+		public IHttpActionResult UpdatePhone(UpdatePhone obj)
+		{
+			try
+			{
+				_user.UpdatePhone(obj);
+				return Ok("Success");
+			}
+			catch (Exception)
+			{
+				return Ok("Something went wrong");
+			}
+		}
+
+		/// <summary>
+		/// Update Email Address of User
+		/// </summary>
+		/// <param name="obj">Update Email Model</param>
+		[Route("api/User/UpdateEmail")]
+		[HttpPost]
+		public IHttpActionResult UpdateEmailAddress(UpdateEmail obj)
+		{
+			try
+			{
+				_user.UpdateEmailAddress(obj);
+				return Ok("Success");
+			}
+			catch (Exception)
+			{
+				return Ok("Something went wrong");
+			}
+		}
+
+		/// <summary>
+		/// Updates Address of User
+		/// </summary>
+		/// <param name="obj">Contact Deatils Model</param>
+		/// <returns></returns>
+		[Route("api/User/UpdateAddress")]
+		[HttpPost]
+		public IHttpActionResult UpdateAddress(ContactDetails obj)
+		{
+			try
+			{
+				_user.UpdateAddress(obj);
+				return Ok("Success");
+			}
+			catch (Exception)
+			{
+				return Ok("Something went wrong");
+			}
+		}
 	}
 }

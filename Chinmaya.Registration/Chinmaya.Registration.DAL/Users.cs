@@ -373,6 +373,7 @@ namespace Chinmaya.Registration.DAL
 			using (var _ctx = new ChinmayaEntities())
 			{
 				var userEmail = _ctx.Users.Where(r => r.Email == pwd.Email && r.Password == pwd.OldPassword).FirstOrDefault();
+
 				if (userEmail == null)
 				{
 					return false;
@@ -382,8 +383,10 @@ namespace Chinmaya.Registration.DAL
 				{
 					userEmail.Password = pwd.NewPassword;
 				}
+
 				try
 				{
+					_ctx.Entry(userEmail).State = EntityState.Modified;
 					_ctx.SaveChanges();
 					return true;
 				}
@@ -401,6 +404,7 @@ namespace Chinmaya.Registration.DAL
 					}
 					return false;
 				}
+				
 			}
 		}
 
