@@ -791,7 +791,7 @@ namespace Chinmaya.Registration.UI.Controllers
         /// </summary>
         /// <param name="tm"> Toast message model </param>
         /// <returns> My account view </returns>
-		[AllowAnonymous]
+		[CustomAuthorize(Roles = "Admin, User")]
 		public async Task<ActionResult> MyAccount(ToastModel tm = null)
 		{
 			ViewBag.Fullname = await _user.GetUserFullName(User.Identity.Name);
