@@ -2,7 +2,7 @@
 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 	<div class="modal-content">
 		<div class="modal-body">
-			@using (Ajax.BeginForm("AddFamilyMember", "Account", FormMethod.Post,
+			@using (Ajax.BeginForm("AddFamilyMember", "FamilyMember", FormMethod.Post,
 						new AjaxOptions
 						{
 							OnSuccess = "OnSuccess",
@@ -36,12 +36,6 @@
 		</div>
 		<div class="row">
 			<div class="col-md-6">
-				@*@Html.LabelFor(m => m.DOB, new { @class = "requiredA" })
-				<div class="input-group date">
-					<input id="DOB" type="text" class="datepicker form-control" required><div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
-				</div>
-				<span class ="field-validation-error">The date of birth field is required</span>*@
-				@*@Html.ValidationMessageFor(m => m.DOB)*@
 
 				@Html.LabelFor(m => m.DOB, new { @class = "requiredA" })
 				<div class="input-group date">

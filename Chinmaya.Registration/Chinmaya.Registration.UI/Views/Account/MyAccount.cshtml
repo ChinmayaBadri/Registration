@@ -132,29 +132,29 @@
 	<!-- Modal Content starts -->
 	<div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 
-		@Html.Partial("_AddFamilyMember", Model.familyMemberModel)
+		@Html.Partial("../FamilyMember/_AddFamilyMember", Model.familyMemberModel)
 
 	</div>
 	<!-- Modal Content Ends -->
 	<div class="modal fade bd-example-modal-lg" id="changePassword" tabindex="-1" role="dialog">
 
-		@Html.Partial("_ChangePassword", Model.updatePasswordModel)
+		@Html.Partial("../Common/_ChangePassword", Model.updatePasswordModel)
 
 	</div>
 	<div class="modal fade bd-example-modal-lg" id="changePhone" tabindex="-1" role="dialog">
 
-		@Html.Partial("_ChangePhone", Model.updatePhone)
+		@Html.Partial("../Common/_ChangePhone", Model.updatePhone)
 
 	</div>
 	<div class="modal fade bd-example-modal-lg" id="changeEmail" tabindex="-1" role="dialog">
 
-		@Html.Partial("_ChangeEmail", Model.updateMailModel)
+		@Html.Partial("../Common/_ChangeEmail", Model.updateMailModel)
 
 	</div>
 
 	<div class="modal fade bd-example-modal-lg" id="changeAddress" tabindex="-1" role="dialog">
 
-		@Html.Partial("_ChangeAddress", Model.updateAddressModel)
+		@Html.Partial("../Common/_ChangeAddress", Model.updateAddressModel)
 
 	</div>
 
@@ -163,7 +163,7 @@
 		$(document).ready(function () {
 
 			$("#AddFamilyMember").on("click", function () {
-				$("#exampleModalCenter").load("/Account/RefreshFamilyMemberPartialView");
+				$("#exampleModalCenter").load("/FamilyMember/RefreshFamilyMemberPartialView");
 				$("#exampleModalCenter").modal();
 			});
 
@@ -171,16 +171,11 @@
 			$("#userList").hide();
 
 			$('[data-toggle="tooltip"]').tooltip({ position: 'right' });
-			//$("#changePassword").on("click", function () {
-			//	//$("#exampleModalCenter").load("/Account/RefreshFamilyMemberPartialView");
-			//	$("#changePassword").modal();
-			//});
 
 			$(".Phone").click(function () {
 				var Email = $(this).attr("id");
-				//alert(Email)
 				$.ajax({
-					"url": "../Account/EditPhoneNumber/?Email=" + Email,
+					"url": "../Common/EditPhoneNumber/?Email=" + Email,
 					"type": "GET",
 					success: function (data) {
 						$("#changePhone").html(data);
@@ -192,7 +187,7 @@
 			$(".Email").click(function () {
 				var Email = $(this).attr("id");
 				$.ajax({
-					"url": "../Account/EditEmail/?Email=" + Email,
+					"url": "../Common/EditEmail/?Email=" + Email,
 					"type": "GET",
 					success: function (data) {
 						$("#changeEmail").html(data);
@@ -204,7 +199,7 @@
 			$(".Address").click(function () {
 				var Email = $(this).attr("id");
 				$.ajax({
-					"url": "../Account/EditAddress/?Email=" + Email,
+					"url": "../Common/EditAddress/?Email=" + Email,
 					"type": "GET",
 					success: function (data) {
 						$("#changeAddress").html(data);
@@ -216,7 +211,7 @@
 			$(".editFamilyMember").click(function () {
 				var id = $(this).attr("id");
 				$.ajax({
-					"url": "../Account/EditFamilyMember/" + id,
+				    "url": "../FamilyMember/EditFamilyMember/" + id,
 					"type": "GET",
 					success: function (data) {
 						$("#exampleModalCenter").html(data);

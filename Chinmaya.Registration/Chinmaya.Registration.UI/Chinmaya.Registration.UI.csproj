@@ -194,8 +194,10 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\EventRegistrationController.cs" />
+    <Compile Include="Controllers\FamilyMemberController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Filters\CheckSessionOutFilter.cs" />
     <Compile Include="Filters\NoCacheAttribute.cs" />
@@ -564,7 +566,7 @@
     <Content Include="Views\EventRegistration\ClassesConfirm.cshtml" />
     <Content Include="Views\Payment\PaymentMethod.cshtml" />
     <Content Include="Views\Event\Event.cshtml" />
-    <Content Include="Views\Account\_AddFamilyMember.cshtml" />
+    <Content Include="Views\FamilyMember\_AddFamilyMember.cshtml" />
     <Content Include="Views\Shared\_MessagePartial.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ResetForgotPassword.cshtml" />
@@ -574,10 +576,10 @@
     <Content Include="Views\Account\UserActivation.cshtml" />
     <Content Include="Views\Shared\_LayoutPageRegister.cshtml" />
     <Content Include="Views\Account\NotAuthorized.cshtml" />
-    <Content Include="Views\Account\_ChangePassword.cshtml" />
-    <Content Include="Views\Account\_ChangeAddress.cshtml" />
-    <Content Include="Views\Account\_ChangePhone.cshtml" />
-    <Content Include="Views\Account\_ChangeEmail.cshtml" />
+    <Content Include="Views\Common\_ChangePassword.cshtml" />
+    <Content Include="Views\Common\_ChangeAddress.cshtml" />
+    <Content Include="Views\Common\_ChangePhone.cshtml" />
+    <Content Include="Views\Common\_ChangeEmail.cshtml" />
     <Content Include="Views\Shared\_LayoutPageRegistration.cshtml" />
   </ItemGroup>
   <ItemGroup>
