@@ -17,11 +17,12 @@
 @section Scripts {
     <script>
 		$(document).ready(function () {
+			
 			var selectedCountry = "@ViewBag.SelectedCountry";
 			var selectedState = "@ViewBag.SelectedState";
 
-			if (selectedCountry == 231 && selectedState == "") {
-				var id = 231;
+			if (selectedCountry == @ViewBag.SelectedCountry && selectedState == "") {
+				var id = @ViewBag.SelectedCountry;
 				$.get("FillState", { Id: id }, function (data) {
 					var v = "<option>Select State</option>";
 					$.each(data, function (i, v1) {
@@ -42,8 +43,7 @@
 					$("#State").html(v);
 				});
 			});
-
-			var selectedState = "@ViewBag.SelectedState";
+	
 			if (selectedState != "") {
 				$("#State").empty();
 				$.get("FillState", { Id: selectedCountry }, function (data) {

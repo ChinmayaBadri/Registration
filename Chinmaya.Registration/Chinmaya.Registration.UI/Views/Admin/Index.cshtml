@@ -29,7 +29,8 @@
 				</li>
 
 				<ul class="sub-menu collapse" id="account">
-					<li><a href="#"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
+					@*<li><a href="#"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>*@
+					<li><a class="Password" data-toggle="modal" data-target="#changePassword"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
 				</ul>
 
 				<li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
@@ -62,13 +63,15 @@
 		</div>
 
 	</div>
-
+	
 
 	<script>
 
 		$(document).ready(function () {
-			//$("#programEventRegistration").hide();
+			$("#programEventRegistration").hide();
+			$("#MyAccount").hide();
 			$("#userList").show();
+			$("#cart").hide();
 			
 			function format(Id, tr, row) {
 				$.ajax({

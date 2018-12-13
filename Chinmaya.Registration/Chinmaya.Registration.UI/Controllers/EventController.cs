@@ -15,12 +15,13 @@ namespace Chinmaya.Registration.UI.Controllers
 	public class EventController : BaseController
     {
         CommonService _common = new CommonService();
+		UserService _user = new UserService();
 
-        /// <summary>
-        /// Shows all events
-        /// </summary>
-        /// <returns> event view </returns>
-        [AllowAnonymous]
+		/// <summary>
+		/// Shows all events
+		/// </summary>
+		/// <returns> event view </returns>
+		[AllowAnonymous]
         public async Task<ActionResult> Event()
         {
             MainEventModel mainEventModel = new MainEventModel();
@@ -33,8 +34,8 @@ namespace Chinmaya.Registration.UI.Controllers
 			mainEventModel.weekday = await _common.GetWeekdayData();
             mainEventModel.frequencies = await _common.GetFrequencyData();
             mainEventModel.sessions = await _common.GetSessionData();
-
-            return View("Event", mainEventModel);
+			ViewBag.Fullname = await _user.GetUserFullName(User.Identity.Name);
+			return View("Event", mainEventModel);
         }
 
         /// <summary>

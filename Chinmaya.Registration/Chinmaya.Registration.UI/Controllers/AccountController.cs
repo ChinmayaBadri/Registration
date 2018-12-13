@@ -313,14 +313,17 @@ namespace Chinmaya.Registration.UI.Controllers
         /// <returns>Personal details View </returns>
 		[AllowAnonymous]
         [HttpGet]
-		public async Task<ActionResult> PersonalDetails(PersonalDetails pd = null)
+		public async Task<ActionResult> PersonalDetails()
 		{
             ViewBag.Gender = await _common.GetGenderData();
-			ViewBag.SelectedGender = null;
 			ViewBag.AgeGroup = await _common.GetAgeGroupData();
-			ViewBag.SelectedAgeGroup = null;
 
-            return View();
+			if (TempData["PersonalDetails"] != null)
+			{
+				var pd = TempData["PersonalDetails"] as PersonalDetails;
+				return View(pd);
+			}
+			return View();
 		}
 
         /// <summary>
@@ -338,7 +341,7 @@ namespace Chinmaya.Registration.UI.Controllers
 			ViewBag.AgeGroup = await _common.GetAgeGroupData();
 			ViewBag.CountryList = await _common.GetCountryData();
 			ViewBag.SelectedCountry = await _account.GetCountryId("United States");
-			//ViewBag.SelectedCountry = 231;
+			
 
 			if (BtnNext != null)
 			{
@@ -351,7 +354,7 @@ namespace Chinmaya.Registration.UI.Controllers
 					UserObj.DOB = (DateTime)DetailsData.DOB;
 					UserObj.GenderId = DetailsData.GenderData;
 					UserObj.AgeGroupId = DetailsData.AgeGroupData;
-                    return RedirectToAction("ContactDetails");
+					return RedirectToAction("ContactDetails");
 				}
 			}
 			return View();
@@ -364,11 +367,18 @@ namespace Chinmaya.Registration.UI.Controllers
         /// <returns>Contact Details view </returns>
         [HttpGet]
 		[AllowAnonymous]
-		public async Task<ActionResult> ContactDetails(ContactDetails cd = null)
+		public async Task<ActionResult> ContactDetails()
         {
-            ViewBag.CountryList = await _common.GetCountryData();
+			ViewBag.CountryList = await _common.GetCountryData();
 			ViewBag.SelectedCountry = await _account.GetCountryId("United States");
-			return View(cd);
+			if (TempData["ContactDetails"] != null)
+			{
+				var cd = TempData["ContactDetails"] as ContactDetails;
+				ViewBag.SelectedCountry = cd.Country;
+				ViewBag.SelectedState = cd.State;
+				return View(cd);
+			}
+			return View();
         }
 
         /// <summary>
@@ -394,11 +404,10 @@ namespace Chinmaya.Registration.UI.Controllers
 				pd.DOB = obj.DOB;
 				pd.GenderData = obj.GenderId;
 				pd.AgeGroupData = (int)obj.AgeGroupId;
-				ViewBag.Gender = await _common.GetGenderData();
 				ViewBag.SelectedGender = obj.GenderId;
-				ViewBag.AgeGroup = await _common.GetAgeGroupData();
 				ViewBag.SelectedAgeGroup = (int)obj.AgeGroupId;
-                return RedirectToAction("PersonalDetails", pd);
+				TempData["PersonalDetails"] = pd;
+                return RedirectToAction("PersonalDetails");
 			}
 
 			if (nextBtn != null)
@@ -452,7 +461,6 @@ namespace Chinmaya.Registration.UI.Controllers
             ContactDetails cd = new ContactDetails();
             cd.Address = obj.Address;
             cd.Country = obj.CountryId;
-            ViewBag.CountryList = await _common.GetCountryData();
             ViewBag.SelectedCountry = obj.CountryId;
             cd.State = obj.StateId;
             ViewBag.SelectedState = obj.StateId;
@@ -463,8 +471,8 @@ namespace Chinmaya.Registration.UI.Controllers
 
             if (prevBtn != null)
 			{
-                //return View("ContactDetails", cd);
-                return RedirectToAction("ContactDetails", cd);
+				TempData["ContactDetails"] = cd;
+				return RedirectToAction("ContactDetails");
 			}
 			if (nextBtn != null)
 			{
