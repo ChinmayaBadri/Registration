@@ -31,7 +31,7 @@ namespace Chinmaya.Registration.UI.Controllers
             MemberInformation.relationships = await _common.GetRelationshipData();
             MemberInformation.grades = await _common.GetGradeData();
             MemberInformation.genders = await _common.GetGenderData();
-            if (nextBtn != null)
+			if (nextBtn != null)
             {
                 if (ModelState.IsValid)
                 {
@@ -65,7 +65,15 @@ namespace Chinmaya.Registration.UI.Controllers
         public async Task<PartialViewResult> RefreshFamilyMemberPartialView()
         {
             FamilyMemberModel fm = new FamilyMemberModel();
-            fm.relationships = await _common.GetRelationshipData();
+			DateTime todaysDate = DateTime.Now.Date;
+			int day = todaysDate.Day;
+			int month = todaysDate.Month;
+			int year = todaysDate.Year;
+			if (month >= 6)
+				fm.Year = year;
+			else if (month < 6)
+				fm.Year = year - 1;
+			fm.relationships = await _common.GetRelationshipData();
             fm.grades = await _common.GetGradeData();
             fm.genders = await _common.GetGenderData();
             return PartialView("_AddFamilyMember", fm);

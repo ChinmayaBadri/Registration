@@ -70,7 +70,7 @@ namespace Chinmaya.Registration.DAL
                 {
                     if (objUser.City.ToLower() == cd.City.ToLower())
                     {
-                        if (_ctx.Users.Any(u => u.StateId == cd.State))
+                        if (objUser.StateId == cd.State)
                         {
 							return 2;
                         }
@@ -118,7 +118,7 @@ namespace Chinmaya.Registration.DAL
 				using (var _ctx = new ChinmayaEntities())
 				{
 					var email = "";
-					var objUserList = _ctx.Users.Where(u => u.Address == cd.Address && u.IsIndividual == false).ToList();
+					var objUserList = _ctx.Users.Where(u => u.Address == cd.Address && !u.IsIndividual).ToList();
 					foreach (User objUser in objUserList)
 					{
 						if (objUser.City.ToLower() == cd.City.ToLower())
