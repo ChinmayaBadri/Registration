@@ -92,7 +92,7 @@
 						<div class="col-md-6">
 							@Html.LabelFor(m => m.AgeGroupData)					
 							@Html.DropDownListFor(m => m.AgeGroupData, new SelectList(ViewBag.AgeGroup, "Id", "Name", ViewBag.SelectedAgeGroup), "Select", new { @class = "form-control" })
-							@Html.ValidationMessageFor(m => m.AgeGroupData, "", new { @class = "text-danger" })
+							
 						</div>
 
 					</div>

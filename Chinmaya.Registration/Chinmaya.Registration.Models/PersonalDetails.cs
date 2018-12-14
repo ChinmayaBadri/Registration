@@ -31,7 +31,7 @@ namespace Chinmaya.Registration.Models
 		public int GenderData { get; set; }
 
 		[DisplayName("Age Group")]
-		public int AgeGroupData { get; set; }
+		public Nullable<int> AgeGroupData { get; set; }
 
 	}
 	
