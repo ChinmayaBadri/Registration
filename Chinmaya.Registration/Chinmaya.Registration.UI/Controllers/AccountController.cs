@@ -403,9 +403,17 @@ namespace Chinmaya.Registration.UI.Controllers
 				pd.LastName = obj.LastName;
 				pd.DOB = obj.DOB;
 				pd.GenderData = obj.GenderId;
-				pd.AgeGroupData = (int)obj.AgeGroupId;
+				if (obj.AgeGroupId == null)
+				{
+					pd.AgeGroupData = null;
+					ViewBag.SelectedAgeGroup = null;
+				}
+				else
+				{
+					pd.AgeGroupData = (int)obj.AgeGroupId;
+					ViewBag.SelectedAgeGroup = (int)obj.AgeGroupId;
+				}
 				ViewBag.SelectedGender = obj.GenderId;
-				ViewBag.SelectedAgeGroup = (int)obj.AgeGroupId;
 				TempData["PersonalDetails"] = pd;
                 return RedirectToAction("PersonalDetails");
 			}

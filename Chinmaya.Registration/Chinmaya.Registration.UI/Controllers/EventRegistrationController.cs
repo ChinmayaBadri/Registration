@@ -101,13 +101,13 @@ namespace Chinmaya.Registration.UI.Controllers
                         }
 
 
-                        List<CurrentEventModel> currentEvents = new List<CurrentEventModel>();
+                        
                         foreach (KeyValuePair<string, List<string>> entry in dict)
                         {
                             var userData = await _user.GetUserData(entry.Key);
-                            currentEvents.Clear();
-
-                            foreach (var ev in entry.Value)
+                            //currentEvents.Clear();
+							List<CurrentEventModel> currentEvents = new List<CurrentEventModel>();
+							foreach (var ev in entry.Value)
                             {
                                 var eventData = await _event.GetEventData(ev);
 								eventData.ChangeAmount = (int)eventData.Amount;
