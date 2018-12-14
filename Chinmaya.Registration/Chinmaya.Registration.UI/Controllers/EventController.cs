@@ -35,6 +35,7 @@ namespace Chinmaya.Registration.UI.Controllers
             mainEventModel.frequencies = await _common.GetFrequencyData();
             mainEventModel.sessions = await _common.GetSessionData();
 			ViewBag.Fullname = await _user.GetUserFullName(User.Identity.Name);
+			ViewBag.CountryList = await _common.GetCountryData();
 			return View("Event", mainEventModel);
         }
 

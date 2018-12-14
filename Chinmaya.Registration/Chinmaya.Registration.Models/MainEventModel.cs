@@ -14,7 +14,12 @@ namespace Chinmaya.Registration.Models
 		public List<Weekdays> weekday { get; set; }
 		public List<Frequencies> frequencies { get; set; }
 		public List<Sessions> sessions { get; set; }
-		
+
+		public UpdatePasswordModel updatePasswordModel { get; set; } = new UpdatePasswordModel();
+		public UpdatePhone updatePhone { get; set; } = new UpdatePhone();
+		public UpdateEmail updateMailModel { get; set; } = new UpdateEmail();
+		public ContactDetails updateAddressModel { get; set; } = new ContactDetails();
+
 	}
 
 	public class Weekdays

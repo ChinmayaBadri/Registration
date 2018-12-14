@@ -32,7 +32,7 @@
 </head>
 
 <body>
-	
+
 
 	<button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
 	<div class="nav-side-menu">
@@ -45,7 +45,8 @@
 				</li>
 
 				<ul class="sub-menu collapse" id="account">
-					<li><a href="#"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
+					<li><a class="Password" data-toggle="modal" data-target="#changePassword"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
+					@*<li><a href="#"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>*@
 					@*<li class="active"><a href="#"><img alt="" src="~/Content/img/update-family-info-active.png"> Update Family Info</a></li>*@
 				</ul>
 
@@ -53,9 +54,9 @@
 					<a href="#"> Update Contact Info <span class="arrow"></span></a>
 				</li>
 				<ul class="sub-menu collapse" id="contact">
-					<li><a href="#"><img alt="" src="~/Content/img/phone.png"> Phone</a></li>
-					<li><a href="#"><img alt="" src="~/Content/img/email.png"> Email</a></li>
-					<li><a href="#"><img alt="" src="~/Content/img/address.png"> Address</a></li>
+					<li><a class="Phone" id="@User.Identity.Name" data-toggle="modal" data-target="#changePhone"><img alt="" src="~/Content/img/phone.png"> Phone</a></li>
+					<li><a class="Email" id="@User.Identity.Name" data-toggle="modal" data-target="#changeEmail"><img alt="" src="~/Content/img/email.png"> Email</a></li>
+					<li><a class="Address" id="@User.Identity.Name" data-toggle="modal" data-target="#changeAddress"><img alt="" src="~/Content/img/address.png"> Address</a></li>
 				</ul>
 			</ul>
 		</div>
@@ -80,8 +81,8 @@
 							</tr>
 						</thead>
 						<tbody>
-							
-							
+
+
 							@foreach (var ev in Model.currentEventModel)
 							{
 								<tr>
@@ -226,19 +227,39 @@
 								@Html.ValidationMessageFor(m => m.events.HolidayDate)
 							</div>
 						</div>
-							<div class="row">
-								<div class="col-md-12">
-									<button class="btn btn-secondary float-left mr-3" id="#btnCancel " type="submit" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
-									<button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Submit <i class="material-icons">check_circle</i></button>
-								</div>
+						<div class="row">
+							<div class="col-md-12">
+								<button class="btn btn-secondary float-left mr-3" id="#btnCancel " type="submit" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
+								<button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Submit <i class="material-icons">check_circle</i></button>
 							</div>
 						</div>
 					</div>
+				</div>
 			</div>
-			
+
 		}
 	</div>
-	
+	<div class="modal fade bd-example-modal-lg" id="changePassword" tabindex="-1" role="dialog">
+
+		@Html.Partial("../Common/_ChangePassword", Model.updatePasswordModel)
+
+	</div>
+	<div class="modal fade bd-example-modal-lg" id="changePhone" tabindex="-1" role="dialog">
+
+		@Html.Partial("../Common/_ChangePhone", Model.updatePhone)
+
+	</div>
+	<div class="modal fade bd-example-modal-lg" id="changeEmail" tabindex="-1" role="dialog">
+
+		@Html.Partial("../Common/_ChangeEmail", Model.updateMailModel)
+
+	</div>
+
+	<div class="modal fade bd-example-modal-lg" id="changeAddress" tabindex="-1" role="dialog">
+
+		@Html.Partial("../Common/_ChangeAddress", Model.updateAddressModel)
+
+	</div>
 	@*<script src="~/Scripts/popper.js"></script>*@
 	<!-- Latest compiled and minified JavaScript -->
 	@*<script src="~/Scripts/bootstrap.min.js"></script>*@
@@ -263,9 +284,45 @@
 				startDate: "today",
 				endDate: '+10y'
 			});
-				
+
 		});
-		
+
+		$(".Phone").click(function () {
+			var Email = $(this).attr("id");
+			$.ajax({
+				"url": "../Common/EditPhoneNumber/?Email=" + Email,
+				"type": "GET",
+				success: function (data) {
+					$("#changePhone").html(data);
+					$("#changePhone").modal();
+				},
+			});
+		});
+
+		$(".Email").click(function () {
+			var Email = $(this).attr("id");
+			$.ajax({
+				"url": "../Common/EditEmail/?Email=" + Email,
+				"type": "GET",
+				success: function (data) {
+					$("#changeEmail").html(data);
+					$("#changeEmail").modal();
+				},
+			});
+		});
+
+		$(".Address").click(function () {
+			var Email = $(this).attr("id");
+			$.ajax({
+				"url": "../Common/EditAddress/?Email=" + Email,
+				"type": "GET",
+				success: function (data) {
+					$("#changeAddress").html(data);
+					$("#changeAddress").modal();
+				},
+			});
+		});
+
 		$("#eventModal").on("hidden.bs.modal", function () {
 			$('[data-toggle="tooltip"]').tooltip();
 			$('#eventModal').find('input:text, input:password, select, textarea').val('');
