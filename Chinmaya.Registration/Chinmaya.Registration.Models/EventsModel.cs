@@ -43,8 +43,11 @@ namespace Chinmaya.Registration.Models
 		[Required]
 		[DisplayName("Session")]
 		public int SessionId { get; set; }
-
+		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+		[DataType(DataType.Date)]
 		public Nullable<System.DateTime> StartDate { get; set; }
+		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+		[DataType(DataType.Date)]
 		public Nullable<System.DateTime> EndDate { get; set; }
 		[Required]
 		public System.TimeSpan StartTime { get; set; }
