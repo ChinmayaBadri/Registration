@@ -79,7 +79,7 @@
 								<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
 							</div>
 
-							@Html.ValidationMessageFor(m => m.DOB)
+							@Html.ValidationMessageFor(m => m.DOB, "", new { @class = "text-danger" })
 							@Html.HiddenFor(m => m.DOB, new { Id = "DateValue" })
 						</div>
 

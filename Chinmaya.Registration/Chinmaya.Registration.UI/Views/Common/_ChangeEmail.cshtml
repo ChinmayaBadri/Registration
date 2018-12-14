@@ -16,7 +16,7 @@
 						<div class="col-md-12">
 							@Html.LabelFor(m => m.email, new { @class = "requiredA" })
 							@Html.TextBoxFor(m => m.email, new { @class = "form-control", @Name = "Email" })
-							@Html.ValidationMessageFor(m => m.email)
+							@Html.ValidationMessageFor(m => m.email, "", new { @class = "text-danger" })
 						</div>
 					</div>
 

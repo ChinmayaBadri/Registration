@@ -16,7 +16,7 @@
 						<div class="col-md-12">
 							@Html.LabelFor(m => m.OldPhone, new { @class = "requiredA", @Id = "PhoneValue" })
 							@Html.TextBoxFor(m => m.OldPhone, new { @class = "form-control", @Name = "OldPhone" })
-							@Html.ValidationMessageFor(m => m.OldPhone)
+							@Html.ValidationMessageFor(m => m.OldPhone, "", new { @class = "text-danger" })
 							
 						</div>
 					</div>
