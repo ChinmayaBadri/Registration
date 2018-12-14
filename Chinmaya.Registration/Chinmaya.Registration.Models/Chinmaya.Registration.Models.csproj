@@ -69,6 +69,7 @@
     <Compile Include="AccountDetails.cs" />
     <Compile Include="AccountView.cs" />
     <Compile Include="AdminModel.cs" />
+    <Compile Include="AdminModelcs.cs" />
     <Compile Include="ApproveRejectModel.cs" />
     <Compile Include="CheckPaymentModel.cs" />
     <Compile Include="ClassesConfirmModel.cs" />

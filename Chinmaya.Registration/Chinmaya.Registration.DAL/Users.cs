@@ -573,6 +573,23 @@ namespace Chinmaya.Registration.DAL
             }
             return fullname;
         }
-    }
+
+		public string GetUserRoleNameByEmail(string email)
+		{
+			string rolename = string.Empty;
+			if (!string.IsNullOrEmpty(email))
+			{
+				using (var _ctx = new ChinmayaEntities())
+				{
+					var objUser = _ctx.Users.FirstOrDefault(x => x.Email == email);
+					if (objUser != null)
+					{
+						rolename = _ctx.Roles.Where(r => r.Id == objUser.RoleId).Select(r => r.Name).FirstOrDefault(); ;
+					}
+				}
+			}
+			return rolename;
+		}
+	}
 }
 

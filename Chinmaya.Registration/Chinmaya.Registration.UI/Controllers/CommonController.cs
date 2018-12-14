@@ -30,7 +30,8 @@ namespace Chinmaya.Registration.UI.Controllers
         public async Task<ActionResult> ChangePassword(UpdatePasswordModel Info, string nextBtn)
         {
             ToastModel tm = new ToastModel();
-            if (nextBtn != null)
+			string role = await _common.GetUserRoleName(User.Identity.Name);
+			if (nextBtn != null)
             {
                 if (ModelState.IsValid)
                 {
@@ -55,6 +56,9 @@ namespace Chinmaya.Registration.UI.Controllers
                     return Json(tm);
                 }
             }
+			if(role == "Admin")
+				return RedirectToAction("Index", "Admin");
+			else
             return RedirectToAction("MyAccount", "Account");
         }
 
@@ -69,7 +73,8 @@ namespace Chinmaya.Registration.UI.Controllers
         public async Task<ActionResult> ChangePhone(UpdatePhone Info, string nextBtn)
         {
             ToastModel tm = new ToastModel();
-            if (nextBtn != null)
+			string role = await _common.GetUserRoleName(User.Identity.Name);
+			if (nextBtn != null)
             {
                 if (ModelState.IsValid)
                 {
@@ -83,8 +88,11 @@ namespace Chinmaya.Registration.UI.Controllers
 
                 }
             }
-            return RedirectToAction("MyAccount", "Account");
-        }
+			if (role == "Admin")
+				return RedirectToAction("Index", "Admin");
+			else
+				return RedirectToAction("MyAccount", "Account");
+		}
 
         /// <summary>
         /// Changes User account email
@@ -97,7 +105,8 @@ namespace Chinmaya.Registration.UI.Controllers
         public async Task<ActionResult> ChangeEmail(UpdateEmail em, string nextBtn)
         {
             ToastModel tm = new ToastModel();
-            if (nextBtn != null)
+			string role = await _common.GetUserRoleName(User.Identity.Name);
+			if (nextBtn != null)
             {
                 if (ModelState.IsValid)
                 {
@@ -121,8 +130,11 @@ namespace Chinmaya.Registration.UI.Controllers
                     }
                 }
             }
-            return RedirectToAction("MyAccount", "Account");
-        }
+			if (role == "Admin")
+				return RedirectToAction("Index", "Admin");
+			else
+				return RedirectToAction("MyAccount", "Account");
+		}
 
         /// <summary>
         /// Changes user address
@@ -135,7 +147,8 @@ namespace Chinmaya.Registration.UI.Controllers
         public async Task<ActionResult> ChangeAddress(ContactDetails Info, string nextBtn)
         {
             ToastModel tm = new ToastModel();
-            if (nextBtn != null)
+			string role = await _common.GetUserRoleName(User.Identity.Name);
+			if (nextBtn != null)
             {
                 if (ModelState.IsValid)
                 {
@@ -153,8 +166,11 @@ namespace Chinmaya.Registration.UI.Controllers
                     return Json(tm);
                 }
             }
-            return RedirectToAction("MyAccount", "Account");
-        }
+			if (role == "Admin")
+				return RedirectToAction("Index", "Admin");
+			else
+				return RedirectToAction("MyAccount", "Account");
+		}
 
         /// <summary>
         /// gets user email

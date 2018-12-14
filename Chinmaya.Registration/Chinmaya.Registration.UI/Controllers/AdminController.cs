@@ -16,15 +16,18 @@ namespace Chinmaya.Registration.UI.Controllers
     {
 		AccountService _account = new AccountService();
         UserService _user = new UserService();
+		CommonService _common = new CommonService();
 
 		/// <summary>
-        /// gets user's full name
-        /// </summary>
-        /// <returns> admin's index view </returns>
+		/// gets user's full name
+		/// </summary>
+		/// <returns> admin's index view </returns>
 		public async Task<ActionResult> Index()
         {
 			ViewBag.Fullname = await _user.GetUserFullName(User.Identity.Name);
-			return View();
+			AdminModelcs admin = new AdminModelcs();
+			ViewBag.CountryList = await _common.GetCountryData();
+			return View(admin);
         }
 
         /// <summary>

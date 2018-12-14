@@ -155,5 +155,17 @@ namespace Chinmaya.Registration.UI.Services
             HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/Master/GetMasterData", masterValue, true);
             return await Utility.DeserializeList<KeyValueModel>(roleResponseMessage);
         }
-    }
+
+		/// <summary>
+		/// gets role type
+		/// </summary>
+		/// <returns> account type model </returns>
+		public async Task<string> GetUserRoleName(string email)
+		{
+			string urlAction = "api/User/GetUserRoleNameByEmail/" + email + "/";
+			HttpResponseMessage getFullnameResponse = await Utility.GetObject(urlAction);
+
+			return await Utility.DeserializeObject<string>(getFullnameResponse);
+		}
+	}
 }

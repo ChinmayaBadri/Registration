@@ -271,5 +271,17 @@ namespace Chinmaya.Registration.BAL.Controllers
 				return Ok("Something went wrong");
 			}
 		}
+
+		/// <summary>
+		/// gets user role name by email
+		/// </summary>
+		/// <param name="email"> user email </param>
+		/// <returns> user role name </returns>
+		[Route("api/User/GetUserRoleNameByEmail/{email}/")]
+		[HttpGet]
+		public IHttpActionResult GetUserRoleNameByEmail(string email)
+		{
+			return Ok(_user.GetUserRoleNameByEmail(email));
+		}
 	}
 }

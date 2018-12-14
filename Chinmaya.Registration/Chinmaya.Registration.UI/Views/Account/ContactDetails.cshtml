@@ -21,8 +21,8 @@
 			var selectedCountry = "@ViewBag.SelectedCountry";
 			var selectedState = "@ViewBag.SelectedState";
 
-			if (selectedCountry == @ViewBag.SelectedCountry && selectedState == "") {
-				var id = @ViewBag.SelectedCountry;
+			if (selectedCountry == 231 && selectedState == "") {
+				var id = 231;
 				$.get("FillState", { Id: id }, function (data) {
 					var v = "<option>Select State</option>";
 					$.each(data, function (i, v1) {

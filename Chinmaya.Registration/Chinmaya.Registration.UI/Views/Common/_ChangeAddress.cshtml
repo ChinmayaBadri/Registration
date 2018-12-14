@@ -7,9 +7,7 @@
 				@using (Ajax.BeginForm("ChangeAddress", "Common", FormMethod.Post,
 						new AjaxOptions
 						{
-							OnSuccess = "OnSuccessChangeAddress",
-							OnFailure = "OnFailure",
-							OnBegin = "OnBegin"
+							OnSuccess = "OnSuccessChangeAddress"
 						}))
 				{
 					@Html.AntiForgeryToken()
@@ -66,6 +64,44 @@
 
 	$(document).ready(function () {
 		var selectedCountry = "@ViewBag.SelectedCountry";
+			var selectedState = "@ViewBag.SelectedState";
+
+			//if (selectedCountry == 231 && selectedState == "") {
+			//	var id = 231;
+			//	$.get("FillState", { Id: id }, function (data) {
+			//		var v = "<option>Select State</option>";
+			//		$.each(data, function (i, v1) {
+			//			v += "<option value=" + v1.Id + ">" + v1.Name + "</option>";
+			//		});
+			//		$("#State").html(v);
+			//	});
+			//}
+
+			$("#Country").change(function () {
+				var id = $(this).val();
+				$("#State").empty();
+				$.get("FillState", { Id: id }, function (data) {
+					var v = "<option>Select State</option>";
+					$.each(data, function (i, v1) {
+						v += "<option value=" + v1.Id + ">" + v1.Name + "</option>";
+					});
+					$("#State").html(v);
+				});
+			});
+	
+		if (selectedState != "") {
+				debugger
+				$("#State").empty();
+				$.get("FillState", { Id: selectedCountry }, function (data) {
+					var v = "";
+					$.each(data, function (i, v1) {
+						if (v1.Id == selectedState)
+							v += "<option value=" + v1.Id + ">" + v1.Name + "</option>";
+					});
+					$("#State").html(v);
+				});
+			}
+		@*var selectedCountry = "@ViewBag.SelectedCountry";
 		var selectedState = "@ViewBag.SelectedState";
 
 		if (selectedCountry == 231 && selectedState == "") {
@@ -82,20 +118,26 @@
 		var selectedState = "@ViewBag.SelectedState";
 		if (selectedState != "") {
 			$("#State").empty();
-			bindCities(selectedCountry);
-		}
+			$.get("FillState", { Id: selectedCountry }, function (data) {
+				var v = "";
+				$.each(data, function (i, v1) {
+					if (v1.Id == selectedState)
+						v += "<option value=" + v1.Id + ">" + v1.Name + "</option>";
+				});
+				$("#State").html(v);
+			});
+		}*@
 	});
 
-    function bindCities(id) {
-        $.get("/Account/FillState", { Id: id }, function (data) {
-            var v = "";
-            $.each(data, function (i, v1) {
-                if (v1.Id == selectedState)
-                    v += "<option value=" + v1.Id + ">" + v1.Name + "</option>";
-            });
-            $("#State").html(v);
-        });
-    }
+   // function bindCities(id) {
+   //     $.get("/Account/FillState", { Id: id }, function (data) {
+			//var v = "<option>Select State</option>";
+			//$.each(data, function (i, v1) {
+			//	v += "<option value=" + v1.Id + ">" + v1.Name + "</option>";
+			//});
+			//$("#State").html(v);
+   //     });
+   // }
 
 	function OnSuccessChangeAddress(response) {
 		if (typeof (response.Message) !== 'undefined') {

@@ -6,9 +6,7 @@
 				@using (Ajax.BeginForm("ChangeEmail", "Common", FormMethod.Post,
 						new AjaxOptions
 						{
-							OnSuccess = "OnSuccessChangeEmail",
-							OnFailure = "OnFailure",
-							OnBegin = "OnBegin"
+							OnSuccess = "OnSuccessChangeEmail"
 						}))
 				{
 					@Html.AntiForgeryToken()
