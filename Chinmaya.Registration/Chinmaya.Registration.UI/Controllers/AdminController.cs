@@ -24,7 +24,6 @@ namespace Chinmaya.Registration.UI.Controllers
 		/// <returns> admin's index view </returns>
 		public async Task<ActionResult> Index()
         {
-			ViewBag.Fullname = await _user.GetUserFullName(User.Identity.Name);
 			AdminModelcs admin = new AdminModelcs();
 			ViewBag.CountryList = await _common.GetCountryData();
 			return View(admin);

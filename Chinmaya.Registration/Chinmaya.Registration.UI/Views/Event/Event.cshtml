@@ -180,9 +180,8 @@
 						<div class="row">
 							<div class="col-md-4">
 								@Html.LabelFor(m => m.events.StartTime)
-								<div id="datetimepicker" class="input-append">
-									@Html.TextBoxFor(m => m.events.StartTime, "{hh:mm" +
-								   "}", new { @class = "form-control", @type = "text", @Name = "StartTime", @Id = "StartTime" })
+								<div id ="timepicker1" class="input-append">
+									@Html.TextBoxFor(m => m.events.StartTime, "{0:hh:mm}", new {@id = "timepicker", @class= "form-control", @type = "text", @Name = "StartTime", @value = "" })
 									<span class="add-on">
 										<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
 									</span>
@@ -191,7 +190,7 @@
 							</div>
 							<div class="col-md-4">
 								@Html.LabelFor(m => m.events.EndTime)
-								<div id="datetimepicker" class="input-append">
+								<div id="timepicker" class="input-append time">
 									@Html.TextBoxFor(m => m.events.EndTime, new { @class = "form-control", @type = "text", @Name = "EndTime", @Id = "EndTime" })
 									<span class="add-on">
 										<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
@@ -281,13 +280,14 @@
 		});
 
 		$(document).ready(function () {
-			$("#programEventRegistration").hide();
+			//$("#programEventRegistration").hide();
 			$("#MyAccount").hide();
-			$("#userList").show();
+			//$("#userList").show();
 			$("#cart").hide();
 
-			$("#datetimepicker").datetimepicker({
-				pickDate: false
+			$("#timepicker").datetimepicker({
+				pickDate: false,
+				pickSeconds: false
 			});
 
 			var today = new Date();

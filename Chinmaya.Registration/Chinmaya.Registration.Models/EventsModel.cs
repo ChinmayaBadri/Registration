@@ -50,8 +50,10 @@ namespace Chinmaya.Registration.Models
 		[DataType(DataType.Date)]
 		public Nullable<System.DateTime> EndDate { get; set; }
 		[Required]
+		[DisplayFormat(DataFormatString = "{0:hh:mm}", ApplyFormatInEditMode = true)]
 		public System.TimeSpan StartTime { get; set; }
 		[Required]
+		[DisplayFormat(DataFormatString = "{0:hh:mm}", ApplyFormatInEditMode = true)]
 		public System.TimeSpan EndTime { get; set; }
 
 		[StringLength(300, ErrorMessage = "Location should not be more than 300 characters")]

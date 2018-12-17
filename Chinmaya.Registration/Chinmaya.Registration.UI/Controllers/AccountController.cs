@@ -114,11 +114,11 @@ namespace Chinmaya.Registration.UI.Controllers
 			return View(model);
 		}
 
-        /// <summary>
-        /// Shows "Not Authorized" view
-        /// </summary>
-        /// <returns>"Not Authorized" view</returns>
-        [HttpGet]
+		/// <summary>
+		/// Shows "Not Authorized" view
+		/// </summary>
+		/// <returns>"Not Authorized" view</returns>
+		[HttpGet]
         public ActionResult NotAuthorized()
         {
             return View();
@@ -810,7 +810,7 @@ namespace Chinmaya.Registration.UI.Controllers
 		[CustomAuthorize(Roles = "Admin, User")]
 		public async Task<ActionResult> MyAccount(ToastModel tm = null)
 		{
-			ViewBag.Fullname = await _user.GetUserFullName(User.Identity.Name);
+			
 			if (!string.IsNullOrEmpty(tm.Message))
             {
                 ViewBag.tm = tm;
