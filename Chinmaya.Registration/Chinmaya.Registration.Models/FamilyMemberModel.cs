@@ -31,7 +31,7 @@ namespace Chinmaya.Registration.Models
 		public int RelationshipData { get; set; }
 
 		[DisplayName("Grade")]
-		public int Grade { get; set; }
+		public Nullable<int> Grade { get; set; }
 
 		[DisplayName("Gender")]
 		public int GenderData { get; set; }
@@ -40,7 +40,7 @@ namespace Chinmaya.Registration.Models
 		[DisplayName("Cell Phone")]
 		public string CellPhone { get; set; }
 
-		[Required]
+		
 		[DisplayName("Email Address")]
 		[EmailAddress(ErrorMessage = "Invalid Email Address")]
 		[StringLength(256, ErrorMessage = "Email should not be more than 256 characters")]

@@ -301,7 +301,14 @@ namespace Chinmaya.Registration.DAL
                 {
                     fmm = Mapper.Map(fmData, fmm);
                     fmm.GenderData = fmData.GenderId;
-                    fmm.Grade = (int)fmData.GradeId;
+					if (fmData.GradeId != null)
+					{
+						fmm.Grade = (int)fmData.GradeId;
+					}
+					else
+					{
+						fmm.Grade = 0;
+					}
                     fmm.RelationshipData = fmData.RelationshipId;
                 }
 				return fmm;

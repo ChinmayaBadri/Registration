@@ -8,8 +8,9 @@
 							OnSuccess = "OnSuccess",
 							OnFailure = "OnFailure",
 							OnBegin = "OnBegin"
-						}))
+						}, new {id = "form" }))
 	{
+		
 		@Html.AntiForgeryToken()
 		if (!string.IsNullOrEmpty(Model.Id))
 		{
@@ -19,18 +20,18 @@
 		{
 				<h5 class="modal-title">Add Family Member</h5>
 		}
-
+		@Html.ValidationSummary(true)
 		<div class="row">
 			@Html.HiddenFor(m => m.Id, new { id = "fmID" })
 			<div class="col-md-6">
 				@Html.LabelFor(m => m.FirstName, new { @class = "requiredA" })
 				@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @Name = "FirstName" })
-				@Html.ValidationMessageFor(m => m.FirstName)
+				@Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
 			</div>
 			<div class="col-md-6">
 				@Html.LabelFor(m => m.LastName, new { @class = "requiredA" })
 				@Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @Name = "LastName" })
-				@Html.ValidationMessageFor(m => m.LastName)
+				@Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
 			</div>
 
 		</div>
@@ -41,14 +42,14 @@
 				<div class="input-group date">
 				@Html.TextBoxFor(m => m.DOB, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "DOB", @value = "" })
 				<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div></div>
-				@Html.ValidationMessageFor(m => m.DOB)
+				@Html.ValidationMessageFor(m => m.DOB, "", new { @class = "text-danger" })
 				@Html.HiddenFor(m=>m.DOB, new { Id = "DateValue" })
 			</div>
 				<div class="col-md-6">
 
 					@Html.LabelFor(m => m.RelationshipData, new { @class = "requiredA" })
 					@Html.DropDownList("RelationshipData", new SelectList(Model.relationships, "Id", "Name"), "Select", new { @class = "form-control" })
-					@Html.ValidationMessageFor(m => m.RelationshipData)
+					@Html.ValidationMessageFor(m => m.RelationshipData, "", new { @class = "text-danger" })
 				</div>
 			</div>
 		<div class="row">
@@ -58,24 +59,25 @@
 					<img id="GradeTooltip" src="~/Content/img/info-icon.png" alt="" title="Grade in school (@Model.Year)" />
 				</label>
 				@Html.DropDownList("Grade", new SelectList(Model.grades, "Id", "Name"), "Select", new { @class = "form-control" })
-				
+				<label class="text-danger" id="Err_Grade">Grade field is required</label>
+
 			</div>
 			<div class="col-md-6">
 				@Html.LabelFor(m => m.GenderData)
 				@Html.DropDownList("GenderData", new SelectList(Model.genders, "Id", "Name"), "Select", new { @class = "form-control" })
-				@Html.ValidationMessageFor(m => m.GenderData)
+				@Html.ValidationMessageFor(m => m.GenderData, "", new { @class = "text-danger" })
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6">
 				@Html.LabelFor(m => m.CellPhone)
 				@Html.TextBoxFor(m => m.CellPhone, new { @class = "form-control", @Name = "CellPhone" })
-				@Html.ValidationMessageFor(m => m.CellPhone)
+				@Html.ValidationMessageFor(m => m.CellPhone, "", new { @class = "text-danger" })
 			</div>
 			<div id="EmailAddress" class="col-md-6">
 				@Html.LabelFor(m => m.Email, new { @class = "requiredA" })
 				@Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Name = "Email" })
-				@Html.ValidationMessageFor(m => m.Email)
+				<label class="text-danger" id="Err_Email">Email field is required</label>
 			</div>
 		</div>
 		<div class="row">
@@ -97,7 +99,10 @@
 </div>
 
 <script>
-    $(document).ready(function () {
+	$(document).ready(function () {
+		$("#Err_Email").hide();
+		$("#Err_Grade").hide();
+		$.validator.unobtrusive.parse($("form"));
 		var today = new Date();
         $('.datepicker').datepicker({
             todayHighlight: true,
@@ -110,31 +115,34 @@
 	    $('.datepicker').datepicker().on("changeDate", function (e) {
 	        var dob = new Date($(this).val());
 	        calculateDate(dob);
-	    });
+		});
 
-	    $("#Email").on("blur", function () {
-	        var content = "Dear Family Member, Would you like to subscribe to our Newsletter?";
-	        $.confirm({
-	            title: 'Alert!',
-	            content: content,
-	            buttons: {
-	                confirm: {
-	                    text: 'Okay',
-	                    btnClass: 'btn-blue',
-	                    keys: ['enter', 'shift'],
-	                    action: function () {
-	                    }
-	                },
-	                danger: {
-	                    text: 'Cancel',
-	                    keys: ['enter', 'shift'],
-	                    action: function () {
+		$("#Email").on("blur", function () {
+			debugger
+			if ($("#Email").val().trim().length != 0) {
+				var content = "Dear Family Member, Would you like to subscribe to our Newsletter?";
+				$.confirm({
+					title: 'Alert!',
+					content: content,
+					buttons: {
+						confirm: {
+							text: 'Okay',
+							btnClass: 'btn-blue',
+							keys: ['enter', 'shift'],
+							action: function () {
+							}
+						},
+						danger: {
+							text: 'Cancel',
+							keys: ['enter', 'shift'],
+							action: function () {
 
-	                    }
-	                }
-	            }
-	        });
-	    });
+							}
+						}
+					}
+				});
+			}
+		});
 	});
 
 	function OnSuccess(response) {
@@ -152,9 +160,33 @@
 		$("#btnCancel").prop("disabled", false);
 	}
 
-	function OnBegin() {
+	function OnBegin() { 
+		var dob = new Date($("#DOB").val());
+		var today = new Date();
+		var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
+		if (age >= 18) {
+			if ($("#Email").val().trim().length == 0) {
+				$("#Err_Email").show();
+				return false;
+			}
+			else {
+				$("#Err_Email").hide();
+				return true;
+			}
+		}
+		else
+		{
+			if ($("#Grade").val().trim().length == 0) {
+				$("#Err_Grade").show();
+				return false;
+			}
+			else {
+				$("#Err_Grade").hide();
+				return true;
+			}
+		}
 	    $("#btnsubmit").prop("disabled", true);
-	    $("#btnCancel").prop("disabled", true);
+		$("#btnCancel").prop("disabled", true);
 	}
 </script>
 
