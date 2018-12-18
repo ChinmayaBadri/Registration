@@ -110,49 +110,60 @@ namespace Chinmaya.Registration.DAL
                 });
                 IMapper mapper = config.CreateMapper();
 
-                var eve = new Event
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Name = ev.Name,
-                    Description = ev.Description,
-                    WeekdayId = ev.WeekdayId,
-                    FrequencyId = ev.FrequencyId,
-                    AgeFrom = ev.AgeFrom,
-                    AgeTo = ev.AgeTo,
-                    Amount = ev.Amount,
-                    Status = true,
-                    CreatedBy = ev.CreatedBy,
-                    CreatedDate = DateTime.Now
-                };
+				var eventId = "";
+				if (string.IsNullOrEmpty(ev.Id))
+				{
+					eventId = Guid.NewGuid().ToString();
+				}
+				else
+				{
+					eventId = ev.Id;
+				}
+					var eve = new Event
+					{
+						Id = eventId,
+						Name = ev.Name,
+						Description = ev.Description,
+						WeekdayId = ev.WeekdayId,
+						FrequencyId = ev.FrequencyId,
+						AgeFrom = ev.AgeFrom,
+						AgeTo = ev.AgeTo,
+						Amount = ev.Amount,
+						Status = true,
+						CreatedBy = ev.CreatedBy,
+						CreatedDate = DateTime.Now
+					};
 
-                var evs = new EventSession
-                {
-                    EventId = eve.Id,
-                    SessionId = ev.SessionId,
-                    StartDate = ev.StartDate,
-                    EndDate = ev.EndDate,
-                    StartTime = ev.StartTime,
-                    EndTime = ev.EndTime,
-                    Location = ev.Location,
-                    Instructor = ev.Instructor,
-                    Contact = ev.Contact,
-                    Other = ev.Other
-                };
+					var evs = new EventSession
+					{
+						EventId = eve.Id,
+						SessionId = ev.SessionId,
+						StartDate = ev.StartDate,
+						EndDate = ev.EndDate,
+						StartTime = ev.StartTime,
+						EndTime = ev.EndTime,
+						Location = ev.Location,
+						Instructor = ev.Instructor,
+						Contact = ev.Contact,
+						Other = ev.Other
+					};
 
 
-                if (ev.HolidayDate != null)
-                {
-                    var eHoliday = new EventHoliday
-                    {
-                        EventId = eve.Id,
-                        HolidayDate = ev.HolidayDate
-                    };
-                    _ctx.EventHolidays.Add(eHoliday);
-                }
-                _ctx.Events.Add(eve);
-                _ctx.EventSessions.Add(evs);
+					if (ev.HolidayDate != null)
+					{
+						var eHoliday = new EventHoliday
+						{
+							EventId = eve.Id,
+							HolidayDate = ev.HolidayDate
+						};
+						_ctx.EventHolidays.Add(eHoliday);
+					}
+					_ctx.Events.Add(eve);
+					_ctx.EventSessions.Add(evs);
+				
+				
 
-                try
+				try
                 {
                     _ctx.SaveChanges();
                 }
@@ -210,5 +221,43 @@ namespace Chinmaya.Registration.DAL
                 }
             }
         }
-    }
+
+		/// <summary>
+		/// get event details
+		/// </summary>
+		/// <param name="Id"> event id </param>
+		/// <returns> event model </returns>
+		public EventsModel GetEventDetails(string Id)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				EventsModel emm = new EventsModel();
+				Event emData = _ctx.Events.Where(e => e.Id == Id).FirstOrDefault();
+				if (emData != null)
+				{
+					emm.Id = emData.Id;
+					emm.Name = emData.Name;
+					emm.Description = emData.Description;
+					emm.WeekdayId = emData.WeekdayId;
+					emm.FrequencyId = emData.FrequencyId;
+					emm.AgeFrom = emData.AgeFrom;
+					emm.AgeTo = emData.AgeTo;
+					emm.Amount = emData.Amount;
+					EventSession esessionData = _ctx.EventSessions.Where(es => es.EventId == emData.Id).FirstOrDefault();
+					emm.SessionId = esessionData.SessionId;
+					emm.StartDate = esessionData.StartDate;
+					emm.EndDate = esessionData.EndDate;
+					emm.StartTime = esessionData.StartTime;
+					emm.EndTime = esessionData.EndTime;
+					emm.Location = esessionData.Location;
+					emm.Instructor = esessionData.Instructor;
+					emm.Contact = esessionData.Contact;
+					emm.Other = esessionData.Other;
+					EventHoliday eHolidayData = _ctx.EventHolidays.Where(eh => eh.EventId == emData.Id).FirstOrDefault();
+					//emm.HolidayDate = (DateTime)eHolidayData.HolidayDate;
+				}
+				return emm;
+			}
+		}
+	}
 }

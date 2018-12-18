@@ -65,7 +65,12 @@ namespace Chinmaya.Registration.Models
 		[StringLength(300, ErrorMessage = "Location should not be more than 300 characters")]
 		public string Other { get; set; }
 
-
+		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+		[DataType(DataType.Date)]
 		public System.DateTime HolidayDate { get; set; }
+
+		public List<Weekdays> weekday { get; set; }
+		public List<Frequencies> frequencies { get; set; }
+		public List<Sessions> sessions { get; set; }
 	}
 }

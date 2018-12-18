@@ -9,7 +9,7 @@ namespace Chinmaya.Registration.Models
 	public class MainEventModel
 	{
 		public List<CurrentEventModel> currentEventModel { get; set; }
-		public EventsModel events { get; set; }
+		public EventsModel events { get; set; } = new EventsModel();
 		
 		public List<Weekdays> weekday { get; set; }
 		public List<Frequencies> frequencies { get; set; }

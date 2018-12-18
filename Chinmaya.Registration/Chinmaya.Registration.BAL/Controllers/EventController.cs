@@ -85,5 +85,17 @@ namespace Chinmaya.BAL.Controllers
                 return Ok("Something went wrong");
             }
         }
-    }
+
+		/// <summary>
+		/// get event details
+		/// </summary>
+		/// <param name="Id"> event id </param>
+		/// <returns> event model </returns>
+		[Route("api/Event/GetEventDetails/{id}")]
+		[HttpGet]
+		public EventsModel GetEventDetails(string id)
+		{
+			return _event.GetEventDetails(id);
+		}
+	}
 }
