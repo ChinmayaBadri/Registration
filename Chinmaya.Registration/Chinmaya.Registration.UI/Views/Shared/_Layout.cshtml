@@ -1,16 +1,12 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>@ViewBag.Title - Chinmaya Mission</title>
-
 	@Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/jquery")
-
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-
 </head>
 	<body class="theme_bg">
 		<header>
@@ -33,31 +29,6 @@
 					Session["Menu"] = @Html.Action("_MainMenu", "Base");
 			}
 			@Session["Menu"]
-			@*<div class="header_nav">
-				<nav class="navbar navbar-expand-lg navbar-light">
-					<button class="navbar-toggler" aria-expanded="false" aria-controls="navbarSupportedContent" aria-label="Toggle navigation" type="button" data-target="#navbarSupportedContent" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
-					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul class="navbar-nav mr-auto">
-
-							<li class="nav-item active"> <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> </li>
-							<li class="nav-item"> <a class="nav-link" href="#">About Us</a> </li>
-							<li class="nav-item"> <a class="nav-link" href="#">Donate</a> </li>
-							<li class="nav-item"> @Html.ActionLink("Program/Event Registration", "ProgramEventRegistration", new { controller = "EventRegistration" }, new { @class = "nav-link", @id = "programEventRegistration" }) </li>
-							<li class="nav-item"> @Html.ActionLink("Users", "Index", new { controller = "Admin" }, new { @class = "nav-link", @id = "userList" }) </li>
-							<li class="nav-item"> @Html.ActionLink("Current Events", "Event", new { controller = "Event" }, new { @class = "nav-link", @id = "current-Events" })</li>
-							<li class="nav-item"> <a class="nav-link" href="#">Contact Us</a> </li>
-						</ul>
-						<div class="form-inline my-2 my-lg-0">
-							<span class="navbar-text">Welcome, @ViewBag.Fullname</span>
-							<ul class="navbar-nav mr-auto">
-								<li class="nav-item"> @Html.ActionLink("My Account", "MyAccount", new { controller = "Account" }, new { @class = "nav-link", @id = "MyAccount" })</li>
-								<li class="nav-item"> @Html.ActionLink("Sign Out", "LogOff", new { controller = "Account" }, new { @class = "nav-link" }) </li>
-							</ul>
-							<a id="cart" href="#"><img src="~/Content/img/cart-icon.png"> <span class="cart-count">2</span></a>
-						</div>
-					</div>
-				</nav>
-			</div>*@
 		</header>
 		<div class="theme_bg">
 			@RenderBody()
