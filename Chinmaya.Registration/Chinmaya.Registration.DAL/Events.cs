@@ -160,9 +160,6 @@ namespace Chinmaya.Registration.DAL
 					}
 					_ctx.Events.Add(eve);
 					_ctx.EventSessions.Add(evs);
-				
-				
-
 				try
                 {
                     _ctx.SaveChanges();
