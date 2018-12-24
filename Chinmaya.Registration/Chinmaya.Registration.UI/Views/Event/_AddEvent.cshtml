@@ -22,172 +22,178 @@
 				{
 					<h5 class="modal-title">Add Event</h5>
 				}
-							
+
 				@Html.ValidationSummary(true)
 
-					<div class="row">
-						@Html.HiddenFor(m => m.Id, new { id = "evID" })
-						<div class="col-md-4">
-							@Html.LabelFor(m => m.Name)
-							@Html.TextBoxFor(m => m.Name, new { @class = "form-control", @Name = "Name" })
-							@Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+				<div class="row">
+					@Html.HiddenFor(m => m.Id, new { id = "evID" })
+					<div class="col-md-4">
+						@Html.LabelFor(m => m.Name)
+						@Html.TextBoxFor(m => m.Name, new { @class = "form-control", @Name = "Name" })
+						@Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+					</div>
+					<div class="col-md-4">
+						@Html.LabelFor(m => m.Description)
+						@Html.TextBoxFor(m => m.Description, new { @class = "form-control", @Name = "Description" })
+						@Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+					</div>
+					<div class="col-md-4">
+						@Html.LabelFor(m => m.WeekdayId)
+						@Html.DropDownList("WeekdayId", new SelectList(Model.weekday, "Id", "Name", ViewBag.SelectedWeekday), "Select", new { @class = "form-control" })
+						@Html.ValidationMessageFor(m => m.WeekdayId, "", new { @class = "text-danger" })
+					</div>
+				</div>
+
+				<div class="row">
+
+					<div class="col-md-4">
+						@Html.LabelFor(m => m.FrequencyId)
+						@Html.DropDownList("FrequencyId", new SelectList(Model.frequencies, "Id", "Name", ViewBag.SelectedFrequency), "Select", new { @class = "form-control" })
+						@Html.ValidationMessageFor(m => m.FrequencyId, "", new { @class = "text-danger" })
+					</div>
+					<div class="col-md-4">
+						@Html.LabelFor(m => m.AgeFrom)
+						@Html.TextBoxFor(m => m.AgeFrom, new { @class = "form-control", @Name = "AgeFrom" })
+						@Html.ValidationMessageFor(m => m.AgeFrom, "", new { @class = "text-danger" })
+					</div>
+					<div class="col-md-4">
+						@Html.LabelFor(m => m.AgeTo)
+						@Html.TextBoxFor(m => m.AgeTo, new { @class = "form-control", @Name = "AgeTo" })
+						@Html.ValidationMessageFor(m => m.AgeTo, "", new { @class = "text-danger" })
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4">
+						@Html.LabelFor(m => m.SessionId)
+						@Html.DropDownList("SessionId", new SelectList(Model.sessions, "Id", "Name"), "Select", new { @class = "form-control" })
+						@Html.ValidationMessageFor(m => m.SessionId, "", new { @class = "text-danger" })
+					</div>
+					<div class="col-md-4" id="StartDate">
+						@Html.LabelFor(m => m.StartDate)
+						<div class="input-group date">
+							@Html.TextBoxFor(m => m.StartDate, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "StartDate", @value = "" })
+							<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
 						</div>
-						<div class="col-md-4">
-							@Html.LabelFor(m => m.Description)
-							@Html.TextBoxFor(m => m.Description, new { @class = "form-control", @Name = "Description" })
-							@Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+						@Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
+					</div>
+					<div class="col-md-4" id="EndDate">
+						@Html.LabelFor(m => m.EndDate)
+						<div class="input-group date">
+							@Html.TextBoxFor(m => m.EndDate, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "EndDate", @value = "" })
+							<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
 						</div>
-						<div class="col-md-4">
-							@Html.LabelFor(m => m.WeekdayId)
-							@Html.DropDownList("WeekdayId", new SelectList(Model.weekday, "Id", "Name", ViewBag.SelectedWeekday), "Select", new { @class = "form-control" })
-							@Html.ValidationMessageFor(m => m.WeekdayId, "", new { @class = "text-danger" })
+						@Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4">
+							@Html.LabelFor(m => m.StartTime)
+							<div class='input-group date' id='datetimepicker1'>
+								@Html.TextBoxFor(m => m.StartTime, new { @class = "form-control", @type = "text", @Name = "StartTime"})
+								<span class="input-group-addon">
+									<span class="glyphicon glyphicon-time"></span>
+								</span>
+							</div>
+							@Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "text-danger" })
 						</div>
+					<div class="col-md-4">
+						@Html.LabelFor(m => m.EndTime)
+						<div class='input-group date' id='datetimepicker2'>
+							@*@Html.TextBoxFor(m => m.EndTime)*@
+							@Html.TextBoxFor(m => m.EndTime, new { @class = "form-control", @type = "text", @Name = "EndTime" })
+							<span class="input-group-addon">
+								<span class="glyphicon glyphicon-time"></span>
+							</span>
+						</div>
+						@Html.ValidationMessageFor(m => m.EndTime, "", new { @class = "text-danger" })
+					</div>
+					<div class="col-md-4">
+						@Html.LabelFor(m => m.Amount)
+						@Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @Name = "Amount" })
+						@Html.ValidationMessageFor(m => m.Amount, "", new { @class = "text-danger" })
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4">
+						@Html.LabelFor(m => m.Location)
+						@Html.TextBoxFor(m => m.Location, new { @class = "form-control", @Name = "Location" })
+						@Html.ValidationMessageFor(m => m.Location, "", new { @class = "text-danger" })
+					</div>
+					<div class="col-md-4">
+						@Html.LabelFor(m => m.Instructor)
+						@Html.TextBoxFor(m => m.Instructor, new { @class = "form-control", @Name = "Instructor" })
+						@Html.ValidationMessageFor(m => m.Instructor, "", new { @class = "text-danger" })
+					</div>
+					<div class="col-md-4">
+						@Html.LabelFor(m => m.Contact)
+						@Html.TextBoxFor(m => m.Contact, new { @class = "form-control", @Name = "Contact" })
+						@Html.ValidationMessageFor(m => m.Contact, "", new { @class = "text-danger" })
 					</div>
 
-							<div class="row">
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						@Html.LabelFor(m => m.Other)
+						@Html.TextBoxFor(m => m.Other, new { @class = "form-control", @Name = "Other" })
+						@Html.ValidationMessageFor(m => m.Other, "", new { @class = "text-danger" })
+					</div>
+					<div class="col-md-6">
+						@Html.LabelFor(m => m.HolidayDate)
+						<div class="input-group date">
+							@Html.TextBoxFor(m => m.HolidayDate, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "HolidayDate", @value = "" })
+							<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
+						</div>
+						@Html.ValidationMessageFor(m => m.HolidayDate, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<button class="btn btn-secondary float-left mr-3" id="#btnCancel " type="submit" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
+						@if (!string.IsNullOrEmpty(Model.Id))
+						{
+							<button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Update <i class="material-icons">check_circle</i></button>
+						}
+						else
+						{
+							<button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Submit <i class="material-icons">check_circle</i></button>
+						}
 
-								<div class="col-md-4">
-									@Html.LabelFor(m => m.FrequencyId)
-									@Html.DropDownList("FrequencyId", new SelectList(Model.frequencies, "Id", "Name", ViewBag.SelectedFrequency), "Select", new { @class = "form-control" })
-									@Html.ValidationMessageFor(m => m.FrequencyId, "", new { @class = "text-danger" })
-								</div>
-								<div class="col-md-4">
-									@Html.LabelFor(m => m.AgeFrom)
-									@Html.TextBoxFor(m => m.AgeFrom, new { @class = "form-control", @Name = "AgeFrom" })
-									@Html.ValidationMessageFor(m => m.AgeFrom, "", new { @class = "text-danger" })
-								</div>
-								<div class="col-md-4">
-									@Html.LabelFor(m => m.AgeTo)
-									@Html.TextBoxFor(m => m.AgeTo, new { @class = "form-control", @Name = "AgeTo" })
-									@Html.ValidationMessageFor(m => m.AgeTo, "", new { @class = "text-danger" })
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-md-4">
-									@Html.LabelFor(m => m.SessionId)
-									@Html.DropDownList("SessionId", new SelectList(Model.sessions, "Id", "Name"), "Select", new { @class = "form-control" })
-									@Html.ValidationMessageFor(m => m.SessionId, "", new { @class = "text-danger" })
-								</div>
-								<div class="col-md-4" id="StartDate">
-									@Html.LabelFor(m => m.StartDate)
-									<div class="input-group date">
-										@Html.TextBoxFor(m => m.StartDate, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "StartDate", @value = "" })
-										<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
-									</div>
-									@Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
-								</div>
-								<div class="col-md-4" id="EndDate">
-									@Html.LabelFor(m => m.EndDate)
-									<div class="input-group date">
-										@Html.TextBoxFor(m => m.EndDate, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "EndDate", @value = "" })
-										<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
-									</div>
-									@Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-md-4">
-									@Html.LabelFor(m => m.StartTime)
-									<div id="timepicker1" class="input-append">
-										@*@Html.TextBoxFor(m => m.StartTime)*@
-										@Html.TextBoxFor(m => m.StartTime, new { @id = "timepicker", @class = "form-control", @type = "text", @Name = "StartTime", @value = "" })
-										<span class="add-on">
-											<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-										</span>
-									</div>
-									@Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "text-danger" })
-								</div>
-								<div class="col-md-4">
-									@Html.LabelFor(m => m.EndTime)
-									<div id="timepicker" class="input-append time">
-										@*@Html.TextBoxFor(m => m.EndTime)*@
-									@Html.TextBoxFor(m => m.EndTime, new { @class = "form-control", @type = "text", @Name = "EndTime", @Id = "EndTime" })
-										<span class="add-on">
-											<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-										</span>
-									</div>
-									@Html.ValidationMessageFor(m => m.EndTime, "", new { @class = "text-danger" })
-								</div>
-								<div class="col-md-4">
-									@Html.LabelFor(m => m.Amount)
-									@Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @Name = "Amount" })
-									@Html.ValidationMessageFor(m => m.Amount, "", new { @class = "text-danger" })
-								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-md-4">
-									@Html.LabelFor(m => m.Location)
-									@Html.TextBoxFor(m => m.Location, new { @class = "form-control", @Name = "Location" })
-									@Html.ValidationMessageFor(m => m.Location, "", new { @class = "text-danger" })
-								</div>
-								<div class="col-md-4">
-									@Html.LabelFor(m => m.Instructor)
-									@Html.TextBoxFor(m => m.Instructor, new { @class = "form-control", @Name = "Instructor" })
-									@Html.ValidationMessageFor(m => m.Instructor, "", new { @class = "text-danger" })
-								</div>
-								<div class="col-md-4">
-									@Html.LabelFor(m => m.Contact)
-									@Html.TextBoxFor(m => m.Contact, new { @class = "form-control", @Name = "Contact" })
-									@Html.ValidationMessageFor(m => m.Contact, "", new { @class = "text-danger" })
-								</div>
-
-							</div>
-							<div class="row">
-								<div class="col-md-6">
-									@Html.LabelFor(m => m.Other)
-									@Html.TextBoxFor(m => m.Other, new { @class = "form-control", @Name = "Other" })
-									@Html.ValidationMessageFor(m => m.Other, "", new { @class = "text-danger" })
-								</div>
-								<div class="col-md-6">
-									@Html.LabelFor(m => m.HolidayDate)
-									<div class="input-group date">
-										@Html.TextBoxFor(m => m.HolidayDate, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "HolidayDate", @value = "" })
-										<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
-									</div>
-									@Html.ValidationMessageFor(m => m.HolidayDate, "", new { @class = "text-danger" })
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-12">
-									<button class="btn btn-secondary float-left mr-3" id="#btnCancel " type="submit" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
-									@if (!string.IsNullOrEmpty(Model.Id))
-									{
-										<button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Update <i class="material-icons">check_circle</i></button>
-									}
-									else
-									{
-											<button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Submit <i class="material-icons">check_circle</i></button>
-									}
-									
-								</div>
-							</div>
+					</div>
+				</div>
 
 			}
 		</div>
 	</div>
 </div>
 
+
 <script>
 	$(document).ready(function () {
-		
+
 		$.validator.unobtrusive.parse($("eventForm"));
 
 		var today = new Date();
-        $('.datepicker').datepicker({
-            todayHighlight: true,
+		$('.datepicker').datepicker({
+			todayHighlight: true,
 			autoclose: true,
 			defaultDate: false,
 			setDate: null,
 			dateFormat: 'mm-dd-yyyy'
-        });
-		$("#timepicker").datetimepicker({
-			pickDate: false,
-			pickSeconds: false
 		});
-	   
+
+		//$('#datetimepicker1').datetimepicker();
+		var dateNow = new Date();
+		$("#StartTime").datetimepicker({
+			format: 'LT'
+		});
+
+		$("#EndTime").datetimepicker({
+			format: 'LT'
+		});
+
 	});
 
 	function OnSuccessEvent(response) {
@@ -206,7 +212,7 @@
 	}
 
 	function OnBeginEvent() {
-	    $("#btnsubmit").prop("disabled", true);
+		$("#btnsubmit").prop("disabled", true);
 		$("#btnCancel").prop("disabled", true);
 	}
 </script>

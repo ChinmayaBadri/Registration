@@ -68,60 +68,62 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-3">
-
-								@Html.RadioButtonFor(m => m.paymentType, "Check", new { id = "CheckPaymentMethod" })<span> Check</span>
+							<div class="form-check-inline">
+								<label class="form-check-label">
+									@Html.RadioButtonFor(m => m.paymentType, "Check", new { id = "CheckPaymentMethod" })<span> Check</span>
+								</label>
 							</div>
-							<div class="col-md-3">
-
-								@Html.RadioButtonFor(m => m.paymentType, "Credit Card", new { id = "CreditPaymentMethod" })<span> Credit Card</span>
-							</div>
-						</div>
-						<div class="paymentMethodCheck" id="paymentMethodCheck">
-							<div class="row">
-								<div class="col-md-6">
-									@Html.LabelFor(m => m.AccountHolderName)
-									@Html.TextBoxFor(m => m.AccountHolderName, new { @class = "form-control" })
-									@Html.ValidationMessageFor(m => m.AccountHolderName, "", new { @class = "text-danger" })
-								</div>
-								<div class="col-md-6">
-									@Html.LabelFor(m => m.AccountTypeId)
-									@Html.DropDownList("AccountTypeId", new SelectList(ViewBag.AccountType, "Id", "Name"), "Select", new { @class = "form-control" })
-									@Html.ValidationMessageFor(m => m.AccountTypeId, "", new { @class = "text-danger" })
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-6">
-									@Html.LabelFor(m => m.BankName)
-									@Html.TextBoxFor(m => m.BankName, new { @class = "form-control" })
-									@Html.ValidationMessageFor(m => m.BankName, "", new { @class = "text-danger" })
-								</div>
-								<div class="col-md-6">
-									@Html.LabelFor(m => m.AccountNumber)
-									@Html.TextBoxFor(m => m.AccountNumber, new { @class = "form-control" })
-									@Html.ValidationMessageFor(m => m.AccountNumber, "", new { @class = "text-danger" })
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-6">
-									@Html.LabelFor(m => m.RoutingNumber)
-									@Html.TextBoxFor(m => m.RoutingNumber, new { @class = "form-control" })
-									@Html.ValidationMessageFor(m => m.RoutingNumber, "", new { @class = "text-danger" })
-								</div>
-								<div class="col-md-6">
-									@Html.LabelFor(m => m.ConfirmAccountNumber)
-									@Html.TextBoxFor(m => m.ConfirmAccountNumber, new { @class = "form-control" })
-									@Html.ValidationMessageFor(m => m.ConfirmAccountNumber, "", new { @class = "text-danger" })
-								</div>
+							<div class="form-check-inline">
+								<label class="form-check-label">
+									@Html.RadioButtonFor(m => m.paymentType, "Credit Card", new { id = "CreditPaymentMethod" })<span> Credit Card</span>
+								</label>
 							</div>
 						</div>
+							<div class="paymentMethodCheck" id="paymentMethodCheck">
+								<div class="row">
+									<div class="col-md-6">
+										@Html.LabelFor(m => m.AccountHolderName)
+										@Html.TextBoxFor(m => m.AccountHolderName, new { @class = "form-control" })
+										@Html.ValidationMessageFor(m => m.AccountHolderName, "", new { @class = "text-danger" })
+									</div>
+									<div class="col-md-6">
+										@Html.LabelFor(m => m.AccountTypeId)
+										@Html.DropDownList("AccountTypeId", new SelectList(ViewBag.AccountType, "Id", "Name"), "Select", new { @class = "form-control" })
+										@Html.ValidationMessageFor(m => m.AccountTypeId, "", new { @class = "text-danger" })
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										@Html.LabelFor(m => m.BankName)
+										@Html.TextBoxFor(m => m.BankName, new { @class = "form-control" })
+										@Html.ValidationMessageFor(m => m.BankName, "", new { @class = "text-danger" })
+									</div>
+									<div class="col-md-6">
+										@Html.LabelFor(m => m.AccountNumber)
+										@Html.TextBoxFor(m => m.AccountNumber, new { @class = "form-control" })
+										@Html.ValidationMessageFor(m => m.AccountNumber, "", new { @class = "text-danger" })
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										@Html.LabelFor(m => m.RoutingNumber)
+										@Html.TextBoxFor(m => m.RoutingNumber, new { @class = "form-control" })
+										@Html.ValidationMessageFor(m => m.RoutingNumber, "", new { @class = "text-danger" })
+									</div>
+									<div class="col-md-6">
+										@Html.LabelFor(m => m.ConfirmAccountNumber)
+										@Html.TextBoxFor(m => m.ConfirmAccountNumber, new { @class = "form-control" })
+										@Html.ValidationMessageFor(m => m.ConfirmAccountNumber, "", new { @class = "text-danger" })
+									</div>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-md-12">
 									<button class="btn btn-secondary mr-2" name="prevBtn" id="btn_cancel" type="submit">Back</button>
 									<button class="btn btn-orange" name="nextBtn" id="btn_submit" type="submit" data-target="#demo" data-toggle="collapse">Submit</button>
 								</div>
 							</div>
-							
+
 						</div>
 					</div>
 			</div>

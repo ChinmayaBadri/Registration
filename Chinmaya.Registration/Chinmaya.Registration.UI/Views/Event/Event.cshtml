@@ -5,68 +5,68 @@
 	ViewBag.Title = "Event";
 }
 
-	<link href="~/Content/bootstrap-datepicker.standalone.min.css" rel="stylesheet" />
-	<link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
-	<script src="~/Scripts/bootstrap-datepicker.min.js"></script>
-	<script src="~/Scripts/bootstrap-datetimepicker.min.js"></script>
-	<style>
-		.requiredA:after {
-			content: " *";
-			font-weight: bold;
-			color: red;
-		}
-	</style>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
 
-	<button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
-	<div class="nav-side-menu">
+<style>
+	.requiredA:after {
+		content: " *";
+		font-weight: bold;
+		color: red;
+	}
+</style>
 
-		<div class="menu-list">
+<button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
+<div class="nav-side-menu">
 
-			<ul class="menu-content collapse out" id="menu-content">
-				<li class="collapsed" aria-expanded="false" data-target="#account" data-toggle="collapse">
-					<a href="#"> Account Settings <span class="arrow"></span></a>
-				</li>
+	<div class="menu-list">
 
-				<ul class="sub-menu collapse" id="account">
-					<li><a class="Password" data-toggle="modal" data-target="#changePassword"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
-				</ul>
+		<ul class="menu-content collapse out" id="menu-content">
+			<li class="collapsed" aria-expanded="false" data-target="#account" data-toggle="collapse">
+				<a href="#"> Account Settings <span class="arrow"></span></a>
+			</li>
 
-				<li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
-					<a href="#"> Update Contact Info <span class="arrow"></span></a>
-				</li>
-				<ul class="sub-menu collapse" id="contact">
-					<li><a class="Phone" id="@User.Identity.Name" data-toggle="modal" data-target="#changePhone"><img alt="" src="~/Content/img/phone.png"> Phone</a></li>
-					<li><a class="Email" id="@User.Identity.Name" data-toggle="modal" data-target="#changeEmail"><img alt="" src="~/Content/img/email.png"> Email</a></li>
-					<li><a class="Address" id="@User.Identity.Name" data-toggle="modal" data-target="#changeAddress"><img alt="" src="~/Content/img/address.png"> Address</a></li>
-				</ul>
+			<ul class="sub-menu collapse" id="account">
+				<li><a class="Password" data-toggle="modal" data-target="#changePassword"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
 			</ul>
-		</div>
+
+			<li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
+				<a href="#"> Update Contact Info <span class="arrow"></span></a>
+			</li>
+			<ul class="sub-menu collapse" id="contact">
+				<li><a class="Phone" id="@User.Identity.Name" data-toggle="modal" data-target="#changePhone"><img alt="" src="~/Content/img/phone.png"> Phone</a></li>
+				<li><a class="Email" id="@User.Identity.Name" data-toggle="modal" data-target="#changeEmail"><img alt="" src="~/Content/img/email.png"> Email</a></li>
+				<li><a class="Address" id="@User.Identity.Name" data-toggle="modal" data-target="#changeAddress"><img alt="" src="~/Content/img/address.png"> Address</a></li>
+			</ul>
+		</ul>
 	</div>
-	<div class="bd-content">
-		<div class="inner-box">
-			<div class="row mb-3">
-				<div class="col-md-6 table-title">Event Information</div>
-				<div class="col-md-6 text-right">
-					<a class="orange-links" id="AddEvent" href="#"><i class="material-icons">add_circle_outline</i> Add Event</a>
-				</div>
+</div>
+<div class="bd-content">
+	<div class="inner-box">
+		<div class="row mb-3">
+			<div class="col-md-6 table-title">Event Information</div>
+			<div class="col-md-6 text-right">
+				<a class="orange-links" id="AddEvent" href="#"><i class="material-icons">add_circle_outline</i> Add Event</a>
 			</div>
-			<div class="row">
-				<div class="col-md-12 table-responsive">
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th scope="col">Name</th>
-								<th scope="col">Weekday</th>
-								<th scope="col">Frequency</th>
-								<th scope="col">Amount</th>
-								<th scope="col"></th>
-							</tr>
-						</thead>
-						<tbody>
+		</div>
+		<div class="row">
+			<div class="col-md-12 table-responsive">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th scope="col">Name</th>
+							<th scope="col">Weekday</th>
+							<th scope="col">Frequency</th>
+							<th scope="col">Amount</th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
 
 
-							@foreach (var ev in Model.currentEventModel)
-							{
+						@foreach (var ev in Model.currentEventModel)
+						{
 							<tr>
 								<td>@ev.Name</td>
 								<td>@ev.Weekday</td>
@@ -74,128 +74,123 @@
 								<td>$@ev.ChangeAmount</td>
 								<td id="@ev.Id" class="editEvent"><a href="#" data-toggle="modal" data-target="#EditEventModal" class="Edit"><span class="label label-orange">Edit</span></a></td>
 							</tr>
-							}
-						</tbody>
-					</table>
-				</div>
+						}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
-	<!-- Modal -->
+</div>
+<!-- Modal -->
 
-	<div tabindex="-1" class="modal fade bd-example-modal-lg" id="eventModal" role="dialog" aria-hidden="true" aria-labelledby="eventModalTitle">
-		
-		@Html.Partial("../Event/_AddEvent", Model.events)
+<div tabindex="-1" class="modal fade bd-example-modal-lg" id="eventModal" role="dialog" aria-hidden="true" aria-labelledby="eventModalTitle">
 
-	</div>
-	<div class="modal fade bd-example-modal-lg" id="changePassword" tabindex="-1" role="dialog">
+	@Html.Partial("../Event/_AddEvent", Model.events)
 
-		@Html.Partial("../Common/_ChangePassword", Model.updatePasswordModel)
+</div>
+<div class="modal fade bd-example-modal-lg" id="changePassword" tabindex="-1" role="dialog">
 
-	</div>
-	<div class="modal fade bd-example-modal-lg" id="changePhone" tabindex="-1" role="dialog">
+	@Html.Partial("../Common/_ChangePassword", Model.updatePasswordModel)
 
-		@Html.Partial("../Common/_ChangePhone", Model.updatePhone)
+</div>
+<div class="modal fade bd-example-modal-lg" id="changePhone" tabindex="-1" role="dialog">
 
-	</div>
-	<div class="modal fade bd-example-modal-lg" id="changeEmail" tabindex="-1" role="dialog">
+	@Html.Partial("../Common/_ChangePhone", Model.updatePhone)
 
-		@Html.Partial("../Common/_ChangeEmail", Model.updateMailModel)
+</div>
+<div class="modal fade bd-example-modal-lg" id="changeEmail" tabindex="-1" role="dialog">
 
-	</div>
+	@Html.Partial("../Common/_ChangeEmail", Model.updateMailModel)
 
-	<div class="modal fade bd-example-modal-lg" id="changeAddress" tabindex="-1" role="dialog">
+</div>
 
-		@Html.Partial("../Common/_ChangeAddress", Model.updateAddressModel)
+<div class="modal fade bd-example-modal-lg" id="changeAddress" tabindex="-1" role="dialog">
 
-	</div>
+	@Html.Partial("../Common/_ChangeAddress", Model.updateAddressModel)
 
-	<script>
-		$(function () {
-			$('[data-toggle="tooltip"]').tooltip()
+</div>
+
+<script>
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip()
+	});
+
+	$(document).ready(function () {
+		$("#AddEvent").on("click", function () {
+			$("#eventModal").load("/Event/RefreshEventPartialView");
+			$("#eventModal").modal();
 		});
 
-		$(document).ready(function () {
-			$("#AddEvent").on("click", function () {
-				$("#eventModal").load("/Event/RefreshEventPartialView");
-				$("#eventModal").modal();
-			});
-			
-			$("#timepicker").datetimepicker({
-				pickDate: false,
-				pickSeconds: false
-			});
-
-			var today = new Date();
-			$('.datepicker').datepicker({
-				todayHighlight: true,
-				autoclose: true,
-				dateFormat: 'mm/dd/yyyy',
-				startDate: "today",
-				endDate: '+10y'
-			});
-
-			$(".editEvent").click(function () {
-				var id = $(this).attr("id");
-				$.ajax({
-					"url": "../Event/EditEvent/" + id,
-					"type": "GET",
-					success: function (data) {
-						$("#eventModal").html(data);
-						$("#eventModal").modal();
-					},
-				});
-			});
-
+		var today = new Date();
+		$('.datepicker').datepicker({
+			todayHighlight: true,
+			autoclose: true,
+			dateFormat: 'mm/dd/yyyy',
+			startDate: "today",
+			endDate: '+10y'
 		});
 
-		$(".Phone").click(function () {
-			var Email = $(this).attr("id");
+		$(".editEvent").click(function () {
+			var id = $(this).attr("id");
 			$.ajax({
-				"url": "../Common/EditPhoneNumber/?Email=" + Email,
+				"url": "../Event/EditEvent/" + id,
 				"type": "GET",
 				success: function (data) {
-					$("#changePhone").html(data);
-					$("#changePhone").modal();
+					$("#eventModal").html(data);
+					$("#eventModal").modal();
 				},
 			});
 		});
 
-		$(".Email").click(function () {
-			var Email = $(this).attr("id");
-			$.ajax({
-				"url": "../Common/EditEmail/?Email=" + Email,
-				"type": "GET",
-				success: function (data) {
-					$("#changeEmail").html(data);
-					$("#changeEmail").modal();
-				},
-			});
-		});
+	});
 
-		$(".Address").click(function () {
-			var Email = $(this).attr("id");
-			$.ajax({
-				"url": "../Common/EditAddress/?Email=" + Email,
-				"type": "GET",
-				success: function (data) {
-					$("#changeAddress").html(data);
-					$("#changeAddress").modal();
-				},
-			});
+	$(".Phone").click(function () {
+		var Email = $(this).attr("id");
+		$.ajax({
+			"url": "../Common/EditPhoneNumber/?Email=" + Email,
+			"type": "GET",
+			success: function (data) {
+				$("#changePhone").html(data);
+				$("#changePhone").modal();
+			},
 		});
+	});
 
-		$(function () {
-			$('.modal').on('hidden.bs.modal', function (e) {
-				$(this)
-					.find("input:text, input:password, input:hidden, select, textarea")
-					.val('');
-				$("input[type=date]").val("");
-
-				$(this)
-					.find(".field-validation-error")
-					.html('');
-			});
+	$(".Email").click(function () {
+		var Email = $(this).attr("id");
+		$.ajax({
+			"url": "../Common/EditEmail/?Email=" + Email,
+			"type": "GET",
+			success: function (data) {
+				$("#changeEmail").html(data);
+				$("#changeEmail").modal();
+			},
 		});
-	</script>
+	});
+
+	$(".Address").click(function () {
+		var Email = $(this).attr("id");
+		$.ajax({
+			"url": "../Common/EditAddress/?Email=" + Email,
+			"type": "GET",
+			success: function (data) {
+				$("#changeAddress").html(data);
+				$("#changeAddress").modal();
+			},
+		});
+	});
+
+	$(function () {
+		$('.modal').on('hidden.bs.modal', function (e) {
+			$(this)
+				.find("input:text, input:password, input:hidden, select, textarea")
+				.val('');
+			$("input[type=date]").val("");
+
+			$(this)
+				.find(".field-validation-error")
+				.html('');
+		});
+	});
+</script>
 
