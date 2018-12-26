@@ -227,8 +227,11 @@ namespace Chinmaya.Registration.UI.Controllers
             ToastModel tm = new ToastModel();
             List<SecurityQuestionsModel> sqList = await _account.GetSecurityQuestionsByEmail(model.Email);
             Dictionary<int, string> userAnsweredQuestions = new Dictionary<int, string>();
+			var enPassword = model.Password;
+			EncryptDecrypt objEncryptDecrypt1 = new EncryptDecrypt();
+			enPassword = objEncryptDecrypt1.Encrypt(model.Password, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
 
-            for (int i = 0; i < sqList.Count; i++)
+			for (int i = 0; i < sqList.Count; i++)
             {
                 if ((Request.Form["AnswerTextbox_" + (i + 1)]) != "")
                 {
@@ -250,11 +253,11 @@ namespace Chinmaya.Registration.UI.Controllers
 
             if(areAllAnswersValid)
             {
-                ResetPasswordModel rpm = new ResetPasswordModel
-                {
-                    Email = model.Email,
-                    Password = model.Password
-                };
+				ResetPasswordModel rpm = new ResetPasswordModel
+				{
+					Email = model.Email,
+					Password = enPassword
+				};
                 string urlAction = "api/Account/ResetUserPassword";
                 HttpResponseMessage resetPasswordResponse = await Utility.GetObject(urlAction, rpm);
 
