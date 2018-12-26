@@ -24,6 +24,7 @@ namespace Chinmaya.Registration.Models
 		public Nullable<int> WeekdayId { get; set; }
 		public string WeekdayName { get; set; }
 
+		[Required]
 		[DisplayName("Frequency")]
 		public int FrequencyId { get; set; }
 

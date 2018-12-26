@@ -14,7 +14,7 @@
 		@Html.TextBoxFor(m => m.UserName, new { @class = "form-control", autocomplete = "off" })
 
 		@Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
-		<label>Password @Html.ActionLink("Forgot Password?", "ForgotPassword", "Account", new { controller = "Event" }, new { @class = "forgot-link float-right forgot" })</label>
+		<label>Password @Html.ActionLink("Forgot Password?", "ForgotPassword", "Account", new { controller = "Account" }, new { @class = "forgot-link float-right forgot" })</label>
 		@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
 
 		@Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })

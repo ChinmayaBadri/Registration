@@ -172,9 +172,7 @@
 
 <script>
 	$(document).ready(function () {
-
 		$.validator.unobtrusive.parse($("eventForm"));
-
 		var today = new Date();
 		$('.datepicker').datepicker({
 			todayHighlight: true,
@@ -184,16 +182,9 @@
 			dateFormat: 'mm-dd-yyyy'
 		});
 
-		//$('#datetimepicker1').datetimepicker();
-		var dateNow = new Date();
-		$("#StartTime").datetimepicker({
+		$("#StartTime, #EndTime").datetimepicker({
 			format: 'HH:mm'
 		});
-
-		$("#EndTime").datetimepicker({
-			format: 'HH:mm'
-		});
-
 	});
 
 	function OnSuccessEvent(response) {
