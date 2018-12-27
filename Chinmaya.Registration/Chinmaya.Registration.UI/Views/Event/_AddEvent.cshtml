@@ -8,7 +8,6 @@
 				new AjaxOptions
 				{
 					OnSuccess = "OnSuccessEvent",
-					OnFailure = "OnFailureEvent",
 					OnBegin = "OnBeginEvent"
 				}, new { id = "eventForm" }))
 			{
@@ -28,7 +27,7 @@
 				<div class="row">
 					@Html.HiddenFor(m => m.Id, new { id = "evID" })
 					<div class="col-md-4">
-						@Html.LabelFor(m => m.Name)
+						@Html.LabelFor(m => m.Name, new { @class = "requiredA" })
 						@Html.TextBoxFor(m => m.Name, new { @class = "form-control", @Name = "Name" })
 						@Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
 					</div>
@@ -47,7 +46,7 @@
 				<div class="row">
 
 					<div class="col-md-4">
-						@Html.LabelFor(m => m.FrequencyId)
+						@Html.LabelFor(m => m.FrequencyId, new { @class = "requiredA" })
 						@Html.DropDownList("FrequencyId", new SelectList(Model.frequencies, "Id", "Name", ViewBag.SelectedFrequency), "Select", new { @class = "form-control" })
 						@Html.ValidationMessageFor(m => m.FrequencyId, "", new { @class = "text-danger" })
 					</div>
@@ -65,7 +64,7 @@
 
 				<div class="row">
 					<div class="col-md-4">
-						@Html.LabelFor(m => m.SessionId)
+						@Html.LabelFor(m => m.SessionId, new { @class = "requiredA" })
 						@Html.DropDownList("SessionId", new SelectList(Model.sessions, "Id", "Name"), "Select", new { @class = "form-control" })
 						@Html.ValidationMessageFor(m => m.SessionId, "", new { @class = "text-danger" })
 					</div>
@@ -140,8 +139,8 @@
 						@Html.TextBoxFor(m => m.Other, new { @class = "form-control", @Name = "Other" })
 						@Html.ValidationMessageFor(m => m.Other, "", new { @class = "text-danger" })
 					</div>
-					<div class="col-md-6">
-						@Html.LabelFor(m => m.HolidayDate)
+					<div class="col-md-4" id="HolidayDate">
+						@Html.LabelFor(m => m.HolidayDate, new { @class = "requiredA" })
 						<div class="input-group date">
 							@Html.TextBoxFor(m => m.HolidayDate, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "HolidayDate", @value = "" })
 							<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
@@ -172,14 +171,15 @@
 
 <script>
 	$(document).ready(function () {
-		$.validator.unobtrusive.parse($("eventForm"));
-		var today = new Date();
+		//$.validator.unobtrusive.parse($("eventForm"));
+		
 		$('.datepicker').datepicker({
 			todayHighlight: true,
 			autoclose: true,
-			defaultDate: false,
-			setDate: null,
-			dateFormat: 'mm-dd-yyyy'
+			useCurrent:true,
+			//defaultDate: false,
+			//setDate: null,
+			dateFormat: 'mm/dd/yyyy'
 		});
 
 		$("#StartTime, #EndTime").datetimepicker({

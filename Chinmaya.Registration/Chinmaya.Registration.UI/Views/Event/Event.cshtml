@@ -67,13 +67,14 @@
 
 						@foreach (var ev in Model.currentEventModel)
 						{
-							<tr>
-								<td>@ev.Name</td>
-								<td>@ev.Weekday</td>
-								<td>@ev.Frequency</td>
-								<td>$@ev.ChangeAmount</td>
-								<td id="@ev.Id" class="editEvent"><a href="#" data-toggle="modal" data-target="#EditEventModal" class="Edit"><span class="label label-orange">Edit</span></a></td>
-							</tr>
+						<tr>
+							<td>@ev.Name</td>
+							<td>@ev.Weekday</td>
+							<td>@ev.Frequency</td>
+							<td>$@ev.ChangeAmount</td>
+							<td id="@ev.Id" class="editEvent"><a href="#" data-toggle="modal" data-target="#EditEventModal" class="Edit"><span class="label label-orange">Edit</span></a></td>
+							<td id="@ev.Id" class="deleteEvent"><span class="label label-orange">Delete</span></td>
+						</tr>
 						}
 					</tbody>
 				</table>
@@ -125,6 +126,7 @@
 		$('.datepicker').datepicker({
 			todayHighlight: true,
 			autoclose: true,
+			useCurrent: true,
 			dateFormat: 'mm/dd/yyyy',
 			startDate: "today",
 			endDate: '+10y'
@@ -138,6 +140,18 @@
 				success: function (data) {
 					$("#eventModal").html(data);
 					$("#eventModal").modal();
+				},
+			});
+		});
+
+		$(".deleteEvent").click(function () {
+			var id = $(this).attr("id");
+			alert(id);
+			$.ajax({
+				"url": "../Event/DeleteEvent/" + id,
+				"type": "GET",
+				success: function (data) {
+					alert(data);
 				},
 			});
 		});

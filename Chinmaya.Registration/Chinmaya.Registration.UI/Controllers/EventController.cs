@@ -58,6 +58,9 @@ namespace Chinmaya.Registration.UI.Controllers
 			em.weekday = await _common.GetWeekdayData();
 			em.frequencies = await _common.GetFrequencyData();
 			em.sessions = await _common.GetSessionData();
+			em.StartTime = TimeSpan.FromTicks(DateTime.Now.Ticks);
+			em.EndTime = TimeSpan.FromTicks(DateTime.Now.Ticks);
+			em.HolidayDate = DateTime.Now;
 			return PartialView("_AddEvent", em);
 		}
 
@@ -108,6 +111,17 @@ namespace Chinmaya.Registration.UI.Controllers
 			em.sessions = await _common.GetSessionData();
 
 			return PartialView("_AddEvent", em);
+		}
+
+		/// <summary>
+		/// deletes event details
+		/// </summary>
+		/// <param name="Id"> event id </param>
+		/// <returns> event view </returns>
+		public ActionResult DeleteEvent(string Id, ToastModel tm = null)
+		{
+			ToastModel td = new ToastModel();
+			return PartialView("Event", td);
 		}
 	}
 }
