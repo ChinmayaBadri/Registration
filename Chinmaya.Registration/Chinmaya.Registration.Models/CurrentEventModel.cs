@@ -25,5 +25,8 @@ namespace Chinmaya.Registration.Models
 		public bool select { get; set; }
 		public bool termsandConditions { get; set; }
 		public int ChangeAmount { get; set; }
+
+		public string Stime { get; set; }
+		public string Etime { get; set; }
 	}
 }

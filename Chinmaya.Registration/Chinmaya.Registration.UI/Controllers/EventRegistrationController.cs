@@ -47,6 +47,8 @@ namespace Chinmaya.Registration.UI.Controllers
                 item.Events = await GetEvents(age);
 				foreach (var i in item.Events)
 				{
+					i.Stime = Converttime24to12(i.StartTime);
+					i.Etime = Converttime24to12(i.EndTime);
 					i.ChangeAmount = (int)i.Amount;
 				}
 
@@ -108,6 +110,8 @@ namespace Chinmaya.Registration.UI.Controllers
 							foreach (var ev in entry.Value)
                             {
                                 var eventData = await _event.GetEventData(ev);
+								eventData.Stime = Converttime24to12(eventData.StartTime);
+								eventData.Etime = Converttime24to12(eventData.EndTime);
 								eventData.ChangeAmount = (int)eventData.Amount;
 								currentEvents.Add(eventData);
                             }
@@ -127,6 +131,30 @@ namespace Chinmaya.Registration.UI.Controllers
             }
             return View("ProgramEventRegistration", programEventRegistrationModel);
         }
+
+		/// <summary>
+		/// Converts 24 Hour Time Format to 12 Hour Time Format
+		/// </summary>
+		/// <param name="tm"></param>
+		/// <returns>12 Hour Time Format string</returns>
+		public string Converttime24to12(TimeSpan tm)
+		{
+			string result = "";
+			var hours = tm.Hours;
+			var minutes = tm.Minutes;
+			var amPmDesignator = "AM";
+			if (hours == 0)
+				hours = 12;
+			else if (hours == 12)
+				amPmDesignator = "PM";
+			else if (hours > 12)
+			{
+				hours -= 12;
+				amPmDesignator = "PM";
+			}
+			result = String.Format("{0}:{1:00} {2}", hours, minutes, amPmDesignator);
+			return result;
+		}
 
         /// <summary>
         /// display selected events with users
