@@ -119,8 +119,8 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12">
-									<button class="btn btn-secondary mr-2" name="prevBtn" id="btn_cancel" type="submit">Back</button>
-									<button class="btn btn-orange" name="nextBtn" id="btn_submit" type="submit" data-target="#demo" data-toggle="collapse">Submit</button>
+									<button class="btn btn-secondary mr-2" name="prevBtn" type="submit">Back</button>
+									<button class="btn btn-orange" name="nextBtn" type="submit" data-target="#demo" data-toggle="collapse">Submit</button>
 								</div>
 							</div>
 
@@ -133,27 +133,30 @@
 	<script>
 		$(document).ready(function () {
 			$("#paymentMethodCheck").hide();
-			$("#paymentMethodCheck")
-				.find(".field-validation-error")
-				.html('');
-			$('#btn_submit').attr('disabled', true);
-			$("#current-Events").hide();
-			$("#userList").hide();
+			//$("#paymentMethodCheck")
+				//.find(".field-validation-error")
+				//.html('');
+			//$('#btn_submit').attr('disabled', true);
+		});
 			$("#CheckPaymentMethod").on("change", function () {
 				var paymentMethod = $(this).val();
 				if (paymentMethod) {
 					$("#paymentMethodCheck").show();
-					$('#btn_submit').attr('disabled', false);
+					//$('#btn_submit').attr('disabled', false);
+				}
+				else
+				{
+					$("#paymentMethodCheck").hide();
 				}
 			});
 			$("#CreditPaymentMethod").on("change", function () {
 				var paymentMethod = $(this).val();
 				if (paymentMethod) {
 					$("#paymentMethodCheck").hide();
-					$('#btn_submit').attr('disabled', true);
+					//$('#btn_submit').attr('disabled', true);
 				}
 			});
 
-		});
-</script>
+
+	</script>
 

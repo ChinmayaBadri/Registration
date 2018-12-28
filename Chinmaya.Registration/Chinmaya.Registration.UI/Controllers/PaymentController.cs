@@ -31,10 +31,13 @@ namespace Chinmaya.Registration.UI.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> PaymentMethod(CheckPaymentModel data, string prevBtn, string nextBtn)
         {
-            ViewBag.AccountType = await _common.GetAccountType();
-            if (prevBtn != null)
+			ViewBag.AccountType = await _common.GetAccountType();
+						
+			if (prevBtn != null)
             {
-                return RedirectToAction("ClassesConfirm", "EventRegistration");
+				List<ClassesConfirmModel> classesConfirm = new List<ClassesConfirmModel>();
+				classesConfirm = TempData["mydata"] as List<ClassesConfirmModel>;
+				return View("../EventRegistration/ClassesConfirm", classesConfirm);
             }
 
             else
@@ -47,7 +50,21 @@ namespace Chinmaya.Registration.UI.Controllers
                         data.CreatedBy = User.UserId;
                         data.Amount = Convert.ToDecimal(amount);
                         HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/Payment/PostCheckPayment", data, true);
-                        return RedirectToAction("MyAccount", "Account");
+
+						List<ClassesConfirmModel> classConfirm = new List<ClassesConfirmModel>();
+						classConfirm = TempData["prevdata"] as List<ClassesConfirmModel>;
+						foreach (var item in classConfirm)
+						{
+							EventRegistrationModel registrationModel = new EventRegistrationModel();
+							registrationModel.OwnerId = User.UserId;
+							registrationModel.FamilyMemberId = item.uFamilyMembers.Id;
+							foreach (var i in item.Events)
+							{
+								registrationModel.EventId = i.Id;
+								HttpResponseMessage userResponseMessage1 = await Utility.GetObject("/api/Payment/EventRegistration", registrationModel, true);
+							}
+						}
+						return RedirectToAction("MyAccount", "Account");
 
                     }
 

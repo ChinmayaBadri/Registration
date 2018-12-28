@@ -240,11 +240,55 @@ namespace Chinmaya.Registration.DAL
             }
         }
 
-        /// <summary>
-        /// adds user to directory by using user id
-        /// </summary>
-        /// <param name="id"> user id </param>
-        public void AddtoDirectory(string id)
+		/// <summary>
+		/// deletes Event
+		/// </summary>
+		/// <param name="id"> user id </param>
+		/// returns string
+		public string DeleteEvent(string id)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				var msg="";
+				var rgstrusr = _ctx.EventRegistrations.Where(r => r.EventId == id).FirstOrDefault();
+				if (rgstrusr == null)
+				{
+					var evnt = _ctx.Events.Where(r => r.Id == id).FirstOrDefault();
+					_ctx.Events.Remove(evnt);
+					msg = "Event Deleted Successfully";
+				}
+				else
+				{
+					msg = "Users already registered for the Event";
+				}
+				try
+				{
+					_ctx.SaveChanges();
+				}
+				
+				catch (DbEntityValidationException e)
+				{
+					foreach (var even in e.EntityValidationErrors)
+					{
+						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+							even.Entry.Entity.GetType().Name, even.Entry.State);
+						foreach (var ve in even.ValidationErrors)
+						{
+							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+								ve.PropertyName, ve.ErrorMessage);
+						}
+					}
+				}
+				return msg;
+			}
+		}
+
+
+		/// <summary>
+		/// adds user to directory by using user id
+		/// </summary>
+		/// <param name="id"> user id </param>
+		public void AddtoDirectory(string id)
         {
             using (var _ctx = new ChinmayaEntities())
             {

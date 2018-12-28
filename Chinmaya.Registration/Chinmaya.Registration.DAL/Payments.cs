@@ -61,5 +61,53 @@ namespace Chinmaya.Registration.DAL
                 }
             }
         }
-    }
+
+		/// <summary>
+		/// saves Event Registration details 
+		/// </summary>
+		/// <param name="evntr"> Event Registration Model </param>
+		public void PostEventRegistration(EventRegistrationModel evntr)
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				var config = new MapperConfiguration(cfg =>
+				{
+					cfg.CreateMap<EventRegistrationModel, EventRegistration>();
+				});
+				IMapper mapper = config.CreateMapper();
+
+				var eventRegistration = new EventRegistration();
+					eventRegistration.EventId = evntr.EventId;
+					eventRegistration.FamilyMemberId = evntr.FamilyMemberId;
+					eventRegistration.OwnerId = evntr.OwnerId;
+					eventRegistration.CheckPaymentId = _ctx.CheckPayments.Where(r => r.CreatedBy == evntr.OwnerId).Select(n => n.Id).FirstOrDefault();
+					eventRegistration.InvoiceId = _ctx.CreditCardPayments.Where(r => r.UserId == evntr.OwnerId).Select(n => n.InvoiceId).FirstOrDefault();
+					eventRegistration.IsRegister = true;
+					eventRegistration.IsConfirm = true;
+					eventRegistration.IsPaid = true;
+					eventRegistration.CreatedBy = evntr.OwnerId;
+					eventRegistration.CreatedDate = DateTime.Now;
+
+				_ctx.EventRegistrations.Add(eventRegistration);
+				try
+				{
+					_ctx.SaveChanges();
+				}
+				catch (DbEntityValidationException e)
+				{
+					foreach (var even in e.EntityValidationErrors)
+					{
+						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+							even.Entry.Entity.GetType().Name, even.Entry.State);
+						foreach (var ve in even.ValidationErrors)
+						{
+							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+								ve.PropertyName, ve.ErrorMessage);
+						}
+					}
+
+				}
+			}
+		}
+	}
 }

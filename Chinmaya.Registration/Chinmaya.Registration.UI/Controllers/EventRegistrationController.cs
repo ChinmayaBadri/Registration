@@ -100,8 +100,6 @@ namespace Chinmaya.Registration.UI.Controllers
                             testList.Clear();
                         }
 
-
-                        
                         foreach (KeyValuePair<string, List<string>> entry in dict)
                         {
                             var userData = await _user.GetUserData(entry.Key);
@@ -137,46 +135,102 @@ namespace Chinmaya.Registration.UI.Controllers
         /// <param name="nextBtn"></param>
         /// <returns> payment method view or Program Event Registration view or Classes Confirm view </returns>
         [AllowAnonymous]
-        public ActionResult ClassesConfirm(string prevBtn, string nextBtn)
+        public async Task<ActionResult> ClassesConfirm(string[] select, string prevBtn, string nextBtn)
         {
-            List<ClassesConfirmModel> classesConfirm = new List<ClassesConfirmModel>();
-            classesConfirm = TempData["mydata"] as List<ClassesConfirmModel>;
-            decimal amount = 0;
-            foreach (var item in classesConfirm)
-            {
-                foreach (var ev in item.Events)
-                {
-                    amount += (decimal)ev.Amount;
-                }
-            }
-            TempData["Amount"] = amount;
-            if (prevBtn != null)
-            {
-                return RedirectToAction("ProgramEventRegistration");
-            }
+			if (prevBtn != null)
+			{
+				return RedirectToAction("ProgramEventRegistration");
+			}
 
-            else
-            {
-                if (nextBtn != null)
-                {
-                    if (classesConfirm == null)
-                    {
-                        TempData["msg"] = "<script>alert('Please select atleast one Event');</script>";
-                        return RedirectToAction("ProgramEventRegistration");
-                    }
-                    var termCheckBox = Request.Form["termsandConditions"];
-                    var dir = Request.Form["Directory"];
-                    if (termCheckBox != "on")
-                    {
-                        TempData["msg"] = "<script>alert('Please agree to the terms and conditions');</script>";
-                        return View("ClassesConfirm", classesConfirm);
-                    }
+			else
+			{
+				if (nextBtn != null)
+				{
+					List<ClassesConfirmModel> classesConfirm = new List<ClassesConfirmModel>();
+					if (select == null)
+					{
+						TempData["msg"] = "<script>alert('Please select atleast one Event');</script>";
+						return RedirectToAction("ProgramEventRegistration");
+					}
+					else
+					if (select.Length != 0)
+					{
+						List<string> selectedId = new List<string>();
+						List<List<string>> selectedEventId = new List<List<string>>();
 
+						for (int i = 0; i < select.Length; i++)
+						{
+							var arr = select[i].Split('_');
+							var ar1 = arr[0];
+							var ar2 = arr[1];
+							selectedId.Add(ar2);
+						}
+						List<string> userIds = selectedId.Distinct().ToList();
+						List<string> testList = new List<string>();
+						Dictionary<string, List<string>> dict = new Dictionary<string, List<string>>();
+						foreach (var item in userIds)
+						{
 
-                    return RedirectToAction("PaymentMethod", "Payment");
-                }
-            }
-            return View("ClassesConfirm", classesConfirm);
+							for (int i = 0; i < select.Length; i++)
+							{
+								var arr = select[i].Split('_');
+								var ar1 = arr[0];
+								var ar2 = arr[1];
+								if (ar2 == item)
+								{
+
+									testList.Add(ar1);
+
+								}
+							}
+							dict.Add(item, new List<string>(testList));
+							testList.Clear();
+						}
+
+						foreach (KeyValuePair<string, List<string>> entry in dict)
+						{
+							var userData = await _user.GetUserData(entry.Key);
+							//currentEvents.Clear();
+							List<CurrentEventModel> currentEvents = new List<CurrentEventModel>();
+							foreach (var ev in entry.Value)
+							{
+								var eventData = await _event.GetEventData(ev);
+								eventData.ChangeAmount = (int)eventData.Amount;
+								currentEvents.Add(eventData);
+							}
+
+							ClassesConfirmModel classConfirm = new ClassesConfirmModel();
+							classConfirm.uFamilyMembers = userData;
+							classConfirm.Events = currentEvents;
+							classesConfirm.Add(classConfirm);
+						}
+						decimal amount = 0;
+						foreach (var item in classesConfirm)
+						{
+							foreach (var ev in item.Events)
+							{
+								amount += (decimal)ev.Amount;
+							}
+						}
+
+						var termCheckBox = Request.Form["termsandConditions"];
+						var dir = Request.Form["Directory"];
+						if (termCheckBox != "on")
+						{
+							TempData["msg"] = "<script>alert('Please agree to the terms and conditions');</script>";
+							return View("ClassesConfirm", classesConfirm);
+						}
+
+						TempData["Amount"] = amount;
+						TempData["mydata"] = classesConfirm;
+						return RedirectToAction("PaymentMethod", "Payment");
+					}
+
+					return View("ClassesConfirm", classesConfirm);
+
+				}
+			}
+			return View("ClassesConfirm");
         }
 
         /// <summary>

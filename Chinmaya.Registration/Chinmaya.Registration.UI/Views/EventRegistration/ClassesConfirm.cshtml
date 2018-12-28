@@ -95,7 +95,7 @@
 														<td>$@ev.ChangeAmount</td>
 														<td>
 															<label class="switch">
-																<input id="select_@(i + 1)" value="(@ev.Id)_select@(i + 1)" name="select" type="checkbox" checked="" />
+																<input id="select_@(i + 1)" value="@ev.Id _@item.uFamilyMembers.Id" name="select" type="checkbox" checked="" />
 																<span class="slider round"></span>
 															</label>
 														</td>
@@ -141,8 +141,6 @@
 
 <script>
 	$(document).ready(function () {
-		$("#current-Events").hide();
-		$("#userList").hide();
 		$('#collapseOne_1').removeClass('collapse').addClass('collapse show');
 		$(document).ready(function () {
 			$('[data-toggle="popover"]').popover();

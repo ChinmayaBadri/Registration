@@ -31,5 +31,24 @@ namespace Chinmaya.BAL.Controllers
                 return Ok("Something went wrong");
             }
         }
-    }
+
+		/// <summary>
+		/// saves Event Registration details 
+		/// </summary>
+		/// <param name="obj"> Event Registration Model </param>
+		[Route("api/Payment/EventRegistration")]
+		[HttpPost]
+		public IHttpActionResult EventRegistration(EventRegistrationModel obj)
+		{
+			try
+			{
+				_payment.PostEventRegistration(obj);
+				return Ok("Success");
+			}
+			catch (Exception)
+			{
+				return Ok("Something went wrong");
+			}
+		}
+	}
 }

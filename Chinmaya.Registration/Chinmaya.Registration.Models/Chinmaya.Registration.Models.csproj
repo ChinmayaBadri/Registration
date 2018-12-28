@@ -77,6 +77,7 @@
     <Compile Include="CurrentEventModel.cs" />
     <Compile Include="EmailTemplateModel.cs" />
     <Compile Include="EmployeeInfo.cs" />
+    <Compile Include="EventRegistrationModel.cs" />
     <Compile Include="EventsModel.cs" />
     <Compile Include="FamilyMemberModel.cs" />
     <Compile Include="ForgotPasswordModel.cs" />

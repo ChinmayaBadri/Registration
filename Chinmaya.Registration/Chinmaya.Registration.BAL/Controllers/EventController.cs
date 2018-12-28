@@ -67,11 +67,29 @@ namespace Chinmaya.BAL.Controllers
             }
         }
 
-        /// <summary>
-        /// adds user to directory by using user id
-        /// </summary>
-        /// <param name="id"> user id </param>
-        [Route("api/Event/AddtoDirectory/{id}")]
+		/// <summary>
+		/// adds event
+		/// </summary>
+		/// <param name="ev"> Event Model </param>
+		[Route("api/Event/DeleteEvent/{id}")]
+		[HttpPost]
+		public string DeleteEvent(string Id)
+		{
+			try
+			{
+				return _event.DeleteEvent(Id);
+			}
+			catch (Exception)
+			{
+				return "Something went wrong";
+			}
+		}
+
+		/// <summary>
+		/// adds user to directory by using user id
+		/// </summary>
+		/// <param name="id"> user id </param>
+		[Route("api/Event/AddtoDirectory/{id}")]
         [HttpPost]
         public IHttpActionResult AddtoDirectory(string id)
         {

@@ -118,9 +118,14 @@ namespace Chinmaya.Registration.UI.Controllers
 		/// </summary>
 		/// <param name="Id"> event id </param>
 		/// <returns> event view </returns>
-		public ActionResult DeleteEvent(string Id, ToastModel tm = null)
+		public async Task<ActionResult> DeleteEvent(string Id)
 		{
 			ToastModel td = new ToastModel();
+			HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/Event/DeleteEvent/" + Id, true);
+			var msg = await Utility.DeserializeObject<string>(userResponseMessage);
+			if (msg == "")
+				td.IsSuccess = true;
+			else td.IsSuccess = false;
 			return PartialView("Event", td);
 		}
 	}
