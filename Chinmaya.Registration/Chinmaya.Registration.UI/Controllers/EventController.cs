@@ -25,6 +25,7 @@ namespace Chinmaya.Registration.UI.Controllers
 		[AllowAnonymous]
         public async Task<ActionResult> Event(ToastModel tm = null)
         {
+			ViewBag.msg = TempData["msg"] as string;
 			if (!string.IsNullOrEmpty(tm.Message))
 			{
 				ViewBag.tm = tm;
@@ -118,15 +119,11 @@ namespace Chinmaya.Registration.UI.Controllers
 		/// </summary>
 		/// <param name="Id"> event id </param>
 		/// <returns> event view </returns>
-		public async Task<ActionResult> DeleteEvent(string Id)
+		public async Task<string> DeleteEvent(string Id)
 		{
-			ToastModel td = new ToastModel();
-			HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/Event/DeleteEvent/" + Id, true);
+			HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/Event/DeleteEvent/" + Id, Id, true);
 			var msg = await Utility.DeserializeObject<string>(userResponseMessage);
-			if (msg == "")
-				td.IsSuccess = true;
-			else td.IsSuccess = false;
-			return PartialView("Event", td);
+			return msg;
 		}
 	}
 }
