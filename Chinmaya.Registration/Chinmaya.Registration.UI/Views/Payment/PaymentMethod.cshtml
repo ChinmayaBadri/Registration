@@ -70,12 +70,12 @@
 						<div class="row">
 							<div class="form-check-inline">
 								<label class="form-check-label">
-									@Html.RadioButtonFor(m => m.paymentType, "Check", new { id = "CheckPaymentMethod" })<span> Check</span>
+									@Html.RadioButtonFor(m => m.paymentType, "Check", new { id = "CheckPaymentMethod"})<span> Check</span>
 								</label>
 							</div>
 							<div class="form-check-inline">
 								<label class="form-check-label">
-									@Html.RadioButtonFor(m => m.paymentType, "Credit Card", new { id = "CreditPaymentMethod" })<span> Credit Card</span>
+									@Html.RadioButtonFor(m => m.paymentType, "Credit Card", new { id = "CreditPaymentMethod", @checked = "checked" })<span> Credit Card</span>
 								</label>
 							</div>
 						</div>
@@ -133,10 +133,10 @@
 	<script>
 		$(document).ready(function () {
 			$("#paymentMethodCheck").hide();
-			//$("#paymentMethodCheck")
-				//.find(".field-validation-error")
-				//.html('');
-			//$('#btn_submit').attr('disabled', true);
+			$("#paymentMethodCheck")
+				.find(".field-validation-error")
+				.html('');
+			$('#btn_submit').attr('disabled', true);
 		});
 			$("#CheckPaymentMethod").on("change", function () {
 				var paymentMethod = $(this).val();
