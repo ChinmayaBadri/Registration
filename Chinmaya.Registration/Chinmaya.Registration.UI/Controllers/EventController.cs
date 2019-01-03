@@ -84,8 +84,17 @@ namespace Chinmaya.Registration.UI.Controllers
 				{
 					data.CreatedBy = User.UserId;
 					HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/Event/PostEvent", data, true);
-					tm.IsSuccess = true;
-					tm.Message = "Event added/updated successfully";
+					var msg = await Utility.DeserializeObject<string>(userResponseMessage);
+					if (msg == "Event successfully added" || msg == "Event successfully edited")
+					{
+						tm.IsSuccess = true;
+						tm.Message = msg;
+					}
+					else
+					{
+						tm.IsSuccess = false;
+						tm.Message = msg;
+					}
 				}
 				else
 				{

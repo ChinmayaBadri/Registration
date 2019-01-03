@@ -54,16 +54,16 @@ namespace Chinmaya.BAL.Controllers
         /// <param name="ev"> Event Model </param>
         [Route("api/Event/PostEvent")]
         [HttpPost]
-        public IHttpActionResult PostEvent(EventsModel obj)
+        public string PostEvent(EventsModel obj)
         {
             try
             {
-                _event.PostEvent(obj);
-                return Ok("Success");
+                string res = _event.PostEvent(obj);
+                return res;
             }
             catch (Exception)
             {
-                return Ok("Something went wrong");
+                return "Something went wrong";
             }
         }
 

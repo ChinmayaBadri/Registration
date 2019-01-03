@@ -196,7 +196,10 @@
 				}, 2000);
 				return;
 			}
-			toastr.error(response.Message, "Add Event");
+			toastr.error(response.Message, "Add Event", { timeOut: 3000 });
+			setTimeout(function () {
+				window.location.reload();
+			}, 3000);
 		}
 		$("#btnsubmit").prop("disabled", false);
 		$("#btnCancel").prop("disabled", false);

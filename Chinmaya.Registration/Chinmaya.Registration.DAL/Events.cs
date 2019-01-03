@@ -9,6 +9,7 @@ using Chinmaya.Registration.Models;
 using AutoMapper;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Data.SqlClient;
 
 namespace Chinmaya.Registration.DAL
 {
@@ -101,143 +102,129 @@ namespace Chinmaya.Registration.DAL
         /// adds event
         /// </summary>
         /// <param name="ev"> Event Model </param>
-        public void PostEvent(EventsModel ev)
+        public string PostEvent(EventsModel ev)
         {
             using (var _ctx = new ChinmayaEntities())
             {
-				try
+				string res = "";
+
+				using (var transaction = _ctx.Database.BeginTransaction())
 				{
-					var config = new MapperConfiguration(cfg =>
+					try
 					{
-						cfg.CreateMap<EventsModel, Event>();
-					});
-					IMapper mapper = config.CreateMapper();
-					Event evnt = new Event();
-					mapper.Map(ev, evnt);
-					if (string.IsNullOrEmpty(ev.Id))
-					{
-						evnt.Id = Guid.NewGuid().ToString();
-						evnt.Status = true;
-						evnt.CreatedDate = DateTime.Now;
-						_ctx.Events.Add(evnt);
-						_ctx.SaveChanges();
-					}
-					else
-					{
-						_ctx.Entry(evnt).State = EntityState.Modified;
-						_ctx.SaveChanges();
+						if (ev.Id == null)
+						{
+							var config = new MapperConfiguration(cfg =>
+							{
+								cfg.CreateMap<EventsModel, Event>();
+							});
+							IMapper mapper = config.CreateMapper();
+							Event evnt = new Event();
+							mapper.Map(ev, evnt);
+
+							evnt.Id = Guid.NewGuid().ToString();
+							evnt.Status = true;
+							evnt.CreatedDate = DateTime.Now;
+							_ctx.Events.Add(evnt);
+							_ctx.SaveChanges();
+							
+							var config1 = new MapperConfiguration(cfg =>
+							{
+								cfg.CreateMap<EventsModel, EventSession>();
+							});
+							IMapper mapper1 = config.CreateMapper();
+							EventSession evntssn = new EventSession();
+							mapper.Map(ev, evntssn);
+
+							evntssn.EventId = evnt.Id;
+							_ctx.EventSessions.Add(evntssn);
+							_ctx.SaveChanges();
+
+							var config2 = new MapperConfiguration(cfg =>
+							{
+								cfg.CreateMap<EventsModel, EventHoliday>();
+							});
+							IMapper mapper2 = config.CreateMapper();
+							EventHoliday evnthld = new EventHoliday();
+							mapper.Map(ev, evnthld);
+
+							evnthld.EventId = evnt.Id;
+							_ctx.EventHolidays.Add(evnthld);
+							_ctx.SaveChanges();
+
+							transaction.Commit();
+							res = "Event successfully added";
+						}
+						else
+						{
+							var rgstrusr = _ctx.EventRegistrations.Where(r => r.EventId == ev.Id).FirstOrDefault();
+							if (rgstrusr == null)
+							{
+								var config = new MapperConfiguration(cfg =>
+								{
+									cfg.CreateMap<EventsModel, Event>();
+								});
+								IMapper mapper = config.CreateMapper();
+								Event evnt = new Event();
+								mapper.Map(ev, evnt);
+
+								evnt = _ctx.Events.Find(ev.Id);
+								_ctx.Entry(evnt).State = EntityState.Modified;
+								_ctx.SaveChanges();
+
+								var config1 = new MapperConfiguration(cfg =>
+								{
+									cfg.CreateMap<EventsModel, EventSession>();
+								});
+								IMapper mapper1 = config.CreateMapper();
+								EventSession evntssn = new EventSession();
+								mapper.Map(ev, evntssn);
+
+								evntssn = _ctx.EventSessions.Find(ev.Id);
+								_ctx.Entry(evntssn).State = EntityState.Modified;
+								_ctx.SaveChanges();
+
+								var config2 = new MapperConfiguration(cfg =>
+								{
+									cfg.CreateMap<EventsModel, EventHoliday>();
+								});
+								IMapper mapper2 = config.CreateMapper();
+								EventHoliday evnthld = new EventHoliday();
+								mapper.Map(ev, evnthld);
+
+								evnthld = _ctx.EventHolidays.Find(ev.Id);
+								_ctx.Entry(evnthld).State = EntityState.Modified;
+								_ctx.SaveChanges();
+								transaction.Commit();
+								res = "Event successfully edited";
+							}
+							else
+							{
+								res = "Users already registered for the Event";
+							}
+
+						}
+						
 					}
 
-					var config1 = new MapperConfiguration(cfg =>
+					catch (DbEntityValidationException e)
 					{
-						cfg.CreateMap<EventsModel, EventSession>();
-					});
-					IMapper mapper1 = config.CreateMapper();
-					EventSession evntssn = new EventSession();
-					mapper.Map(ev, evntssn);
+						transaction.Rollback();
+						foreach (var even in e.EntityValidationErrors)
+						{
+							Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+								even.Entry.Entity.GetType().Name, even.Entry.State);
+							foreach (var ve in even.ValidationErrors)
+							{
+								Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+									ve.PropertyName, ve.ErrorMessage);
+							}
+						}
 
-					if (string.IsNullOrEmpty(ev.Id))
-					{
-						evntssn.EventId = evnt.Id;
-						_ctx.EventSessions.Add(evntssn);
-						_ctx.SaveChanges();
 					}
-					else
-					{
-						_ctx.Entry(evntssn).State = EntityState.Modified;
-						_ctx.SaveChanges();
-					}
-
-					
-					var config2 = new MapperConfiguration(cfg =>
-					{
-						cfg.CreateMap<EventsModel, EventHoliday>();
-					});
-
-					IMapper mapper2 = config.CreateMapper();
-					EventHoliday evnthld = new EventHoliday();
-					mapper.Map(ev, evnthld);
-
-					if (string.IsNullOrEmpty(ev.Id))
-					{
-						evnthld.EventId = evnt.Id;
-						_ctx.EventHolidays.Add(evnthld);
-						_ctx.SaveChanges();
-					}
-					else
-					{
-						_ctx.Entry(evnthld).State = EntityState.Modified;
-						_ctx.SaveChanges();
-					}
-					
 				}
-
-				//var eventId = "";
-				//if (string.IsNullOrEmpty(ev.Id))
-				//{
-				//	eventId = Guid.NewGuid().ToString();
-				//}
-				//else
-				//{
-				//	eventId = ev.Id;
-				//}
-				//	var eve = new Event
-				//	{
-				//		Id = eventId,
-				//		Name = ev.Name,
-				//		Description = ev.Description,
-				//		WeekdayId = ev.WeekdayId,
-				//		FrequencyId = ev.FrequencyId,
-				//		AgeFrom = ev.AgeFrom,
-				//		AgeTo = ev.AgeTo,
-				//		Amount = ev.Amount,
-				//		Status = true,
-				//		CreatedBy = ev.CreatedBy,
-				//		CreatedDate = DateTime.Now
-				//	};
-
-				//	var evs = new EventSession
-				//	{
-				//		EventId = eve.Id,
-				//		SessionId = ev.SessionId,
-				//		StartDate = ev.StartDate,
-				//		EndDate = ev.EndDate,
-				//		StartTime = ev.StartTime,
-				//		EndTime = ev.EndTime,
-				//		Location = ev.Location,
-				//		Instructor = ev.Instructor,
-				//		Contact = ev.Contact,
-				//		Other = ev.Other
-				//	};
-
-
-				//	if (ev.HolidayDate != null)
-				//	{
-				//		var eHoliday = new EventHoliday
-				//		{
-				//			EventId = eve.Id,
-				//			HolidayDate = ev.HolidayDate
-				//		};
-				//		_ctx.EventHolidays.Add(eHoliday);
-				//	}
-				//	_ctx.Events.Add(eve);
-				//	_ctx.EventSessions.Add(evs);
-				
-                catch (DbEntityValidationException e)
-                {
-                    foreach (var even in e.EntityValidationErrors)
-                    {
-                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                            even.Entry.Entity.GetType().Name, even.Entry.State);
-                        foreach (var ve in even.ValidationErrors)
-                        {
-                            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                                ve.PropertyName, ve.ErrorMessage);
-                        }
-                    }
-
-                }
-            }
+				return res;
+			}
         }
 
 		/// <summary>
