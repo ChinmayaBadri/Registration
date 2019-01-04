@@ -95,13 +95,14 @@ namespace Chinmaya.Registration.UI.Controllers
 						tm.IsSuccess = false;
 						tm.Message = msg;
 					}
+					return Json(tm);
 				}
-				else
-				{
-					tm.IsSuccess = false;
-					tm.Message = "Event not created";
-				}
-				return Json(tm);
+				//else
+				//{
+				//	tm.IsSuccess = false;
+				//	tm.Message = "Event not created";
+				//}
+				
 			}
             return RedirectToAction("Event", "Event");
         }

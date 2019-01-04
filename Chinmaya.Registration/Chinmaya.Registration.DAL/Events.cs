@@ -160,38 +160,17 @@ namespace Chinmaya.Registration.DAL
 							var rgstrusr = _ctx.EventRegistrations.Where(r => r.EventId == ev.Id).FirstOrDefault();
 							if (rgstrusr == null)
 							{
-								var config = new MapperConfiguration(cfg =>
-								{
-									cfg.CreateMap<EventsModel, Event>();
-								});
-								IMapper mapper = config.CreateMapper();
 								Event evnt = new Event();
-								mapper.Map(ev, evnt);
-
 								evnt = _ctx.Events.Find(ev.Id);
 								_ctx.Entry(evnt).State = EntityState.Modified;
 								_ctx.SaveChanges();
-
-								var config1 = new MapperConfiguration(cfg =>
-								{
-									cfg.CreateMap<EventsModel, EventSession>();
-								});
-								IMapper mapper1 = config.CreateMapper();
+								
 								EventSession evntssn = new EventSession();
-								mapper.Map(ev, evntssn);
-
 								evntssn = _ctx.EventSessions.Find(ev.Id);
 								_ctx.Entry(evntssn).State = EntityState.Modified;
 								_ctx.SaveChanges();
-
-								var config2 = new MapperConfiguration(cfg =>
-								{
-									cfg.CreateMap<EventsModel, EventHoliday>();
-								});
-								IMapper mapper2 = config.CreateMapper();
+								
 								EventHoliday evnthld = new EventHoliday();
-								mapper.Map(ev, evnthld);
-
 								evnthld = _ctx.EventHolidays.Find(ev.Id);
 								_ctx.Entry(evnthld).State = EntityState.Modified;
 								_ctx.SaveChanges();
@@ -207,20 +186,9 @@ namespace Chinmaya.Registration.DAL
 						
 					}
 
-					catch (DbEntityValidationException e)
+					catch (DbEntityValidationException)
 					{
 						transaction.Rollback();
-						foreach (var even in e.EntityValidationErrors)
-						{
-							Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-								even.Entry.Entity.GetType().Name, even.Entry.State);
-							foreach (var ve in even.ValidationErrors)
-							{
-								Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-									ve.PropertyName, ve.ErrorMessage);
-							}
-						}
-
 					}
 				}
 				return res;

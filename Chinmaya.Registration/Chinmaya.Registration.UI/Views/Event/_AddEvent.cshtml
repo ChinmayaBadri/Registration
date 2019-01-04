@@ -9,7 +9,7 @@
 				{
 					OnSuccess = "OnSuccessEvent",
 					OnBegin = "OnBeginEvent"
-				}, new { id = "eventForm" }))
+				}, new { id = "eventForm", role = "form" }))
 			{
 				@Html.AntiForgeryToken()
 
@@ -88,7 +88,7 @@
 
 				<div class="row">
 					<div class="col-md-4">
-							@Html.LabelFor(m => m.StartTime)
+							@Html.LabelFor(m => m.StartTime, new { @class = "requiredA" })
 							<div class='input-group date' id='datetimepicker1'>
 								@Html.TextBoxFor(m => m.StartTime, new { @class = "form-control", @type = "text", @Name = "StartTime"})
 								<span class="input-group-addon">
@@ -98,7 +98,7 @@
 							@Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "text-danger" })
 						</div>
 					<div class="col-md-4">
-						@Html.LabelFor(m => m.EndTime)
+						@Html.LabelFor(m => m.EndTime, new { @class = "requiredA" })
 						<div class='input-group date' id='datetimepicker2'>
 							@*@Html.TextBoxFor(m => m.EndTime)*@
 							@Html.TextBoxFor(m => m.EndTime, new { @class = "form-control", @type = "text", @Name = "EndTime" })
@@ -150,7 +150,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<button class="btn btn-secondary float-left mr-3" id="#btnCancel " type="submit" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
+						<button class="btn btn-secondary float-left mr-3" id="btnCancel " type="button" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
 						@if (!string.IsNullOrEmpty(Model.Id))
 						{
 							<button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Update <i class="material-icons">check_circle</i></button>
@@ -171,7 +171,8 @@
 
 <script>
 	$(document).ready(function () {
-		//$.validator.unobtrusive.parse($("eventForm"));
+		debugger
+		$.validator.unobtrusive.parse($("form"));
 		
 		$('.datepicker').datepicker({
 			todayHighlight: true,
