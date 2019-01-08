@@ -112,42 +112,43 @@ namespace Chinmaya.Registration.DAL
 				{
 					try
 					{
+						var config = new MapperConfiguration(cfg =>
+						{
+							cfg.CreateMap<EventsModel, Event>();
+						});
+						IMapper mapper = config.CreateMapper();
+						Event evnt = new Event();
+						mapper.Map(ev, evnt);
+
+						var config1 = new MapperConfiguration(cfg =>
+						{
+							cfg.CreateMap<EventsModel, EventSession>().ForMember(dest => dest.Id, opt => opt.Ignore());
+						});
+						IMapper mapper1 = config1.CreateMapper();
+						EventSession evntssn = new EventSession();
+						mapper1.Map(ev, evntssn);
+
+						var config2 = new MapperConfiguration(cfg =>
+						{
+							cfg.CreateMap<EventsModel, EventHoliday>().ForMember(dest => dest.Id, opt => opt.Ignore());
+						});
+						IMapper mapper2 = config2.CreateMapper();
+						EventHoliday evnthld = new EventHoliday();
+						mapper2.Map(ev, evnthld);
+
 						if (ev.Id == null)
 						{
-							var config = new MapperConfiguration(cfg =>
-							{
-								cfg.CreateMap<EventsModel, Event>();
-							});
-							IMapper mapper = config.CreateMapper();
-							Event evnt = new Event();
-							mapper.Map(ev, evnt);
-
+							
 							evnt.Id = Guid.NewGuid().ToString();
 							evnt.Status = true;
 							evnt.CreatedDate = DateTime.Now;
 							_ctx.Events.Add(evnt);
 							_ctx.SaveChanges();
 							
-							var config1 = new MapperConfiguration(cfg =>
-							{
-								cfg.CreateMap<EventsModel, EventSession>();
-							});
-							IMapper mapper1 = config.CreateMapper();
-							EventSession evntssn = new EventSession();
-							mapper.Map(ev, evntssn);
-
 							evntssn.EventId = evnt.Id;
 							_ctx.EventSessions.Add(evntssn);
 							_ctx.SaveChanges();
-
-							var config2 = new MapperConfiguration(cfg =>
-							{
-								cfg.CreateMap<EventsModel, EventHoliday>();
-							});
-							IMapper mapper2 = config.CreateMapper();
-							EventHoliday evnthld = new EventHoliday();
-							mapper.Map(ev, evnthld);
-
+							
 							evnthld.EventId = evnt.Id;
 							_ctx.EventHolidays.Add(evnthld);
 							_ctx.SaveChanges();
@@ -160,20 +161,42 @@ namespace Chinmaya.Registration.DAL
 							var rgstrusr = _ctx.EventRegistrations.Where(r => r.EventId == ev.Id).FirstOrDefault();
 							if (rgstrusr == null)
 							{
-								Event evnt = new Event();
-								evnt = _ctx.Events.Find(ev.Id);
-								_ctx.Entry(evnt).State = EntityState.Modified;
+								evnt = _ctx.Events.Where(e => e.Id == ev.Id).FirstOrDefault();
+								evnt.Id = ev.Id;
+								evnt.Name = ev.Name;
+								evnt.Description = ev.Description;
+								evnt.WeekdayId = ev.WeekdayId;
+								evnt.FrequencyId = ev.FrequencyId;
+								evnt.AgeFrom = ev.AgeFrom;
+								evnt.AgeTo = ev.AgeTo;
+								evnt.Amount = ev.Amount;
+								evnt.Status = true;
+								evnt.CreatedDate = ev.CreatedDate;
+								evnt.UpdatedBy = ev.UpdatedBy;
+								evnt.UpdatedDate = DateTime.Now;
+								//_ctx.Entry(evnt).State = EntityState.Modified;
 								_ctx.SaveChanges();
-								
-								EventSession evntssn = new EventSession();
-								evntssn = _ctx.EventSessions.Find(ev.Id);
-								_ctx.Entry(evntssn).State = EntityState.Modified;
+
+								evntssn = _ctx.EventSessions.Where(e => e.EventId == ev.Id).FirstOrDefault();
+								//mapper1.Map(ev, evntssn);
+								//_ctx.Entry(evntssn).State = EntityState.Modified;
+								evntssn.SessionId = ev.SessionId;
+								evntssn.StartDate = ev.StartDate;
+								evntssn.EndDate = ev.EndDate;
+								evntssn.StartTime = ev.StartTime;
+								evntssn.EndTime = ev.EndTime;
+								evntssn.Location = ev.Location;
+								evntssn.Instructor = ev.Instructor;
+								evntssn.Contact = ev.Contact;
+								evntssn.Other = ev.Other;
 								_ctx.SaveChanges();
-								
-								EventHoliday evnthld = new EventHoliday();
-								evnthld = _ctx.EventHolidays.Find(ev.Id);
-								_ctx.Entry(evnthld).State = EntityState.Modified;
+
+								evnthld = _ctx.EventHolidays.Where(e => e.EventId == ev.Id).FirstOrDefault();
+								//mapper2.Map(ev, evnthld);
+								//_ctx.Entry(evnthld).State = EntityState.Modified;
+								evnthld.HolidayDate = ev.HolidayDate;
 								_ctx.SaveChanges();
+
 								transaction.Commit();
 								res = "Event successfully edited";
 							}
@@ -186,9 +209,19 @@ namespace Chinmaya.Registration.DAL
 						
 					}
 
-					catch (DbEntityValidationException)
+					catch (DbEntityValidationException e)
 					{
 						transaction.Rollback();
+						foreach (var even in e.EntityValidationErrors)
+						{
+							Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+								even.Entry.Entity.GetType().Name, even.Entry.State);
+							foreach (var ve in even.ValidationErrors)
+							{
+								Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+									ve.PropertyName, ve.ErrorMessage);
+							}
+						}
 					}
 				}
 				return res;
@@ -300,8 +333,8 @@ namespace Chinmaya.Registration.DAL
 					emm.Amount = emData.Amount;
 					EventSession esessionData = _ctx.EventSessions.Where(es => es.EventId == emData.Id).FirstOrDefault();
 					emm.SessionId = esessionData.SessionId;
-					emm.StartDate = esessionData.StartDate;
-					emm.EndDate = esessionData.EndDate;
+					emm.StartDate = Convert.ToDateTime(esessionData.StartDate);
+					emm.EndDate = Convert.ToDateTime(esessionData.EndDate);
 					emm.StartTime = esessionData.StartTime;
 					emm.EndTime = esessionData.EndTime;
 					emm.Location = esessionData.Location;

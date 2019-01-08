@@ -61,9 +61,9 @@ namespace Chinmaya.BAL.Controllers
                 string res = _event.PostEvent(obj);
                 return res;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return "Something went wrong";
+				return e.InnerException.ToString();
             }
         }
 

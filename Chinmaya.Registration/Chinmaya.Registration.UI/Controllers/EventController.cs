@@ -59,6 +59,8 @@ namespace Chinmaya.Registration.UI.Controllers
 			em.weekday = await _common.GetWeekdayData();
 			em.frequencies = await _common.GetFrequencyData();
 			em.sessions = await _common.GetSessionData();
+			em.StartDate = DateTime.Now;
+			em.EndDate = DateTime.Now;
 			em.StartTime = TimeSpan.FromTicks(DateTime.Now.Ticks);
 			em.EndTime = TimeSpan.FromTicks(DateTime.Now.Ticks);
 			em.HolidayDate = DateTime.Now;
@@ -83,6 +85,8 @@ namespace Chinmaya.Registration.UI.Controllers
 				if (ModelState.IsValid)
 				{
 					data.CreatedBy = User.UserId;
+					data.CreatedDate = DateTime.Now;
+					data.UpdatedBy = User.UserId;
 					HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/Event/PostEvent", data, true);
 					var msg = await Utility.DeserializeObject<string>(userResponseMessage);
 					if (msg == "Event successfully added" || msg == "Event successfully edited")
@@ -115,7 +119,11 @@ namespace Chinmaya.Registration.UI.Controllers
 		public async Task<PartialViewResult> EditEvent(string Id)
 		{
 			EventsModel em = await _event.GetEventDetails(Id);
-
+			//if (em.StartDate == Convert.ToDateTime(1/1/0001) || em.EndDate == Convert.ToDateTime(1/1/0001))
+			//{
+			//	em.StartDate = DateTime.Now;
+			//	em.EndDate = DateTime.Now;
+			//}
 			em.Id = Id;
 			em.weekday = await _common.GetWeekdayData();
 			em.frequencies = await _common.GetFrequencyData();
