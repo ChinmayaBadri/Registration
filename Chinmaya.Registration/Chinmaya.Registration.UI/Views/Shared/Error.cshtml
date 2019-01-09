@@ -1,9 +1,23 @@
-﻿@model System.Web.Mvc.HandleErrorInfo
-
-@{
-    ViewBag.Title = "Error";
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+@model HandleErrorInfo
 
+@if (Model != null)
+{
+    <br />
+    <br />
+    <span class="alert alert-danger">User:</span> @System.Security.Principal.WindowsIdentity.GetCurrent().Name
+    <br />
+    <br />
+    <span>Source:</span> @Model.Exception.Source
+    <br />
+    <br />
+    <span>Message:</span> @Model.Exception.Message
+    <br />
+    <br />
+    <span>Stack Trace:</span> @Model.Exception.StackTrace
+    <br />
+    <br />
+}

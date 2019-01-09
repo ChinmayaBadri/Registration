@@ -26,12 +26,22 @@ namespace Chinmaya.Registration.UI.Controllers
         EventService _event = new EventService();
 
         System.Collections.Specialized.NameValueCollection configMngr = ConfigurationManager.AppSettings;
-        /// <summary>
-        /// Loads login interface
-        /// </summary>
-        /// <param name="returnUrl"></param>
-        /// <returns> Login View </returns>
-        [AllowAnonymous]
+		/// <summary>
+		/// Loads NotFound Exception
+		/// </summary>
+		/// <returns>NotFound View</returns>
+		[AllowAnonymous]
+		public ActionResult NotFound()
+		{
+			return View();
+		}
+
+		/// <summary>
+		/// Loads login interface
+		/// </summary>
+		/// <param name="returnUrl"></param>
+		/// <returns> Login View </returns>
+		[AllowAnonymous]
 		public ActionResult Login(string returnUrl)
 		{
             ViewBag.ReturnUrl = returnUrl;
