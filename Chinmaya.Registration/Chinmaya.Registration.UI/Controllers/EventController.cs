@@ -119,11 +119,12 @@ namespace Chinmaya.Registration.UI.Controllers
 		public async Task<PartialViewResult> EditEvent(string Id)
 		{
 			EventsModel em = await _event.GetEventDetails(Id);
-			//if (em.StartDate == Convert.ToDateTime(1/1/0001) || em.EndDate == Convert.ToDateTime(1/1/0001))
-			//{
-			//	em.StartDate = DateTime.Now;
-			//	em.EndDate = DateTime.Now;
-			//}
+			DateTime date1 = new DateTime(0001, 1, 1, 0, 0, 0);
+			if (em.StartDate == date1 || em.EndDate == date1)
+			{
+				em.StartDate = null;
+				em.EndDate = null;
+			}
 			em.Id = Id;
 			em.weekday = await _common.GetWeekdayData();
 			em.frequencies = await _common.GetFrequencyData();

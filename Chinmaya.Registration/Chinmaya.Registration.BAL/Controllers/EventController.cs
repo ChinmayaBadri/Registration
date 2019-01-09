@@ -63,7 +63,7 @@ namespace Chinmaya.BAL.Controllers
             }
             catch (Exception e)
             {
-				return e.InnerException.ToString();
+				return e.Message;
             }
         }
 
