@@ -187,9 +187,11 @@ namespace Chinmaya.Registration.UI.Controllers
                 }
 
                 return Json(tm);
-            } catch(Exception ex)
+            }
+
+			catch
             {
-                return Json("");
+               throw;
             }
             
         }

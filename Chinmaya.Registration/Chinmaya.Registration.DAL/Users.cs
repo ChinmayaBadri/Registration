@@ -205,22 +205,12 @@ namespace Chinmaya.Registration.DAL
                         _ctx.SaveChanges();
                     }
                 }
-                catch (DbEntityValidationException e)
-                {
-                    foreach (var eve in e.EntityValidationErrors)
-                    {
-                        Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                        foreach (var ve in eve.ValidationErrors)
-                        {
-                            Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                                ve.PropertyName, ve.ErrorMessage);
-                        }
-                    }
+				catch
+				{
+					throw;
+				}
 
-                }
-
-            }
+			}
 		}
 
         /// <summary>
@@ -353,19 +343,9 @@ namespace Chinmaya.Registration.DAL
 					}
 				}
 
-				catch (DbEntityValidationException e)
+				catch
 				{
-					foreach (var eve in e.EntityValidationErrors)
-					{
-						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-							eve.Entry.Entity.GetType().Name, eve.Entry.State);
-						foreach (var ve in eve.ValidationErrors)
-						{
-							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-								ve.PropertyName, ve.ErrorMessage);
-						}
-					}
-
+					throw;
 				}
 			}
 		}
@@ -397,21 +377,11 @@ namespace Chinmaya.Registration.DAL
 					_ctx.SaveChanges();
 					return true;
 				}
-				catch (DbEntityValidationException e)
+				catch
 				{
-					foreach (var even in e.EntityValidationErrors)
-					{
-						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-							even.Entry.Entity.GetType().Name, even.Entry.State);
-						foreach (var ve in even.ValidationErrors)
-						{
-							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-								ve.PropertyName, ve.ErrorMessage);
-						}
-					}
-					return false;
+					throw;
 				}
-				
+
 			}
 		}
 
@@ -432,19 +402,9 @@ namespace Chinmaya.Registration.DAL
 				{
 					_ctx.SaveChanges();
 				}
-				catch (DbEntityValidationException e)
+				catch
 				{
-					foreach (var even in e.EntityValidationErrors)
-					{
-						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-							even.Entry.Entity.GetType().Name, even.Entry.State);
-						foreach (var ve in even.ValidationErrors)
-						{
-							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-								ve.PropertyName, ve.ErrorMessage);
-						}
-					}
-
+					throw;
 				}
 			}
 		}
@@ -469,20 +429,9 @@ namespace Chinmaya.Registration.DAL
 					_ctx.SaveChanges();
 					return true;
 				}
-				catch (DbEntityValidationException e)
+				catch
 				{
-					foreach (var even in e.EntityValidationErrors)
-					{
-						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-							even.Entry.Entity.GetType().Name, even.Entry.State);
-						foreach (var ve in even.ValidationErrors)
-						{
-							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-								ve.PropertyName, ve.ErrorMessage);
-						}
-					}
-					return false;
-
+					throw;
 				}
 			}
 		}
@@ -509,19 +458,9 @@ namespace Chinmaya.Registration.DAL
 				{
 					_ctx.SaveChanges();
 				}
-				catch (DbEntityValidationException e)
+				catch
 				{
-					foreach (var even in e.EntityValidationErrors)
-					{
-						Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-							even.Entry.Entity.GetType().Name, even.Entry.State);
-						foreach (var ve in even.ValidationErrors)
-						{
-							Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-								ve.PropertyName, ve.ErrorMessage);
-						}
-					}
-
+					throw;
 				}
 			}
 		}

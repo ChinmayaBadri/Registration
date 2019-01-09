@@ -26,11 +26,11 @@ namespace Chinmaya.BAL.Controllers
                 _payment.PostCheckPayment(obj);
                 return Ok("Success");
             }
-            catch (Exception)
-            {
-                return Ok("Something went wrong");
-            }
-        }
+			catch
+			{
+				throw;
+			}
+		}
 
 		/// <summary>
 		/// saves Event Registration details 
@@ -45,9 +45,9 @@ namespace Chinmaya.BAL.Controllers
 				_payment.PostEventRegistration(obj);
 				return Ok("Success");
 			}
-			catch (Exception)
+			catch
 			{
-				return Ok("Something went wrong");
+				throw;
 			}
 		}
 	}

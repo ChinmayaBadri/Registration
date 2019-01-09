@@ -61,11 +61,11 @@ namespace Chinmaya.BAL.Controllers
                 string res = _event.PostEvent(obj);
                 return res;
             }
-            catch (Exception e)
-            {
-				return e.Message;
-            }
-        }
+			catch
+			{
+				throw;
+			}
+		}
 
 		/// <summary>
 		/// adds event
@@ -79,9 +79,9 @@ namespace Chinmaya.BAL.Controllers
 			{
 				return _event.DeleteEvent(Id);
 			}
-			catch (Exception)
+			catch
 			{
-				return "Something went wrong";
+				throw;
 			}
 		}
 
@@ -98,11 +98,11 @@ namespace Chinmaya.BAL.Controllers
                 _event.AddtoDirectory(id);
                 return Ok("Success");
             }
-            catch (Exception)
-            {
-                return Ok("Something went wrong");
-            }
-        }
+			catch
+			{
+				throw;
+			}
+		}
 
 		/// <summary>
 		/// get event details

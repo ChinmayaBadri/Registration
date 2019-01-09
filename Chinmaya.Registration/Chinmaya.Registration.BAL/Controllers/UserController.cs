@@ -97,9 +97,9 @@ namespace Chinmaya.Registration.BAL.Controllers
 				_user.PostUser(obj);
 				return Ok("Success");
 			}
-			catch (Exception)
+			catch
 			{
-				return Ok("Something went wrong");
+				throw;
 			}
 		}
 
@@ -116,9 +116,9 @@ namespace Chinmaya.Registration.BAL.Controllers
 				_user.PostFamilyMember(obj);
 				return Ok("Success");
 			}
-			catch (Exception)
+			catch
 			{
-				return Ok("Something went wrong");
+				throw;
 			}
 		}
 
@@ -204,13 +204,11 @@ namespace Chinmaya.Registration.BAL.Controllers
 		{
 			try
 			{
-				return _user.UpdatePassword(obj);
-				//return Ok("Success");
+				return _user.UpdatePassword(obj);				
 			}
-			catch (Exception)
+			catch
 			{
-				return false;
-				//return Ok("Something went wrong");
+				throw;
 			}
 		}
 
@@ -227,9 +225,9 @@ namespace Chinmaya.Registration.BAL.Controllers
 				_user.UpdatePhone(obj);
 				return Ok("Success");
 			}
-			catch (Exception)
+			catch
 			{
-				return Ok("Something went wrong");
+				throw;
 			}
 		}
 
@@ -246,9 +244,9 @@ namespace Chinmaya.Registration.BAL.Controllers
 				_user.UpdateEmailAddress(obj);
 				return Ok("Success");
 			}
-			catch (Exception)
+			catch
 			{
-				return Ok("Something went wrong");
+				throw;
 			}
 		}
 
@@ -266,9 +264,9 @@ namespace Chinmaya.Registration.BAL.Controllers
 				_user.UpdateAddress(obj);
 				return Ok("Success");
 			}
-			catch (Exception)
+			catch
 			{
-				return Ok("Something went wrong");
+				throw;
 			}
 		}
 

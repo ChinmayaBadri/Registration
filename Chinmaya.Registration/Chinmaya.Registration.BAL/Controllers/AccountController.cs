@@ -195,11 +195,11 @@ namespace Chinmaya.Registration.BAL.Controllers
                 _Account.ChangeAccountType(id);
                 return Ok("Success");
             }
-            catch (Exception)
-            {
-                return Ok("Something went wrong");
-            }
-        }
+			catch
+			{
+				throw;
+			}
+		}
 
         /// <summary>
         /// gets user account type

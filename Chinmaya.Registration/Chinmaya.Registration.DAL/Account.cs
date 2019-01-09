@@ -99,9 +99,9 @@ namespace Chinmaya.Registration.DAL
 				}
 				return string.Empty;
 			}
-			catch (Exception)
+			catch
 			{
-				return string.Empty;
+				throw;
 			}
 
 		}
@@ -134,9 +134,9 @@ namespace Chinmaya.Registration.DAL
 					return email;
 				}
 			}
-			catch (Exception)
+			catch
 			{
-				return string.Empty;
+				throw;
 			}
 
 		}
@@ -158,12 +158,13 @@ namespace Chinmaya.Registration.DAL
                     }
                 }
                 return string.Empty;
-            } catch(Exception)
-            {
-                return string.Empty;
             }
-            
-        }
+			catch
+			{
+				throw;
+			}
+
+		}
 
         /// <summary>
         /// Gets security questions by email
