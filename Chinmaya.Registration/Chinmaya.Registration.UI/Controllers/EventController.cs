@@ -59,8 +59,6 @@ namespace Chinmaya.Registration.UI.Controllers
 			em.weekday = await _common.GetWeekdayData();
 			em.frequencies = await _common.GetFrequencyData();
 			em.sessions = await _common.GetSessionData();
-			em.StartDate = DateTime.Now;
-			em.EndDate = DateTime.Now;
 			em.StartTime = TimeSpan.FromTicks(DateTime.Now.Ticks);
 			em.EndTime = TimeSpan.FromTicks(DateTime.Now.Ticks);
 			em.HolidayDate = DateTime.Now;
