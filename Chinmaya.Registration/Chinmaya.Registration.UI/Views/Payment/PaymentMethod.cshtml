@@ -82,36 +82,36 @@
 							<div class="paymentMethodCheck" id="paymentMethodCheck">
 								<div class="row">
 									<div class="col-md-6">
-										@Html.LabelFor(m => m.AccountHolderName)
+										@Html.LabelFor(m => m.AccountHolderName, new { @class = "requiredA" })
 										@Html.TextBoxFor(m => m.AccountHolderName, new { @class = "form-control" })
 										@Html.ValidationMessageFor(m => m.AccountHolderName, "", new { @class = "text-danger" })
 									</div>
 									<div class="col-md-6">
-										@Html.LabelFor(m => m.AccountTypeId)
-										@Html.DropDownList("AccountTypeId", new SelectList(ViewBag.AccountType, "Id", "Name"), "Select", new { @class = "form-control" })
+										@Html.LabelFor(m => m.AccountTypeId, new { @class = "requiredA" })
+										@Html.DropDownList("AccountTypeId", new SelectList(ViewBag.AccountType, "Id", "Name"), "Select", new { @class = "form-control", @style = "height: 35px;" })
 										@Html.ValidationMessageFor(m => m.AccountTypeId, "", new { @class = "text-danger" })
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-md-6">
-										@Html.LabelFor(m => m.BankName)
+										@Html.LabelFor(m => m.BankName, new { @class = "requiredA" })
 										@Html.TextBoxFor(m => m.BankName, new { @class = "form-control" })
 										@Html.ValidationMessageFor(m => m.BankName, "", new { @class = "text-danger" })
 									</div>
 									<div class="col-md-6">
-										@Html.LabelFor(m => m.AccountNumber)
+										@Html.LabelFor(m => m.AccountNumber, new { @class = "requiredA" })
 										@Html.TextBoxFor(m => m.AccountNumber, new { @class = "form-control" })
 										@Html.ValidationMessageFor(m => m.AccountNumber, "", new { @class = "text-danger" })
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-md-6">
-										@Html.LabelFor(m => m.RoutingNumber)
+										@Html.LabelFor(m => m.RoutingNumber, new { @class = "requiredA" })
 										@Html.TextBoxFor(m => m.RoutingNumber, new { @class = "form-control" })
 										@Html.ValidationMessageFor(m => m.RoutingNumber, "", new { @class = "text-danger" })
 									</div>
 									<div class="col-md-6">
-										@Html.LabelFor(m => m.ConfirmAccountNumber)
+										@Html.LabelFor(m => m.ConfirmAccountNumber, new { @class = "requiredA" })
 										@Html.TextBoxFor(m => m.ConfirmAccountNumber, new { @class = "form-control" })
 										@Html.ValidationMessageFor(m => m.ConfirmAccountNumber, "", new { @class = "text-danger" })
 									</div>
@@ -136,13 +136,11 @@
 			$("#paymentMethodCheck")
 				.find(".field-validation-error")
 				.html('');
-			$('#btn_submit').attr('disabled', true);
 		});
 			$("#CheckPaymentMethod").on("change", function () {
 				var paymentMethod = $(this).val();
 				if (paymentMethod) {
 					$("#paymentMethodCheck").show();
-					//$('#btn_submit').attr('disabled', false);
 				}
 				else
 				{
@@ -153,7 +151,6 @@
 				var paymentMethod = $(this).val();
 				if (paymentMethod) {
 					$("#paymentMethodCheck").hide();
-					//$('#btn_submit').attr('disabled', true);
 				}
 			});
 
