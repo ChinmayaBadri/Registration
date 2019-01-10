@@ -75,7 +75,7 @@
 						<div class="col-md-6">
 							@Html.LabelFor(m => m.DOB, new { @class = "requiredA" })
 							<div class="input-group date">
-								@Html.TextBoxFor(m => m.DOB, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "DOB", @value = "" })
+								@Html.TextBoxFor(m => m.DOB, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "DOB", @value = "", @style = "height: 35px;" })
 								<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
 							</div>
 
@@ -85,13 +85,13 @@
 
 						<div class="col-md-6">
 							@Html.LabelFor(m => m.GenderData, new { @class = "requiredA" })
-							@Html.DropDownList("GenderData", new SelectList(ViewBag.Gender, "Id", "Name", ViewBag.SelectedGender), "Select", new { @class = "form-control" })
+							@Html.DropDownList("GenderData", new SelectList(ViewBag.Gender, "Id", "Name", ViewBag.SelectedGender), "Select", new { @class = "form-control", @style = "height: 35px;" })
 							@Html.ValidationMessageFor(m => m.GenderData, "", new { @class = "text-danger" })
 						</div>
 
 						<div class="col-md-6">
 							@Html.LabelFor(m => m.AgeGroupData)					
-							@Html.DropDownListFor(m => m.AgeGroupData, new SelectList(ViewBag.AgeGroup, "Id", "Name", ViewBag.SelectedAgeGroup), "Select", new { @class = "form-control" })
+							@Html.DropDownListFor(m => m.AgeGroupData, new SelectList(ViewBag.AgeGroup, "Id", "Name", ViewBag.SelectedAgeGroup), "Select", new { @class = "form-control", @style = "height: 35px;" })
 							
 						</div>
 

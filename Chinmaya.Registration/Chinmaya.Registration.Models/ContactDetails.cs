@@ -23,17 +23,20 @@ namespace Chinmaya.Registration.Models
 		[Required]
 		public int State { get; set; }
 		[DisplayName("Zipcode")]
+		[RegularExpression(@"^\d{5}(-\d{4})?$", ErrorMessage = "Invalid Zip")]
 		[Required]
 		[StringLength(10, ErrorMessage = "ZipCode should not be more than 10 characters")]
 		public string ZipCode { get; set; }
 		[DisplayName("Home Phone")]
 		[Required]
-		[StringLength(20, ErrorMessage = "Home Phone should not be more than 20 characters")]
+		[RegularExpression(@"^(\d{10})$", ErrorMessage = "Home Phone")]
+		//[StringLength(20, ErrorMessage = "Home Phone should not be more than 20 characters")]
 		public string HomePhone { get; set; }
 		[DisplayName("Country")]
 		[Required]
 		public int Country { get; set; }
-		[StringLength(20, ErrorMessage = "Cell Phone should not be more than 20 characters")]
+		//[StringLength(20, ErrorMessage = "Cell Phone should not be more than 20 characters")]
+		[RegularExpression(@"^(\d{10})$", ErrorMessage = "Wrong Cell Phone")]
 		[DisplayName("Cell Phone")]
 		public string CellPhone { get; set; }
 	}
