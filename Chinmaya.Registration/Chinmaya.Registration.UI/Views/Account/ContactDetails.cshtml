@@ -106,14 +106,14 @@
 							</div>
 							<div class="col-md-6">
 								@Html.LabelFor(m => m.Country, new { @class = "requiredA" })
-								@Html.DropDownList("Country", new SelectList(ViewBag.CountryList, "Id", "Name", ViewBag.SelectedCountry), "Select", new { @class = "form-control" })
+								@Html.DropDownList("Country", new SelectList(ViewBag.CountryList, "Id", "Name", ViewBag.SelectedCountry), "Select", new { @class = "form-control", @style = "height: 35px;" })
 								@Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-6">
 								@Html.LabelFor(m => m.State, new { @class = "requiredA" })
-								@Html.DropDownList("State", new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Name", ViewBag.SelectedState), "Select State", new { @class = "form-control" })
+								@Html.DropDownList("State", new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Name", ViewBag.SelectedState), "Select State", new { @class = "form-control", @style = "height: 35px;" })
 								@Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger" })
 							</div>
 							<div class="col-md-6">
