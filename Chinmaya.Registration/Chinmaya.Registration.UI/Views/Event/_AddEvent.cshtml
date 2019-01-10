@@ -68,17 +68,17 @@
 						@Html.DropDownList("SessionId", new SelectList(Model.sessions, "Id", "Name"), "Select", new { @class = "form-control", @style = "height: 35px;" })
 						@Html.ValidationMessageFor(m => m.SessionId, "", new { @class = "text-danger" })
 					</div>
-					<div class="col-md-4" id="StartDate">
+					<div class="col-md-4">
 						@Html.LabelFor(m => m.StartDate)
-						<div class="input-group date">
+						<div class="input-group">
 							@Html.TextBoxFor(m => m.StartDate, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "StartDate", @value = "", @style = "height: 35px;" })
 							<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
 						</div>
 						@Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
 					</div>
-					<div class="col-md-4" id="EndDate">
+					<div class="col-md-4">
 						@Html.LabelFor(m => m.EndDate)
-						<div class="input-group date">
+						<div class="input-group">
 							@Html.TextBoxFor(m => m.EndDate, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "EndDate", @value = "", @style = "height: 35px;" })
 							<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
 						</div>
@@ -88,18 +88,18 @@
 
 				<div class="row">
 					<div class="col-md-4">
-							@Html.LabelFor(m => m.StartTime, new { @class = "requiredA" })
-							<div class='input-group date' id='datetimepicker1'>
-								@Html.TextBoxFor(m => m.StartTime, new { @class = "form-control", @type = "text", @Name = "StartTime", @style = "height: 35px;" })
-								<span class="input-group-addon">
-									<span class="glyphicon glyphicon-time"></span>
-								</span>
-							</div>
-							@Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "text-danger" })
+						@Html.LabelFor(m => m.StartTime, new { @class = "requiredA" })
+						<div class='input-group'>
+							@Html.TextBoxFor(m => m.StartTime, new { @class = "form-control", @type = "text", @Name = "StartTime", @style = "height: 35px;" })
+							<span class="input-group-addon">
+								<span class="glyphicon glyphicon-time"></span>
+							</span>
 						</div>
+						@Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "text-danger" })
+					</div>
 					<div class="col-md-4">
 						@Html.LabelFor(m => m.EndTime, new { @class = "requiredA" })
-						<div class='input-group date' id='datetimepicker2'>
+						<div class='input-group'>
 							@*@Html.TextBoxFor(m => m.EndTime)*@
 							@Html.TextBoxFor(m => m.EndTime, new { @class = "form-control", @type = "text", @Name = "EndTime", @style = "height: 35px;" })
 							<span class="input-group-addon">

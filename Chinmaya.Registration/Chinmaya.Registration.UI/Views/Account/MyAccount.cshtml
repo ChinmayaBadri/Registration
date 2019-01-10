@@ -25,16 +25,16 @@
 
 			<ul class="menu-content collapse out" id="menu-content">
 				<li class="collapsed" aria-expanded="false" data-target="#account" data-toggle="collapse">
-					<a href="#"> Account Settings <span class="arrow"></span></a>
+					<a href="javascript: void(0);"> Account Settings <span class="arrow"></span></a>
 				</li>
 
 				<ul class="sub-menu collapse" id="account">
 					<li><a class="Password" data-toggle="modal" data-target="#changePassword"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
-					<li class="active"><a href="#"><img alt="" src="~/Content/img/update-family-info-active.png"> Update Family Info</a></li>
+					<li class="active"><a href="javascript: void(0);"><img alt="" src="~/Content/img/update-family-info-active.png"> Update Family Info</a></li>
 				</ul>
 
 				<li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
-					<a href="#"> Update Contact Info <span class="arrow"></span></a>
+					<a href="javascript: void(0);"> Update Contact Info <span class="arrow"></span></a>
 				</li>
 				<ul class="sub-menu collapse" id="contact">
 					<li><a class="Phone" id="@User.Identity.Name" data-toggle="modal" data-target="#changePhone"><img alt="" src="~/Content/img/phone.png"> Phone</a></li>
@@ -43,15 +43,15 @@
 				</ul>
 
 				<li class="collapsed" aria-expanded="false" data-target="#payment" data-toggle="collapse">
-					<a href="#"> Payment Details <span class="arrow"></span></a>
+					<a href="javascript: void(0);"> Payment Details <span class="arrow"></span></a>
 				</li>
 				<ul class="sub-menu collapse" id="payment">
-					<li><a href="#"><img alt="" src="~/Content/img/past-transations.png"> Past Transactions</a></li>
-					<li><a href="#"><img alt="" src="~/Content/img/print-tax.png"> Print Tax Receipts</a></li>
+					<li><a href="javascript: void(0);"><img alt="" src="~/Content/img/past-transations.png"> Past Transactions</a></li>
+					<li><a href="javascript: void(0);"><img alt="" src="~/Content/img/print-tax.png"> Print Tax Receipts</a></li>
 				</ul>
 
 				<li>
-					<a href="#">
+					<a href="javascript: void(0);">
 						Badri Directory
 					</a>
 				</li>
@@ -66,7 +66,7 @@
 				@if (!Model.IsIndividual)
 				{
 					<div class="col-md-6 text-right">
-						<a class="orange-links" id="AddFamilyMember" href="#"><i class="material-icons">add_circle_outline</i> Add Family Member</a>
+						<a class="orange-links" id="AddFamilyMember" href="javascript: void(0);"><i class="material-icons">add_circle_outline</i> Add Family Member</a>
 					</div>
 				}
 				<div class="modal fade" id="FamilyMemberPartial" role="dialog"></div>
@@ -105,7 +105,7 @@
 									}
 									@if (@m.Relationship != "Self")
 									{
-										<td id="@m.Id" class="editFamilyMember"><a href="#" data-toggle="modal" data-target="#EditModal" class="Edit"><span class="label label-orange">Edit</span></a></td>
+										<td id="@m.Id" class="editFamilyMember"><a href="javascript: void(0);" data-toggle="modal" data-target="#EditModal" class="Edit"><span class="label label-orange">Edit</span></a></td>
 									}
 								</tr>
 							}

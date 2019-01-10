@@ -24,7 +24,7 @@
 
 		<ul class="menu-content collapse out" id="menu-content">
 			<li class="collapsed" aria-expanded="false" data-target="#account" data-toggle="collapse">
-				<a href="#"> Account Settings <span class="arrow"></span></a>
+				<a href="javascript: void(0);"> Account Settings <span class="arrow"></span></a>
 			</li>
 
 			<ul class="sub-menu collapse" id="account">
@@ -32,7 +32,7 @@
 			</ul>
 
 			<li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
-				<a href="#"> Update Contact Info <span class="arrow"></span></a>
+				<a href="javascript: void(0);"> Update Contact Info <span class="arrow"></span></a>
 			</li>
 			<ul class="sub-menu collapse" id="contact">
 				<li><a class="Phone" id="@User.Identity.Name" data-toggle="modal" data-target="#changePhone"><img alt="" src="~/Content/img/phone.png"> Phone</a></li>
@@ -47,7 +47,7 @@
 		<div class="row mb-3">
 			<div class="col-md-6 table-title">Event Information</div>
 			<div class="col-md-6 text-right">
-				<a class="orange-links" id="AddEvent" href="#"><i class="material-icons">add_circle_outline</i> Add Event</a>
+				<a class="orange-links" id="AddEvent" href="javascript: void(0);"><i class="material-icons">add_circle_outline</i> Add Event</a>
 			</div>
 		</div>
 		<div class="row">
@@ -72,7 +72,7 @@
 								<td>@ev.Weekday</td>
 								<td>@ev.Frequency</td>
 								<td>$@ev.ChangeAmount</td>
-								<td id="@ev.Id" class="editEvent"><a href="#" data-toggle="modal" data-target="#EditEventModal" class="Edit"><span class="label label-orange">Edit</span></a></td>
+								<td id="@ev.Id" class="editEvent"><a href="javascript: void(0);" data-toggle="modal" data-target="#EditEventModal" class="Edit"><span class="label label-orange">Edit</span></a></td>
 								<td id="@ev.Id" class="deleteEvent"><span class="label label-orange">Delete</span></td>
 							</tr>
 						}
