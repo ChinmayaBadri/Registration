@@ -72,15 +72,15 @@ namespace Chinmaya.Registration.UI.Controllers
 					var user = await Utility.DeserializeObject<UserModel>(userResponseMessage);
 					if (user != null)
 					{
-                        if (!user.EmailConfirmed)
-                        {
-                            ViewBag.IsUserActivated = false;
-                            ViewBag.UserNotActivated = "Please verify your registered email address and try to login again.";
-                            return View("Login");
-                        }
+						if (!user.EmailConfirmed)
+						{
+							ViewBag.IsUserActivated = false;
+							ViewBag.UserNotActivated = "Please verify your registered email address and try to login again.";
+							return View("Login");
+						}
 						HttpResponseMessage roleNameResponseMessage = await Utility.GetObject("/api/User/" + user.RoleId, true);
 						string roleName = await Utility.DeserializeObject<string>(roleNameResponseMessage);
-                        List<string> userRoles = new List<string>{ roleName };
+						List<string> userRoles = new List<string> { roleName };
 
 						CustomPrincipalSerializeModel serializeModel = new CustomPrincipalSerializeModel();
 						serializeModel.UserId = user.Id;
@@ -102,23 +102,28 @@ namespace Chinmaya.Registration.UI.Controllers
 						Response.Cookies.Add(faCookie);
 						SessionVar.LoginUser = user;
 
-                        if (!string.IsNullOrEmpty(returnUrl)) return Redirect(returnUrl);
-                        else
-                        {
-                            if (roleName.Contains("Admin"))
-                            {
-                                return RedirectToAction("Index", "Admin");
-                            }
-                            else if (roleName.Contains("User"))
-                            {
-                                return RedirectToAction("MyAccount", "Account");
-                            }
-                            else
-                            {
-                                return RedirectToAction("Login", "Account");
-                            }
-                        }
-                    }
+						if (!string.IsNullOrEmpty(returnUrl)) return Redirect(returnUrl);
+						else
+						{
+							if (roleName.Contains("Admin"))
+							{
+								return RedirectToAction("Index", "Admin");
+							}
+							else if (roleName.Contains("User"))
+							{
+								return RedirectToAction("MyAccount", "Account");
+							}
+							else
+							{
+								return RedirectToAction("Login", "Account");
+							}
+						}
+					}
+					else
+					{
+						ViewBag.Message = "Please verify email and password and try to login again.";
+						return View("Login");
+					}
 				}
 			}
 			return View(model);
