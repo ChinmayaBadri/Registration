@@ -7,7 +7,8 @@ namespace Chinmaya.Registration.Models
     {
         [Required]
         [Display(Name ="User Name")]
-        public string UserName { get; set; }
+		[EmailAddress(ErrorMessage = "Invalid Email Address")]
+		public string UserName { get; set; }
 
 
         [Required]
