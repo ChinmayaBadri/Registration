@@ -46,16 +46,18 @@ namespace Chinmaya.Registration.Models
 		public int SessionId { get; set; }
 		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
 		[DataType(DataType.Date)]
-		public Nullable<System.DateTime> StartDate { get; set; }
+        [DisplayName("Start Date")]
+        public Nullable<System.DateTime> StartDate { get; set; }
 		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
 		[DataType(DataType.Date)]
-		public Nullable<System.DateTime> EndDate { get; set; }
+        [DisplayName("End Date")]
+        public Nullable<System.DateTime> EndDate { get; set; }
 		[Required]
 		[DisplayFormat(DataFormatString = "{0:hh:mm}", ApplyFormatInEditMode = true)]
-		public System.TimeSpan StartTime { get; set; }
+        public System.TimeSpan StartTime { get; set; }
 		[Required]
 		[DisplayFormat(DataFormatString = "{0:hh:mm}", ApplyFormatInEditMode = true)]
-		public System.TimeSpan EndTime { get; set; }
+        public System.TimeSpan EndTime { get; set; }
 
 		[StringLength(300, ErrorMessage = "Location should not be more than 300 characters")]
 		public string Location { get; set; }
@@ -68,7 +70,8 @@ namespace Chinmaya.Registration.Models
 
 		[Required]
 		[DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
-		public System.DateTime HolidayDate { get; set; }
+        [DisplayName("Holiday Date")]
+        public System.DateTime HolidayDate { get; set; }
 
 		public List<Weekdays> weekday { get; set; }
 		public List<Frequencies> frequencies { get; set; }

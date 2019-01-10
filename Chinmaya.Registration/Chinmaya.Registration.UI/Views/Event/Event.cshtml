@@ -84,28 +84,28 @@
 </div>
 <!-- Modal -->
 
-<div class="modal fade bd-example-modal-lg" id="eventModal" tabindex="-1"  role="dialog" aria-labelledby="eventModalTitle" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="eventModal" tabindex="-1"  role="dialog" aria-hidden="true">
 
 	@Html.Partial("../Event/_AddEvent", Model.events)
 
 </div>
-<div class="modal fade bd-example-modal-lg" id="changePassword" tabindex="-1" role="dialog">
+<div class="modal fade bd-example-modal-lg" id="changePassword" tabindex="-1" role="dialog" aria-hidden="true">
 
 	@Html.Partial("../Common/_ChangePassword", Model.updatePasswordModel)
 
 </div>
-<div class="modal fade bd-example-modal-lg" id="changePhone" tabindex="-1" role="dialog">
+<div class="modal fade bd-example-modal-lg" id="changePhone" tabindex="-1" role="dialog" aria-hidden="true">
 
 	@Html.Partial("../Common/_ChangePhone", Model.updatePhone)
 
 </div>
-<div class="modal fade bd-example-modal-lg" id="changeEmail" tabindex="-1" role="dialog">
+<div class="modal fade bd-example-modal-lg" id="changeEmail" tabindex="-1" role="dialog" aria-hidden="true">
 
 	@Html.Partial("../Common/_ChangeEmail", Model.updateMailModel)
 
 </div>
 
-<div class="modal fade bd-example-modal-lg" id="changeAddress" tabindex="-1" role="dialog">
+<div class="modal fade bd-example-modal-lg" id="changeAddress" tabindex="-1" role="dialog" aria-hidden="true">
 
 	@Html.Partial("../Common/_ChangeAddress", Model.updateAddressModel)
 

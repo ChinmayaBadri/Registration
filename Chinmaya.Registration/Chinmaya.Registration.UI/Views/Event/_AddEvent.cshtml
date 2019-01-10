@@ -1,6 +1,6 @@
 ﻿@model Chinmaya.Registration.Models.EventsModel
 
-<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal-dialog modal-dialog-centered modal-lg">
 	<div class="modal-content">
 		<div class="modal-body">
 
@@ -88,7 +88,7 @@
 
 				<div class="row">
 					<div class="col-md-4">
-						@Html.LabelFor(m => m.StartTime, new { @class = "requiredA" })
+						@Html.Label("Start Time", new { @class = "requiredA" })
 						<div class='input-group'>
 							@Html.TextBoxFor(m => m.StartTime, new { @class = "form-control", @type = "text", @Name = "StartTime", @style = "height: 35px;" })
 							<span class="input-group-addon">
@@ -98,7 +98,7 @@
 						@Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "text-danger" })
 					</div>
 					<div class="col-md-4">
-						@Html.LabelFor(m => m.EndTime, new { @class = "requiredA" })
+						@Html.Label("End Time", new { @class = "requiredA" })
 						<div class='input-group'>
 							@*@Html.TextBoxFor(m => m.EndTime)*@
 							@Html.TextBoxFor(m => m.EndTime, new { @class = "form-control", @type = "text", @Name = "EndTime", @style = "height: 35px;" })
@@ -150,14 +150,14 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<button class="btn btn-secondary float-left mr-3" id="btnCancel " type="button" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
+						<button class="btn btn-secondary float-left mr-3" id="btnCancel " type="button" data-dismiss="modal" name="prevBtn" aria-hidden="true">Cancel <i class="material-icons">cancel</i></button>
 						@if (!string.IsNullOrEmpty(Model.Id))
 						{
-							<button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Update <i class="material-icons">check_circle</i></button>
+							<button class="btn btn-orange" id="btnsubmit" type="submit" data-toggle="collapse" name="nextBtn">Update <i class="material-icons">check_circle</i></button>
 						}
 						else
 						{
-							<button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse" name="nextBtn">Submit <i class="material-icons">check_circle</i></button>
+							<button class="btn btn-orange" id="btnsubmit" type="submit" data-toggle="collapse" name="nextBtn">Submit <i class="material-icons">check_circle</i></button>
 						}
 
 					</div>
