@@ -7,7 +7,9 @@
 }
 
 <style>
-
+	.nav-link active {
+		color:antiquewhite;
+	}
 
 	td.details-control {
 		background: url('../Content/img/details_open.png') no-repeat center center;
@@ -89,7 +91,20 @@
 <script>
 
 	$(document).ready(function () {
-		
+
+		//$("li nav-item").on("click", function () {
+		//	$(".li nav-item").removeClass("nav-link active");
+		//	$(this).addClass("nav-link active");
+		//});
+
+		//$('ul.navbar-nav li>').click(function (e) {
+		//	$('.navbar-nav li').removeClass('active');
+		//	var $this = $(this);
+		//	$this.addClass('active');
+		//	//e.preventDefault();
+
+		//});
+
 		function format(Id, tr, row) {
 			$.ajax({
 				"type": "GET",

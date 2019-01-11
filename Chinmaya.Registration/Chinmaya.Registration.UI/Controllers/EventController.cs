@@ -61,7 +61,6 @@ namespace Chinmaya.Registration.UI.Controllers
 			em.sessions = await _common.GetSessionData();
 			em.StartTime = TimeSpan.FromTicks(DateTime.Now.Ticks);
 			em.EndTime = TimeSpan.FromTicks(DateTime.Now.Ticks);
-			em.HolidayDate = DateTime.Now;
 			return PartialView("_AddEvent", em);
 		}
 
