@@ -8,7 +8,7 @@
 
 <style>
 	.nav-link active {
-		color:antiquewhite;
+		color: #f8430c;
 	}
 
 	td.details-control {
@@ -86,7 +86,6 @@
 		@Html.Partial("../Common/_ChangeAddress", Model.updateAddressModel)
 
 	</div>
-
 
 <script>
 
@@ -186,6 +185,7 @@
 			]
 		});
 		// Add event listener for opening and closing details
+
 		$('#example tbody').on('click', 'td.details-control', function () {
 
 			var tr = $(this).closest('tr');
@@ -209,18 +209,39 @@
 
 		$('#example tbody').on('change', 'input.editor-active', function () {
 			var id = $(this).attr("Id");
-			$.ajax({
-				"url": "../Admin/ChangeAccountType/" + id,
-				"type": "POST",
-				"data": id,
-				success: function (res) {
-					window.location.reload();
-					alert("Account changed to Family Account successfully");
-				},
+			var content = "Would you like to change Account to Family Account? ";
+			
+			$.confirm({
+				title: 'Alert!',
+				 content: content,
+				 buttons: {
+					confirm: {
+						text: 'Okay',
+						btnClass: 'btn-blue',
+						 keys: ['enter', 'shift'],
+						 action: function () {
+						
+							$.ajax({
+								"url": "../Admin/ChangeAccountType/" + id,
+								"type": "POST",
+								"data": id,
+								success: function (res) {
+								window.location.reload();
+								alert("Account changed to Family Account successfully");
+								},
 
+							});
+						 }
+					},
+					 cancel: function () {
+						 $('.editor-active').prop('checked', false); 
+					 }
+					
+				 }
+				 
 			});
-
 		});
+
 		$(".Phone").click(function () {
 			var Email = $(this).attr("id");
 			$.ajax({
@@ -258,7 +279,5 @@
 		});
 
 	});
-
-	
 </script>
 
