@@ -43,7 +43,7 @@ namespace Chinmaya.Registration.Models
 		
 		[DisplayName("Email Address")]
 		[EmailAddress(ErrorMessage = "Invalid Email Address")]
-		[StringLength(256, ErrorMessage = "Email should not be more than 256 characters")]
+		//[StringLength(256, ErrorMessage = "Email should not be more than 256 characters")]
 		public string Email { get; set; }
 
 		public string UpdatedBy { get; set; }

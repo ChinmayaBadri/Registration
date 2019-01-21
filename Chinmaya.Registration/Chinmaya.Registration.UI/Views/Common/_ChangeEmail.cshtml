@@ -3,24 +3,22 @@
     <div class="modal-content">
         <div class="modal-body">
             @using (Ajax.BeginForm("ChangeEmail", "Common", FormMethod.Post,
-                        new AjaxOptions
-                        {
-                            OnSuccess = "OnSuccessChangeEmail"
-                        }))
-            {
+						new AjaxOptions
+						{
+							OnSuccess = "OnSuccessChangeEmail"
+						}, new { id = "form" }))
+			{
                 @Html.AntiForgeryToken()
                 <h5 class="modal-title">Change Email</h5>
+				<p><span class="red-txt">*</span> denotes a required field</p>
                     <div class="row">
                         @Html.HiddenFor(m => m.userId, new { id = "uId" })
                         <div class="col-md-12">
-                            @Html.LabelFor(m => m.email, new { @class = "requiredA" })
-                            @Html.TextBoxFor(m => m.email, new { @class = "form-control", @Name = "Email" })
-                            @Html.ValidationMessageFor(m => m.email, "", new { @class = "text-danger" })
+                            @Html.LabelFor(m => m.Email, new { @class = "requiredA" })
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Name = "Email" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
-
-
                     <div class="row">
                         <div class="col-md-12">
                             <button class="btn btn-secondary float-left mr-3" id="btnCancelEmail" type="button" data-dismiss="modal" aria-hidden="true">Cancel <i class="material-icons">cancel</i></button>
@@ -32,6 +30,10 @@
     </div>
 </div>
 <script>
+	$(document).ready(function () {
+		$.validator.unobtrusive.parse($("form"));
+	});
+
 	function OnSuccessChangeEmail(response) {
 		if (typeof (response.Message) !== 'undefined') {
 			if (response.IsSuccess) {
@@ -41,8 +43,6 @@
 			}
 			toastr.error(response.Message);
 		}
-		$("#btnsubmitEmail").prop("disabled", false);
-		$("#btnCancelEmail").prop("disabled", false);
 	}
 </script>
 

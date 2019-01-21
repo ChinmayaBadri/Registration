@@ -11,6 +11,7 @@ namespace Chinmaya.Registration.Models
 	public class ContactDetails
 	{
 		public string Email { get; set; }
+
 		[Required]
 		[StringLength(500, ErrorMessage = "Address should not be more than 500 characters")]
 		[DisplayName("Address")]
@@ -25,7 +26,7 @@ namespace Chinmaya.Registration.Models
 		[DisplayName("Zipcode")]
 		[RegularExpression(@"^\d{5}(-\d{4})?$", ErrorMessage = "Invalid Zip")]
 		[Required]
-		[StringLength(10, ErrorMessage = "ZipCode should not be more than 10 characters")]
+		//[StringLength(10, ErrorMessage = "ZipCode should not be more than 10 characters")]
 		public string ZipCode { get; set; }
 		[DisplayName("Home Phone")]
 		[Required]

@@ -4,26 +4,27 @@
     <div class="modal-content">
         <div class="modal-body">
             @using (Ajax.BeginForm("ChangeAddress", "Common", FormMethod.Post,
-                        new AjaxOptions
-                        {
-                            OnSuccess = "OnSuccessChangeAddress"
-                        }))
-            {
+						new AjaxOptions
+						{
+							OnSuccess = "OnSuccessChangeAddress"
+						}, new { id = "form" }))
+			{
                 @Html.AntiForgeryToken()
                 <h5 class="modal-title">Change Address</h5>
-                    @Html.HiddenFor(m => m.Email, new { id = "contactEmail" })
-                    <div class="row">
-                        <div class="col-md-6">
-                            @Html.LabelFor(m => m.Address, new { @class = "requiredA" })
-                            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
-                        </div>
-                        <div class="col-md-6">
-                            @Html.LabelFor(m => m.Country, new { @class = "requiredA" })
-                            @Html.DropDownList("Country", new SelectList(ViewBag.CountryList, "Id", "Name", ViewBag.SelectedCountry), "Select", new { @class = "form-control", @style = "height: 35px;" })
-                            @Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+				<p><span class="red-txt">*</span> denotes a required field</p>
+				<div class="row">
+					@Html.HiddenFor(m => m.Email, new { id = "contactEmail" })
+					<div class="col-md-6">
+						@Html.LabelFor(m => m.Address, new { @class = "requiredA" })
+						@Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+						@Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+					</div>
+					<div class="col-md-6">
+						@Html.LabelFor(m => m.Country, new { @class = "requiredA" })
+						@Html.DropDownList("Country", new SelectList(ViewBag.CountryList, "Id", "Name", ViewBag.SelectedCountry), "Select", new { @class = "form-control", @style = "height: 35px;" })
+						@Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })
+					</div>
+				</div>
                     <div class="row">
                         <div class="col-md-6">
                             @Html.LabelFor(m => m.State, new { @class = "requiredA" })
@@ -61,6 +62,7 @@
 <script>
 
 	$(document).ready(function () {
+		$.validator.unobtrusive.parse($("form"));
 		var selectedCountry = "@ViewBag.SelectedCountry";
 		var selectedState = "@ViewBag.SelectedState";
 
@@ -107,15 +109,13 @@
 	function OnSuccessChangeAddress(response) {
 		if (typeof (response.Message) !== 'undefined') {
 			if (response.IsSuccess) {
-				toastr.success(response.Message, "Change Address", { timeOut: 3000 });
+				toastr.success(response.Message, { timeOut: 3000 });
 				$('#changeAddress').modal('hide');
 				return;
 			}
 			else
-				toastr.error(response.Message, "Change Address");
+				toastr.error(response.Message);
 		}
-		$("#btnsubmitAddress").prop("disabled", false);
-		$("#btnCancelAddress").prop("disabled", false);
 	}
 	
 </script>

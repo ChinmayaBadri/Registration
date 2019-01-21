@@ -20,7 +20,7 @@
     }
 </style>
 <button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
-<div class="nav-side-menu">
+@*<div class="nav-side-menu">
     <div class="menu-list">
         <ul class="menu-content collapse out" id="menu-content">
             <li class="collapsed" aria-expanded="false" data-target="#account" data-toggle="collapse">
@@ -39,7 +39,7 @@
             </ul>
         </ul>
     </div>
-</div>
+</div>*@
 <div class="bd-content">
     <h3>User Information</h3>
     <div class="col-md-12 table-responsive">
@@ -58,9 +58,7 @@
         </table>
     </div>
 </div>
-@Html.Partial("../Common/_ChangeAccountDetails", Model.updatePasswordModel)
 
-@section scripts{
     <script>
         $(document).ready(function () {
             function format(Id, tr, row) {
@@ -195,4 +193,3 @@
             });
         });
     </script>
-}

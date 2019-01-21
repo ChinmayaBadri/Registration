@@ -246,7 +246,7 @@ namespace Chinmaya.Registration.DAL
 				var eData = _ctx.Users.Where(f => f.Email == Id).FirstOrDefault();
 				if (eData != null)
 				{
-					mail.email = Id;
+					mail.Email = Id;
 				}
 				return mail;
 			}
@@ -421,7 +421,7 @@ namespace Chinmaya.Registration.DAL
 				var user = _ctx.Users.Where(r => r.Id == el.userId).FirstOrDefault();
 				if (user != null)
 				{
-					user.Email = el.email;
+					user.Email = el.Email;
 				}
 				try
 				{

@@ -22,30 +22,7 @@
 </style>
 
 <button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
-<div class="nav-side-menu">
 
-    <div class="menu-list">
-
-        <ul class="menu-content collapse out" id="menu-content">
-            <li class="collapsed" aria-expanded="false" data-target="#account" data-toggle="collapse">
-                <a href="javascript: void(0);"> Account Settings <span class="arrow"></span></a>
-            </li>
-
-            <ul class="sub-menu collapse" id="account">
-                <li><a class="Password" data-toggle="modal" data-target="#changePassword"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
-            </ul>
-
-            <li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
-                <a href="javascript: void(0);"> Update Contact Info <span class="arrow"></span></a>
-            </li>
-            <ul class="sub-menu collapse" id="contact">
-                <li><a class="Phone"><img alt="" src="~/Content/img/phone.png"> Phone</a></li>
-                <li><a class="Email"><img alt="" src="~/Content/img/email.png"> Email</a></li>
-                <li><a class="Address"><img alt="" src="~/Content/img/address.png"> Address</a></li>
-            </ul>
-        </ul>
-    </div>
-</div>
 <div class="bd-content">
     <div class="inner-box">
         <div class="row mb-3">
@@ -89,10 +66,8 @@
 <!-- Modal -->
 
 <div class="modal fade bd-example-modal-lg" id="eventModal" tabindex="-1" role="dialog" aria-hidden="true"></div>
-@Html.Partial("../Common/_ChangeAccountDetails", Model.updatePasswordModel)
-
-@section scripts{
-    <script>
+ 
+<script>
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         });
@@ -173,5 +148,4 @@
                     .html('');
             });
         });
-    </script>
-}
+</script>

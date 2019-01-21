@@ -49,15 +49,12 @@ namespace Chinmaya.Registration.UI.Controllers
                 else
                 {
                     tm.IsSuccess = false;
-                    tm.Message = "Failed to update Password";
+                    tm.Message = "Failed to update Password"; //Old password Does not match
                 }
                 return Json(tm);
             }
-            if (role == "Admin")
-				return RedirectToAction("Index", "Admin");
-			else
-            return RedirectToAction("MyAccount", "Account");
-        }
+			return PartialView("_ChangePassword");
+		}
 
         /// <summary>
         /// Changes user phone no.
@@ -81,10 +78,7 @@ namespace Chinmaya.Registration.UI.Controllers
                 tm.Message = "Phone updated successfully";
                 return Json(tm);
             }
-            if (role == "Admin")
-				return RedirectToAction("Index", "Admin");
-			else
-				return RedirectToAction("MyAccount", "Account");
+			return RedirectToAction("EditPhoneNumber", "Common");
 		}
 
         /// <summary>
@@ -102,7 +96,7 @@ namespace Chinmaya.Registration.UI.Controllers
             if (ModelState.IsValid)
             {
                 string uId = await _account.GetUserIdByEmail(User.Identity.Name);
-                bool isEmailExists = await _account.CheckIsEmailExists(em.email);
+                bool isEmailExists = await _account.CheckIsEmailExists(em.Email);
                 if (isEmailExists)
                 {
                     tm.IsSuccess = false;
@@ -113,17 +107,14 @@ namespace Chinmaya.Registration.UI.Controllers
                 {
                     UpdateEmail emailModel = new UpdateEmail();
                     emailModel.userId = uId;
-                    emailModel.email = em.email;
+                    emailModel.Email = em.Email;
                     HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/UpdateEmailAddress", emailModel, true);
                     tm.IsSuccess = true;
                     tm.Message = "Email updated successfully";
                     return Json(tm);
                 }
             }
-            if (role == "Admin")
-				return RedirectToAction("Index", "Admin");
-			else
-				return RedirectToAction("MyAccount", "Account");
+			return RedirectToAction("EditEmail", "Common");
 		}
 
         /// <summary>
@@ -138,25 +129,23 @@ namespace Chinmaya.Registration.UI.Controllers
         {
             ToastModel tm = new ToastModel();
 			string role = await _common.GetUserRoleName(User.Identity.Name);
-            if (ModelState.IsValid)
-            {
-                ContactDetails cntd = new ContactDetails();
-                cntd.Email = User.Identity.Name;
-                cntd.Address = Info.Address;
-                cntd.City = Info.City;
-                cntd.State = Info.State;
-                cntd.Country = Info.Country;
-                cntd.ZipCode = Info.ZipCode;
-                cntd.HomePhone = Info.HomePhone;
-                HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/UpdateAddress", cntd, true);
-                tm.IsSuccess = true;
-                tm.Message = "Address updated successfully";
-                return Json(tm);
-            }
-            if (role == "Admin")
-				return RedirectToAction("Index", "Admin");
+			if (ModelState.IsValid)
+			{
+				ContactDetails cntd = new ContactDetails();
+				cntd.Email = User.Identity.Name;
+				cntd.Address = Info.Address;
+				cntd.City = Info.City;
+				cntd.State = Info.State;
+				cntd.Country = Info.Country;
+				cntd.ZipCode = Info.ZipCode;
+				cntd.HomePhone = Info.HomePhone;
+				HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/UpdateAddress", cntd, true);
+				tm.IsSuccess = true;
+				tm.Message = "Address updated successfully";
+				return Json(tm);
+			}
 			else
-				return RedirectToAction("MyAccount", "Account");
+				return RedirectToAction("EditAddress", "Common");
 		}
 
         /// <summary>
@@ -168,7 +157,7 @@ namespace Chinmaya.Registration.UI.Controllers
         public PartialViewResult EditEmail()
         {
             UpdateEmail em = new UpdateEmail();
-            em.email = User.Identity.Name;
+            em.Email = User.Identity.Name;
             return PartialView("_ChangeEmail", em);
         }
 
@@ -181,7 +170,8 @@ namespace Chinmaya.Registration.UI.Controllers
         public async Task<PartialViewResult> EditAddress()
         {
             ContactDetails cd = await _user.getAddress(User.Identity.Name);
-            ViewBag.CountryList = await _common.GetCountryData();
+			cd.Email = User.Identity.Name;
+			ViewBag.CountryList = await _common.GetCountryData();
             ViewBag.SelectedCountry = cd.Country;
             ViewBag.SelectedState = cd.State;
             return PartialView("_ChangeAddress", cd);

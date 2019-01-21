@@ -12,7 +12,7 @@ namespace Chinmaya.Registration.Models
 	{
 		public string Email { get; set; }
 
-		[Required]
+		[RegularExpression(@"^(\d{10})$", ErrorMessage = "Invalid Phone Number")]
 		[DisplayName("Phone")]
 		public string OldPhone { get; set; }
 	}

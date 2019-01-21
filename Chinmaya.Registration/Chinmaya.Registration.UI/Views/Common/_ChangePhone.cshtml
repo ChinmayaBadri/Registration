@@ -3,17 +3,17 @@
     <div class="modal-content">
         <div class="modal-body">
             @using (Ajax.BeginForm("ChangePhone", "Common", FormMethod.Post,
-                        new AjaxOptions
-                        {
-                            OnSuccess = "OnSuccessChangePhone"
-                        }))
-            {
+						new AjaxOptions
+						{
+							OnSuccess = "OnSuccessChangePhone"
+						}, new { id = "form" }))
+			{
                 @Html.AntiForgeryToken()
                 <h5 class="modal-title">Change Phone Number</h5>
                     <div class="row">
                         @Html.HiddenFor(m => m.Email, new { id = "pEmail" })
                         <div class="col-md-12">
-                            @Html.LabelFor(m => m.OldPhone, new { @class = "requiredA", @Id = "PhoneValue" })
+                            @Html.LabelFor(m => m.OldPhone, new { @Id = "PhoneValue" })
                             @Html.TextBoxFor(m => m.OldPhone, new { @class = "form-control", @Name = "OldPhone" })
                             @Html.ValidationMessageFor(m => m.OldPhone, "", new { @class = "text-danger" })
 
@@ -31,21 +31,19 @@
     </div>
 </div>
 <script>
-	
+	$(document).ready(function () {
+		$.validator.unobtrusive.parse($("form"));
+	});
+
 	function OnSuccessChangePhone(response) {
 		if (typeof (response.Message) !== 'undefined') {
 			if (response.IsSuccess) {
-				toastr.success(response.Message, "Change Phone", { timeOut: 3000 });
+				toastr.success(response.Message, { timeOut: 3000 });
 				$('#changePhone').modal('hide');
-				setTimeout(function () {
-					window.location.reload();
-				}, 2000);
 				return;
 			}
-			toastr.error(response.Message, "Change Phone");
+			toastr.error(response.Message);
 		}
-		$("#btnsubmitPhone").prop("disabled", false);
-		$("#btnCancelPhone").prop("disabled", false);
 	}
 </script>
 

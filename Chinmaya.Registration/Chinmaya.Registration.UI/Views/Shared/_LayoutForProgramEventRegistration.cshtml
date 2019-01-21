@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>@ViewBag.Title - Chinmaya Mission</title>
+	@Styles.Render("~/Content/css")
+	@Scripts.Render("~/bundles/jquery")
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+</head>
+<body class="theme_bg">
+	<header>
+		<div class="header_top">
+			<a class="navbar-brand" href="javascript: void(0);"><img alt="mainlogo" src="~/Content/img/dashboard-logo.png"></a>
+			<div class="header-right">
+				<input name="search" class="search-field" type="text" placeholder="Search..">
+				<select class="drpdown">
+					<option>Our Other Sites</option>
+				</select>
+				<a class="fab fa-facebook-f" href="javascript: void(0);"></a>
+				<a class="fab fa-twitter" href="javascript: void(0);"></a>
+				<a class="fab fa-google-plus-g" href="javascript: void(0);"></a>
+				<a class="fab fa-linkedin-in" href="javascript: void(0);"></a>
+				<a class="fas fa-plus" href="javascript: void(0);"></a>
+			</div>
+		</div>
+		@if (Session["Menu"] == null)
+		{
+			Session["Menu"] = @Html.Action("_MainMenu", "Base");
+		}
+		@Session["Menu"]
+	</header>
+	<div class="theme_bg">
+		<div class="nav-side-menu">
+			<div class="menu-list">
+				<ul class="menu-content collapse out classes-list" id="menu-content">
+					<li><a href="javascript: void(0);"> About Balavihar Classes </a></li>
+					<li><a href="javascript: void(0);"> Link 2 </a></li>
+					<li><a href="javascript: void(0);"> Link 3 </a></li>
+				</ul>
+			</div>
+		</div>
+
+		@RenderBody()
+		<hr />
+		<footer>
+			<p>&copy; @DateTime.Now.Year - Chinmaya Mission</p>
+		</footer>
+	</div>
+	@Scripts.Render("~/bundles/bootstrap")
+	@Scripts.Render("~/bundles/jqueryval")
+	@RenderSection("scripts", required: false)
+</body>
+</html>

@@ -31,6 +31,70 @@
 			@Session["Menu"]
 		</header>
 		<div class="theme_bg">
+			@if (Chinmaya.Registration.UI.Providers.SessionVar.LoginUser != null)
+			{
+				if (Chinmaya.Registration.UI.Providers.SessionVar.LoginUser.RoleId == 1)
+				{
+					<div class="nav-side-menu">
+						<div class="menu-list">
+						<ul class="menu-content collapse out" id="menu-content">
+							<li class="collapsed" aria-expanded="false" data-target="#account" data-toggle="collapse">
+								<a href="javascript: void(0);"> Account Settings <span class="arrow"></span></a>
+							</li>
+							<ul class="sub-menu collapse" id="account">
+								<li><a class="Password" data-toggle="modal" data-target="#changePassword"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
+							</ul>
+							<li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
+								<a href="javascript: void(0);"> Update Contact Info <span class="arrow"></span></a>
+							</li>
+							<ul class="sub-menu collapse" id="contact">
+								<li><a class="Phone"><img alt="" src="~/Content/img/phone.png"> Phone</a></li>
+								<li><a class="Email"><img alt="" src="~/Content/img/email.png"> Email</a></li>
+								<li><a class="Address"><img alt="" src="~/Content/img/address.png"> Address</a></li>
+							</ul>
+						</ul>
+						</div>
+					</div>
+				}
+				else
+				{
+					<div class="nav-side-menu">
+						<div class="menu-list">
+						<ul class="menu-content collapse out" id="menu-content">
+							<li class="collapsed" aria-expanded="false" data-target="#account" data-toggle="collapse">
+								<a href="javascript: void(0);"> Account Settings <span class="arrow"></span></a>
+							</li>
+						<ul class="sub-menu collapse" id="account">
+							<li><a class="Password" data-toggle="modal" data-target="#changePassword"><label><img alt="" src="~/Content/img/change-password.png"> Change Password</label></a></li>
+							<li class="active"><a href="javascript: void(0);"><label><img alt="" src="~/Content/img/update-family-info-active.png"> Update Family Info</label></a></li>
+						</ul>
+						<li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
+							<a href="javascript: void(0);"> Update Contact Info <span class="arrow"></span></a>
+						</li>
+						<ul class="sub-menu collapse" id="contact">
+							<li><a class="Phone"><label><img alt="" src="~/Content/img/phone.png"> Phone</label></a></li>
+							<li><a class="Email"><label><img alt="" src="~/Content/img/email.png"> Email</label></a></li>
+							<li><a class="Address"><label><img alt="" src="~/Content/img/address.png"> Address</label></a></li>
+						</ul>
+						<li class="collapsed" aria-expanded="false" data-target="#payment" data-toggle="collapse">
+							<a href="javascript: void(0);"> Payment Details <span class="arrow"></span></a>
+						</li>
+						<ul class="sub-menu collapse" id="payment">
+							<li><a href="javascript: void(0);"><label><img alt="" src="~/Content/img/past-transations.png"> Past Transactions</label></a></li>
+							<li><a href="javascript: void(0);"><label><img alt="" src="~/Content/img/print-tax.png"> Print Tax Receipts</label></a></li>
+						</ul>
+						<li>
+							<a href="javascript: void(0);">
+								Badri Directory
+							</a>
+						</li>
+					</ul>
+					</div>
+				</div>
+				}
+			 }
+			 @Html.Partial("../Common/_ChangeAccountDetails", new Chinmaya.Registration.Models.UpdatePasswordModel())
+
 			@RenderBody()
 			<hr />
 			<footer>

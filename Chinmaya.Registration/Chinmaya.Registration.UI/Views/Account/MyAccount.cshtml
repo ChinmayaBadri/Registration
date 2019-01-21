@@ -1,249 +1,147 @@
 ﻿@model Chinmaya.Registration.Models.MyAccountModel
-@using Chinmaya.Models
+
 @{
 	Layout = "~/Views/Shared/_Layout.cshtml";
 	ViewBag.Title = "MyAccount";
 }
-	@*<link href="~/Content/bootstrap-datepicker.standalone.min.css" rel="stylesheet" />
-	<script src="~/Scripts/bootstrap-datepicker.min.js"></script>*@
-	<style>
-		.requiredA:after {
-			content: " *";
-			font-weight: bold;
-			color: red;
-		}
 
-		.field-validation-error {
-			color: red;
-		}
-	</style>	
+<style>
+	.requiredA:after {
+		content: " *";
+		font-weight: bold;
+		color: red;
+	}
 
-	<button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
-	<div class="nav-side-menu">
+	.field-validation-error {
+		color: red;
+	}
+</style>
 
-		<div class="menu-list">
+<button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
 
-			<ul class="menu-content collapse out" id="menu-content">
-				<li class="collapsed" aria-expanded="false" data-target="#account" data-toggle="collapse">
-					<a href="javascript: void(0);"> Account Settings <span class="arrow"></span></a>
-				</li>
-
-				<ul class="sub-menu collapse" id="account">
-					<li><a class="Password" data-toggle="modal" data-target="#changePassword"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
-					<li class="active"><a href="javascript: void(0);"><img alt="" src="~/Content/img/update-family-info-active.png"> Update Family Info</a></li>
-				</ul>
-
-				<li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
-					<a href="javascript: void(0);"> Update Contact Info <span class="arrow"></span></a>
-				</li>
-				<ul class="sub-menu collapse" id="contact">
-					<li><a class="Phone" id="@User.Identity.Name" data-toggle="modal" data-target="#changePhone"><img alt="" src="~/Content/img/phone.png"> Phone</a></li>
-					<li><a class="Email" id="@User.Identity.Name" data-toggle="modal" data-target="#changeEmail"><img alt="" src="~/Content/img/email.png"> Email</a></li>
-					<li><a class="Address" id="@User.Identity.Name" data-toggle="modal" data-target="#changeAddress"><img alt="" src="~/Content/img/address.png"> Address</a></li>
-				</ul>
-
-				<li class="collapsed" aria-expanded="false" data-target="#payment" data-toggle="collapse">
-					<a href="javascript: void(0);"> Payment Details <span class="arrow"></span></a>
-				</li>
-				<ul class="sub-menu collapse" id="payment">
-					<li><a href="javascript: void(0);"><img alt="" src="~/Content/img/past-transations.png"> Past Transactions</a></li>
-					<li><a href="javascript: void(0);"><img alt="" src="~/Content/img/print-tax.png"> Print Tax Receipts</a></li>
-				</ul>
-
-				<li>
-					<a href="javascript: void(0);">
-						Badri Directory
-					</a>
-				</li>
-			</ul>
-		</div>
-	</div>
-	<div class="bd-content">
-		<h3 class="bd-title">My Account</h3>
-		<div class="inner-box">
-			<div class="row mb-3">
-				<div class="col-md-6 table-title">Family Information</div>
-				@if (!Model.IsIndividual)
-				{
-					<div class="col-md-6 text-right">
-						<a class="orange-links" id="AddFamilyMember" href="javascript: void(0);"><i class="material-icons">add_circle_outline</i> Add Family Member</a>
-					</div>
-				}
-				<div class="modal fade" id="FamilyMemberPartial" role="dialog"></div>
-			</div>
-			<div class="row">
-				<div class="col-md-12 table-responsive">
-
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th scope="col">Name</th>
-								<th scope="col">Date of Birth</th>
-								<th scope="col">Relationship</th>
-								<th scope="col">
-									Grade
-									<img id="GradeTooltip" src="~/Content/img/info-icon.png" alt="" title="Grade in school (@Model.familyMemberModel.Year)" />
-								</th>
-								<th scope="col"></th>
-							</tr>
-						</thead>
-						<tbody>
-
-							@foreach (var m in Model.userFamilyMember)
-							{
-								<tr>
-									<td>@(m.FirstName + " " + m.LastName)</td>
-									<td>@(m.DOB.ToString("MMM dd, yyyy"))</td>
-									<td>@m.Relationship</td>
-									@if (@m.Grade != null)
-									{
-										<td>@m.Grade</td>
-									}
-									else
-									{
-										<td>-</td>
-									}
-									@if (@m.Relationship != "Self")
-									{
-										<td id="@m.Id" class="editFamilyMember"><a href="javascript: void(0);" data-toggle="modal" data-target="#EditModal" class="Edit"><span class="label label-orange">Edit</span></a></td>
-									}
-								</tr>
-							}
-						</tbody>
-					</table>
+<div class="bd-content">
+	<h3 class="bd-title">My Account</h3>
+	<div class="inner-box">
+		<div class="row mb-3">
+			<div class="col-md-6 table-title">Family Information</div>
+			@if (!Model.IsIndividual)
+			{
+				<div class="col-md-6 text-right">
+					<a class="orange-links" id="AddFamilyMember" href="javascript: void(0);"><i class="material-icons">add_circle_outline</i> Add Family Member</a>
 				</div>
+			}
+			<div class="modal fade" id="FamilyMemberPartial" role="dialog"></div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 table-responsive">
+
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th scope="col">Name</th>
+							<th scope="col">Date of Birth</th>
+							<th scope="col">Relationship</th>
+							<th scope="col">
+								Grade
+								<img id="GradeTooltip" src="~/Content/img/info-icon.png" alt="" title="Grade in school (@Model.familyMemberModel.Year)" />
+							</th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+
+						@foreach (var m in Model.userFamilyMember)
+						{
+							<tr>
+								<td>@(m.FirstName + " " + m.LastName)</td>
+								<td>@(m.DOB.ToString("MMM dd, yyyy"))</td>
+								<td>@m.Relationship</td>
+								@if (@m.Grade != null)
+								{
+									<td>@m.Grade</td>
+								}
+								else
+								{
+									<td>-</td>
+								}
+								@if (@m.Relationship != "Self")
+								{
+									<td id="@m.Id" class="editFamilyMember"><a href="javascript: void(0);" data-toggle="modal" data-target="#EditModal" class="Edit"><span class="label label-orange">Edit</span></a></td>
+								}
+							</tr>
+						}
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
+</div>
 
-	<!-- Modal Content starts -->
-	<div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+@Html.Partial("../FamilyMember/_AddFamilyMember", Model.familyMemberModel)
+</div>
 
-		@Html.Partial("../FamilyMember/_AddFamilyMember", Model.familyMemberModel)
+<script>
+	$(document).ready(function () {
 
-	</div>
-	<!-- Modal Content Ends -->
-	<div class="modal fade bd-example-modal-lg" id="changePassword" tabindex="-1" role="dialog">
-
-		@Html.Partial("../Common/_ChangePassword", Model.updatePasswordModel)
-
-	</div>
-	<div class="modal fade bd-example-modal-lg" id="changePhone" tabindex="-1" role="dialog">
-
-		@Html.Partial("../Common/_ChangePhone", Model.updatePhone)
-
-	</div>
-	<div class="modal fade bd-example-modal-lg" id="changeEmail" tabindex="-1" role="dialog">
-
-		@Html.Partial("../Common/_ChangeEmail", Model.updateMailModel)
-
-	</div>
-
-	<div class="modal fade bd-example-modal-lg" id="changeAddress" tabindex="-1" role="dialog">
-
-		@Html.Partial("../Common/_ChangeAddress", Model.updateAddressModel)
-
-	</div>
-
-	<script>
-
-		$(document).ready(function () {
-
-			$("#AddFamilyMember").on("click", function () {
-				$("#exampleModalCenter").load("/FamilyMember/RefreshFamilyMemberPartialView");
-				$("#exampleModalCenter").modal();
-			});
-
-			$('[data-toggle="tooltip"]').tooltip({ position: 'right' });
-
-			$(".Phone").click(function () {
-				var Email = $(this).attr("id");
-				$.ajax({
-					"url": "../Common/EditPhoneNumber/?Email=" + Email,
-					"type": "GET",
-					success: function (data) {
-						$("#changePhone").html(data);
-						$("#changePhone").modal();
-					},
-				});
-			});
-
-			$(".Email").click(function () {
-				var Email = $(this).attr("id");
-				$.ajax({
-					"url": "../Common/EditEmail/?Email=" + Email,
-					"type": "GET",
-					success: function (data) {
-						$("#changeEmail").html(data);
-						$("#changeEmail").modal();
-					},
-				});
-			});
-
-			$(".Address").click(function () {
-				var Email = $(this).attr("id");
-				$.ajax({
-					"url": "../Common/EditAddress/?Email=" + Email,
-					"type": "GET",
-					success: function (data) {
-						$("#changeAddress").html(data);
-						$("#changeAddress").modal();
-					},
-				});
-			});
-
-			$(".editFamilyMember").click(function () {
-				var id = $(this).attr("id");
-				$.ajax({
-				    "url": "../FamilyMember/EditFamilyMember/" + id,
-					"type": "GET",
-					success: function (data) {
-						$("#exampleModalCenter").html(data);
-						$("#exampleModalCenter").modal();
-						DoTheCalculations();
-					},
-				});
-			});
+		$("#AddFamilyMember").on("click", function () {
+			$("#exampleModalCenter").load("/FamilyMember/RefreshFamilyMemberPartialView");
+			$("#exampleModalCenter").modal();
 		});
 
-		$(function () {
-			$('.modal').on('hidden.bs.modal', function (e) {
-				$(this)
-					.find("input:text, input:password, input:hidden, select, textarea")
-					.val('');
-				$("input[type=date]").val("");
-
-				$(this)
-					.find(".field-validation-error")
-					.html('');
-				$("div#GradeSelectBox").show();
-				$("div#EmailAddress").show();
+		$('[data-toggle="tooltip"]').tooltip({ position: 'right' });
+		
+		$(".editFamilyMember").click(function () {
+			var id = $(this).attr("id");
+			$.ajax({
+				"url": "../FamilyMember/EditFamilyMember/" + id,
+				"type": "GET",
+				success: function (data) {
+					$("#exampleModalCenter").html(data);
+					$("#exampleModalCenter").modal();
+					DoTheCalculations();
+				},
 			});
 		});
+	});
 
-		function DoTheCalculations() {
-			var date = new Date($("#DateValue").val());
+	$(function () {
+		$('.modal').on('hidden.bs.modal', function (e) {
+			$(this)
+				.find("input:text, input:password, input:hidden, select, textarea")
+				.val('');
+			$("input[type=date]").val("");
 
-			if ($("#DateValue").val() != null && $("#DateValue").val() != "") {
-				calculateDate(date);
-			}
+			$(this)
+				.find(".field-validation-error")
+				.html('');
+			$("div#GradeSelectBox").show();
+			$("div#EmailAddress").show();
+		});
+	});
+
+	function DoTheCalculations() {
+		var date = new Date($("#DateValue").val());
+
+		if ($("#DateValue").val() != null && $("#DateValue").val() != "") {
+			calculateDate(date);
 		}
+	}
 
-		function toggleGradeEmail(state) {
-			$("div#GradeSelectBox").toggle(state);
-			$("div#EmailAddress").toggle(!state);
+	function toggleGradeEmail(state) {
+		$("div#GradeSelectBox").toggle(state);
+		$("div#EmailAddress").toggle(!state);
+	}
+
+	function calculateDate(date) {
+		var today = new Date();
+		var age = Math.floor((today - date) / (365.25 * 24 * 60 * 60 * 1000));
+		if (age >= 18) {
+			toggleGradeEmail(false);
 		}
-
-		function calculateDate(date) {
-			var today = new Date();
-			var age = Math.floor((today - date) / (365.25 * 24 * 60 * 60 * 1000));
-			if (age >= 18) {
-				toggleGradeEmail(false);
-			}
-			else {
-				toggleGradeEmail(true);
-			}
+		else {
+			toggleGradeEmail(true);
 		}
-
-	</script>
+	}
+</script>
 
