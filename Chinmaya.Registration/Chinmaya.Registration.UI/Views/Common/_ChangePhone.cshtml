@@ -1,36 +1,34 @@
 ﻿@model Chinmaya.Registration.Models.UpdatePhone
-<div class="modal-dialog modal-dialog-centered modal-lg" role="dialog">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body">
-				@using (Ajax.BeginForm("ChangePhone", "Common", FormMethod.Post,
-						new AjaxOptions
-						{
-							OnSuccess = "OnSuccessChangePhone"
-						}))
-				{
-					@Html.AntiForgeryToken()
-					<h5 class="modal-title">Change Phone Number</h5>
-					<div class="row">
-						@Html.HiddenFor(m => m.Email, new { id = "pEmail" })
-						<div class="col-md-12">
-							@Html.LabelFor(m => m.OldPhone, new { @class = "requiredA", @Id = "PhoneValue" })
-							@Html.TextBoxFor(m => m.OldPhone, new { @class = "form-control", @Name = "OldPhone" })
-							@Html.ValidationMessageFor(m => m.OldPhone, "", new { @class = "text-danger" })
-							
-						</div>
-					</div>
-										
-					<div class="row">
-						<div class="col-md-12">
-							<button class="btn btn-secondary float-left mr-3" id="btnCancelPhone" type="button" data-dismiss="modal" name="prevBtn">Cancel <i class="material-icons">cancel</i></button>
-							<button class="btn btn-orange" id="btnsubmitPhone" type="submit" data-toggle="collapse" name="nextBtn">Submit <i class="material-icons">check_circle</i></button>
-						</div>
-					</div>
-				}
-			</div>
-		</div>
-	</div>
+<div class="modal-dialog modal-dialog-centered" role="dialog">
+    <div class="modal-content">
+        <div class="modal-body">
+            @using (Ajax.BeginForm("ChangePhone", "Common", FormMethod.Post,
+                        new AjaxOptions
+                        {
+                            OnSuccess = "OnSuccessChangePhone"
+                        }))
+            {
+                @Html.AntiForgeryToken()
+                <h5 class="modal-title">Change Phone Number</h5>
+                    <div class="row">
+                        @Html.HiddenFor(m => m.Email, new { id = "pEmail" })
+                        <div class="col-md-12">
+                            @Html.LabelFor(m => m.OldPhone, new { @class = "requiredA", @Id = "PhoneValue" })
+                            @Html.TextBoxFor(m => m.OldPhone, new { @class = "form-control", @Name = "OldPhone" })
+                            @Html.ValidationMessageFor(m => m.OldPhone, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-secondary float-left mr-3" id="btnCancelPhone" type="button" data-dismiss="modal" aria-hidden="true">Cancel <i class="material-icons">cancel</i></button>
+                            <button class="btn btn-orange" id="btnsubmitPhone" type="submit" data-toggle="collapse">Submit <i class="material-icons">check_circle</i></button>
+                        </div>
+                    </div>
+            }
+        </div>
+    </div>
 </div>
 <script>
 	

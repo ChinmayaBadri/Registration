@@ -28,7 +28,8 @@ namespace Chinmaya.Registration.UI
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.min.js",
-                      "~/Scripts/bootstrap-datepicker.min.js"));
+                      "~/Scripts/bootstrap-datepicker.min.js",
+                      "~/Scripts/Chinmaya/Common.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.min.css",

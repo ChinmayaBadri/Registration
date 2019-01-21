@@ -2,282 +2,197 @@
 @model Chinmaya.Registration.Models.AdminModelcs
 @using Chinmaya.Models
 @{
-	Layout = "~/Views/Shared/_Layout.cshtml";
-	ViewBag.Title = "MyAccount-Admin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "MyAccount-Admin";
 }
-
 <style>
-	.nav-link active {
-		color: #f8430c;
-	}
+    .nav-link active {
+        color: #f8430c;
+    }
 
-	td.details-control {
-		background: url('../Content/img/details_open.png') no-repeat center center;
-		cursor: pointer;
-	}
+    td.details-control {
+        background: url('../Content/img/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
 
-	tr.shown td.details-control {
-		background: url('../Content/img/details_close.png') no-repeat center center;
-	}
+    tr.shown td.details-control {
+        background: url('../Content/img/details_close.png') no-repeat center center;
+    }
 </style>
 <button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
 <div class="nav-side-menu">
-
-	<div class="menu-list">
-
-		<ul class="menu-content collapse out" id="menu-content">
-			<li class="collapsed" aria-expanded="false" data-target="#account" data-toggle="collapse">
-				<a href="javascript: void(0);"> Account Settings <span class="arrow"></span></a>
-			</li>
-
-			<ul class="sub-menu collapse" id="account">
-					<li><a class="Password" data-toggle="modal" data-target="#changePassword"><label><img alt="" src="~/Content/img/change-password.png">Change Password</label></a></li>
-			</ul>
-
-			<li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
-				<a href="javascript: void(0);"> Update Contact Info <span class="arrow"></span></a>
-			</li>
-			<ul class="sub-menu collapse" id="contact">
-				<li><a class="Phone" id="@User.Identity.Name" data-toggle="modal" data-target="#changePhone"><label><img alt="" src="~/Content/img/phone.png"> Phone</label></a></li>
-				<li><a class="Email" id="@User.Identity.Name" data-toggle="modal" data-target="#changeEmail"><label><img alt="" src="~/Content/img/email.png"> Email</label></a></li>
-				<li><a class="Address" id="@User.Identity.Name" data-toggle="modal" data-target="#changeAddress"><label><img alt="" src="~/Content/img/address.png"> Address</label></a></li>
-			</ul>
-		</ul>
-	</div>
+    <div class="menu-list">
+        <ul class="menu-content collapse out" id="menu-content">
+            <li class="collapsed" aria-expanded="false" data-target="#account" data-toggle="collapse">
+                <a href="javascript: void(0);"> Account Settings <span class="arrow"></span></a>
+            </li>
+            <ul class="sub-menu collapse" id="account">
+                <li><a class="Password" data-toggle="modal" data-target="#changePassword"><label><img alt="" src="~/Content/img/change-password.png">Change Password</label></a></li>
+            </ul>
+            <li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
+                <a href="javascript: void(0);"> Update Contact Info <span class="arrow"></span></a>
+            </li>
+            <ul class="sub-menu collapse" id="contact">
+                <li><a class="Phone"><label><img alt="" src="~/Content/img/phone.png"> Phone</label></a></li>
+                <li><a class="Email"><label><img alt="" src="~/Content/img/email.png"> Email</label></a></li>
+                <li><a class="Address"><label><img alt="" src="~/Content/img/address.png"> Address</label></a></li>
+            </ul>
+        </ul>
+    </div>
 </div>
 <div class="bd-content">
-	<h3>User Information</h3>
-	<div class="col-md-12 table-responsive">
-		<table id="example" class="display">
-			<thead>
-				<tr>
-					<th></th>
-					<th>Id</th>
-					<th>FullName</th>
-					<th>AccountType</th>
-					<th>DOB</th>
-					<th>HomePhone</th>
-					<th>CellPhone</th>
-				</tr>
-			</thead>
-		</table>
-	</div>
-
+    <h3>User Information</h3>
+    <div class="col-md-12 table-responsive">
+        <table id="example" class="display">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Id</th>
+                    <th>FullName</th>
+                    <th>AccountType</th>
+                    <th>DOB</th>
+                    <th>HomePhone</th>
+                    <th>CellPhone</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
 </div>
+@Html.Partial("../Common/_ChangeAccountDetails", Model.updatePasswordModel)
 
-<div class="modal fade bd-example-modal-lg" id="changePassword" tabindex="-1" role="dialog">
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            function format(Id, tr, row) {
+                $.ajax({
+                    "type": "GET",
+                    url: "../Admin/GetAllFamilyMembers/" + Id,
+                    "datatype": "json",
+                    success: function (res) {
+                        if (res.data.length > 0) {
+                            var dynamicHtml = '<table id="Child" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'
+                                + '<thead><tr><th>FullName</th><th>DOB</th><th>Relationship</th><th>Grade</th></tr></thead><tbody>';
+                            $.each(res.data, function (i, data) {
+                                dynamicHtml += '<tr>' +
+                                    '<td>' + data.Fullname + '</td>' +
+                                    '<td>' + data.DOB + '</td>' +
+                                    '<td>' + data.Relationship + '</td>' +
+                                    '<td>' + data.Grade + '</td>' +
+                                    '</tr>';
+                            });
+                        }
+                        else {
+                            dynamicHtml = "<b>Family members does not exist</b>";
+                        }
+                        row.child(dynamicHtml).show();
+                        tr.addClass('shown');
+                    }
+                });
+            }
 
-		@Html.Partial("../Common/_ChangePassword", Model.updatePasswordModel)
+            var table = $('#example').DataTable({
+                "order": [],
+                ajax: {
+                    "url": "../Admin/GetAllUsers",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                columnDefs: [
+                    {
+                        "targets": 0,
+                        "className": 'details-control',
+                        "orderable": false,
+                        "data": null,
+                        "defaultContent": ''
+                    },
+                    {
+                        "targets": 1,
+                        "data": "Id",
+                        "visible": false
+                    },
+                    {
+                        "targets": 2,
+                        "data": "FullName",
+                        "width": "35%"
+                    },
+                    {
+                        "targets": 3,
+                        "data": "AccountType",
+                        "width": "15%",
+                        render: function (data, type, row) {
+                            if (data == "Individual Account")
+                                return '<input type="checkbox" class="editor-active" id="' + row.Id + '" >' + data;
+                            else
+                                return data;
+                        }
+                    },
+                    {
+                        "targets": 4,
+                        "data": "DOB"
+                    },
+                    {
+                        "targets": 5,
+                        "data": "HomePhone",
+                        "width": "8%"
+                    },
+                    {
+                        "targets": 6,
+                        "data": "CellPhone",
+                        "width": "15%"
+                    }
+                ]
+            });
 
-	</div>
-<div class="modal fade bd-example-modal-lg" id="changePhone" tabindex="-1" role="dialog">
+            $('#example tbody').on('click', 'td.details-control', function () {
 
-		@Html.Partial("../Common/_ChangePhone", Model.updatePhone)
+                var tr = $(this).closest('tr');
+                var $tds = tr.find("td");
 
-	</div>
-	<div class="modal fade bd-example-modal-lg" id="changeEmail" tabindex="-1" role="dialog">
+                $tds = $(this).closest("tr").find("input:hidden");
+                var arr = $('#example').dataTable().fnGetData($(this));
+                var Id = arr.Id;
+                var row = table.row(tr);
 
-		@Html.Partial("../Common/_ChangeEmail", Model.updateMailModel)
+                if (row.child.isShown()) {
+                    row.child.hide();
+                    tr.removeClass('shown');
+                }
+                else {
+                    format(Id, tr, row);
+                }
+            });
 
-	</div>
+            $('#example tbody').on('change', 'input.editor-active', function () {
+                var id = $(this).attr("Id");
+                var content = "Would you like to change Account to Family Account? ";
 
-	<div class="modal fade bd-example-modal-lg" id="changeAddress" tabindex="-1" role="dialog">
+                $.confirm({
+                    title: 'Alert!',
+                    content: content,
+                    buttons: {
+                        confirm: {
+                            text: 'Okay',
+                            btnClass: 'btn-blue',
+                            keys: ['enter', 'shift'],
+                            action: function () {
 
-		@Html.Partial("../Common/_ChangeAddress", Model.updateAddressModel)
-
-	</div>
-
-<script>
-
-	$(document).ready(function () {
-
-		//$("li nav-item").on("click", function () {
-		//	$(".li nav-item").removeClass("nav-link active");
-		//	$(this).addClass("nav-link active");
-		//});
-
-		//$('ul.navbar-nav li>').click(function (e) {
-		//	$('.navbar-nav li').removeClass('active');
-		//	var $this = $(this);
-		//	$this.addClass('active');
-		//	//e.preventDefault();
-
-		//});
-
-		function format(Id, tr, row) {
-			$.ajax({
-				"type": "GET",
-				url: "../Admin/GetAllFamilyMembers/" + Id,
-				"datatype": "json",
-				success: function (res) {
-					if (res.data.length > 0) {
-						var dynamicHtml = '<table id="Child" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'
-							+ '<thead><tr><th>FullName</th><th>DOB</th><th>Relationship</th><th>Grade</th></tr></thead><tbody>';
-						$.each(res.data, function (i, data) {
-							dynamicHtml += '<tr>' +
-								'<td>' + data.Fullname + '</td>' +
-								'<td>' + data.DOB + '</td>' +
-								'<td>' + data.Relationship + '</td>' +
-								'<td>' + data.Grade + '</td>' +
-								'</tr>';
-						});
-					}
-					else {
-						dynamicHtml = "<b>Family members does not exist</b>";
-					}
-					row.child(dynamicHtml).show();
-					tr.addClass('shown');
-				}
-
-			});
-		}
-
-		var table = $('#example').DataTable({
-			"order": [],
-			ajax: {
-				"url": "../Admin/GetAllUsers",
-				"type": "GET",
-				"datatype": "json"
-			},
-			columnDefs: [
-				{
-					"targets": 0,
-					"className": 'details-control',
-					"orderable": false,
-					"data": null,
-					"defaultContent": ''
-				},
-				{
-					"targets": 1,
-					"data": "Id",
-					"visible": false
-				},
-				{
-					"targets": 2,
-					"data": "FullName",
-					"width": "35%"
-				},
-				{
-					"targets": 3,
-					"data": "AccountType",
-					"width": "15%",
-					render: function (data, type, row) {
-						if (data == "Individual Account")
-							return '<input type="checkbox" class="editor-active" id="' + row.Id + '" >' + data;
-						else
-							return data;
-					}
-				},
-				{
-					"targets": 4,
-					"data": "DOB"
-				},
-				{
-					"targets": 5,
-					"data": "HomePhone",
-					"width": "8%"
-				},
-				{
-					"targets": 6,
-					"data": "CellPhone",
-					"width": "15%"
-				}
-			]
-		});
-		// Add event listener for opening and closing details
-
-		$('#example tbody').on('click', 'td.details-control', function () {
-
-			var tr = $(this).closest('tr');
-			var $tds = tr.find("td");
-
-			$tds = $(this).closest("tr").find("input:hidden");
-			var arr = $('#example').dataTable().fnGetData($(this));
-			var Id = arr.Id;
-			var row = table.row(tr);
-
-			if (row.child.isShown()) {
-				// This row is already open - close it
-				row.child.hide();
-				tr.removeClass('shown');
-			}
-			else {
-				// Open this row
-				format(Id, tr, row);
-			}
-		});
-
-		$('#example tbody').on('change', 'input.editor-active', function () {
-			var id = $(this).attr("Id");
-			var content = "Would you like to change Account to Family Account? ";
-			
-			$.confirm({
-				title: 'Alert!',
-				 content: content,
-				 buttons: {
-					confirm: {
-						text: 'Okay',
-						btnClass: 'btn-blue',
-						 keys: ['enter', 'shift'],
-						 action: function () {
-						
-							$.ajax({
-								"url": "../Admin/ChangeAccountType/" + id,
-								"type": "POST",
-								"data": id,
-								success: function (res) {
-								window.location.reload();
-								alert("Account changed to Family Account successfully");
-								},
-
-							});
-						 }
-					},
-					 cancel: function () {
-						 $('.editor-active').prop('checked', false); 
-					 }
-					
-				 }
-				 
-			});
-		});
-
-		$(".Phone").click(function () {
-			var Email = $(this).attr("id");
-			$.ajax({
-				"url": "../Common/EditPhoneNumber/?Email=" + Email,
-				"type": "GET",
-				success: function (data) {
-					$("#changePhone").html(data);
-					$("#changePhone").modal();
-				},
-			});
-		});
-
-		$(".Email").click(function () {
-			var Email = $(this).attr("id");
-			$.ajax({
-				"url": "../Common/EditEmail/?Email=" + Email,
-				"type": "GET",
-				success: function (data) {
-					$("#changeEmail").html(data);
-					$("#changeEmail").modal();
-				},
-			});
-		});
-
-		$(".Address").click(function () {
-			var Email = $(this).attr("id");
-			$.ajax({
-				"url": "../Common/EditAddress/?Email=" + Email,
-				"type": "GET",
-				success: function (data) {
-					$("#changeAddress").html(data);
-					$("#changeAddress").modal();
-				},
-			});
-		});
-
-	});
-</script>
-
+                                $.ajax({
+                                    "url": "../Admin/ChangeAccountType/" + id,
+                                    "type": "POST",
+                                    "data": id,
+                                    success: function (res) {
+                                        window.location.reload();
+                                        alert("Account changed to Family Account successfully");
+                                    },
+                                });
+                            }
+                        },
+                        cancel: function () {
+                            $('.editor-active').prop('checked', false);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

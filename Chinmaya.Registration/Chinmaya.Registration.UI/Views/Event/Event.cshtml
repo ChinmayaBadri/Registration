@@ -1,8 +1,8 @@
 ﻿@model Chinmaya.Registration.Models.MainEventModel
 
 @{
-	Layout = "~/Views/Shared/_Layout.cshtml";
-	ViewBag.Title = "Event";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Event";
 }
 
 <script src="~/Scripts/moment.min.js"></script>
@@ -10,230 +10,168 @@
 <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
 
 <style>
-	.nav-link active {
-		color: antiquewhite;
-	}
-	.requiredA:after {
-		content: " *";
-		font-weight: bold;
-		color: red;
-	}
+    .nav-link active {
+        color: antiquewhite;
+    }
+
+    .requiredA:after {
+        content: " *";
+        font-weight: bold;
+        color: red;
+    }
 </style>
 
 <button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
 <div class="nav-side-menu">
 
-	<div class="menu-list">
+    <div class="menu-list">
 
-		<ul class="menu-content collapse out" id="menu-content">
-			<li class="collapsed" aria-expanded="false" data-target="#account" data-toggle="collapse">
-				<a href="javascript: void(0);"> Account Settings <span class="arrow"></span></a>
-			</li>
+        <ul class="menu-content collapse out" id="menu-content">
+            <li class="collapsed" aria-expanded="false" data-target="#account" data-toggle="collapse">
+                <a href="javascript: void(0);"> Account Settings <span class="arrow"></span></a>
+            </li>
 
-			<ul class="sub-menu collapse" id="account">
-				<li><a class="Password" data-toggle="modal" data-target="#changePassword"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
-			</ul>
+            <ul class="sub-menu collapse" id="account">
+                <li><a class="Password" data-toggle="modal" data-target="#changePassword"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
+            </ul>
 
-			<li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
-				<a href="javascript: void(0);"> Update Contact Info <span class="arrow"></span></a>
-			</li>
-			<ul class="sub-menu collapse" id="contact">
-				<li><a class="Phone" id="@User.Identity.Name" data-toggle="modal" data-target="#changePhone"><img alt="" src="~/Content/img/phone.png"> Phone</a></li>
-				<li><a class="Email" id="@User.Identity.Name" data-toggle="modal" data-target="#changeEmail"><img alt="" src="~/Content/img/email.png"> Email</a></li>
-				<li><a class="Address" id="@User.Identity.Name" data-toggle="modal" data-target="#changeAddress"><img alt="" src="~/Content/img/address.png"> Address</a></li>
-			</ul>
-		</ul>
-	</div>
+            <li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
+                <a href="javascript: void(0);"> Update Contact Info <span class="arrow"></span></a>
+            </li>
+            <ul class="sub-menu collapse" id="contact">
+                <li><a class="Phone"><img alt="" src="~/Content/img/phone.png"> Phone</a></li>
+                <li><a class="Email"><img alt="" src="~/Content/img/email.png"> Email</a></li>
+                <li><a class="Address"><img alt="" src="~/Content/img/address.png"> Address</a></li>
+            </ul>
+        </ul>
+    </div>
 </div>
 <div class="bd-content">
-	<div class="inner-box">
-		<div class="row mb-3">
-			<div class="col-md-6 table-title">Event Information</div>
-			<div class="col-md-6 text-right">
-				<a class="orange-links" id="AddEvent" href="javascript: void(0);"><i class="material-icons">add_circle_outline</i> Add Event</a>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12 table-responsive">
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<th scope="col">Name</th>
-							<th scope="col">Weekday</th>
-							<th scope="col">Frequency</th>
-							<th scope="col">Amount</th>
-							<th scope="col"></th>
-						</tr>
-					</thead>
-					<tbody>
+    <div class="inner-box">
+        <div class="row mb-3">
+            <div class="col-md-6 table-title">Event Information</div>
+            <div class="col-md-6 text-right">
+                <a class="orange-links" id="AddEvent" href="javascript: void(0);"><i class="material-icons">add_circle_outline</i> Add Event</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Weekday</th>
+                            <th scope="col">Frequency</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
 
-						@foreach (var ev in Model.currentEventModel)
-						{
-							<tr>
-								<td>@ev.Name</td>
-								<td>@ev.Weekday</td>
-								<td>@ev.Frequency</td>
-								<td>$@ev.ChangeAmount</td>
-								<td id="@ev.Id" class="editEvent"><a href="javascript: void(0);" data-toggle="modal" data-target="#EditEventModal" class="Edit"><span class="label label-orange">Edit</span></a></td>
-								<td id="@ev.Id" class="deleteEvent"><span class="label label-orange">Delete</span></td>
-							</tr>
-						}
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
+                        @foreach (var ev in Model.currentEventModel)
+                        {
+                            <tr>
+                                <td>@ev.Name</td>
+                                <td>@ev.Weekday</td>
+                                <td>@ev.Frequency</td>
+                                <td>$@ev.ChangeAmount</td>
+                                <td id="@ev.Id" class="editEvent"><a href="javascript: void(0);" data-toggle="modal" data-target="#EditEventModal" class="Edit"><span class="label label-orange">Edit</span></a></td>
+                                <td id="@ev.Id" class="deleteEvent"><span class="label label-orange">Delete</span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- Modal -->
 
-<div class="modal fade bd-example-modal-lg" id="eventModal" tabindex="-1"  role="dialog" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="eventModal" tabindex="-1" role="dialog" aria-hidden="true"></div>
+@Html.Partial("../Common/_ChangeAccountDetails", Model.updatePasswordModel)
 
-	@Html.Partial("../Event/_AddEvent", Model.events)
+@section scripts{
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
 
-</div>
-<div class="modal fade bd-example-modal-lg" id="changePassword" tabindex="-1" role="dialog" aria-hidden="true">
+        $(document).ready(function () {
+            $("#AddEvent").on("click", function () {
+                $('#eventModal').empty('');
+                $.ajax({
+                    "url": "../Event/RefreshEventPartialView",
+                    "type": "GET",
+                    success: function (data) {
+                        $("#eventModal").html(data);
+                        $("#eventModal").modal();
+                    },
+                });
+            });
 
-	@Html.Partial("../Common/_ChangePassword", Model.updatePasswordModel)
+            var today = new Date();
+            $('.datepicker').datepicker({
+                todayHighlight: true,
+                autoclose: true,
+                useCurrent: true,
+                dateFormat: 'mm/dd/yyyy',
+                startDate: "today",
+                endDate: '+10y'
+            });
 
-</div>
-<div class="modal fade bd-example-modal-lg" id="changePhone" tabindex="-1" role="dialog" aria-hidden="true">
+            $(".editEvent").click(function () {
+                $('#eventModal').empty('');
+                var id = $(this).attr("id");
+                $.ajax({
+                    "url": "../Event/EditEvent/" + id,
+                    "type": "GET",
+                    success: function (data) {
+                        $("#eventModal").html(data);
+                        $("#eventModal").modal();
+                    },
+                });
+            });
 
-	@Html.Partial("../Common/_ChangePhone", Model.updatePhone)
+            $(".deleteEvent").click(function () {
+                var id = $(this).attr("id");
+                $.ajax({
+                    "url": "../Event/DeleteEvent/" + id,
+                    "type": "GET",
+                    success: function (msg) {
+                        var content = msg;
+                        $.confirm({
+                            title: 'Alert!',
+                            content: content,
+                            buttons: {
+                                confirm: {
+                                    text: 'Okay',
+                                    btnClass: 'btn-blue',
+                                    keys: ['enter', 'shift'],
+                                    action: function () {
+                                        var url = '@Url.Action("Event", "Event")';
+                                        window.location.href = url;
+                                    }
+                                }
+                            }
+                        });
+                    },
+                });
+            });
 
-</div>
-<div class="modal fade bd-example-modal-lg" id="changeEmail" tabindex="-1" role="dialog" aria-hidden="true">
+        });
 
-	@Html.Partial("../Common/_ChangeEmail", Model.updateMailModel)
+        $(function () {
+            $('.modal').on('hidden.bs.modal', function (e) {
+                $(this)
+                    .find("input:text, input:password, input:hidden, select, textarea")
+                    .val('');
+                $("input[type=date]").val("");
 
-</div>
-
-<div class="modal fade bd-example-modal-lg" id="changeAddress" tabindex="-1" role="dialog" aria-hidden="true">
-
-	@Html.Partial("../Common/_ChangeAddress", Model.updateAddressModel)
-
-</div>
-
-<script>
-	$(function () {
-		$('[data-toggle="tooltip"]').tooltip()
-	});
-
-	$(document).ready(function () {
-		//$("li nav-item").on("click", function () {
-		//	$(".li nav-item").removeClass("nav-link active");
-		//	$(this).addClass("nav-link active");
-		//});
-
-		//$('ul.navbar-nav li').click(function (e) {
-		//	$('.navbar-nav li').removeClass('active');
-		//	var $this = $(this);
-		//	$this.addClass('active');
-		//	//e.preventDefault();
-		//});
-
-		$("#AddEvent").on("click", function () {
-			$("#eventModal").load("/Event/RefreshEventPartialView");
-			$("#eventModal").modal();
-		});
-
-		var today = new Date();
-		$('.datepicker').datepicker({
-			todayHighlight: true,
-			autoclose: true,
-			useCurrent: true,
-			dateFormat: 'mm/dd/yyyy',
-			startDate: "today",
-			endDate: '+10y'
-		});
-
-		$(".editEvent").click(function () {
-			var id = $(this).attr("id");
-			$.ajax({
-				"url": "../Event/EditEvent/" + id,
-				"type": "GET",
-				success: function (data) {
-					$("#eventModal").html(data);
-					$("#eventModal").modal();
-				},
-			});
-		});
-
-		$(".deleteEvent").click(function () {
-			var id = $(this).attr("id");
-			$.ajax({
-				"url": "../Event/DeleteEvent/" + id,
-				"type": "GET",
-				success: function (msg) {
-					var content = msg;
-					$.confirm({
-						title: 'Alert!',
-						content: content,
-						buttons: {
-							confirm: {
-								text: 'Okay',
-								btnClass: 'btn-blue',
-								keys: ['enter', 'shift'],
-								action: function () {
-									 var url = '@Url.Action("Event", "Event")';
-									window.location.href = url;
-								}
-							}
-						}
-					});
-				},
-			});
-		});
-
-	});
-
-	$(".Phone").click(function () {
-		var Email = $(this).attr("id");
-		$.ajax({
-			"url": "../Common/EditPhoneNumber/?Email=" + Email,
-			"type": "GET",
-			success: function (data) {
-				$("#changePhone").html(data);
-				$("#changePhone").modal();
-			},
-		});
-	});
-
-	$(".Email").click(function () {
-		var Email = $(this).attr("id");
-		$.ajax({
-			"url": "../Common/EditEmail/?Email=" + Email,
-			"type": "GET",
-			success: function (data) {
-				$("#changeEmail").html(data);
-				$("#changeEmail").modal();
-			},
-		});
-	});
-
-	$(".Address").click(function () {
-		var Email = $(this).attr("id");
-		$.ajax({
-			"url": "../Common/EditAddress/?Email=" + Email,
-			"type": "GET",
-			success: function (data) {
-				$("#changeAddress").html(data);
-				$("#changeAddress").modal();
-			},
-		});
-	});
-
-	$(function () {
-		$('.modal').on('hidden.bs.modal', function (e) {
-			$(this)
-				.find("input:text, input:password, input:hidden, select, textarea")
-				.val('');
-			$("input[type=date]").val("");
-
-			$(this)
-				.find(".field-validation-error")
-				.html('');
-		});
-	});
-</script>
-
+                $(this)
+                    .find(".field-validation-error")
+                    .html('');
+            });
+        });
+    </script>
+}

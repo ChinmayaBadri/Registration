@@ -27,36 +27,33 @@ namespace Chinmaya.Registration.UI.Controllers
         /// <returns> My Account view </returns>
 		[HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> ChangePassword(UpdatePasswordModel Info, string nextBtn)
+        public async Task<ActionResult> ChangePassword(UpdatePasswordModel Info)
         {
             ToastModel tm = new ToastModel();
 			string role = await _common.GetUserRoleName(User.Identity.Name);
-			if (nextBtn != null)
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                UpdatePasswordModel passwordModel = new UpdatePasswordModel();
+                passwordModel.Email = User.Identity.Name;
+                EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
+                passwordModel.OldPassword = objEncryptDecrypt.Encrypt(Info.OldPassword, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
+                EncryptDecrypt objEncryptDecrypt1 = new EncryptDecrypt();
+                passwordModel.NewPassword = objEncryptDecrypt.Encrypt(Info.NewPassword, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
+                HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/UpdatePassword", passwordModel, true);
+                bool status = await Utility.DeserializeObject<bool>(userResponseMessage);
+                if (status == true)
                 {
-                    UpdatePasswordModel passwordModel = new UpdatePasswordModel();
-                    passwordModel.Email = User.Identity.Name;
-                    EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
-                    passwordModel.OldPassword = objEncryptDecrypt.Encrypt(Info.OldPassword, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
-                    EncryptDecrypt objEncryptDecrypt1 = new EncryptDecrypt();
-                    passwordModel.NewPassword = objEncryptDecrypt.Encrypt(Info.NewPassword, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
-                    HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/UpdatePassword", passwordModel, true);
-                    bool status = await Utility.DeserializeObject<bool>(userResponseMessage);
-                    if (status == true)
-                    {
-                        tm.IsSuccess = true;
-                        tm.Message = "Password updated successfully";
-                    }
-                    else
-                    {
-                        tm.IsSuccess = false;
-                        tm.Message = "Password not updated";
-                    }
-                    return Json(tm);
+                    tm.IsSuccess = true;
+                    tm.Message = "Password updated successfully";
                 }
+                else
+                {
+                    tm.IsSuccess = false;
+                    tm.Message = "Failed to update Password";
+                }
+                return Json(tm);
             }
-			if(role == "Admin")
+            if (role == "Admin")
 				return RedirectToAction("Index", "Admin");
 			else
             return RedirectToAction("MyAccount", "Account");
@@ -70,25 +67,21 @@ namespace Chinmaya.Registration.UI.Controllers
         /// <returns> My Account view </returns>
 		[HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> ChangePhone(UpdatePhone Info, string nextBtn)
+        public async Task<ActionResult> ChangePhone(UpdatePhone Info)
         {
             ToastModel tm = new ToastModel();
 			string role = await _common.GetUserRoleName(User.Identity.Name);
-			if (nextBtn != null)
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    UpdatePhone phoneModel = new UpdatePhone();
-                    phoneModel.Email = User.Identity.Name;
-                    phoneModel.OldPhone = Info.OldPhone;
-                    HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/UpdatePhone", phoneModel, true);
-                    tm.IsSuccess = true;
-                    tm.Message = "Phone updated successfully";
-                    return Json(tm);
-
-                }
+                UpdatePhone phoneModel = new UpdatePhone();
+                phoneModel.Email = User.Identity.Name;
+                phoneModel.OldPhone = Info.OldPhone;
+                HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/UpdatePhone", phoneModel, true);
+                tm.IsSuccess = true;
+                tm.Message = "Phone updated successfully";
+                return Json(tm);
             }
-			if (role == "Admin")
+            if (role == "Admin")
 				return RedirectToAction("Index", "Admin");
 			else
 				return RedirectToAction("MyAccount", "Account");
@@ -102,35 +95,32 @@ namespace Chinmaya.Registration.UI.Controllers
         /// <returns> My Account view </returns>
 		[HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> ChangeEmail(UpdateEmail em, string nextBtn)
+        public async Task<ActionResult> ChangeEmail(UpdateEmail em)
         {
             ToastModel tm = new ToastModel();
 			string role = await _common.GetUserRoleName(User.Identity.Name);
-			if (nextBtn != null)
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                string uId = await _account.GetUserIdByEmail(User.Identity.Name);
+                bool isEmailExists = await _account.CheckIsEmailExists(em.email);
+                if (isEmailExists)
                 {
-                    string uId = await _account.GetUserIdByEmail(User.Identity.Name);
-                    bool isEmailExists = await _account.CheckIsEmailExists(em.email);
-                    if (isEmailExists)
-                    {
-                        tm.IsSuccess = false;
-                        tm.Message = "Select Email which does not exist already...!";
-                        return Json(tm);
-                    }
-                    else
-                    {
-                        UpdateEmail emailModel = new UpdateEmail();
-                        emailModel.userId = uId;
-                        emailModel.email = em.email;
-                        HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/UpdateEmailAddress", emailModel, true);
-                        tm.IsSuccess = true;
-                        tm.Message = "Email updated successfully";
-                        return Json(tm);
-                    }
+                    tm.IsSuccess = false;
+                    tm.Message = "Email already exists";
+                    return Json(tm);
+                }
+                else
+                {
+                    UpdateEmail emailModel = new UpdateEmail();
+                    emailModel.userId = uId;
+                    emailModel.email = em.email;
+                    HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/UpdateEmailAddress", emailModel, true);
+                    tm.IsSuccess = true;
+                    tm.Message = "Email updated successfully";
+                    return Json(tm);
                 }
             }
-			if (role == "Admin")
+            if (role == "Admin")
 				return RedirectToAction("Index", "Admin");
 			else
 				return RedirectToAction("MyAccount", "Account");
@@ -144,29 +134,26 @@ namespace Chinmaya.Registration.UI.Controllers
         /// <returns> My Account view </returns>
 		[HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> ChangeAddress(ContactDetails Info, string nextBtn)
+        public async Task<ActionResult> ChangeAddress(ContactDetails Info)
         {
             ToastModel tm = new ToastModel();
 			string role = await _common.GetUserRoleName(User.Identity.Name);
-			if (nextBtn != null)
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
-                {
-                    ContactDetails cntd = new ContactDetails();
-                    cntd.Email = User.Identity.Name;
-                    cntd.Address = Info.Address;
-                    cntd.City = Info.City;
-                    cntd.State = Info.State;
-                    cntd.Country = Info.Country;
-                    cntd.ZipCode = Info.ZipCode;
-                    cntd.HomePhone = Info.HomePhone;
-                    HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/UpdateAddress", cntd, true);
-                    tm.IsSuccess = true;
-                    tm.Message = "Address updated successfully";
-                    return Json(tm);
-                }
+                ContactDetails cntd = new ContactDetails();
+                cntd.Email = User.Identity.Name;
+                cntd.Address = Info.Address;
+                cntd.City = Info.City;
+                cntd.State = Info.State;
+                cntd.Country = Info.Country;
+                cntd.ZipCode = Info.ZipCode;
+                cntd.HomePhone = Info.HomePhone;
+                HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/UpdateAddress", cntd, true);
+                tm.IsSuccess = true;
+                tm.Message = "Address updated successfully";
+                return Json(tm);
             }
-			if (role == "Admin")
+            if (role == "Admin")
 				return RedirectToAction("Index", "Admin");
 			else
 				return RedirectToAction("MyAccount", "Account");
@@ -175,11 +162,10 @@ namespace Chinmaya.Registration.UI.Controllers
         /// <summary>
         /// gets user email
         /// </summary>
-        /// <param name="Email"> user email </param>
         /// <returns> Change Email partial view </returns>
 		[HttpGet]
         [AllowAnonymous]
-        public PartialViewResult EditEmail(string Email)
+        public PartialViewResult EditEmail()
         {
             UpdateEmail em = new UpdateEmail();
             em.email = User.Identity.Name;
@@ -189,13 +175,12 @@ namespace Chinmaya.Registration.UI.Controllers
         /// <summary>
         /// gets user address
         /// </summary>
-        /// <param name="Email"> user email </param>
         /// <returns> Change Address partial view </returns>
 		[HttpGet]
         [AllowAnonymous]
-        public async Task<PartialViewResult> EditAddress(string Email)
+        public async Task<PartialViewResult> EditAddress()
         {
-            ContactDetails cd = await _user.getAddress(Email);
+            ContactDetails cd = await _user.getAddress(User.Identity.Name);
             ViewBag.CountryList = await _common.GetCountryData();
             ViewBag.SelectedCountry = cd.Country;
             ViewBag.SelectedState = cd.State;
@@ -205,13 +190,12 @@ namespace Chinmaya.Registration.UI.Controllers
         /// <summary>
         /// gets User phone no.
         /// </summary>
-        /// <param name="Email"> user email </param>
         /// <returns> change phone partial view </returns>
         [HttpGet]
         [AllowAnonymous]
-        public async Task<PartialViewResult> EditPhoneNumber(string Email)
+        public async Task<PartialViewResult> EditPhoneNumber()
         {
-            UpdatePhone phone = await _user.getPhoneNumber(Email);
+            UpdatePhone phone = await _user.getPhoneNumber(User.Identity.Name);
             return PartialView("_ChangePhone", phone);
         }
     }
