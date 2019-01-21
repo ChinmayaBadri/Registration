@@ -71,33 +71,30 @@ namespace Chinmaya.Registration.UI.Controllers
 		/// <returns> Event view </returns>
 		[HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> AddEvent(EventsModel data, string nextBtn)
+        public async Task<ActionResult> AddEvent(EventsModel data)
         {
 			ToastModel tm = new ToastModel();
 			data.weekday = await _common.GetWeekdayData();
 			data.frequencies = await _common.GetFrequencyData();
 			data.sessions = await _common.GetSessionData();
-			if (nextBtn != null)
+			if (ModelState.IsValid)
 			{
-				if (ModelState.IsValid)
+				data.CreatedBy = User.UserId;
+				data.CreatedDate = DateTime.Now;
+				data.UpdatedBy = User.UserId;
+				HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/Event/PostEvent", data, true);
+				var msg = await Utility.DeserializeObject<string>(userResponseMessage);
+				if (msg == "Event successfully added" || msg == "Event successfully edited")
 				{
-					data.CreatedBy = User.UserId;
-					data.CreatedDate = DateTime.Now;
-					data.UpdatedBy = User.UserId;
-					HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/Event/PostEvent", data, true);
-					var msg = await Utility.DeserializeObject<string>(userResponseMessage);
-					if (msg == "Event successfully added" || msg == "Event successfully edited")
-					{
-						tm.IsSuccess = true;
-						tm.Message = msg;
-					}
-					else
-					{
-						tm.IsSuccess = false;
-						tm.Message = msg;
-					}
-					return Json(tm);
+					tm.IsSuccess = true;
+					tm.Message = msg;
 				}
+				else
+				{
+					tm.IsSuccess = false;
+					tm.Message = msg;
+				}
+				return Json(tm);
 			}
             return RedirectToAction("Event", "Event");
         }

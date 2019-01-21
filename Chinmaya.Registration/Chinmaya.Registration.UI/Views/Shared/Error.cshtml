@@ -1,23 +1,28 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-@model HandleErrorInfo
-
-@if (Model != null)
+﻿@if (Chinmaya.Registration.UI.Providers.SessionVar.LoginUser != null)
 {
-    <br />
-    <br />
-    <span class="alert alert-danger">User:</span> @System.Security.Principal.WindowsIdentity.GetCurrent().Name
-    <br />
-    <br />
-    <span>Source:</span> @Model.Exception.Source
-    <br />
-    <br />
-    <span>Message:</span> @Model.Exception.Message
-    <br />
-    <br />
-    <span>Stack Trace:</span> @Model.Exception.StackTrace
-    <br />
-    <br />
+	Layout = "~/Views/Shared/_LayoutPageRegister.cshtml";
 }
+else
+{
+	Layout = null;
+}
+
+	@model HandleErrorInfo
+
+	@if (Model != null)
+	{
+		<br />
+		<br />
+		<span class="alert alert-danger">User:</span> @System.Security.Principal.WindowsIdentity.GetCurrent().Name
+		<br />
+		<br />
+		<span>Source:</span> @Model.Exception.Source
+		<br />
+		<br />
+		<span>Message:</span> @Model.Exception.Message
+		<br />
+		<br />
+		<span>Stack Trace:</span> @Model.Exception.StackTrace
+		<br />
+		<br />
+	}

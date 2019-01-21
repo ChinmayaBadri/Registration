@@ -21,37 +21,31 @@ namespace Chinmaya.Registration.UI.Controllers
         /// adds family member
         /// </summary>
         /// <param name="MemberInformation"> Family Member Model </param>
-        /// <param name="nextBtn"> submit button name </param>
         /// <returns> My Account view </returns>
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> AddFamilyMember(FamilyMemberModel MemberInformation, string nextBtn)
+        public async Task<ActionResult> AddFamilyMember(FamilyMemberModel MemberInformation)
         {
             ToastModel tm = new ToastModel();
             MemberInformation.relationships = await _common.GetRelationshipData();
             MemberInformation.grades = await _common.GetGradeData();
             MemberInformation.genders = await _common.GetGenderData();
-			if (nextBtn != null)
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                MemberInformation.UpdatedBy = User.UserId;
+                bool isEmailExists = string.IsNullOrEmpty(MemberInformation.Email) ? false : await _account.CheckIsEmailExists(MemberInformation.Email);
+                if (!isEmailExists)
                 {
-                    MemberInformation.UpdatedBy = User.UserId;
-
-                    bool isEmailExists = string.IsNullOrEmpty(MemberInformation.Email) ? false : await _account.CheckIsEmailExists(MemberInformation.Email);
-                    if (!isEmailExists)
-                    {
-                        HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/PostFamilyMember", MemberInformation, true);
-                        tm.IsSuccess = true;
-                        tm.Message = "Family member added/updated successfully";
-                    }
-                    else
-                    {
-                        tm.IsSuccess = false;
-                        tm.Message = "User Already Exists";
-                    }
-
-                    return Json(tm);
+                   HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/PostFamilyMember", MemberInformation, true);
+                   tm.IsSuccess = true;
+                   tm.Message = "Family member added/updated successfully";
                 }
+                else
+                {
+                   tm.IsSuccess = false;
+                   tm.Message = "User Already Exists";
+                }
+                return Json(tm);
             }
             return RedirectToAction("MyAccount", "Account");
         }

@@ -100,7 +100,6 @@
 					<div class="col-md-4">
 						@Html.Label("End Time", new { @class = "requiredA" })
 						<div class='input-group'>
-							@*@Html.TextBoxFor(m => m.EndTime)*@
 							@Html.TextBoxFor(m => m.EndTime, new { @class = "form-control", @type = "text", @Name = "EndTime", @style = "height: 35px;" })
 							<span class="input-group-addon">
 								<span class="glyphicon glyphicon-time"></span>
@@ -150,14 +149,14 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<button class="btn btn-secondary float-left mr-3" id="btnCancel" type="button" data-dismiss="modal" name="prevBtn" aria-hidden="true">Cancel <i class="material-icons">cancel</i></button>
+						<button class="btn btn-secondary float-left mr-3" id="btnCancel" type="button" data-dismiss="modal" aria-hidden="true">Cancel <i class="material-icons">cancel</i></button>
 						@if (!string.IsNullOrEmpty(Model.Id))
 						{
-							<button class="btn btn-orange" id="btnsubmit" type="submit" data-toggle="collapse" name="nextBtn">Update <i class="material-icons">check_circle</i></button>
+							<button class="btn btn-orange" id="btnsubmit" type="submit" data-toggle="collapse">Update <i class="material-icons">check_circle</i></button>
 						}
 						else
 						{
-							<button class="btn btn-orange" id="btnsubmit" type="submit" data-toggle="collapse" name="nextBtn">Submit <i class="material-icons">check_circle</i></button>
+							<button class="btn btn-orange" id="btnsubmit" type="submit" data-toggle="collapse">Submit <i class="material-icons">check_circle</i></button>
 						}
 
 					</div>
@@ -178,7 +177,6 @@
 			autoclose: true,
 			useCurrent:true,
 			defaultDate: false,
-			//setDate: null,
 			dateFormat: 'mm/dd/yyyy',
 			startDate: '-100y'
 		});
@@ -191,19 +189,11 @@
 	function OnSuccessEvent(response) {
 		if (typeof (response.Message) !== 'undefined') {
 			if (response.IsSuccess) {
-				toastr.success(response.Message, "Add Event", { timeOut: 3000 });
-				setTimeout(function () {
-					window.location.reload();
-				}, 2000);
+				toastr.success(response.Message, { timeOut: 3000 });
 				return;
 			}
-			toastr.error(response.Message, "Add Event", { timeOut: 3000 });
-			setTimeout(function () {
-				window.location.reload();
-			}, 3000);
+			toastr.error(response.Message, { timeOut: 3000 });
 		}
-		$("#btnsubmit").prop("disabled", false);
-		$("#btnCancel").prop("disabled", false);
 	}
 
 	function OnBeginEvent() {

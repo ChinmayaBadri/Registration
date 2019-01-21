@@ -119,6 +119,7 @@ namespace Chinmaya.Registration.UI.Controllers
 							}
 						}
 					}
+
 					else
 					{
 						ViewBag.Message = "Please verify email and password and try to login again.";
@@ -361,7 +362,6 @@ namespace Chinmaya.Registration.UI.Controllers
 			ViewBag.AgeGroup = await _common.GetAgeGroupData();
 			ViewBag.CountryList = await _common.GetCountryData();
 			ViewBag.SelectedCountry = await _account.GetCountryId("United States");
-			
 
 			if (BtnNext != null)
 			{

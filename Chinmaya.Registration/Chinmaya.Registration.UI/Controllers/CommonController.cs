@@ -23,7 +23,6 @@ namespace Chinmaya.Registration.UI.Controllers
         /// Changes user account password
         /// </summary>
         /// <param name="Info"> Update Password Model</param>
-        /// <param name="nextBtn"> </param>
         /// <returns> My Account view </returns>
 		[HttpPost]
         [AllowAnonymous]
@@ -60,7 +59,6 @@ namespace Chinmaya.Registration.UI.Controllers
         /// Changes user phone no.
         /// </summary>
         /// <param name="Info"> Update phone model </param>
-        /// <param name="nextBtn"></param>
         /// <returns> My Account view </returns>
 		[HttpPost]
         [AllowAnonymous]
@@ -85,7 +83,6 @@ namespace Chinmaya.Registration.UI.Controllers
         /// Changes User account email
         /// </summary>
         /// <param name="em">Update Email model </param>
-        /// <param name="nextBtn"></param>
         /// <returns> My Account view </returns>
 		[HttpPost]
         [AllowAnonymous]
@@ -121,7 +118,6 @@ namespace Chinmaya.Registration.UI.Controllers
         /// Changes user address
         /// </summary>
         /// <param name="Info"> Contact Details model </param>
-        /// <param name="nextBtn"></param>
         /// <returns> My Account view </returns>
 		[HttpPost]
         [AllowAnonymous]
