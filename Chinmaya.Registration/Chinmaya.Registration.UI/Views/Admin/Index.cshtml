@@ -1,15 +1,10 @@
 ﻿
 @model Chinmaya.Registration.Models.AdminModelcs
-@using Chinmaya.Models
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "MyAccount-Admin";
 }
 <style>
-    .nav-link active {
-        color: #f8430c;
-    }
-
     td.details-control {
         background: url('../Content/img/details_open.png') no-repeat center center;
         cursor: pointer;
@@ -54,7 +49,6 @@
 			});
 			
 			if (selected.length == 0) {
-				//alert("Please select atleast one Individual Account");
 				var content = "Please select atleast one Individual Account";
 				$.confirm({
 					title: 'Alert!',
@@ -88,7 +82,6 @@
 										"type": "POST",
 										"data": id,
 										success: function (res) {
-											//window.location.reload();
 										},
 									});
 								});
@@ -207,21 +200,7 @@
                     }
                 ]
 			});
-
-			$(document).on('change', 'input[type="checkbox"]', function (e) {
-				//alert("hi");
-				var tr = $(this).closest('tr');
-				//var $tds = tr.find("td");
-
-				//$tds = $(this).closest("tr").find("input:hidden");
-				//var arr = $('#example').dataTable().fnGetData($(this));
-				//var Id = arr.Id;
-				var row = table.row(tr);
-
-				row.child.hide();
-				tr.removeClass('shown');
-			});
-			
+						
             $('#example tbody').on('click', 'td.details-control', function () {
 
                 var tr = $(this).closest('tr');
