@@ -20,47 +20,107 @@
     }
 </style>
 <button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
-@*<div class="nav-side-menu">
-    <div class="menu-list">
-        <ul class="menu-content collapse out" id="menu-content">
-            <li class="collapsed" aria-expanded="false" data-target="#account" data-toggle="collapse">
-                <a href="javascript: void(0);"> Account Settings <span class="arrow"></span></a>
-            </li>
-            <ul class="sub-menu collapse" id="account">
-                <li><a class="Password" data-toggle="modal" data-target="#changePassword"><label><img alt="" src="~/Content/img/change-password.png">Change Password</label></a></li>
-            </ul>
-            <li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
-                <a href="javascript: void(0);"> Update Contact Info <span class="arrow"></span></a>
-            </li>
-            <ul class="sub-menu collapse" id="contact">
-                <li><a class="Phone"><label><img alt="" src="~/Content/img/phone.png"> Phone</label></a></li>
-                <li><a class="Email"><label><img alt="" src="~/Content/img/email.png"> Email</label></a></li>
-                <li><a class="Address"><label><img alt="" src="~/Content/img/address.png"> Address</label></a></li>
-            </ul>
-        </ul>
-    </div>
-</div>*@
+
 <div class="bd-content">
-    <h3>User Information</h3>
-    <div class="col-md-12 table-responsive">
-        <table id="example" class="display">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Id</th>
-                    <th>FullName</th>
-                    <th>AccountType</th>
-                    <th>DOB</th>
-                    <th>HomePhone</th>
-                    <th>CellPhone</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-</div>
+	<div class="row">
+		<div class="col-md-10"><h3>User Information</h3></div>
+		<a href="javascript: void(0);" data-toggle="tooltip" title="Converts Individual Account to Family Account"><button class="btn btn-orange float-right mr-3" type="submit" onclick="changeAccount()">Submit <i class="material-icons">check_circle</i></button></a>
+		
+	</div>
+		<div class="col-md-12 table-responsive">
+			<table id="example" class="display">
+				<thead>
+					<tr>
+						<th></th>
+						<th></th>
+						<th>Id</th>
+						<th>FullName</th>
+						<th>AccountType</th>
+						<th>DOB</th>
+						<th>HomePhone</th>
+						<th>CellPhone</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+
+	</div>
 
     <script>
-        $(document).ready(function () {
+		function changeAccount() {
+			var selected = [];
+			$("input:checkbox[class=editor-active]:checked").each(function () {
+				selected.push($(this).attr('id'));
+			});
+			
+			if (selected.length == 0) {
+				//alert("Please select atleast one Individual Account");
+				var content = "Please select atleast one Individual Account";
+				$.confirm({
+					title: 'Alert!',
+					content: content,
+					buttons: {
+						confirm: {
+							text: 'Okay',
+							btnClass: 'btn-blue',
+							keys: ['enter', 'shift'],
+							action: function () {
+							}
+						}
+					}
+				});
+			}
+			else {
+				var content = "Would you like to change Account to Family Account? ";
+				$.confirm({
+                    title: 'confirm!',
+                    content: content,
+                    buttons: {
+                        confirm: {
+                            text: 'Okay',
+                            btnClass: 'btn-blue',
+                            keys: ['enter', 'shift'],
+                            action: function () {
+								$("input:checkbox[class=editor-active]:checked").each(function () {
+									var id = $(this).attr("Id");
+									$.ajax({
+										"url": "../Admin/ChangeAccountType/" + id,
+										"type": "POST",
+										"data": id,
+										success: function (res) {
+											//window.location.reload();
+										},
+									});
+								});
+								var text = "Account changed to Family Account successfully";
+								$.confirm({
+									title: 'Alert!',
+									content: text,
+									buttons: {
+										confirm: {
+											text: 'Okay',
+											btnClass: 'btn-blue',
+											keys: ['enter', 'shift'],
+											action: function () {
+												window.location.reload();
+											}
+										}
+									}
+								});
+								
+							}
+                        },
+                        cancel: function () {
+                            $('.editor-active').prop('checked', false);
+                        }
+                    }
+				});
+				
+			}
+		}
+
+		$(document).ready(function () {
+			$('[data-toggle="tooltip"]').tooltip();
             function format(Id, tr, row) {
                 $.ajax({
                     "type": "GET",
@@ -95,52 +155,73 @@
                     "type": "GET",
                     "datatype": "json"
                 },
-                columnDefs: [
+				columnDefs: [
+					{
+						"targets": 0,
+						"data": null,
+						"orderable": false,
+						"className": 'editor-active',
+						"width": "0.1%",
+						"defaultContent": '',
+						render: function (data, type, row) {
+							if (row.AccountType == "Individual Account")
+								return '<input type="checkbox" class="editor-active" id="' + row.Id + '" >';
+						}
+					},
+					{
+						"targets": 1,
+						"className": 'details-control',
+						"orderable": false,
+						"data": null,
+						"defaultContent": ''
+						
+					},
                     {
-                        "targets": 0,
-                        "className": 'details-control',
-                        "orderable": false,
-                        "data": null,
-                        "defaultContent": ''
-                    },
-                    {
-                        "targets": 1,
+                        "targets": 2,
                         "data": "Id",
                         "visible": false
                     },
                     {
-                        "targets": 2,
-                        "data": "FullName",
-                        "width": "35%"
-                    },
-                    {
                         "targets": 3,
-                        "data": "AccountType",
-                        "width": "15%",
-                        render: function (data, type, row) {
-                            if (data == "Individual Account")
-                                return '<input type="checkbox" class="editor-active" id="' + row.Id + '" >' + data;
-                            else
-                                return data;
-                        }
+                        "data": "FullName",
+                        "width": "20%"
                     },
                     {
                         "targets": 4,
-                        "data": "DOB"
+                        "data": "AccountType",
+                        "width": "20%"
                     },
                     {
                         "targets": 5,
+                        "data": "DOB"
+                    },
+                    {
+                        "targets": 6,
                         "data": "HomePhone",
                         "width": "8%"
                     },
                     {
-                        "targets": 6,
+                        "targets": 7,
                         "data": "CellPhone",
                         "width": "15%"
                     }
                 ]
-            });
+			});
 
+			$(document).on('change', 'input[type="checkbox"]', function (e) {
+				//alert("hi");
+				var tr = $(this).closest('tr');
+				//var $tds = tr.find("td");
+
+				//$tds = $(this).closest("tr").find("input:hidden");
+				//var arr = $('#example').dataTable().fnGetData($(this));
+				//var Id = arr.Id;
+				var row = table.row(tr);
+
+				row.child.hide();
+				tr.removeClass('shown');
+			});
+			
             $('#example tbody').on('click', 'td.details-control', function () {
 
                 var tr = $(this).closest('tr');
@@ -158,38 +239,6 @@
                 else {
                     format(Id, tr, row);
                 }
-            });
-
-            $('#example tbody').on('change', 'input.editor-active', function () {
-                var id = $(this).attr("Id");
-                var content = "Would you like to change Account to Family Account? ";
-
-                $.confirm({
-                    title: 'Alert!',
-                    content: content,
-                    buttons: {
-                        confirm: {
-                            text: 'Okay',
-                            btnClass: 'btn-blue',
-                            keys: ['enter', 'shift'],
-                            action: function () {
-
-                                $.ajax({
-                                    "url": "../Admin/ChangeAccountType/" + id,
-                                    "type": "POST",
-                                    "data": id,
-                                    success: function (res) {
-                                        window.location.reload();
-                                        alert("Account changed to Family Account successfully");
-                                    },
-                                });
-                            }
-                        },
-                        cancel: function () {
-                            $('.editor-active').prop('checked', false);
-                        }
-                    }
-                });
             });
         });
     </script>

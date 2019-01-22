@@ -83,7 +83,7 @@
 
 <script>
 	$(document).ready(function () {
-
+		$('[data-toggle="tooltip"]').tooltip();
 		$("#AddFamilyMember").on("click", function () {
 			$("#exampleModalCenter").load("/FamilyMember/RefreshFamilyMemberPartialView");
 			$("#exampleModalCenter").modal();
