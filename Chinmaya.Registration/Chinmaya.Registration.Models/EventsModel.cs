@@ -13,11 +13,11 @@ namespace Chinmaya.Registration.Models
 		public string Id { get; set; }
 
 		[Required]
-		[StringLength(100, ErrorMessage = "Name should not be more than 100 characters")]
+		[StringLength(100, ErrorMessage = "Name should not exceed 100 characters")]
 		[DisplayName("Name")]
 		public string Name { get; set; }
 
-		[StringLength(1000, ErrorMessage = "Description should not be more than 1000 characters")]
+		[StringLength(1000, ErrorMessage = "Description should not exceed 1000 characters")]
 		public string Description { get; set; }
 
 		[DisplayName("Weekday")]
@@ -59,13 +59,13 @@ namespace Chinmaya.Registration.Models
 		[DisplayFormat(DataFormatString = "{0:hh:mm}", ApplyFormatInEditMode = true)]
         public System.TimeSpan EndTime { get; set; }
 
-		[StringLength(300, ErrorMessage = "Location should not be more than 300 characters")]
+		[StringLength(300, ErrorMessage = "Location should not exceed 300 characters")]
 		public string Location { get; set; }
-		[StringLength(300, ErrorMessage = "Location should not be more than 300 characters")]
+		[StringLength(300, ErrorMessage = "Instructor Name should not exceed 300 characters")]
 		public string Instructor { get; set; }
-		[StringLength(300, ErrorMessage = "Location should not be more than 300 characters")]
+		[StringLength(300, ErrorMessage = "Contact details should not exceed 300 characters")]
 		public string Contact { get; set; }
-		[StringLength(300, ErrorMessage = "Location should not be more than 300 characters")]
+		[StringLength(300, ErrorMessage = "Other information should not exceed 300 characters")]
 		public string Other { get; set; }
 
 		[Required]

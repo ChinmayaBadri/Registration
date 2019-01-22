@@ -9,16 +9,20 @@ using System.Web.Security;
 using Chinmaya.Registration.Models;
 using Newtonsoft.Json;
 using Chinmaya.Registration.UI.Providers;
+using log4net;
 
 namespace Chinmaya.Registration.UI
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        private static readonly ILog logger = log4net.LogManager.GetLogger(typeof(MvcApplication));
         protected void Application_Start()
         {
+            logger.Info("Applicaton_Start");
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            log4net.Config.XmlConfigurator.Configure();
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
@@ -49,6 +53,12 @@ namespace Chinmaya.Registration.UI
                     HttpContext.Current.User = newUser;
                 }
             }
+        }
+
+        protected void Application_Error(object sender,EventArgs e)
+        {
+            var unHandledExc = Server.GetLastError().GetBaseException();
+            logger.Error("Application Unhandled Exception", unHandledExc);
         }
     }
 }

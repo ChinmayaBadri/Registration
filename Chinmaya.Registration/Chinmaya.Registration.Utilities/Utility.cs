@@ -11,16 +11,18 @@ using Newtonsoft.Json.Converters;
 using System.Web.Configuration;
 using System.Net.Mail;
 using System.Net;
+using log4net;
 
 namespace Chinmaya.Registration.Utilities
 {
     public sealed class Utility
     {
+        private static readonly ILog logger = log4net.LogManager.GetLogger(typeof(Utility));
         static string baseURL = WebConfigurationManager.AppSettings["BaseURL"];
         [JsonConverter(typeof(StringEnumConverter))]
         public enum MasterType
         {
-            ROLE = 0, ACCOUNT = 1, GENDER = 2, COUNTRY = 3, STATE = 4, CITY =5, SECURITYQUESTIONS =6, AGEGROUPID =7, RELATIONSHIP =8, GRADE =9, WEEKDAY =10, FREQUENCY =11, ACCOUNTTYPE =12, SESSION =13
+            ROLE = 0, ACCOUNT = 1, GENDER = 2, COUNTRY = 3, STATE = 4, CITY = 5, SECURITYQUESTIONS = 6, AGEGROUPID = 7, RELATIONSHIP = 8, GRADE = 9, WEEKDAY = 10, FREQUENCY = 11, ACCOUNTTYPE = 12, SESSION = 13
         }
 
         /// <summary>
@@ -43,13 +45,15 @@ namespace Chinmaya.Registration.Utilities
 
                     HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, uriActionString);
                     req.Content = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
-
+                    logger.Info("Http Request: " + uriActionString);
                     res = await client.SendAsync(req);
+                    logger.Info("Http Response: " + uriActionString + "- StatusCode -" + res.StatusCode.ToString());
                 }
                 return res;
             }
             catch (Exception e)
             {
+                logger.Error("Exception", e);
                 throw (e);
             }
         }
@@ -71,13 +75,15 @@ namespace Chinmaya.Registration.Utilities
                     client.DefaultRequestHeaders.Accept.Clear();
 
                     HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, uriActionString);
-
+                    logger.Info("Http Request: " + uriActionString);
                     res = await client.SendAsync(req);
+                    logger.Info("Http Response: " + uriActionString + "- StatusCode -" + res.StatusCode.ToString());
                 }
                 return res;
             }
             catch (Exception e)
             {
+                logger.Error("Exception", e);
                 throw (e);
             }
         }
@@ -131,5 +137,5 @@ namespace Chinmaya.Registration.Utilities
             returnValue = JsonConvert.DeserializeObject<List<T>>(((HttpResponseMessage)res).Content.ReadAsStringAsync().Result);
             return returnValue;
         }
-    }
+}
 }

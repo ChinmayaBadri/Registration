@@ -30,14 +30,14 @@ namespace Chinmaya.Registration.Models
 		public string ZipCode { get; set; }
 		[DisplayName("Home Phone")]
 		[Required]
-		[RegularExpression(@"^(\d{10})$", ErrorMessage = "Home Phone")]
+		[RegularExpression(@"^(\d{10})$", ErrorMessage = "Invalid Home Phone")]
 		//[StringLength(20, ErrorMessage = "Home Phone should not be more than 20 characters")]
 		public string HomePhone { get; set; }
 		[DisplayName("Country")]
 		[Required]
 		public int Country { get; set; }
 		//[StringLength(20, ErrorMessage = "Cell Phone should not be more than 20 characters")]
-		[RegularExpression(@"^(\d{10})$", ErrorMessage = "Wrong Cell Phone")]
+		[RegularExpression(@"^(\d{10})$", ErrorMessage = "Invalid Cell Phone")]
 		[DisplayName("Cell Phone")]
 		public string CellPhone { get; set; }
 	}

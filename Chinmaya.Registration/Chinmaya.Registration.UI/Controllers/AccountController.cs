@@ -14,6 +14,7 @@ using System.Web.Security;
 using Chinmaya.Utilities;
 using System.Configuration;
 using Chinmaya.Registration.UI.Services;
+using log4net;
 
 namespace Chinmaya.Registration.UI.Controllers
 {
@@ -24,7 +25,7 @@ namespace Chinmaya.Registration.UI.Controllers
         UserService _user = new UserService();
         CommonService _common = new CommonService();
         EventService _event = new EventService();
-
+        private static readonly ILog logger = log4net.LogManager.GetLogger(typeof(AccountController));
         System.Collections.Specialized.NameValueCollection configMngr = ConfigurationManager.AppSettings;
 		/// <summary>
 		/// Loads NotFound Exception
@@ -63,11 +64,11 @@ namespace Chinmaya.Registration.UI.Controllers
 			{
                 EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
 				model.Password = objEncryptDecrypt.Encrypt(model.Password, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
-				Utility.MasterType masterValue = Utility.MasterType.ROLE;
-				HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/Master/GetMasterData", masterValue, true);
+				//Utility.MasterType masterValue = Utility.MasterType.ROLE;
+				//HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/Master/GetMasterData", masterValue, true);
 				HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/", model, true);
 
-				if (userResponseMessage.IsSuccessStatusCode && roleResponseMessage.IsSuccessStatusCode)
+				if (userResponseMessage.IsSuccessStatusCode) //&& roleResponseMessage.IsSuccessStatusCode)
 				{
 					var user = await Utility.DeserializeObject<UserModel>(userResponseMessage);
 					if (user != null)
@@ -126,6 +127,12 @@ namespace Chinmaya.Registration.UI.Controllers
 						return View("Login");
 					}
 				}
+                else
+                {
+                    logger.Error("User Login Response Failed");
+                    ViewBag.ErrorMsg = "Unable to Login due to Internal Error. Please try again.";
+                    return View("Error");
+                }
 			}
 			return View(model);
 		}
