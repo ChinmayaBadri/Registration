@@ -81,8 +81,13 @@ namespace Chinmaya.Registration.UI.Controllers
         public async Task<PartialViewResult> EditFamilyMember(string Id)
         {
             FamilyMemberModel fm = await _user.FamilyMemberDetails(Id);
-
-            fm.Id = Id;
+			DateTime todaysDate = DateTime.Now.Date;
+			int day = todaysDate.Day;
+			int month = todaysDate.Month;
+			int year = todaysDate.Year;
+			if (month >= 6) fm.Year = year;
+			else if (month < 6) fm.Year = year - 1;
+			fm.Id = Id;
             fm.relationships = await _common.GetRelationshipData();
             fm.grades = await _common.GetGradeData();
             fm.genders = await _common.GetGenderData();
