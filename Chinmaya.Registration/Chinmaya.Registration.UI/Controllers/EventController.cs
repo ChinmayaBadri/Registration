@@ -17,6 +17,7 @@ namespace Chinmaya.Registration.UI.Controllers
         CommonService _common = new CommonService();
 		UserService _user = new UserService();
 		EventService _event = new EventService();
+        LoggerManager logger = new LoggerManager(typeof(EventController));
 
 		/// <summary>
 		/// Shows all events
@@ -25,6 +26,7 @@ namespace Chinmaya.Registration.UI.Controllers
 		[AllowAnonymous]
         public async Task<ActionResult> Event(ToastModel tm = null)
         {
+            logger.LogMessage(LoggerManager.LogLevel.INFO, "Show All Events");
 			ViewBag.msg = TempData["msg"] as string;
 			if (!string.IsNullOrEmpty(tm.Message))
 			{
@@ -73,7 +75,8 @@ namespace Chinmaya.Registration.UI.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> AddEvent(EventsModel data)
         {
-			ToastModel tm = new ToastModel();
+            logger.LogMessage(LoggerManager.LogLevel.INFO, "Add/Edit Event Module");
+            ToastModel tm = new ToastModel();
 			data.weekday = await _common.GetWeekdayData();
 			data.frequencies = await _common.GetFrequencyData();
 			data.sessions = await _common.GetSessionData();
@@ -82,6 +85,7 @@ namespace Chinmaya.Registration.UI.Controllers
 				data.CreatedBy = User.UserId;
 				data.CreatedDate = DateTime.Now;
 				data.UpdatedBy = User.UserId;
+                logger.LogMessage(LoggerManager.LogLevel.INFO, "Post New Event");
 				HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/Event/PostEvent", data, true);
 				var msg = await Utility.DeserializeObject<string>(userResponseMessage);
 				if (msg == "Event successfully added" || msg == "Event successfully edited")
@@ -94,6 +98,7 @@ namespace Chinmaya.Registration.UI.Controllers
 					tm.IsSuccess = false;
 					tm.Message = msg;
 				}
+                logger.LogMessage(LoggerManager.LogLevel.INFO, string.Format("Add Event Response:{0}",tm.Message));
 				return Json(tm);
 			}
             return RedirectToAction("Event", "Event");
@@ -128,9 +133,11 @@ namespace Chinmaya.Registration.UI.Controllers
 		/// <returns> event view </returns>
 		public async Task<string> DeleteEvent(string Id)
 		{
-			HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/Event/DeleteEvent/" + Id, Id, true);
+            logger.LogMessage(LoggerManager.LogLevel.INFO, string.Format("Delete Event Module:EventID-{0}",Id));
+            HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/Event/DeleteEvent/" + Id, Id, true);
 			var msg = await Utility.DeserializeObject<string>(userResponseMessage);
-			return msg;
+            logger.LogMessage(LoggerManager.LogLevel.INFO, string.Format("Delete Event response :Message-{0}", msg));
+            return msg;
 		}
 	}
 }
