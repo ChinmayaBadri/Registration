@@ -15,10 +15,10 @@ namespace Chinmaya.Registration.UI
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-        private static readonly ILog logger = log4net.LogManager.GetLogger(typeof(MvcApplication));
+        //private static readonly ILog logger = log4net.LogManager.GetLogger(typeof(MvcApplication));
         protected void Application_Start()
         {
-            logger.Info("Applicaton_Start");
+            //logger.Info("Applicaton_Start");
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
@@ -58,7 +58,7 @@ namespace Chinmaya.Registration.UI
         protected void Application_Error(object sender,EventArgs e)
         {
             var unHandledExc = Server.GetLastError().GetBaseException();
-            logger.Error("Application Unhandled Exception", unHandledExc);
+            //logger.Error("Application Unhandled Exception", unHandledExc);
         }
     }
 }

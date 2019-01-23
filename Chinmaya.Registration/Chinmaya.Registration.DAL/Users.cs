@@ -73,7 +73,7 @@ namespace Chinmaya.Registration.DAL
 			using (var _ctx = new ChinmayaEntities())
 			{
 				var users = (from u in _ctx.Users
-						 where !_ctx.FamilyMembers.Any(f => f.Email == u.Email)
+						 where !_ctx.FamilyMembers.Any(f => f.Email == u.Email) && u.RoleId != 1
 						 select new
 						 {
 							 Id = u.Id,

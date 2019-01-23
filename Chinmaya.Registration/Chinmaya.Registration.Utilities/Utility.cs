@@ -17,7 +17,7 @@ namespace Chinmaya.Registration.Utilities
 {
     public sealed class Utility
     {
-        private static readonly ILog logger = getLogger(typeof(Utility));
+        //private static readonly ILog logger = getLogger(typeof(Utility));
         static string baseURL = WebConfigurationManager.AppSettings["BaseURL"];
         [JsonConverter(typeof(StringEnumConverter))]
         public enum MasterType
@@ -45,15 +45,15 @@ namespace Chinmaya.Registration.Utilities
 
                     HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Post, uriActionString);
                     req.Content = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
-                    logger.Info("Http Request: " + uriActionString);
+                    //logger.Info("Http Request: " + uriActionString);
                     res = await client.SendAsync(req);
-                    logger.Info("Http Response: " + uriActionString + "- StatusCode -" + res.StatusCode.ToString());
+                    //logger.Info("Http Response: " + uriActionString + "- StatusCode -" + res.StatusCode.ToString());
                 }
                 return res;
             }
             catch (Exception e)
             {
-                logger.Error("Exception", e);
+                //logger.Error("Exception", e);
                 throw (e);
             }
         }
@@ -75,15 +75,15 @@ namespace Chinmaya.Registration.Utilities
                     client.DefaultRequestHeaders.Accept.Clear();
 
                     HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, uriActionString);
-                    logger.Info("Http Request: " + uriActionString);
+                    //logger.Info("Http Request: " + uriActionString);
                     res = await client.SendAsync(req);
-                    logger.Info("Http Response: " + uriActionString + "- StatusCode -" + res.StatusCode.ToString());
+                    //logger.Info("Http Response: " + uriActionString + "- StatusCode -" + res.StatusCode.ToString());
                 }
                 return res;
             }
             catch (Exception e)
             {
-                logger.Error("Exception", e);
+                //logger.Error("Exception", e);
                 throw (e);
             }
         }

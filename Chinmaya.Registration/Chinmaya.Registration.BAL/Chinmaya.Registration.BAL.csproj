@@ -152,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\ChinmayaAPILocal.pubxml" />
     <None Include="Properties\PublishProfiles\ChinmayaWebApi.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />

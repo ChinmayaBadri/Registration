@@ -13,7 +13,7 @@ namespace Chinmaya.Registration.DAL
 {
 	public class Account
 	{
-        private static readonly ILog logger = LogManager.GetLogger(typeof(Account));
+        //private static readonly ILog logger = LogManager.GetLogger(typeof(Account));
         /// <summary>
         /// Check user email exists or not
         /// </summary>
@@ -62,12 +62,12 @@ namespace Chinmaya.Registration.DAL
         {
             using (var _ctx = new ChinmayaEntities())
             {
-                if (_ctx.Users.Any(u => u.HomePhone == cd.HomePhone))
+                if (_ctx.Users.Any(u => u.HomePhone == cd.HomePhone && u.IsIndividual == false))
                 {
                     return 1;
                 }
 
-                var objUserList = _ctx.Users.Where(u => u.Address == cd.Address).ToList();
+                var objUserList = _ctx.Users.Where(u => u.Address == cd.Address && u.IsIndividual == false).ToList();
                 foreach(User objUser in objUserList)
                 {
                     if (objUser.City.ToLower() == cd.City.ToLower())
@@ -96,14 +96,15 @@ namespace Chinmaya.Registration.DAL
 				{
 					using (var _ctx = new ChinmayaEntities())
 					{
-						return _ctx.Users.SingleOrDefault(u => u.HomePhone == homephone && u.IsIndividual == false).Email;
-					}
+                        User objUser = _ctx.Users.Where(u => u.HomePhone == homephone && u.IsIndividual == false).FirstOrDefault();
+                        if (objUser != null) return objUser.Email;
+                    }
 				}
 				return string.Empty;
 			}
 			catch(Exception e)
 			{
-                logger.Error("Exception:", e);
+                //logger.Error("Exception:", e);
                 throw;
 			}
 
@@ -139,7 +140,7 @@ namespace Chinmaya.Registration.DAL
 			}
 			catch(Exception e)
 			{
-                logger.Error("Exception:", e);
+                //logger.Error("Exception:", e);
                 throw;
 			}
 
@@ -165,7 +166,7 @@ namespace Chinmaya.Registration.DAL
             }
 			catch(Exception e)
 			{
-                logger.Error("Exception:", e);
+                //logger.Error("Exception:", e);
 				throw;
 			}
 
