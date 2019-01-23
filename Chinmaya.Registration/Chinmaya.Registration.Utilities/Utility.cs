@@ -17,7 +17,7 @@ namespace Chinmaya.Registration.Utilities
 {
     public sealed class Utility
     {
-        private static readonly ILog logger = log4net.LogManager.GetLogger(typeof(Utility));
+        private static readonly ILog logger = getLogger(typeof(Utility));
         static string baseURL = WebConfigurationManager.AppSettings["BaseURL"];
         [JsonConverter(typeof(StringEnumConverter))]
         public enum MasterType
@@ -136,6 +136,12 @@ namespace Chinmaya.Registration.Utilities
             List<T> returnValue = default(List<T>);
             returnValue = JsonConvert.DeserializeObject<List<T>>(((HttpResponseMessage)res).Content.ReadAsStringAsync().Result);
             return returnValue;
+        }
+
+        public static ILog getLogger(Type moduleType)
+        {
+            ILog logger = LogManager.GetLogger(moduleType);
+            return logger;
         }
 }
 }

@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="EmailManager.cs" />
     <Compile Include="EncryptDecrypt.cs" />
+    <Compile Include="LoggerManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utility.cs" />
   </ItemGroup>

@@ -7,11 +7,13 @@ using Chinmaya.DAL;
 using Chinmaya.Registration.DAL;
 using Chinmaya.Registration.Models;
 using AutoMapper;
+using log4net;
 
 namespace Chinmaya.Registration.DAL
 {
 	public class Account
 	{
+        private static readonly ILog logger = LogManager.GetLogger(typeof(Account));
         /// <summary>
         /// Check user email exists or not
         /// </summary>
@@ -99,9 +101,10 @@ namespace Chinmaya.Registration.DAL
 				}
 				return string.Empty;
 			}
-			catch
+			catch(Exception e)
 			{
-				throw;
+                logger.Error("Exception:", e);
+                throw;
 			}
 
 		}
@@ -134,9 +137,10 @@ namespace Chinmaya.Registration.DAL
 					return email;
 				}
 			}
-			catch
+			catch(Exception e)
 			{
-				throw;
+                logger.Error("Exception:", e);
+                throw;
 			}
 
 		}
@@ -159,8 +163,9 @@ namespace Chinmaya.Registration.DAL
                 }
                 return string.Empty;
             }
-			catch
+			catch(Exception e)
 			{
+                logger.Error("Exception:", e);
 				throw;
 			}
 
