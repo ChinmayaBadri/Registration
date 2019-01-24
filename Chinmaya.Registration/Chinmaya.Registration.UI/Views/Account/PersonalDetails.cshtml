@@ -61,12 +61,12 @@
 					<div class="row">
 						<div class="col-md-6">
 							@Html.LabelFor(m => m.FirstName, new { @class = "requiredA" })
-							@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+							@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", autocomplete = "off" })
 							@Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
 						</div>
 						<div class="col-md-6">
 							@Html.LabelFor(m => m.LastName, new { @class = "requiredA" })
-							@Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+							@Html.TextBoxFor(m => m.LastName, new { @class = "form-control", autocomplete = "off" })
 							@Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
 						</div>
 					</div>
@@ -75,7 +75,7 @@
 						<div class="col-md-6">
 							@Html.LabelFor(m => m.DOB, new { @class = "requiredA" })
 							<div class="input-group date">
-								@Html.TextBoxFor(m => m.DOB, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "DOB", @value = "", @style = "height: 35px;" })
+								@Html.TextBoxFor(m => m.DOB, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "DOB", @value = "", @style = "height: 35px;", autocomplete = "off" })
 								<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
 							</div>
 

@@ -26,12 +26,12 @@
 			@Html.HiddenFor(m => m.Id, new { id = "fmID" })
 			<div class="col-md-6">
 				@Html.LabelFor(m => m.FirstName, new { @class = "requiredA" })
-				@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @Name = "FirstName" })
+				@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @Name = "FirstName", autocomplete = "off" })
 				@Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
 			</div>
 			<div class="col-md-6">
 				@Html.LabelFor(m => m.LastName, new { @class = "requiredA" })
-				@Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @Name = "LastName" })
+				@Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @Name = "LastName", autocomplete = "off" })
 				@Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
 			</div>
 
@@ -41,7 +41,7 @@
 
 				@Html.LabelFor(m => m.DOB, new { @class = "requiredA" })
 				<div class="input-group date">
-				@Html.TextBoxFor(m => m.DOB, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "DOB", @value = "", @style = "height: 35px;" })
+				@Html.TextBoxFor(m => m.DOB, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "DOB", @value = "", @style = "height: 35px;", autocomplete = "off" })
 				<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div></div>
 				@Html.ValidationMessageFor(m => m.DOB, "", new { @class = "text-danger" })
 				@Html.HiddenFor(m=>m.DOB, new { Id = "DateValue" })
@@ -66,18 +66,18 @@
 			<div class="col-md-6">
 				@Html.LabelFor(m => m.GenderData)
 				@Html.DropDownList("GenderData", new SelectList(Model.genders, "Id", "Name"), "Select", new { @class = "form-control", @style = "height: 35px;" })
-				@Html.ValidationMessageFor(m => m.GenderData, "", new { @class = "text-danger" })
+				//@Html.ValidationMessageFor(m => m.GenderData, "", new { @class = "text-danger" })
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6">
 				@Html.LabelFor(m => m.CellPhone)
-				@Html.TextBoxFor(m => m.CellPhone, new { @class = "form-control", @Name = "CellPhone" })
+				@Html.TextBoxFor(m => m.CellPhone, new { @class = "form-control", @Name = "CellPhone", autocomplete = "off" })
 				@Html.ValidationMessageFor(m => m.CellPhone, "", new { @class = "text-danger" })
 			</div>
 			<div id="EmailAddress" class="col-md-6">
 				@Html.LabelFor(m => m.Email, new { @class = "requiredA" })
-				@Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Name = "Email" })
+				@Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Name = "Email", autocomplete = "off" })
 				<label class="text-danger" id="Err_Email">Email field is required</label>
 			</div>
 			@Html.HiddenFor(m => m.MonthlyNewsLetter, new { id = "MonthlyNewsLetter" })

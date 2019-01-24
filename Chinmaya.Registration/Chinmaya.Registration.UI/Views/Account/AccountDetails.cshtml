@@ -82,7 +82,7 @@
 								<span class="red-txt">Please select atleast 2 Security Questions.</span>
 							</p>
 							@Html.LabelFor(m => m.Email, new { @class = "requiredA" })
-							@Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+							@Html.TextBoxFor(m => m.Email, new { @class = "form-control", autocomplete = "off" })
 							@Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
 						</div>
 					</div>
@@ -123,7 +123,7 @@
 							</div>
 							<div class="row">
 								<div id="dataTextBox" class="col-md-12">
-									<input type='text' class="form-control" name="AnswerTextbox_@(i+1)" id="AnswerTextbox_@(i+1)" value="@sqmList[i].Value" />
+									<input type='text' class="form-control" name="AnswerTextbox_@(i+1)" id="AnswerTextbox_@(i+1)" value="@sqmList[i].Value" autocomplete = "off"  />
 									<span id="errorstatus"></span>
 								</div>
 							</div>

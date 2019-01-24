@@ -15,7 +15,7 @@
                         @Html.HiddenFor(m => m.userId, new { id = "uId" })
                         <div class="col-md-12">
                             @Html.LabelFor(m => m.Email, new { @class = "requiredA" })
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Name = "Email" })
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Name = "Email", autocomplete = "off" })
                             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                         </div>
                     </div>
