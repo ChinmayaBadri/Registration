@@ -325,6 +325,7 @@ namespace Chinmaya.Registration.DAL
                     fm.CellPhone = family.CellPhone;
                     fm.Email = family.Email;
                     fm.Status = true;
+					fm.MonthlyNewsLetter = family.MonthlyNewsLetter;
                     fm.UpdatedBy = family.UpdatedBy;
                     fm.UpdatedDate = DateTime.Now;
 

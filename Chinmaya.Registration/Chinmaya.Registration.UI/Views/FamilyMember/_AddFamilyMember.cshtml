@@ -80,6 +80,7 @@
 				@Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Name = "Email" })
 				<label class="text-danger" id="Err_Email">Email field is required</label>
 			</div>
+			@Html.HiddenFor(m => m.MonthlyNewsLetter, new { id = "MonthlyNewsLetter" })
 		</div>
 		<div class="row">
 			<div class="col-md-12">
@@ -120,6 +121,7 @@
 
 		$("#Email").on("blur", function () {
 			if ($("#Email").val().trim().length != 0) {
+				var email = $("#Email").val();
 				var content = "Dear Family Member, Would you like to subscribe to our Newsletter?";
 				$.confirm({
 					title: 'Alert!',
@@ -130,6 +132,8 @@
 							btnClass: 'btn-blue',
 							keys: ['enter', 'shift'],
 							action: function () {
+								var input = true;
+								$("#MonthlyNewsLetter").val(input);
 							}
 						},
 						danger: {
@@ -139,7 +143,7 @@
 
 							}
 						}
-					}
+					}	
 				});
 			}
 		});
@@ -149,6 +153,9 @@
 		if (typeof (response.Message) !== 'undefined') {
 			if (response.IsSuccess) {
 				toastr.success(response.Message, { timeOut: 3000 });
+				setTimeout(function () {
+					window.location.reload();
+				}, 2000);
 				return;
 			}
 			toastr.error(response.Message);

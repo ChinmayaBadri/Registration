@@ -212,5 +212,5 @@ namespace Chinmaya.Registration.BAL.Controllers
         {
             return _Account.GetIsIndividual(id);
         }
-    }
+	}
 }

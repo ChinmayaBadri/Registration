@@ -811,6 +811,7 @@ namespace Chinmaya.Registration.UI.Controllers
                     fm.GenderData = um.GenderId;
                     fm.LastName = um.LastName;
                     fm.RelationshipData = 6;
+					fm.MonthlyNewsLetter = false;
                     fm.UpdatedBy = await _account.GetUserIdByEmail(um.Email);
 
                     HttpResponseMessage addFamilyMemberRes = await Utility.GetObject("/api/User/PostFamilyMember", fm, true);

@@ -285,5 +285,5 @@ namespace Chinmaya.Registration.DAL
                 return _ctx.Users.Where(r => r.Id == Id).Select(n => n.IsIndividual).FirstOrDefault();
             }
         }
-    }
+	}
 }

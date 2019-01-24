@@ -46,6 +46,8 @@ namespace Chinmaya.Registration.Models
 		//[StringLength(256, ErrorMessage = "Email should not be more than 256 characters")]
 		public string Email { get; set; }
 
+		public bool MonthlyNewsLetter { get; set; }
+
 		public string UpdatedBy { get; set; }
         public List<KeyValueModel> relationships { get; set; }
         public List<KeyValueModel> grades { get; set; }

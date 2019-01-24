@@ -94,5 +94,5 @@ namespace Chinmaya.Registration.UI.Controllers
 
             return PartialView("_AddFamilyMember", fm);
         }
-    }
+	}
 }

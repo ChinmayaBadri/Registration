@@ -194,6 +194,7 @@ warning 6002: The table/view 'Chinmaya.dbo.FamilyGender' does not have a primary
           <Property Name="Status" Type="bit" Nullable="false" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="UpdatedDate" Type="datetime" />
+          <Property Name="MonthlyNewsLetter" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'Chinmaya.dbo.Frequency' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -935,6 +936,7 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <Property Name="Status" Type="Boolean" Nullable="false" />
           <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="MonthlyNewsLetter" Type="Boolean" />
         </EntityType>
         <ComplexType Name="GetUserFamilyMembers_Result">
           <Property Type="String" Name="Id" Nullable="false" MaxLength="128" />
@@ -1321,6 +1323,7 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <EntitySetMapping Name="FamilyMembers">
             <EntityTypeMapping TypeName="ChinmayaModel.FamilyMember">
               <MappingFragment StoreEntitySet="FamilyMember">
+                <ScalarProperty Name="MonthlyNewsLetter" ColumnName="MonthlyNewsLetter" />
                 <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
