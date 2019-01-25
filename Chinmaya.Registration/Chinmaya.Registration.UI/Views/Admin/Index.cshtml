@@ -13,6 +13,10 @@
     tr.shown td.details-control {
         background: url('../Content/img/details_close.png') no-repeat center center;
     }
+	td.editor-active {
+		text-align: right;
+		padding: 5px 0px 0px 0px !important;
+	}
 </style>
 <button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
 
@@ -122,9 +126,12 @@
                     success: function (res) {
                         if (res.data.length > 0) {
                             var dynamicHtml = '<table id="Child" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'
-                                + '<thead><tr><th>FullName</th><th>DOB</th><th>Relationship</th><th>Grade</th></tr></thead><tbody>';
+								+ '<thead><tr><th style="border:0 none;"></th><th style="border:0 none;"></th><th style="border:0 none;"></th><th>FullName</th><th>DOB</th><th>Relationship</th><th>Grade</th></tr></thead><tbody>';
                             $.each(res.data, function (i, data) {
-                                dynamicHtml += '<tr>' +
+								dynamicHtml += '<tr>' +
+									'<td style="border:0 none;">' + '' + '</td>' +
+									'<td style="border:0 none;">' + '' + '</td>' +
+									'<td style="border:0 none;">' + '' + '</td>' +
                                     '<td>' + data.Fullname + '</td>' +
                                     '<td>' + data.DOB + '</td>' +
                                     '<td>' + data.Relationship + '</td>' +
@@ -133,7 +140,7 @@
                             });
                         }
                         else {
-                            dynamicHtml = "<b>Family members does not exist</b>";
+							dynamicHtml = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Family members does not exist</b>";
                         }
                         row.child(dynamicHtml).show();
                         tr.addClass('shown');
@@ -166,7 +173,8 @@
 						"className": 'details-control',
 						"orderable": false,
 						"data": null,
-						"defaultContent": ''
+						"defaultContent": '',
+						"width": "0.1%"
 						
 					},
                     {
