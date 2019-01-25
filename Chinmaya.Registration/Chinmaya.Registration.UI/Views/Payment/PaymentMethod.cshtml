@@ -3,6 +3,7 @@
 	Layout = "~/Views/Shared/_LayoutForProgramEventRegistration.cshtml";
 	ViewBag.Title = "PaymentMethod";
 }
+
 	<button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
 	
 	<div class="bd-content">
@@ -92,7 +93,7 @@
 										@Html.TextBoxFor(m => m.RoutingNumber, new { @class = "form-control" })
 										@Html.ValidationMessageFor(m => m.RoutingNumber, "", new { @class = "text-danger" })
 									</div>
-									<div class="col-md-6">
+									<div class="col-md-6 form-group">
 										@Html.LabelFor(m => m.ConfirmAccountNumber, new { @class = "requiredA" })
 										@Html.TextBoxFor(m => m.ConfirmAccountNumber, new { @class = "form-control" })
 										@Html.ValidationMessageFor(m => m.ConfirmAccountNumber, "", new { @class = "text-danger" })
@@ -101,7 +102,7 @@
 							</div>
 							<div class="row">
 								<div class="col-md-12">
-									<button class="btn btn-secondary mr-2" name="prevBtn" type="submit">Back</button>
+									<button class="btn btn-secondary mr-2" name="prevBtn" id="paymentBack" type="submit">Back</button>
 									<button class="btn btn-orange" name="nextBtn" type="submit" data-target="#demo" data-toggle="collapse">Submit</button>
 								</div>
 							</div>
@@ -122,11 +123,17 @@
 			$("#CheckPaymentMethod").on("change", function () {
 				var paymentMethod = $(this).val();
 				if (paymentMethod) {
+					$("#paymentMethodCheck")
+						.find(".field-validation-error")
+						.html('');
 					$("#paymentMethodCheck").show();
 				}
 				else
 				{
 					$("#paymentMethodCheck").hide();
+					$("#paymentMethodCheck")
+						.find(".field-validation-error")
+						.html('');
 				}
 			});
 			$("#CreditPaymentMethod").on("change", function () {
@@ -136,6 +143,9 @@
 				}
 			});
 
-
+		$("#paymentBack").on("click", function () {
+			var url = '@Url.Action("PaymentMethod", "Payment")';
+                        window.location.href = url;
+		});
 	</script>
 

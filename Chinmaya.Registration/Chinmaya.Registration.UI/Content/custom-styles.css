@@ -147,7 +147,7 @@ input:-webkit-autofill {-webkit-box-shadow: inset 0 0 0px 9999px white!important
 
 .red-txt {color:#ff0000;}
 
-.form-group {overflow:hidden;}
+.form-group {overflow:hidden; margin-bottom:10px;}
 
 .breadcrumb {width:70%; float:left; padding:0px; background:transparent; line-height:36px; margin-bottom:0px;}
 
@@ -157,7 +157,7 @@ input:-webkit-autofill {-webkit-box-shadow: inset 0 0 0px 9999px white!important
 
 h6.page-title {text-align:center; font-weight:700; font-size:18px; margin-bottom:25px;}
 
-label {font-weight:400; font-size:14px; margin-bottom:10px; margin-top:3px; width:100%; display:table;}
+label {font-weight:400; font-size:14px; margin-bottom:7px; margin-top:3px; width:100%; display:table;}
 
 .header-right {
 	float:right;
@@ -274,9 +274,20 @@ li:active>.option>.activeimage {
   display: inline-block;
 }
 
+form {
+	width: 100%;
+	float: left;
+}
 
-
-.form-control {font-size:14px; border:1px solid #cccccc; border-radius:3px; margin-bottom:20px;}
+.mb-0 {
+	margin-bottom: 0px;
+}
+.form-control {
+	font-size: 14px;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	margin-bottom: 5px;
+}
 
 .input-group {margin-bottom:20px;}
 

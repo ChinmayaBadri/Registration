@@ -43,7 +43,7 @@
                             @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control", autocomplete = "off" })
                             @Html.ValidationMessageFor(m => m.ZipCode, "", new { @class = "text-danger" })
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 form-group">
                             @Html.LabelFor(m => m.HomePhone, new { @class = "requiredA" })
                             @Html.TextBoxFor(m => m.HomePhone, new { @class = "form-control", autocomplete = "off" })
                             @Html.ValidationMessageFor(m => m.HomePhone, "", new { @class = "text-danger" })

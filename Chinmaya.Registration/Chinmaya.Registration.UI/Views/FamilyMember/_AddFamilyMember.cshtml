@@ -1,4 +1,5 @@
 ﻿@model Chinmaya.Registration.Models.FamilyMemberModel
+
 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 	<div class="modal-content">
 		<div class="modal-body">
@@ -8,93 +9,92 @@
 							OnSuccess = "OnSuccess",
 							OnFailure = "OnFailure",
 							OnBegin = "OnBegin"
-						}, new {id = "form" }))
-	{
-		
-		@Html.AntiForgeryToken()
-		if (!string.IsNullOrEmpty(Model.Id))
-		{
-				<h5 class="modal-title">Edit Family Member</h5>
-		}
-		else
-		{
-				<h5 class="modal-title">Add Family Member</h5>
-		}
-				<p><span class="red-txt">*</span> denotes a required field</p>
-		@Html.ValidationSummary(true)
-		<div class="row">
-			@Html.HiddenFor(m => m.Id, new { id = "fmID" })
-			<div class="col-md-6">
-				@Html.LabelFor(m => m.FirstName, new { @class = "requiredA" })
-				@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @Name = "FirstName", autocomplete = "off" })
-				@Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
-			</div>
-			<div class="col-md-6">
-				@Html.LabelFor(m => m.LastName, new { @class = "requiredA" })
-				@Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @Name = "LastName", autocomplete = "off" })
-				@Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
-			</div>
+						}, new { id = "form" }))
+			{
 
-		</div>
-		<div class="row">
-			<div class="col-md-6">
-
-				@Html.LabelFor(m => m.DOB, new { @class = "requiredA" })
-				<div class="input-group date">
-				@Html.TextBoxFor(m => m.DOB, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "DOB", @value = "", @style = "height: 35px;", autocomplete = "off" })
-				<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div></div>
-				@Html.ValidationMessageFor(m => m.DOB, "", new { @class = "text-danger" })
-				@Html.HiddenFor(m=>m.DOB, new { Id = "DateValue" })
-			</div>
-				<div class="col-md-6">
-
-					@Html.LabelFor(m => m.RelationshipData, new { @class = "requiredA" })
-					@Html.DropDownList("RelationshipData", new SelectList(Model.relationships, "Id", "Name"), "Select", new { @class = "form-control", @style = "height: 35px;" })
-					@Html.ValidationMessageFor(m => m.RelationshipData, "", new { @class = "text-danger" })
-				</div>
-			</div>
-		<div class="row">
-			<div id="GradeSelectBox" class="col-md-6">
-				<label>
-					Grade
-					<img id="GradeTooltip" src="~/Content/img/info-icon.png" alt="" title="Grade in school (@Model.Year)" />
-				</label>
-				@Html.DropDownList("Grade", new SelectList(Model.grades, "Id", "Name"), "Select", new { @class = "form-control", @style = "height: 35px;" })
-				<label class="text-danger" id="Err_Grade">Grade field is required</label>
-
-			</div>
-			<div class="col-md-6">
-				@Html.LabelFor(m => m.GenderData, new { @class = "requiredA" })
-				@Html.DropDownList("GenderData", new SelectList(Model.genders, "Id", "Name"), "Select", new { @class = "form-control", @style = "height: 35px;" })
-				@Html.ValidationMessageFor(m => m.GenderData, "", new { @class = "text-danger" })
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-6">
-				@Html.LabelFor(m => m.CellPhone)
-				@Html.TextBoxFor(m => m.CellPhone, new { @class = "form-control", @Name = "CellPhone", autocomplete = "off" })
-				@Html.ValidationMessageFor(m => m.CellPhone, "", new { @class = "text-danger" })
-			</div>
-			<div id="EmailAddress" class="col-md-6">
-				@Html.LabelFor(m => m.Email, new { @class = "requiredA" })
-				@Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Name = "Email", autocomplete = "off" })
-				<label class="text-danger" id="Err_Email">Email field is required</label>
-			</div>
-			@Html.HiddenFor(m => m.MonthlyNewsLetter, new { id = "MonthlyNewsLetter" })
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<button class="btn btn-secondary float-left mr-3" id="btnCancel" type="button" data-dismiss="modal">Cancel <i class="material-icons">cancel</i></button>
-				@if (!string.IsNullOrEmpty(Model.Id))
+				@Html.AntiForgeryToken()
+				if (!string.IsNullOrEmpty(Model.Id))
 				{
-					<button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse">Update <i class="material-icons">check_circle</i></button>
+					<h5 class="modal-title">Edit Family Member</h5>
 				}
 				else
 				{
-					<button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse">Submit <i class="material-icons">check_circle</i></button>
+					<h5 class="modal-title">Add Family Member</h5>
 				}
-			</div>
-		</div>
+				<p><span class="red-txt">*</span> denotes a required field</p>
+				@Html.ValidationSummary(true)
+				<div class="row">
+					@Html.HiddenFor(m => m.Id, new { id = "fmID" })
+					<div class="col-md-6">
+						@Html.LabelFor(m => m.FirstName, new { @class = "requiredA" })
+						@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @Name = "FirstName", autocomplete = "off" })
+						@Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+					</div>
+					<div class="col-md-6">
+						@Html.LabelFor(m => m.LastName, new { @class = "requiredA" })
+						@Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @Name = "LastName", autocomplete = "off" })
+						@Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+					</div>
+
+				</div>
+				<div class="row">
+					<div class="col-md-6 form-group">
+
+						@Html.LabelFor(m => m.DOB, new { @class = "requiredA" })
+						<div class="input-group date mb-0">
+							@Html.TextBoxFor(m => m.DOB, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "DOB", @value = "", @style = "height: 35px; margin-bottom:0px", autocomplete = "off" })
+							<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
+						</div>
+						@Html.ValidationMessageFor(m => m.DOB, "", new { @class = "text-danger", @style = "margin-top:0px" })
+						@Html.HiddenFor(m => m.DOB, new { Id = "DateValue" })
+					</div>
+					<div class="col-md-6">
+
+						@Html.LabelFor(m => m.RelationshipData, new { @class = "requiredA" })
+						@Html.DropDownList("RelationshipData", new SelectList(Model.relationships, "Id", "Name"), "Select", new { @class = "form-control", @style = "height: 35px;" })
+						@Html.ValidationMessageFor(m => m.RelationshipData, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<div class="row">
+					<div id="GradeSelectBox" class="col-md-6">
+						<label>Grade<a href="javascript: void(0);" data-toggle="tooltip" title="Grade in school (@Model.Year)"><img id="GradeTooltip" src="~/Content/img/info-icon.png" alt="" /></a></label>
+						@*<label>Grade<img id="GradeTooltip" src="~/Content/img/info-icon.png" alt="" title="Grade in school (@Model.Year)" /></label>*@
+						@Html.DropDownList("Grade", new SelectList(Model.grades, "Id", "Name"), "Select", new { @class = "form-control", @style = "height: 35px;" })
+						<label class="text-danger" id="Err_Grade">Grade field is required</label>
+
+					</div>
+					<div class="col-md-6">
+						@Html.LabelFor(m => m.GenderData, new { @class = "requiredA" })
+						@Html.DropDownList("GenderData", new SelectList(Model.genders, "Id", "Name"), "Select", new { @class = "form-control", @style = "height: 35px;" })
+						@Html.ValidationMessageFor(m => m.GenderData, "", new { @class = "text-danger" })
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6 form-group">
+						@Html.LabelFor(m => m.CellPhone)
+						@Html.TextBoxFor(m => m.CellPhone, new { @class = "form-control", @Name = "CellPhone", autocomplete = "off" })
+						@Html.ValidationMessageFor(m => m.CellPhone, "", new { @class = "text-danger" })
+					</div>
+					<div id="EmailAddress" class="col-md-6 form-group">
+						@Html.LabelFor(m => m.Email, new { @class = "requiredA" })
+						@Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Name = "Email", autocomplete = "off" })
+						<label class="text-danger" id="Err_Email">Email field is required</label>
+					</div>
+					@Html.HiddenFor(m => m.MonthlyNewsLetter, new { id = "MonthlyNewsLetter" })
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<button class="btn btn-secondary float-left mr-3" id="btnCancel" type="button" data-dismiss="modal">Cancel <i class="material-icons">cancel</i></button>
+						@if (!string.IsNullOrEmpty(Model.Id))
+						{
+							<button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse">Update <i class="material-icons">check_circle</i></button>
+						}
+						else
+						{
+							<button class="btn btn-orange" id="btnsubmit" type="submit" data-target="#demo" data-toggle="collapse">Submit <i class="material-icons">check_circle</i></button>
+						}
+					</div>
+				</div>
 			}
 		</div>
 	</div>
@@ -102,21 +102,22 @@
 
 <script>
 	$(document).ready(function () {
+		$('[data-toggle="tooltip"]').tooltip();
 		$("#Err_Email").hide();
 		$("#Err_Grade").hide();
 		$.validator.unobtrusive.parse($("form"));
 		var today = new Date();
-        $('.datepicker').datepicker({
-            todayHighlight: true,
-            autoclose: true,
+		$('.datepicker').datepicker({
+			todayHighlight: true,
+			autoclose: true,
 			dateFormat: 'mm-dd-yyyy',
 			startDate: '-100y',
 			endDate: "today"
-        });
+		});
 
-	    $('.datepicker').datepicker().on("changeDate", function (e) {
-	        var dob = new Date($(this).val());
-	        calculateDate(dob);
+		$('.datepicker').datepicker().on("changeDate", function (e) {
+			var dob = new Date($(this).val());
+			calculateDate(dob);
 		});
 
 		$("#Email").on("blur", function () {
@@ -144,7 +145,7 @@
 								$("#MonthlyNewsLetter").val(input);
 							}
 						}
-					}	
+					}
 				});
 			}
 		});
@@ -163,7 +164,7 @@
 		}
 	}
 
-	function OnBegin() { 
+	function OnBegin() {
 		var dob = new Date($("#DOB").val());
 		var today = new Date();
 		var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
@@ -177,8 +178,7 @@
 				return true;
 			}
 		}
-		else
-		{
+		else {
 			if ($("#Grade").val().trim().length == 0) {
 				$("#Err_Grade").show();
 				return false;

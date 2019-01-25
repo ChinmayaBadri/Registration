@@ -37,7 +37,8 @@ namespace Chinmaya.Registration.Models
 		[DisplayName("Gender")]
 		public int GenderData { get; set; }
 
-		[StringLength(20, ErrorMessage = "Cell Phone should not be more than 20 characters")]
+		//[StringLength(20, ErrorMessage = "Cell Phone should not be more than 20 characters")]
+		[RegularExpression(@"^(\d{10})$", ErrorMessage = "Invalid Cell Phone")]
 		[DisplayName("Cell Phone")]
 		public string CellPhone { get; set; }
 

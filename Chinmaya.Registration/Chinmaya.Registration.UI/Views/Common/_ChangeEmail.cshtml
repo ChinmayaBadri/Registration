@@ -13,7 +13,7 @@
 				<p><span class="red-txt">*</span> denotes a required field</p>
                     <div class="row">
                         @Html.HiddenFor(m => m.userId, new { id = "uId" })
-                        <div class="col-md-12">
+                        <div class="col-md-12 form-group">
                             @Html.LabelFor(m => m.Email, new { @class = "requiredA" })
                             @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Name = "Email", autocomplete = "off" })
                             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
