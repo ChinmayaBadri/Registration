@@ -33,6 +33,7 @@ namespace Chinmaya.Registration.Models
 		[DisplayName("Grade")]
 		public Nullable<int> Grade { get; set; }
 
+		[Required]
 		[DisplayName("Gender")]
 		public int GenderData { get; set; }
 

@@ -64,9 +64,9 @@
 
 			</div>
 			<div class="col-md-6">
-				@Html.LabelFor(m => m.GenderData)
+				@Html.LabelFor(m => m.GenderData, new { @class = "requiredA" })
 				@Html.DropDownList("GenderData", new SelectList(Model.genders, "Id", "Name"), "Select", new { @class = "form-control", @style = "height: 35px;" })
-				//@Html.ValidationMessageFor(m => m.GenderData, "", new { @class = "text-danger" })
+				@Html.ValidationMessageFor(m => m.GenderData, "", new { @class = "text-danger" })
 			</div>
 		</div>
 		<div class="row">
@@ -140,7 +140,8 @@
 							text: 'Cancel',
 							keys: ['enter', 'shift'],
 							action: function () {
-
+								var input = false;
+								$("#MonthlyNewsLetter").val(input);
 							}
 						}
 					}	
