@@ -5,19 +5,19 @@
 }
 
 @section Styles {
-    <style>
-        .requiredA:after {
-            content: " *";
-            font-weight: bold;
-            color: red;
-        }
-    </style>
+	<style>
+		.requiredA:after {
+			content: " *";
+			font-weight: bold;
+			color: red;
+		}
+	</style>
 }
-	
+
 @section Scripts {
-    <script>
+	<script>
 		$(document).ready(function () {
-			
+
 			var selectedCountry = "@ViewBag.SelectedCountry";
 			var selectedState = "@ViewBag.SelectedState";
 
@@ -43,7 +43,7 @@
 					$("#State").html(v);
 				});
 			});
-	
+
 			if (selectedState != "") {
 				$("#State").empty();
 				$.get("FillState", { Id: selectedCountry }, function (data) {
@@ -56,101 +56,110 @@
 				});
 			}
 		});
-    </script>
+	</script>
 }
-	@using (Html.BeginForm("ContactDetails", "Account", FormMethod.Post))
+@using (Html.BeginForm("ContactDetails", "Account", FormMethod.Post, new { @id = "contactDetails" }))
 
-	{
-		@Html.AntiForgeryToken()
-		<div class="container">
-			<div class="row">
-				<div class="col-md-8 offset-md-2">
-					<div class="regi-process-bar">
-						<div class="row">
-							<div class="col-md-5"><div class="regi-heading">Program/Event Registration</div></div>
-							<div class="col-md-7">
-								<div class="row bs-wizard">
-									<div class="col-md-4 bs-wizard-step complete">
-										<div class="progress"><div class="progress-bar"></div></div>
-										<a class="bs-wizard-dot" href="javascript: void(0);">1</a>
-										<div class="text-center bs-wizard-stepnum marl-55">Personal</div>
-									</div>
+{
+	@Html.AntiForgeryToken()
+	<div class="container">
+		<div class="row">
+			<div class="col-md-8 offset-md-2">
+				<div class="regi-process-bar">
+					<div class="row">
+						<div class="col-md-5"><div class="regi-heading">Program/Event Registration</div></div>
+						<div class="col-md-7">
+							<div class="row bs-wizard">
+								<div class="col-md-4 bs-wizard-step complete">
+									<div class="progress"><div class="progress-bar"></div></div>
+									<a class="bs-wizard-dot" href="javascript: void(0);">1</a>
+									<div class="text-center bs-wizard-stepnum marl-55">Personal</div>
+								</div>
 
-									<div class="col-md-4 bs-wizard-step active">
+								<div class="col-md-4 bs-wizard-step active">
 
-										<div class="progress"><div class="progress-bar"></div></div>
-										<a class="bs-wizard-dot" href="javascript: void(0);">2</a>
-										<div class="text-center bs-wizard-stepnum">Contact</div>
-									</div>
+									<div class="progress"><div class="progress-bar"></div></div>
+									<a class="bs-wizard-dot" href="javascript: void(0);">2</a>
+									<div class="text-center bs-wizard-stepnum">Contact</div>
+								</div>
 
-									<div class="col-md-4 bs-wizard-step disabled">
+								<div class="col-md-4 bs-wizard-step disabled">
 
-										<div class="progress"><div class="progress-bar"></div></div>
-										<a class="bs-wizard-dot" href="javascript: void(0);">3</a>
-										<div class="text-center bs-wizard-stepnum marr-60">Account</div>
-									</div>
+									<div class="progress"><div class="progress-bar"></div></div>
+									<a class="bs-wizard-dot" href="javascript: void(0);">3</a>
+									<div class="text-center bs-wizard-stepnum marr-60">Account</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					@Html.ValidationSummary(true)
-					<div class="regi-main-1">
-						<p>
-							<span class="red-txt">*</span> denotes a required field
-						</p>
-						<div class="row">
-							<div class="col-md-6">
-								@Html.LabelFor(m => m.Address, new { @class = "requiredA" })
-								@Html.TextBoxFor(m => m.Address, new { @class = "form-control", autocomplete = "off" })
-								@Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
-							</div>
-							<div class="col-md-6">
-								@Html.LabelFor(m => m.Country, new { @class = "requiredA" })
-								@Html.DropDownList("Country", new SelectList(ViewBag.CountryList, "Id", "Name", ViewBag.SelectedCountry), "Select", new { @class = "form-control", @style = "height: 35px;" })
-								@Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })
-							</div>
+				</div>
+				@Html.ValidationSummary(true)
+				<div class="regi-main-1">
+					<p>
+						<span class="red-txt">*</span> denotes a required field
+					</p>
+					<div class="row">
+						<div class="col-md-6">
+							@Html.LabelFor(m => m.Address, new { @class = "requiredA" })
+							@Html.TextBoxFor(m => m.Address, new { @class = "form-control", autocomplete = "off" })
+							@Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
 						</div>
-						<div class="row">
-							<div class="col-md-6">
-								@Html.LabelFor(m => m.State, new { @class = "requiredA" })
-								@Html.DropDownList("State", new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Name", ViewBag.SelectedState), "Select State", new { @class = "form-control", @style = "height: 35px;" })
-								@Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger" })
-							</div>
-							<div class="col-md-6">
-								@Html.LabelFor(m => m.City, new { @class = "requiredA" })
-								@Html.TextBoxFor(m => m.City, new { @class = "form-control", autocomplete = "off" })
-								@Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
-							</div>
+						<div class="col-md-6">
+							@Html.LabelFor(m => m.Country, new { @class = "requiredA" })
+							@Html.DropDownList("Country", new SelectList(ViewBag.CountryList, "Id", "Name", ViewBag.SelectedCountry), "Select", new { @class = "form-control", @style = "height: 35px;" })
+							@Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })
 						</div>
-						<div class="row">
-							<div class="col-md-6">
-								@Html.LabelFor(m => m.ZipCode, new { @class = "requiredA" })
-								@Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control", autocomplete = "off" })
-								@Html.ValidationMessageFor(m => m.ZipCode, "", new { @class = "text-danger" })
-							</div>
-							<div class="col-md-6">
-								@Html.LabelFor(m => m.HomePhone, new { @class = "requiredA" })
-								@Html.TextBoxFor(m => m.HomePhone, new { @class = "form-control", autocomplete = "off" })
-								@Html.ValidationMessageFor(m => m.HomePhone, "", new { @class = "text-danger" })
-							</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							@Html.LabelFor(m => m.State, new { @class = "requiredA" })
+							@Html.DropDownList("State", new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Name", ViewBag.SelectedState), "Select State", new { @class = "form-control", @style = "height: 35px;" })
+							@Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger" })
 						</div>
-						<div class="row">
-							<div class="col-md-6 form-group">
-								@Html.LabelFor(m => m.CellPhone)
-								@Html.TextBoxFor(m => m.CellPhone, new { @class = "form-control", autocomplete = "off" })
-								@Html.ValidationMessageFor(m => m.CellPhone, "", new { @class = "text-danger" })
-							</div>
+						<div class="col-md-6">
+							@Html.LabelFor(m => m.City, new { @class = "requiredA" })
+							@Html.TextBoxFor(m => m.City, new { @class = "form-control", autocomplete = "off" })
+							@Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							@Html.LabelFor(m => m.ZipCode, new { @class = "requiredA" })
+							@Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control", autocomplete = "off" })
+							@Html.ValidationMessageFor(m => m.ZipCode, "", new { @class = "text-danger" })
+						</div>
+						<div class="col-md-6">
+							@Html.LabelFor(m => m.HomePhone, new { @class = "requiredA" })
+							@Html.TextBoxFor(m => m.HomePhone, new { @class = "form-control", autocomplete = "off" })
+							@Html.ValidationMessageFor(m => m.HomePhone, "", new { @class = "text-danger" })
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 form-group">
+							@Html.LabelFor(m => m.CellPhone)
+							@Html.TextBoxFor(m => m.CellPhone, new { @class = "form-control", autocomplete = "off" })
+							@Html.ValidationMessageFor(m => m.CellPhone, "", new { @class = "text-danger" })
+						</div>
 
-						</div>
-						<div class="row">
-							<div class="col-md-12">
-								<button class="btn btn-secondary float-left" name="prevBtn" type="submit">Back <i class="material-icons">cancel</i></button>
-								<button class="btn btn-orange float-right" name="nextBtn" type="submit" data-target="#demo" data-toggle="collapse">Continue <i class="material-icons">check_circle</i></button>
-							</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<button class="btn btn-secondary float-left" name="prevBtn" type="submit">Back <i class="material-icons">cancel</i></button>
+							<button class="btn btn-orange float-right" name="nextBtn" type="submit" data-target="#demo" data-toggle="collapse">Continue <i class="material-icons">check_circle</i></button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	}
+	</div>
+}
+	<script>
+		$('#contactDetails').on('keyup keypress', function (e) {
+			var keyCode = e.keyCode || e.which;
+			if (keyCode === 13) {
+				e.preventDefault();
+				return false;
+			}
+		});
+	</script>
 

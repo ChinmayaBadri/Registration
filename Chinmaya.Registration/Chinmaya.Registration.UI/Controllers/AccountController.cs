@@ -659,6 +659,7 @@ namespace Chinmaya.Registration.UI.Controllers
                                 From = ConfigurationManager.AppSettings["SMTPUsername"]
                             };
                             em1.Send();
+
                             obj.Id = null;
                             ViewBag.ApproveContent = "An approval email has been sent to primary account holder of your family..! Your account will be activated once your request has been approved.";
                             if (!userRejected)

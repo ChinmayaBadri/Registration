@@ -37,7 +37,7 @@
 
 }
 
-@using (Html.BeginForm("AccountDetails", "Account", FormMethod.Post))
+@using (Html.BeginForm("AccountDetails", "Account", FormMethod.Post, new { @id = "accountDetails" }))
 
 {
 
@@ -208,5 +208,15 @@
 	</script>
 	
 }
+
+	<script>
+		$('#accountDetails').on('keypress', function (e) {
+			var keyCode = e.keyCode || e.which;
+			if (keyCode === 13) {
+				e.preventDefault();
+				return false;
+			}
+		});
+	</script>
 
 
