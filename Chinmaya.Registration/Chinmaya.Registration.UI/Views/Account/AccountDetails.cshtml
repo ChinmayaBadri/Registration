@@ -37,7 +37,7 @@
 
 }
 
-@using (Html.BeginForm("AccountDetails", "Account", FormMethod.Post, new { @id = "accountDetails" }))
+@using (Html.BeginForm("AccountDetails", "Account", FormMethod.Post))
 
 {
 
@@ -117,17 +117,17 @@
 									<div id="dataListItem" class="col-md-12">
 										<label>
 											@sqmList[i].Id.
-										@sqmList[i].Name
-									</label>
+											@sqmList[i].Name
+										</label>
+									</div>
 								</div>
-							</div>
-							<div class="row">
-								<div id="dataTextBox" class="col-md-12">
-									<input type='text' class="form-control" name="AnswerTextbox_@(i+1)" id="AnswerTextbox_@(i+1)" value="@sqmList[i].Value" autocomplete = "off"  />
-									<span id="errorstatus"></span>
+								<div class="row">
+									<div id="dataTextBox" class="col-md-12">
+										<input type='text' class="form-control" name="AnswerTextbox_@(i+1)" id="AnswerTextbox_@(i+1)" value="@sqmList[i].Value" autocomplete="off" />
+										<span id="errorstatus"></span>
+									</div>
 								</div>
-							</div>
-						}
+							}
 							@Html.ValidationMessageFor(m => m.SecurityQuestionsModel, "", new { @class = "text-danger" })
 						</div>
 					</div>
@@ -136,7 +136,7 @@
 						<div class="col-md-6 offset-md-3">
 							<br />
 							<button class="btn btn-secondary float-left" name="prevBtn" type="submit">Back <i class="material-icons">cancel</i></button>
-							<button class="btn btn-orange float-right" name="nextBtn" type="submit" data-target="#demo" data-toggle="collapse">Create Account <i class="material-icons">check_circle</i></button>
+							<button class="btn btn-orange float-right accountDetails" name="nextBtn" type="submit" data-target="#demo" data-toggle="collapse">Create Account <i class="material-icons">check_circle</i></button>
 						</div>
 					</div>
 				</div>
@@ -145,36 +145,36 @@
 	</div>
 }
 
-	<script>
-		$(document).ready(function () {
-			$("#AnswerTextbox_1").on("blur", function () {
-				if ($("#AnswerTextbox_1").val().trim().length != 0) {
-					var phone = $("#AnswerTextbox_1").val();
-					if (!validatePhone('AnswerTextbox_1')) {
-						$('#errorstatus').html('Please enter valid phone number');
-						$('#errorstatus').css('color', 'red');
-						var value = null;
-						$("#AnswerTextbox_1").val(value);
-					}
-					else {
-						$('#errorstatus').html(' ');
-					}
-				}
-				
-			});
-			function validatePhone(txtPhone) {
-				var a = $("#AnswerTextbox_1").val();
-				var filter = /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|([0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
-				if (filter.test(a)) {
-					return true;
+<script>
+	$(document).ready(function () {
+		$("#AnswerTextbox_1").on("blur", function () {
+			if ($("#AnswerTextbox_1").val().trim().length != 0) {
+				var phone = $("#AnswerTextbox_1").val();
+				if (!validatePhone('AnswerTextbox_1')) {
+					$('#errorstatus').html('Please enter valid phone number');
+					$('#errorstatus').css('color', 'red');
+					var value = null;
+					$("#AnswerTextbox_1").val(value);
 				}
 				else {
-					return false;
+					$('#errorstatus').html(' ');
 				}
 			}
 
 		});
-	</script>
+		function validatePhone(txtPhone) {
+			var a = $("#AnswerTextbox_1").val();
+			var filter = /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|([0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
+			if (filter.test(a)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+
+	});
+</script>
 
 @if (ViewBag.Toast != null)
 {
@@ -206,17 +206,17 @@
             }
         });
 	</script>
-	
+
 }
 
-	<script>
-		$('#accountDetails').on('keypress', function (e) {
-			var keyCode = e.keyCode || e.which;
-			if (keyCode === 13) {
-				e.preventDefault();
-				return false;
-			}
-		});
-	</script>
+<script>
+	$(document).bind('keypress', function (e) {
+		var keyCode = e.keyCode || e.which;
+		if (keyCode === 13) {
+			e.preventDefault();
+			$('.accountDetails').trigger('click');
+		}
+	});
+</script>
 
 

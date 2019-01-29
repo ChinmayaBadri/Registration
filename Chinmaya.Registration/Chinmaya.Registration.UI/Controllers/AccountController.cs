@@ -14,7 +14,6 @@ using System.Web.Security;
 using Chinmaya.Utilities;
 using System.Configuration;
 using Chinmaya.Registration.UI.Services;
-//using log4net;
 
 namespace Chinmaya.Registration.UI.Controllers
 {
@@ -25,7 +24,6 @@ namespace Chinmaya.Registration.UI.Controllers
         UserService _user = new UserService();
         CommonService _common = new CommonService();
         EventService _event = new EventService();
-        //LoggerManager logger = new LoggerManager(typeof(AccountController));
         System.Collections.Specialized.NameValueCollection configMngr = ConfigurationManager.AppSettings;
 		/// <summary>
 		/// Loads NotFound Exception
@@ -34,7 +32,6 @@ namespace Chinmaya.Registration.UI.Controllers
 		[AllowAnonymous]
 		public ActionResult NotFound()
 		{
-            //logger.ErrorMessage(LoggerManager.LogLevel.ERROR,"Page Not Found.");
 			return View();
 		}
 
@@ -65,30 +62,23 @@ namespace Chinmaya.Registration.UI.Controllers
 			{
                 EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
 				model.Password = objEncryptDecrypt.Encrypt(model.Password, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
-                //Utility.MasterType masterValue = Utility.MasterType.ROLE;
-                //HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/Master/GetMasterData", masterValue, true);
-                //logger.LogMessage(LoggerManager.LogLevel.INFO,"Process UserIdPasswordRqst Initiated");
 				HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/", model, true);
 
-				if (userResponseMessage.IsSuccessStatusCode) //&& roleResponseMessage.IsSuccessStatusCode)
+				if (userResponseMessage.IsSuccessStatusCode)
 				{
                     var user = await Utility.DeserializeObject<UserModel>(userResponseMessage);
 					if (user != null)
 					{
-                        //logger.LogMessage(LoggerManager.LogLevel.INFO, "Process UserIdPasswordRqst-Success");
                         if (!user.EmailConfirmed)
 						{
-                            //logger.LogMessage(LoggerManager.LogLevel.INFO, "User Not Activated");
                             ViewBag.IsUserActivated = false;
 							ViewBag.UserNotActivated = "Please verify your registered email address and try to login again.";
 							return View("Login");
 						}
 
-                        //logger.LogMessage(LoggerManager.LogLevel.INFO, "Process UserRoleRqst Initaited-RoleId " + user.RoleId);
                         HttpResponseMessage roleNameResponseMessage = await Utility.GetObject("/api/User/" + user.RoleId, true);
 						string roleName = await Utility.DeserializeObject<string>(roleNameResponseMessage);
 						List<string> userRoles = new List<string> { roleName };
-                        //logger.LogMessage(LoggerManager.LogLevel.INFO, "UserRoleName:" + roleName);
 
                         CustomPrincipalSerializeModel serializeModel = new CustomPrincipalSerializeModel();
 						serializeModel.UserId = user.Id;
@@ -110,7 +100,6 @@ namespace Chinmaya.Registration.UI.Controllers
 						HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
 						Response.Cookies.Add(faCookie);
 						SessionVar.LoginUser = user;
-                        //logger.LogMessage(LoggerManager.LogLevel.INFO, "FormsAuthentication processed");
 
                         if (!string.IsNullOrEmpty(returnUrl)) return Redirect(returnUrl);
 						else
@@ -133,13 +122,11 @@ namespace Chinmaya.Registration.UI.Controllers
 					else
 					{
 						ViewBag.Message = "Please verify email and password and try to login again.";
-                        //logger.LogMessage(LoggerManager.LogLevel.INFO, "Process UserIdPasswordRqst Failed - No Match found");
 						return View("Login");
 					}
 				}
                 else
                 {
-                    //logger.ErrorMessage(LoggerManager.LogLevel.ERROR, "User Login Response Failed - " + userResponseMessage.StatusCode.ToString());
                     ViewBag.ErrorMsg = "Unable to Login due to Internal Error. Please try again.";
                     return View("Error");
                 }
@@ -154,7 +141,6 @@ namespace Chinmaya.Registration.UI.Controllers
 		[HttpGet]
         public ActionResult NotAuthorized()
         {
-            //logger.ErrorMessage(LoggerManager.LogLevel.ERROR, "Not Authorized");
             return View();
         }
 
@@ -166,7 +152,6 @@ namespace Chinmaya.Registration.UI.Controllers
 		public ActionResult ForgotPassword()
 		{
             ForgotPasswordModel fm = new ForgotPasswordModel();
-            //logger.LogMessage(LoggerManager.LogLevel.INFO, "Navigate to Forgot Password Module");
 			return View(fm);
 		}
 
@@ -204,13 +189,11 @@ namespace Chinmaya.Registration.UI.Controllers
 
                     tm.Message = "Email sent";
                     tm.IsSuccess = true;
-                    //logger.LogMessage(LoggerManager.LogLevel.INFO, "ForgotPassword -" + tm.Message);
                 }
                 else
                 {
                     tm.Message = "Email not found";
                     tm.IsSuccess = false;
-                    //logger.LogMessage(LoggerManager.LogLevel.INFO, "ForgotPassword -" +tm.Message);
                 }
 
                 return Json(tm);
@@ -218,7 +201,6 @@ namespace Chinmaya.Registration.UI.Controllers
 
 			catch(Exception e)
             {
-                //logger.ErrorMessage(LoggerManager.LogLevel.ERROR,"ForgotPasswordModule-Exception:", e);
                throw(e);
             }
             
@@ -235,7 +217,6 @@ namespace Chinmaya.Registration.UI.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ResetForgotPassword(string user, bool isRedirected = false)
         {
-            //logger.LogMessage(LoggerManager.LogLevel.INFO, "Reset Password Module");
             EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
             string email = objEncryptDecrypt.Decrypt(user, configMngr["ServiceAccountPassword"]);
             if(await _account.CheckIsEmailExists(email))
@@ -249,7 +230,6 @@ namespace Chinmaya.Registration.UI.Controllers
                     SecurityQuestionsModel = sqList,
                     IsRedirected = isRedirected
                 };
-                //logger.LogMessage(LoggerManager.LogLevel.INFO, "Navigate to Reset Password");
                 return View(rfpm);
             }
             return RedirectToAction("Login");
@@ -311,7 +291,6 @@ namespace Chinmaya.Registration.UI.Controllers
                 string email = objEncryptDecrypt.Encrypt(model.Email, configMngr["ServiceAccountPassword"]);
                 return RedirectToAction("ResetForgotPassword", new { user = email, isRedirected = true });
             }
-            //logger.LogMessage(LoggerManager.LogLevel.INFO, "Reset Password Confirmation Message-" + tm.Message);
             return View("ResetPasswordConfirmation", tm);
         }
 
@@ -328,7 +307,6 @@ namespace Chinmaya.Registration.UI.Controllers
             Response.Cookies["userInfo"].Value = "";
             Response.Cookies["userInfo"].Expires = DateTime.Now.AddDays(-1);
             FormsAuthentication.SignOut();
-            //logger.LogMessage(LoggerManager.LogLevel.INFO, "User Sign Out");
             return RedirectToAction("Login", "Account");
 		}
 
@@ -350,7 +328,6 @@ namespace Chinmaya.Registration.UI.Controllers
 		[AllowAnonymous]
 		public ActionResult Registration()
 		{
-            //logger.LogMessage(LoggerManager.LogLevel.INFO, "Navigate to Registration form");
 			return View();
 		}
 
@@ -404,7 +381,6 @@ namespace Chinmaya.Registration.UI.Controllers
                     return RedirectToAction("ContactDetails");
 				}
 			}
-            //logger.LogMessage(LoggerManager.LogLevel.INFO, "Navigate to Registration/PersonalDetails");
             return View();
 		}
 
@@ -482,7 +458,6 @@ namespace Chinmaya.Registration.UI.Controllers
                     return RedirectToAction("AccountDetails");
 				}
 			}
-            //logger.LogMessage(LoggerManager.LogLevel.INFO, "Navigate to Registration/ContactDetails");
             return View();
 		}
 
@@ -654,8 +629,8 @@ namespace Chinmaya.Registration.UI.Controllers
                             EmailManager em1 = new EmailManager
                             {
                                 Body = etm1.Body,
-                                To = data.Email,
-                                Subject = etm1.Subject,
+								To = primaryAccountEmail,
+								Subject = etm1.Subject,
                                 From = ConfigurationManager.AppSettings["SMTPUsername"]
                             };
                             em1.Send();
@@ -665,7 +640,13 @@ namespace Chinmaya.Registration.UI.Controllers
                             if (!userRejected)
                             {
                                 HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/PostUser", obj, true);
-                            }
+
+								SharedAccountModel sam = new SharedAccountModel();
+								sam.To_UserId = await _account.GetUserIdByEmail(primaryAccountEmail);
+								sam.From_UserId = await _account.GetUserIdByEmail(obj.Email);
+								sam.CreatedDate = DateTime.Now;
+								HttpResponseMessage userResponseMessage2 = await Utility.GetObject("/api/User/PostSharedAccount", sam, true);
+							}
 
                             return View("AccountDetails", Ad);
                         }
@@ -698,7 +679,6 @@ namespace Chinmaya.Registration.UI.Controllers
 					}
 				}
 			}
-            //logger.LogMessage(LoggerManager.LogLevel.INFO, "Navigate to Registration/AccountDetails");
             return View();
 		}
 
@@ -735,7 +715,6 @@ namespace Chinmaya.Registration.UI.Controllers
                 tm.IsSuccess = false;
                 tm.Message = "User not found";
             }
-            //logger.LogMessage(LoggerManager.LogLevel.INFO, "User Activation form-" +tm.Message);
             return View(tm);
         }
 
@@ -756,7 +735,6 @@ namespace Chinmaya.Registration.UI.Controllers
             arm.FullName = await _user.GetUserFullName(email);
             arm.Email = email;
             arm.AreAddressDetailsMatched = aadm;
-            //logger.LogMessage(LoggerManager.LogLevel.INFO, string.Format("Shared Account Request-User:{0}, AddressMatched:{1}", user, aadm));
             return View(arm);
         }
 
@@ -802,7 +780,18 @@ namespace Chinmaya.Registration.UI.Controllers
                 };
                 em.Send();
 
-                if(arm.AreAddressDetailsMatched && arm.IsApproved)
+				SharedAccountModel sam = new SharedAccountModel();
+				sam.From_UserId = await _account.GetUserIdByEmail(um.Email);
+				if (status == "Approved")
+					sam.IsApproved = true;
+				else
+					sam.IsDeclined = true;
+				sam.UpdatedDate = DateTime.Now;
+				HttpResponseMessage userResponseMessage2 = await Utility.GetObject("/api/User/UpdateSharedAccount", sam, true);
+				var user = await Utility.DeserializeObject<SharedAccountModel>(userResponseMessage2);
+
+
+				if (arm.AreAddressDetailsMatched && arm.IsApproved)
                 {
                     FamilyMemberModel fm = new FamilyMemberModel();
                     fm.CellPhone = um.CellPhone;
@@ -830,8 +819,6 @@ namespace Chinmaya.Registration.UI.Controllers
 		[AllowAnonymous]
 		public async Task<JsonResult> FillState(int Id)
 		{
-			//Utility.MasterType masterValue = Utility.MasterType.STATE;
-			//HttpResponseMessage roleResponseMessage = await Utility.GetObject("/api/Master/GetMasterData", masterValue, true);
 			HttpResponseMessage roleNameResponseMessage = await Utility.GetObject("/api/Account/GetState/" + Id, true);
 			var serializedStates = await Utility.DeserializeList<KeyValueModel>(roleNameResponseMessage);
 			return Json(serializedStates, JsonRequestBehavior.AllowGet);

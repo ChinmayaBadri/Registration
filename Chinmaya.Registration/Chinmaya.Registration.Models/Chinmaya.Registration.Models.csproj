@@ -90,6 +90,7 @@
     <Compile Include="ResetForgotPasswordModel.cs" />
     <Compile Include="ResetPasswordModel.cs" />
     <Compile Include="SecurityQuestionsModel.cs" />
+    <Compile Include="SharedAccountModel.cs" />
     <Compile Include="ToastModel.cs" />
     <Compile Include="UpdateEmail.cs" />
     <Compile Include="UpdatePasswordModel.cs" />

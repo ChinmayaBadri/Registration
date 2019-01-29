@@ -105,7 +105,6 @@ namespace Chinmaya.Registration.UI.Controllers
                         foreach (KeyValuePair<string, List<string>> entry in dict)
                         {
                             var userData = await _user.GetUserData(entry.Key);
-                            //currentEvents.Clear();
 							List<CurrentEventModel> currentEvents = new List<CurrentEventModel>();
 							foreach (var ev in entry.Value)
                             {
@@ -218,7 +217,6 @@ namespace Chinmaya.Registration.UI.Controllers
 						foreach (KeyValuePair<string, List<string>> entry in dict)
 						{
 							var userData = await _user.GetUserData(entry.Key);
-							//currentEvents.Clear();
 							List<CurrentEventModel> currentEvents = new List<CurrentEventModel>();
 							foreach (var ev in entry.Value)
 							{

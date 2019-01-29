@@ -288,14 +288,9 @@ warning 6002: The table/view 'Chinmaya.dbo.Sessions' does not have a primary key
           <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="Order" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'Chinmaya.dbo.SharedAccount' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="SharedAccount">
           <Key>
             <PropertyRef Name="ID" />
-            <PropertyRef Name="To_UserId" />
-            <PropertyRef Name="From_UserId" />
-            <PropertyRef Name="CreatedDate" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="To_UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
@@ -417,6 +412,7 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <EntitySet Name="Events" EntityType="Self.Events" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventSessions" EntityType="Self.EventSessions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FamilyMember" EntityType="Self.FamilyMember" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SharedAccount" EntityType="Self.SharedAccount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserActivation" EntityType="Self.UserActivation" Schema="dbo" store:Type="Tables" />
@@ -517,18 +513,6 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
     [Sessions].[Order] AS [Order]
     FROM [dbo].[Sessions] AS [Sessions]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="SharedAccount" EntityType="Self.SharedAccount" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [SharedAccount].[ID] AS [ID], 
-    [SharedAccount].[To_UserId] AS [To_UserId], 
-    [SharedAccount].[From_UserId] AS [From_UserId], 
-    [SharedAccount].[IsApproved] AS [IsApproved], 
-    [SharedAccount].[IsDeclined] AS [IsDeclined], 
-    [SharedAccount].[IsDeclinedPermanently] AS [IsDeclinedPermanently], 
-    [SharedAccount].[CreatedDate] AS [CreatedDate], 
-    [SharedAccount].[UpdatedDate] AS [UpdatedDate]
-    FROM [dbo].[SharedAccount] AS [SharedAccount]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="Sites" EntityType="Self.Sites" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Sites].[Id] AS [Id], 
@@ -580,7 +564,6 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <EntitySet Name="Relationships" EntityType="ChinmayaModel.Relationship" />
           <EntitySet Name="Roles" EntityType="ChinmayaModel.Role" />
           <EntitySet Name="Sessions" EntityType="ChinmayaModel.Session" />
-          <EntitySet Name="SharedAccounts" EntityType="ChinmayaModel.SharedAccount" />
           <EntitySet Name="Sites" EntityType="ChinmayaModel.Site" />
           <EntitySet Name="States" EntityType="ChinmayaModel.State" />
           <EntitySet Name="Weekdays" EntityType="ChinmayaModel.Weekday" />
@@ -597,6 +580,7 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <FunctionImport Name="GetFamilyMemberForUser" ReturnType="Collection(ChinmayaModel.GetFamilyMemberForUser_Result)">
           <Parameter Name="UserId" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="SharedAccounts" EntityType="ChinmayaModel.SharedAccount" />
         </EntityContainer>
         <EntityType Name="CheckPayment">
           <Key>
@@ -837,22 +821,6 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="Order" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="SharedAccount">
-          <Key>
-            <PropertyRef Name="ID" />
-            <PropertyRef Name="To_UserId" />
-            <PropertyRef Name="From_UserId" />
-            <PropertyRef Name="CreatedDate" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="To_UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="From_UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="IsApproved" Type="Boolean" />
-          <Property Name="IsDeclined" Type="Boolean" />
-          <Property Name="IsDeclinedPermanently" Type="Boolean" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-        </EntityType>
         <EntityType Name="Site">
           <Key>
             <PropertyRef Name="Id" />
@@ -990,6 +958,19 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <Property Type="String" Name="Relationship" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Grade" Nullable="true" MaxLength="100" />
         </ComplexType>
+        <EntityType Name="SharedAccount">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="To_UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="From_UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsApproved" Type="Boolean" />
+          <Property Name="IsDeclined" Type="Boolean" />
+          <Property Name="IsDeclinedPermanently" Type="Boolean" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1240,20 +1221,6 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SharedAccounts">
-            <EntityTypeMapping TypeName="ChinmayaModel.SharedAccount">
-              <MappingFragment StoreEntitySet="SharedAccount">
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="IsDeclinedPermanently" ColumnName="IsDeclinedPermanently" />
-                <ScalarProperty Name="IsDeclined" ColumnName="IsDeclined" />
-                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
-                <ScalarProperty Name="From_UserId" ColumnName="From_UserId" />
-                <ScalarProperty Name="To_UserId" ColumnName="To_UserId" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Sites">
             <EntityTypeMapping TypeName="ChinmayaModel.Site">
               <MappingFragment StoreEntitySet="Sites">
@@ -1388,6 +1355,20 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="SharedAccounts">
+            <EntityTypeMapping TypeName="ChinmayaModel.SharedAccount">
+              <MappingFragment StoreEntitySet="SharedAccount">
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsDeclinedPermanently" ColumnName="IsDeclinedPermanently" />
+                <ScalarProperty Name="IsDeclined" ColumnName="IsDeclined" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="From_UserId" ColumnName="From_UserId" />
+                <ScalarProperty Name="To_UserId" ColumnName="To_UserId" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

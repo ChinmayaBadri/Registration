@@ -51,7 +51,6 @@ namespace Chinmaya.DAL
         public virtual DbSet<Relationship> Relationships { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<Session> Sessions { get; set; }
-        public virtual DbSet<SharedAccount> SharedAccounts { get; set; }
         public virtual DbSet<Site> Sites { get; set; }
         public virtual DbSet<State> States { get; set; }
         public virtual DbSet<Weekday> Weekdays { get; set; }
@@ -59,6 +58,7 @@ namespace Chinmaya.DAL
         public virtual DbSet<SecurityQuestion> SecurityQuestions { get; set; }
         public virtual DbSet<FamilyMember> FamilyMembers { get; set; }
         public virtual DbSet<Event> Events { get; set; }
+        public virtual DbSet<SharedAccount> SharedAccounts { get; set; }
     
         public virtual ObjectResult<GetUserFamilyMembers_Result> GetUserFamilyMembers(string userId)
         {

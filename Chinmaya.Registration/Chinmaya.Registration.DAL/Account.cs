@@ -13,7 +13,6 @@ namespace Chinmaya.Registration.DAL
 {
 	public class Account
 	{
-        //private static readonly ILog logger = LogManager.GetLogger(typeof(Account));
         /// <summary>
         /// Check user email exists or not
         /// </summary>
@@ -102,9 +101,8 @@ namespace Chinmaya.Registration.DAL
 				}
 				return string.Empty;
 			}
-			catch(Exception e)
+			catch(Exception)
 			{
-                //logger.Error("Exception:", e);
                 throw;
 			}
 
@@ -138,9 +136,8 @@ namespace Chinmaya.Registration.DAL
 					return email;
 				}
 			}
-			catch(Exception e)
+			catch(Exception)
 			{
-                //logger.Error("Exception:", e);
                 throw;
 			}
 
@@ -164,9 +161,8 @@ namespace Chinmaya.Registration.DAL
                 }
                 return string.Empty;
             }
-			catch(Exception e)
+			catch(Exception)
 			{
-                //logger.Error("Exception:", e);
 				throw;
 			}
 

@@ -281,5 +281,43 @@ namespace Chinmaya.Registration.BAL.Controllers
 		{
 			return Ok(_user.GetUserRoleNameByEmail(email));
 		}
+
+		/// <summary>
+		/// adds shareduser data
+		/// </summary>
+		/// <param name="obj"> SharedAccount Model </param>
+		[Route("api/User/PostSharedAccount")]
+		[HttpPost]
+		public IHttpActionResult PostSharedAccount(SharedAccountModel obj)
+		{
+			try
+			{
+				_user.PostSharedAccount(obj);
+				return Ok("Success");
+			}
+			catch
+			{
+				throw;
+			}
+		}
+
+		/// <summary>
+		/// updates shareduser data
+		/// </summary>
+		/// <param name="obj"> SharedAccount Model </param>
+		[Route("api/User/UpdateSharedAccount")]
+		[HttpPost]
+		public SharedAccount UpdateSharedAccount(SharedAccountModel obj)
+		{
+			try
+			{
+				return _user.UpdateSharedAccount(obj);
+			}
+			catch
+			{
+				throw;
+			}
+		}
+
 	}
 }

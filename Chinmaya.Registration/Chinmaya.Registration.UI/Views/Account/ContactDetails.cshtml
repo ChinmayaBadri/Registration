@@ -55,10 +55,18 @@
 					$("#State").html(v);
 				});
 			}
+
+			$(document).bind('keypress', function (e) {
+				var keyCode = e.keyCode || e.which;
+				if (keyCode === 13) {
+					e.preventDefault();
+					$('.contactDetails').trigger('click');
+				}
+			});
 		});
 	</script>
 }
-@using (Html.BeginForm("ContactDetails", "Account", FormMethod.Post, new { @id = "contactDetails" }))
+@using (Html.BeginForm("ContactDetails", "Account", FormMethod.Post))
 
 {
 	@Html.AntiForgeryToken()
@@ -145,7 +153,7 @@
 					<div class="row">
 						<div class="col-md-12">
 							<button class="btn btn-secondary float-left" name="prevBtn" type="submit">Back <i class="material-icons">cancel</i></button>
-							<button class="btn btn-orange float-right" name="nextBtn" type="submit" data-target="#demo" data-toggle="collapse">Continue <i class="material-icons">check_circle</i></button>
+							<button class="btn btn-orange float-right contactDetails" name="nextBtn" type="submit" data-target="#demo" data-toggle="collapse">Continue <i class="material-icons">check_circle</i></button>
 						</div>
 					</div>
 				</div>
@@ -153,13 +161,4 @@
 		</div>
 	</div>
 }
-	<script>
-		$('#contactDetails').on('keyup keypress', function (e) {
-			var keyCode = e.keyCode || e.which;
-			if (keyCode === 13) {
-				e.preventDefault();
-				return false;
-			}
-		});
-	</script>
 

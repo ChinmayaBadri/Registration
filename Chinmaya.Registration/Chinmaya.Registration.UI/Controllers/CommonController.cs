@@ -18,7 +18,6 @@ namespace Chinmaya.Registration.UI.Controllers
         AccountService _account = new AccountService();
         UserService _user = new UserService();
         CommonService _common = new CommonService();
-        //LoggerManager logger = new LoggerManager(typeof(CommonController));
 
         /// <summary>
         /// Changes user account password
@@ -51,7 +50,6 @@ namespace Chinmaya.Registration.UI.Controllers
                     tm.IsSuccess = false;
                     tm.Message = "Failed to update Password"; //Old password Does not match
                 }
-                //logger.LogMessage(LoggerManager.LogLevel.INFO, string.Format("Change Password Module-{0}", tm.Message));
                 return Json(tm);
             }
 			return PartialView("_ChangePassword");
@@ -78,8 +76,7 @@ namespace Chinmaya.Registration.UI.Controllers
                 tm.Message = "Phone updated successfully";
                 return Json(tm);
             }
-            //logger.LogMessage(LoggerManager.LogLevel.INFO, string.Format("Change Phone-{0}", tm.Message));
-
+           
             return RedirectToAction("EditPhoneNumber", "Common");
 		}
 
@@ -115,7 +112,6 @@ namespace Chinmaya.Registration.UI.Controllers
                     return Json(tm);
                 }
             }
-            //logger.LogMessage(LoggerManager.LogLevel.INFO, string.Format("Change Email-{0}", tm.Message));
 
             return RedirectToAction("EditEmail", "Common");
 		}
@@ -176,7 +172,6 @@ namespace Chinmaya.Registration.UI.Controllers
 			ViewBag.CountryList = await _common.GetCountryData();
             ViewBag.SelectedCountry = cd.Country;
             ViewBag.SelectedState = cd.State;
-            //logger.LogMessage(LoggerManager.LogLevel.INFO, string.Format("Change Address-{0}", User.Identity.Name));
             return PartialView("_ChangeAddress", cd);
         }
 

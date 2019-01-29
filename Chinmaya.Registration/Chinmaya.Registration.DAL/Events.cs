@@ -174,12 +174,9 @@ namespace Chinmaya.Registration.DAL
 								evnt.CreatedDate = ev.CreatedDate;
 								evnt.UpdatedBy = ev.UpdatedBy;
 								evnt.UpdatedDate = DateTime.Now;
-								//_ctx.Entry(evnt).State = EntityState.Modified;
 								_ctx.SaveChanges();
 
 								evntssn = _ctx.EventSessions.Where(e => e.EventId == ev.Id).FirstOrDefault();
-								//mapper1.Map(ev, evntssn);
-								//_ctx.Entry(evntssn).State = EntityState.Modified;
 								evntssn.SessionId = ev.SessionId;
 								evntssn.StartDate = ev.StartDate;
 								evntssn.EndDate = ev.EndDate;
@@ -192,8 +189,6 @@ namespace Chinmaya.Registration.DAL
 								_ctx.SaveChanges();
 
 								evnthld = _ctx.EventHolidays.Where(e => e.EventId == ev.Id).FirstOrDefault();
-								//mapper2.Map(ev, evnthld);
-								//_ctx.Entry(evnthld).State = EntityState.Modified;
 								evnthld.HolidayDate = ev.HolidayDate;
 								_ctx.SaveChanges();
 
