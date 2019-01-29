@@ -10,20 +10,21 @@ using Chinmaya.Registration.Models;
 using Newtonsoft.Json;
 using Chinmaya.Registration.UI.Providers;
 using log4net;
+using Chinmaya.UI.Filters;
 
 namespace Chinmaya.Registration.UI
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-        //private static readonly ILog logger = log4net.LogManager.GetLogger(typeof(MvcApplication));
         protected void Application_Start()
         {
-            //logger.Info("Applicaton_Start");
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             log4net.Config.XmlConfigurator.Configure();
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            log4net.Config.XmlConfigurator.Configure();
+            GlobalFilters.Filters.Add(new ExecuteCustomErrorHandler());
         }
 
         protected void Session_Start(object sender, EventArgs e)
