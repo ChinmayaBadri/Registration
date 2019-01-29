@@ -203,6 +203,7 @@
     <Compile Include="Controllers\FamilyMemberController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Filters\CheckSessionOutFilter.cs" />
+    <Compile Include="Filters\ExecuteCustomErrorHandler.cs" />
     <Compile Include="Filters\NoCacheAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -389,11 +390,14 @@
     <Content Include="Content\img\cart-icon.png" />
     <Content Include="Content\img\change-password.png" />
     <Content Include="Content\img\dashboard-logo.png" />
+    <Content Include="Content\img\details_close.png" />
+    <Content Include="Content\img\details_open.png" />
     <Content Include="Content\img\email.png" />
     <Content Include="Content\img\header-thumbnail.png" />
     <Content Include="Content\img\info-icon.png" />
     <Content Include="Content\img\login-logo.png" />
     <Content Include="Content\img\main-logo.png" />
+    <Content Include="Content\img\New Text Document.txt" />
     <Content Include="Content\img\past-transations.png" />
     <Content Include="Content\img\phone.png" />
     <Content Include="Content\img\print-tax.png" />
