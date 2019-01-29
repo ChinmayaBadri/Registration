@@ -36,7 +36,8 @@ namespace Chinmaya.Registration.Models
 		public Nullable<bool> IsLocked { get; set; }
 		public Nullable<int> NumberOfAttempts { get; set; }
 		public Dictionary<int, string> UserSecurityQuestions = new Dictionary<int, string>();
-	}
+        public string RoleName { get; set; }
+    }
 
 	public class UserInfoModel
 	{

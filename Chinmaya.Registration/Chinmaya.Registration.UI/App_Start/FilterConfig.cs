@@ -13,79 +13,35 @@ namespace Chinmaya.Registration.UI
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
-            filters.Add(new CheckSessionOutAttribute());
             filters.Add(new NoCacheAttribute());
         }
     }
-
-    public class AuthorizationFilter : AuthorizeAttribute, IAuthorizationFilter
-    {
-        public override void OnAuthorization(AuthorizationContext filterContext)
-        {
-            if (filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true)
-                || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true))
-            {
-                // Don't check for authorization as AllowAnonymous filter is applied to the action or controller
-                return;
-            }
-
-            var authCookie = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];
-            if (authCookie == null)
-            {
-                string returnUrl = filterContext.HttpContext.Request.RawUrl;
-                filterContext.Result = new RedirectToRouteResult(
-                        new RouteValueDictionary(new { controller = "Account", action = "Login", returnUrl = returnUrl })
-                );
-            }
-        }
-    }
-
-
     public class CustomAuthorizeAttribute : AuthorizeAttribute
     {
-        public string UsersConfigKey { get; set; }
-        public string RolesConfigKey { get; set; }
-
-        protected virtual CustomPrincipal CurrentUser
-        {
-            get { return HttpContext.Current.User as CustomPrincipal; }
-        }
-
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
-            // filterContext.HttpContext.Request.IsAuthenticated
+            string returnUrl = filterContext.HttpContext.Request.RawUrl;
             if (filterContext.HttpContext.Request.IsAuthenticated)
             {
-                var authorizedUsers = ConfigurationManager.AppSettings[UsersConfigKey];
-                var authorizedRoles = ConfigurationManager.AppSettings[RolesConfigKey];
-
-                Users = String.IsNullOrEmpty(Users) ? authorizedUsers : Users;
-                Roles = String.IsNullOrEmpty(Roles) ? authorizedRoles : Roles;
-
                 if (!String.IsNullOrEmpty(Roles))
                 {
-                    if (!CurrentUser.IsInRole(Roles))
+                    if (SessionVar.LoginUser == null)
                     {
-                        filterContext.Result = new RedirectToRouteResult(new
-                        RouteValueDictionary(new { controller = "Account", action = "NotAuthorized" }));
+                        filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Account", action = "Login", returnUrl = returnUrl }));
                     }
-                }
-
-                if (!String.IsNullOrEmpty(Users))
-                {
-                    if (!Users.Contains(CurrentUser.UserId.ToString()))
+                    else
                     {
-                        filterContext.Result = new RedirectToRouteResult(new
-                        RouteValueDictionary(new { controller = "Account", action = "Login" }));
+                        string[] arrRoles = Roles.Split(',');
+                        if (Array.IndexOf(arrRoles, SessionVar.LoginUser.RoleName) <= -1)
+                        {
+                            filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Account", action = "NotAuthorized", returnUrl = returnUrl }));
+                        }
                     }
                 }
             }
             else
             {
-                string returnUrl = filterContext.HttpContext.Request.RawUrl;
-                filterContext.Result = new RedirectToRouteResult(
-                        new RouteValueDictionary(new { controller = "Account", action = "Login", returnUrl = returnUrl })
-                );
+                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Account", action = "NotAuthorized", returnUrl = returnUrl }));
             }
         }
     }

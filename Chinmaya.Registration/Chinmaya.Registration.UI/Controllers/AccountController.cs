@@ -81,27 +81,7 @@ namespace Chinmaya.Registration.UI.Controllers
 
 							HttpResponseMessage roleNameResponseMessage = await Utility.GetObject("/api/User/" + user.RoleId, true);
 							string roleName = await Utility.DeserializeObject<string>(roleNameResponseMessage);
-							List<string> userRoles = new List<string> { roleName };
-
-							CustomPrincipalSerializeModel serializeModel = new CustomPrincipalSerializeModel();
-							serializeModel.UserId = user.Id;
-							serializeModel.FirstName = user.FirstName;
-							serializeModel.LastName = user.LastName;
-							serializeModel.roles = userRoles.ToArray();
-
-							string userData = JsonConvert.SerializeObject(serializeModel);
-
-							FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
-							1,
-							user.Email,
-							DateTime.Now,
-							DateTime.Now.AddDays(1),
-							false, //pass here true, if you want to implement remember me functionality
-							userData);
-
-							string encTicket = FormsAuthentication.Encrypt(authTicket);
-							HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
-							Response.Cookies.Add(faCookie);
+                            user.RoleName = roleName;
 							SessionVar.LoginUser = user;
 
 							if (!string.IsNullOrEmpty(returnUrl)) return Redirect(returnUrl);
@@ -123,7 +103,7 @@ namespace Chinmaya.Registration.UI.Controllers
 						}
 						else
 						{
-							ViewBag.Message = "Your account has been blocked. Please contact administrator(" + adminData.Email + ") to Unlock your Account.";
+							ViewBag.Message = "Your account has been blocked. Please contact administrator(" + adminData.Email + ") to unlock your account.";
 							return View(model);
 						}
 					}
@@ -165,7 +145,7 @@ namespace Chinmaya.Registration.UI.Controllers
 									From = ConfigurationManager.AppSettings["SMTPUsername"]
 								};
 								em.Send();
-								ViewBag.Message = "Your account has been blocked. Please contact administrator(" +adminData.Email + ") to Unlock your Account.";
+								ViewBag.Message = "Your account has been blocked. Please contact administrator(" +adminData.Email + ") to unlock your account.";
 								return View(model);
 							}
 						}
@@ -891,7 +871,7 @@ namespace Chinmaya.Registration.UI.Controllers
         /// </summary>
         /// <param name="tm"> Toast message model </param>
         /// <returns> My account view </returns>
-		[CustomAuthorize(Roles = "Admin, User")]
+		[CustomAuthorize(Roles = "Admin,User")]
 		public async Task<ActionResult> MyAccount(ToastModel tm = null)
 		{
 			

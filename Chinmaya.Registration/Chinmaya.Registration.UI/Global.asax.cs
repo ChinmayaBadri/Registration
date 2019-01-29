@@ -36,22 +36,17 @@ namespace Chinmaya.Registration.UI
             Session.Abandon();
         }
 
-        protected void Application_PostAuthenticateRequest(Object sender, EventArgs e)
+        protected void Application_PreRequestHandlerExecute(Object sender, EventArgs e)
         {
-            var authCookie = HttpContext.Current.Request.Cookies[FormsAuthentication.FormsCookieName];
-            if (authCookie != null)
+            HttpContext context = HttpContext.Current;
+            if (context.Session != null && context.Session["User"] != null)
             {
-                FormsAuthenticationTicket authTicket = FormsAuthentication.Decrypt(authCookie.Value);
-                if (authTicket != null && !authTicket.Expired)
-                {
-                    CustomPrincipalSerializeModel serializeModel = JsonConvert.DeserializeObject<CustomPrincipalSerializeModel>(authTicket.UserData);
-                    CustomPrincipal newUser = new CustomPrincipal(authTicket.Name);
-                    newUser.UserId = serializeModel.UserId;
-                    newUser.FirstName = serializeModel.FirstName;
-                    newUser.LastName = serializeModel.LastName;
-                    newUser.roles = serializeModel.roles.ToArray();
-                    HttpContext.Current.User = newUser;
-                }
+                UserModel objUser = (UserModel)context.Session["User"];
+                CustomPrincipal newUser = new CustomPrincipal(objUser.Email);
+                newUser.UserId = objUser.Id;
+                newUser.FirstName = objUser.FirstName;
+                newUser.LastName = objUser.LastName;
+                HttpContext.Current.User = newUser;
             }
         }
     }

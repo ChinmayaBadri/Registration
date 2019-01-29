@@ -190,10 +190,8 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -202,7 +200,6 @@
     <Compile Include="Controllers\EventRegistrationController.cs" />
     <Compile Include="Controllers\FamilyMemberController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
-    <Compile Include="Filters\CheckSessionOutFilter.cs" />
     <Compile Include="Filters\ExecuteCustomErrorHandler.cs" />
     <Compile Include="Filters\NoCacheAttribute.cs" />
     <Compile Include="Global.asax.cs">
