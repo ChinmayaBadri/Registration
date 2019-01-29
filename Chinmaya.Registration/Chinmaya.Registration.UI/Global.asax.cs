@@ -21,7 +21,6 @@ namespace Chinmaya.Registration.UI
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            log4net.Config.XmlConfigurator.Configure();
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             log4net.Config.XmlConfigurator.Configure();
             GlobalFilters.Filters.Add(new ExecuteCustomErrorHandler());
@@ -54,12 +53,6 @@ namespace Chinmaya.Registration.UI
                     HttpContext.Current.User = newUser;
                 }
             }
-        }
-
-        protected void Application_Error(object sender,EventArgs e)
-        {
-            var unHandledExc = Server.GetLastError().GetBaseException();
-            //logger.Error("Application Unhandled Exception", unHandledExc);
         }
     }
 }
