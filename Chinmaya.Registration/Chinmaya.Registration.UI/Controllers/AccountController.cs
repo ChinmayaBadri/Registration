@@ -63,71 +63,117 @@ namespace Chinmaya.Registration.UI.Controllers
                 EncryptDecrypt objEncryptDecrypt = new EncryptDecrypt();
 				model.Password = objEncryptDecrypt.Encrypt(model.Password, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
 				HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/User/", model, true);
+				UserModel adminData = await _user.GetAdminInfo();
 
 				if (userResponseMessage.IsSuccessStatusCode)
 				{
                     var user = await Utility.DeserializeObject<UserModel>(userResponseMessage);
 					if (user != null)
 					{
-                        if (!user.EmailConfirmed)
+						if (user.IsLocked != true)
 						{
-                            ViewBag.IsUserActivated = false;
-							ViewBag.UserNotActivated = "Please verify your registered email address and try to login again.";
-							return View("Login");
-						}
-
-                        HttpResponseMessage roleNameResponseMessage = await Utility.GetObject("/api/User/" + user.RoleId, true);
-						string roleName = await Utility.DeserializeObject<string>(roleNameResponseMessage);
-						List<string> userRoles = new List<string> { roleName };
-
-                        CustomPrincipalSerializeModel serializeModel = new CustomPrincipalSerializeModel();
-						serializeModel.UserId = user.Id;
-						serializeModel.FirstName = user.FirstName;
-						serializeModel.LastName = user.LastName;
-						serializeModel.roles = userRoles.ToArray();
-
-						string userData = JsonConvert.SerializeObject(serializeModel);
-
-						FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
-						1,
-						user.Email,
-						DateTime.Now,
-						DateTime.Now.AddDays(1),
-						false, //pass here true, if you want to implement remember me functionality
-						userData);
-
-						string encTicket = FormsAuthentication.Encrypt(authTicket);
-						HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
-						Response.Cookies.Add(faCookie);
-						SessionVar.LoginUser = user;
-
-                        if (!string.IsNullOrEmpty(returnUrl)) return Redirect(returnUrl);
-						else
-						{
-							if (roleName.Contains("Admin"))
+							if (!user.EmailConfirmed)
 							{
-								return RedirectToAction("Index", "Admin");
+								ViewBag.IsUserActivated = false;
+								ViewBag.UserNotActivated = "Please verify your registered email address and try to login again.";
+								return View("Login");
 							}
-							else if (roleName.Contains("User"))
-							{
-								return RedirectToAction("MyAccount", "Account");
-							}
+
+							HttpResponseMessage roleNameResponseMessage = await Utility.GetObject("/api/User/" + user.RoleId, true);
+							string roleName = await Utility.DeserializeObject<string>(roleNameResponseMessage);
+							List<string> userRoles = new List<string> { roleName };
+
+							CustomPrincipalSerializeModel serializeModel = new CustomPrincipalSerializeModel();
+							serializeModel.UserId = user.Id;
+							serializeModel.FirstName = user.FirstName;
+							serializeModel.LastName = user.LastName;
+							serializeModel.roles = userRoles.ToArray();
+
+							string userData = JsonConvert.SerializeObject(serializeModel);
+
+							FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
+							1,
+							user.Email,
+							DateTime.Now,
+							DateTime.Now.AddDays(1),
+							false, //pass here true, if you want to implement remember me functionality
+							userData);
+
+							string encTicket = FormsAuthentication.Encrypt(authTicket);
+							HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+							Response.Cookies.Add(faCookie);
+							SessionVar.LoginUser = user;
+
+							if (!string.IsNullOrEmpty(returnUrl)) return Redirect(returnUrl);
 							else
 							{
-								return RedirectToAction("Login", "Account");
+								if (roleName.Contains("Admin"))
+								{
+									return RedirectToAction("Index", "Admin");
+								}
+								else if (roleName.Contains("User"))
+								{
+									return RedirectToAction("MyAccount", "Account");
+								}
+								else
+								{
+									return RedirectToAction("Login", "Account");
+								}
 							}
+						}
+						else
+						{
+							ViewBag.Message = "Your account has been blocked. Please contact administrator(" + adminData.Email + ") to Unlock your Account.";
+							return View(model);
 						}
 					}
 
 					else
 					{
-						ViewBag.Message = "Please verify email and password and try to login again.";
-						return View("Login");
+						UserModel userData = await _user.GetUserInfo(model.UserName);
+						
+						if (userData.IsLocked == true)
+						{
+							ViewBag.Message = "Your account has been blocked. Please contact administrator(" + adminData.Email + ") to Unlock your Account.";
+							return View("Login");
+						}
+						else
+						{
+							if (userData.NumberOfAttempts < 3 || userData.NumberOfAttempts == null && userData.IsLocked != true)
+							{
+								if(userData.NumberOfAttempts == null) userData.NumberOfAttempts = 1;
+								else userData.NumberOfAttempts = userData.NumberOfAttempts + 1;
+								HttpResponseMessage userResponseMessage1 = await Utility.GetObject("/api/User/PostUser", userData, true);
+								ViewBag.Message = "Please verify your password and try to login again.";
+								return View(model);
+							}
+							else
+							{
+								userData.NumberOfAttempts = 0;
+								userData.IsLocked = true;
+								HttpResponseMessage userResponseMessage1 = await Utility.GetObject("/api/User/PostUser", userData, true);
+								EmailTemplateModel etm = await _account.GetEmailTemplate(10);
+								string emailBody = etm.Body
+													.Replace("[Admin]", adminData.FirstName + " " + adminData.LastName)
+													.Replace("[Username]", userData.FirstName + " " + userData.LastName);
+								etm.Body = emailBody;
+								EmailManager em = new EmailManager
+								{
+									Body = etm.Body,
+									To = adminData.Email,
+									Subject = etm.Subject,
+									From = ConfigurationManager.AppSettings["SMTPUsername"]
+								};
+								em.Send();
+								ViewBag.Message = "Your account has been blocked. Please contact administrator(" +adminData.Email + ") to Unlock your Account.";
+								return View(model);
+							}
+						}
 					}
 				}
                 else
                 {
-                    ViewBag.ErrorMsg = "Unable to Login due to Internal Error. Please try again.";
+					ViewBag.ErrorMsg = "Unable to Login due to Internal Error. Please try again.";
                     return View("Error");
                 }
 			}

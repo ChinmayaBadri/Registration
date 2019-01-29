@@ -39,5 +39,7 @@ namespace Chinmaya.DAL
         public Nullable<System.DateTime> UpdatedDate { get; set; }
         public Nullable<bool> IsApproved { get; set; }
         public Nullable<bool> IsApproveMailSent { get; set; }
+        public Nullable<bool> IsLocked { get; set; }
+        public Nullable<int> NumberOfAttempts { get; set; }
     }
 }

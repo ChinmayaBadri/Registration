@@ -604,6 +604,29 @@ namespace Chinmaya.Registration.DAL
 
 		}
 
+		/// <summary>
+		/// get Admin info
+		/// </summary>
+		/// <returns> User Model </returns>
+		public UserModel GetAdminInfo()
+		{
+			using (var _ctx = new ChinmayaEntities())
+			{
+				UserModel um = new UserModel();
+				var objUser = _ctx.Users.FirstOrDefault(x => x.RoleId == 1);
+				if (objUser != null)
+				{
+					var config = new MapperConfiguration(cfg =>
+					{
+						cfg.CreateMap<User, UserModel>();
+					});
+					IMapper mapper = config.CreateMapper();
+					return mapper.Map(objUser, um);
+				}
+				return um;
+			}
+		}
+
 	}
 }
 

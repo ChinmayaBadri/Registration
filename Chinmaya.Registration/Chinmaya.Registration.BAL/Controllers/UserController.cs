@@ -319,5 +319,16 @@ namespace Chinmaya.Registration.BAL.Controllers
 			}
 		}
 
+		/// <summary>
+		/// get admin info
+		/// </summary>
+		/// <returns> User Model </returns>
+		[Route("api/User/GetAdminInfo/")]
+		[HttpGet]
+		public IHttpActionResult GetAdminInfo()
+		{
+			return Ok(_user.GetAdminInfo());
+		}
+
 	}
 }

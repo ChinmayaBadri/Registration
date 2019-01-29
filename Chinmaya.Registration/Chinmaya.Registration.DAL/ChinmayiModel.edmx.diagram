@@ -32,11 +32,11 @@
         <EntityTypeShape EntityType="ChinmayaModel.Site" Width="1.5" PointX="12.75" PointY="12.75" />
         <EntityTypeShape EntityType="ChinmayaModel.State" Width="1.5" PointX="2.75" PointY="13.75" />
         <EntityTypeShape EntityType="ChinmayaModel.Weekday" Width="1.5" PointX="14.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ChinmayaModel.User" Width="1.5" PointX="5.375" PointY="13.75" />
         <EntityTypeShape EntityType="ChinmayaModel.SecurityQuestion" Width="1.5" PointX="13.375" PointY="6.75" />
         <EntityTypeShape EntityType="ChinmayaModel.FamilyMember" Width="1.5" PointX="7.375" PointY="14.75" />
         <EntityTypeShape EntityType="ChinmayaModel.Event" Width="1.5" PointX="15.375" PointY="3.75" />
         <EntityTypeShape EntityType="ChinmayaModel.SharedAccount" Width="1.5" PointX="7.375" PointY="10.75" />
+        <EntityTypeShape EntityType="ChinmayaModel.User" Width="1.5" PointX="9.375" PointY="12.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

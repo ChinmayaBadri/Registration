@@ -93,5 +93,17 @@ namespace Chinmaya.Registration.UI.Services
 
             return await Utility.DeserializeObject<string>(getFullnameResponse);
         }
-    }
+
+		/// <summary>
+		/// gets admin info
+		/// </summary>
+		/// <returns> User model </returns>
+		public async Task<UserModel> GetAdminInfo()
+		{
+			string urlAction = "api/User/GetAdminInfo/";
+			HttpResponseMessage getUserInfoResponse = await Utility.GetObject(urlAction);
+
+			return await Utility.DeserializeObject<UserModel>(getUserInfoResponse);
+		}
+	}
 }

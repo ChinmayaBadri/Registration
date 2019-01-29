@@ -364,6 +364,8 @@ warning 6002: The table/view 'Chinmaya.dbo.State' does not have a primary key de
           <Property Name="UpdatedDate" Type="datetime" />
           <Property Name="IsApproved" Type="bit" />
           <Property Name="IsApproveMailSent" Type="bit" />
+          <Property Name="IsLocked" Type="bit" />
+          <Property Name="NumberOfAttempts" Type="int" />
         </EntityType>
         <EntityType Name="UserActivation">
           <Key>
@@ -567,7 +569,6 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <EntitySet Name="Sites" EntityType="ChinmayaModel.Site" />
           <EntitySet Name="States" EntityType="ChinmayaModel.State" />
           <EntitySet Name="Weekdays" EntityType="ChinmayaModel.Weekday" />
-          <EntitySet Name="Users" EntityType="ChinmayaModel.User" />
           <EntitySet Name="SecurityQuestions" EntityType="ChinmayaModel.SecurityQuestion" />
           <EntitySet Name="FamilyMembers" EntityType="ChinmayaModel.FamilyMember" />
           <FunctionImport Name="GetUserFamilyMembers" ReturnType="Collection(ChinmayaModel.GetUserFamilyMembers_Result)">
@@ -581,6 +582,7 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <Parameter Name="UserId" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="SharedAccounts" EntityType="ChinmayaModel.SharedAccount" />
+          <EntitySet Name="Users" EntityType="ChinmayaModel.User" />
         </EntityContainer>
         <EntityType Name="CheckPayment">
           <Key>
@@ -850,36 +852,6 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="FrequencyId" Type="Int32" />
         </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="RoleId" Type="Int32" Nullable="false" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="AgeGroupId" Type="Int32" />
-          <Property Name="GenderId" Type="Int32" Nullable="false" />
-          <Property Name="Address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StateId" Type="Int32" Nullable="false" />
-          <Property Name="CountryId" Type="Int32" Nullable="false" />
-          <Property Name="ZipCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="HomePhone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="CellPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="IsIndividual" Type="Boolean" Nullable="false" />
-          <Property Name="Status" Type="Boolean" Nullable="false" />
-          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
-          <Property Name="IsApproved" Type="Boolean" />
-          <Property Name="IsApproveMailSent" Type="Boolean" />
-        </EntityType>
         <EntityType Name="SecurityQuestion">
           <Key>
             <PropertyRef Name="Id" />
@@ -970,6 +942,38 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
           <Property Name="IsDeclinedPermanently" Type="Boolean" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DOB" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AgeGroupId" Type="Int32" />
+          <Property Name="GenderId" Type="Int32" Nullable="false" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StateId" Type="Int32" Nullable="false" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <Property Name="ZipCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="HomePhone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CellPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IsIndividual" Type="Boolean" Nullable="false" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="IsApproved" Type="Boolean" />
+          <Property Name="IsApproveMailSent" Type="Boolean" />
+          <Property Name="IsLocked" Type="Boolean" />
+          <Property Name="NumberOfAttempts" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1248,37 +1252,6 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="ChinmayaModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="IsApproveMailSent" ColumnName="IsApproveMailSent" />
-                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
-                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="IsIndividual" ColumnName="IsIndividual" />
-                <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
-                <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
-                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
-                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
-                <ScalarProperty Name="StateId" ColumnName="StateId" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
-                <ScalarProperty Name="AgeGroupId" ColumnName="AgeGroupId" />
-                <ScalarProperty Name="DOB" ColumnName="DOB" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="SecurityQuestions">
             <EntityTypeMapping TypeName="ChinmayaModel.SecurityQuestion">
               <MappingFragment StoreEntitySet="SecurityQuestions">
@@ -1366,6 +1339,39 @@ warning 6002: The table/view 'Chinmaya.dbo.Weekday' does not have a primary key 
                 <ScalarProperty Name="From_UserId" ColumnName="From_UserId" />
                 <ScalarProperty Name="To_UserId" ColumnName="To_UserId" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ChinmayaModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="NumberOfAttempts" ColumnName="NumberOfAttempts" />
+                <ScalarProperty Name="IsLocked" ColumnName="IsLocked" />
+                <ScalarProperty Name="IsApproveMailSent" ColumnName="IsApproveMailSent" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsIndividual" ColumnName="IsIndividual" />
+                <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+                <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="GenderId" ColumnName="GenderId" />
+                <ScalarProperty Name="AgeGroupId" ColumnName="AgeGroupId" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

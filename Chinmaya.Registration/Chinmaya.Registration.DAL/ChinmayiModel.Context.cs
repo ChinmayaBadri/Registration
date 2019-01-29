@@ -54,11 +54,11 @@ namespace Chinmaya.DAL
         public virtual DbSet<Site> Sites { get; set; }
         public virtual DbSet<State> States { get; set; }
         public virtual DbSet<Weekday> Weekdays { get; set; }
-        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<SecurityQuestion> SecurityQuestions { get; set; }
         public virtual DbSet<FamilyMember> FamilyMembers { get; set; }
         public virtual DbSet<Event> Events { get; set; }
         public virtual DbSet<SharedAccount> SharedAccounts { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     
         public virtual ObjectResult<GetUserFamilyMembers_Result> GetUserFamilyMembers(string userId)
         {
