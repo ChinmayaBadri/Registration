@@ -19,4 +19,12 @@ namespace Chinmaya.Registration.Models
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
+
+	public class CustomPrincipalSerializeModel
+	{
+		public string UserId { get; set; }
+		public string FirstName { get; set; }
+		public string LastName { get; set; }
+		public string[] roles { get; set; }
+	}
 }

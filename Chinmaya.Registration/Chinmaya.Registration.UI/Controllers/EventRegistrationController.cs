@@ -141,15 +141,15 @@ namespace Chinmaya.Registration.UI.Controllers
 			string result = "";
 			var hours = tm.Hours;
 			var minutes = tm.Minutes;
-			var amPmDesignator = "AM";
+			var amPmDesignator = "am";
 			if (hours == 0)
 				hours = 12;
 			else if (hours == 12)
-				amPmDesignator = "PM";
+				amPmDesignator = "pm";
 			else if (hours > 12)
 			{
 				hours -= 12;
-				amPmDesignator = "PM";
+				amPmDesignator = "pm";
 			}
 			result = String.Format("{0}:{1:00} {2}", hours, minutes, amPmDesignator);
 			return result;

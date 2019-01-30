@@ -82,6 +82,27 @@ namespace Chinmaya.Registration.UI.Controllers
 							HttpResponseMessage roleNameResponseMessage = await Utility.GetObject("/api/User/" + user.RoleId, true);
 							string roleName = await Utility.DeserializeObject<string>(roleNameResponseMessage);
                             user.RoleName = roleName;
+							List<string> userRoles = new List<string> { roleName };
+
+							CustomPrincipalSerializeModel serializeModel = new CustomPrincipalSerializeModel();
+							serializeModel.UserId = user.Id;
+							serializeModel.FirstName = user.FirstName;
+							serializeModel.LastName = user.LastName;
+							serializeModel.roles = userRoles.ToArray();
+
+							string userData = JsonConvert.SerializeObject(serializeModel);
+
+							FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(
+							1,
+							user.Email,
+							DateTime.Now,
+							DateTime.Now.AddDays(1),
+							false, //pass here true, if you want to implement remember me functionality
+							userData);
+
+							string encTicket = FormsAuthentication.Encrypt(authTicket);
+							HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
+							Response.Cookies.Add(faCookie);
 							SessionVar.LoginUser = user;
 
 							if (!string.IsNullOrEmpty(returnUrl)) return Redirect(returnUrl);
@@ -124,7 +145,7 @@ namespace Chinmaya.Registration.UI.Controllers
 								if(userData.NumberOfAttempts == null) userData.NumberOfAttempts = 1;
 								else userData.NumberOfAttempts = userData.NumberOfAttempts + 1;
 								HttpResponseMessage userResponseMessage1 = await Utility.GetObject("/api/User/PostUser", userData, true);
-								ViewBag.Message = "Please verify your password and try to login again.";
+								ViewBag.Message = "Please verify your details and try to login again.";
 								return View(model);
 							}
 							else
