@@ -8,111 +8,125 @@
     @Scripts.Render("~/bundles/jquery")
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
-	<body class="theme_bg">
-		<header>
-			<div class="header_top">
-				<a class="navbar-brand" href="javascript: void(0);"><img alt="mainlogo" src="~/Content/img/dashboard-logo.png"></a>
-				<div class="header-right">
-					<input name="search" class="search-field" type="text" placeholder="Search..">
-					<select class="drpdown">
-						<option>Our Other Sites</option>
-					</select>
-					<a target="_blank" rel="noopener noreferrer" class="fab fa-facebook-f" href="https://www.facebook.com/Chinmayamissionchicago/"></a>
-					<a class="fab fa-twitter" href="javascript: void(0);"></a>
-					<a class="fab fa-google-plus-g" href="javascript: void(0);"></a>
-					<a class="fab fa-linkedin-in" href="javascript: void(0);"></a>
-					<a class="fas fa-plus" href="javascript: void(0);"></a>
-				</div>
+<body class="theme_bg">
+	<header class="fixed-top">
+		<div class="header_top">
+			<a class="navbar-brand" href="javascript: void(0);"><img alt="mainlogo" src="~/Content/img/dashboard-logo.png"></a>
+			<div class="header-right">
+				<input name="search" class="search-field" type="text" placeholder="Search..">
+				<select class="drpdown">
+					<option>Our Other Sites</option>
+				</select>
+				<a target="_blank" rel="noopener noreferrer" class="fab fa-facebook-f" href="https://www.facebook.com/Chinmayamissionchicago/"></a>
+				<a class="fab fa-twitter" href="javascript: void(0);"></a>
+				<a class="fab fa-google-plus-g" href="javascript: void(0);"></a>
+				<a class="fab fa-linkedin-in" href="javascript: void(0);"></a>
+				<a class="fas fa-plus" href="javascript: void(0);"></a>
 			</div>
-			@if (Session["Menu"] == null)
-			{
-					Session["Menu"] = @Html.Action("_MainMenu", "Base");
-			}
-			@Session["Menu"]
-		</header>
-		<div class="theme_bg">
-			@if (Chinmaya.Registration.UI.Providers.SessionVar.LoginUser != null)
-			{
-				if (Chinmaya.Registration.UI.Providers.SessionVar.LoginUser.RoleId == 1)
-				{
-					<div class="nav-side-menu" style="position: absolute">
-						<div class="menu-list">
-						<ul class="menu-content collapse out" id="menu-content">
-							<li class="collapsed" aria-expanded="false" data-target="#account" data-toggle="collapse">
-								<a href="javascript: void(0);"> Account Settings <i class="material-icons arrow">
-	keyboard_arrow_down
-</i></a>
-							</li>
-							<ul class="sub-menu collapse" id="account">
-								<li><a class="Password" data-toggle="modal" data-target="#changePassword"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
-							</ul>
-							<li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
-								<a href="javascript: void(0);"> Update Contact Info <i class="material-icons arrow">
-	keyboard_arrow_down
-</i></a>
-							</li>
-							<ul class="sub-menu collapse" id="contact">
-								<li><a class="Phone"><img alt="" src="~/Content/img/phone.png"> Phone</a></li>
-								<li><a class="Email"><img alt="" src="~/Content/img/email.png"> Email</a></li>
-								<li><a class="Address"><img alt="" src="~/Content/img/address.png"> Address</a></li>
-							</ul>
-						</ul>
-						</div>
-					</div>
-				}
-				else
-				{
-					<div class="nav-side-menu" style="position: absolute">
-						<div class="menu-list">
-						<ul class="menu-content collapse out" id="menu-content">
-							<li class="collapsed" aria-expanded="false" data-target="#account" data-toggle="collapse">
-								<a href="javascript: void(0);"> Account Settings <i class="material-icons arrow">
-	keyboard_arrow_down
-</i></a>
-							</li>
-						<ul class="sub-menu collapse" id="account">
-							<li><a class="Password" data-toggle="modal" data-target="#changePassword"><label><img alt="" src="~/Content/img/change-password.png"> Change Password</label></a></li>
-							<li class="active"><a href="javascript: void(0);"><label><img alt="" src="~/Content/img/update-family-info-active.png"> Update Family Info</label></a></li>
-						</ul>
-						<li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
-							<a href="javascript: void(0);"> Update Contact Info <i class="material-icons arrow">
-	keyboard_arrow_down
-</i></a>
-						</li>
-						<ul class="sub-menu collapse" id="contact">
-							<li><a class="Phone"><label><img alt="" src="~/Content/img/phone.png"> Phone</label></a></li>
-							<li><a class="Email"><label><img alt="" src="~/Content/img/email.png"> Email</label></a></li>
-							<li><a class="Address"><label><img alt="" src="~/Content/img/address.png"> Address</label></a></li>
-						</ul>
-						<li class="collapsed" aria-expanded="false" data-target="#payment" data-toggle="collapse">
-							<a href="javascript: void(0);"> Payment Details <i class="material-icons arrow">
-	keyboard_arrow_down
-</i></a>
-						</li>
-						<ul class="sub-menu collapse" id="payment">
-							<li><a href="javascript: void(0);"><label><img alt="" src="~/Content/img/past-transations.png"> Past Transactions</label></a></li>
-							<li><a href="javascript: void(0);"><label><img alt="" src="~/Content/img/print-tax.png"> Print Tax Receipts</label></a></li>
-						</ul>
-						<li>
+		</div>
+		@if (Session["Menu"] == null)
+		{
+			Session["Menu"] = @Html.Action("_MainMenu", "Base");
+		}
+		@Session["Menu"]
+	</header>
+	<div class="theme_bg page-body-wrapper">
+		@if (Chinmaya.Registration.UI.Providers.SessionVar.LoginUser != null)
+	{
+		if (Chinmaya.Registration.UI.Providers.SessionVar.LoginUser.RoleId == 1)
+		{
+			<div class="nav-side-menu">
+				<div class="menu-list">
+					<ul class="menu-content collapse out" id="menu-content">
+						<li class="collapsed" aria-expanded="false" data-target="#account" data-toggle="collapse">
 							<a href="javascript: void(0);">
-								Badri Directory
+								Account Settings <i class="material-icons arrow">
+									keyboard_arrow_down
+								</i>
 							</a>
 						</li>
+						<ul class="sub-menu collapse" id="account">
+							<li><a class="Password" data-toggle="modal" data-target="#changePassword"><img alt="" src="~/Content/img/change-password.png"> Change Password</a></li>
+						</ul>
+						<li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
+							<a href="javascript: void(0);">
+								Update Contact Info <i class="material-icons arrow">
+									keyboard_arrow_down
+								</i>
+							</a>
+						</li>
+						<ul class="sub-menu collapse" id="contact">
+							<li><a class="Phone"><img alt="" src="~/Content/img/phone.png"> Phone</a></li>
+							<li><a class="Email"><img alt="" src="~/Content/img/email.png"> Email</a></li>
+							<li><a class="Address"><img alt="" src="~/Content/img/address.png"> Address</a></li>
+						</ul>
 					</ul>
-					</div>
 				</div>
-				}
-			 }
-			 @Html.Partial("../Common/_ChangeAccountDetails", new Chinmaya.Registration.Models.UpdatePasswordModel())
-
-			@RenderBody()
-			<hr />
-			<footer>
-				<p>&copy; @DateTime.Now.Year - Chinmaya Mission</p>
-			</footer>
+			</div>
+	}
+	else
+	{
+		<div class="nav-side-menu">
+			<div class="menu-list">
+				<ul class="menu-content collapse out" id="menu-content">
+					<li class="collapsed" aria-expanded="false" data-target="#account" data-toggle="collapse">
+						<a href="javascript: void(0);">
+							Account Settings <i class="material-icons arrow">
+								keyboard_arrow_down
+							</i>
+						</a>
+					</li>
+					<ul class="sub-menu collapse" id="account">
+						<li><a class="Password" data-toggle="modal" data-target="#changePassword"><label><img alt="" src="~/Content/img/change-password.png"> Change Password</label></a></li>
+						<li class="active"><a href="javascript: void(0);"><label><img alt="" src="~/Content/img/update-family-info-active.png"> Update Family Info</label></a></li>
+					</ul>
+					<li class="collapsed" aria-expanded="false" data-target="#contact" data-toggle="collapse">
+						<a href="javascript: void(0);">
+							Update Contact Info <i class="material-icons arrow">
+								keyboard_arrow_down
+							</i>
+						</a>
+					</li>
+					<ul class="sub-menu collapse" id="contact">
+						<li><a class="Phone"><label><img alt="" src="~/Content/img/phone.png"> Phone</label></a></li>
+						<li><a class="Email"><label><img alt="" src="~/Content/img/email.png"> Email</label></a></li>
+						<li><a class="Address"><label><img alt="" src="~/Content/img/address.png"> Address</label></a></li>
+					</ul>
+					<li class="collapsed" aria-expanded="false" data-target="#payment" data-toggle="collapse">
+						<a href="javascript: void(0);">
+							Payment Details <i class="material-icons arrow">
+								keyboard_arrow_down
+							</i>
+						</a>
+					</li>
+					<ul class="sub-menu collapse" id="payment">
+						<li><a href="javascript: void(0);"><label><img alt="" src="~/Content/img/past-transations.png"> Past Transactions</label></a></li>
+						<li><a href="javascript: void(0);"><label><img alt="" src="~/Content/img/print-tax.png"> Print Tax Receipts</label></a></li>
+					</ul>
+					<li>
+						<a href="javascript: void(0);">
+							Badri Directory
+						</a>
+					</li>
+				</ul>
+			</div>
 		</div>
-		@Scripts.Render("~/bundles/bootstrap")
-        @Scripts.Render("~/bundles/jqueryval")
-		@RenderSection("scripts", required: false)
-	</body>
+}
+}
+
+
+		@Html.Partial("../Common/_ChangeAccountDetails", new Chinmaya.Registration.Models.UpdatePasswordModel())
+
+		@RenderBody()
+
+	</div>
+	<footer class="footer">
+		<p>&copy; @DateTime.Now.Year - Chinmaya Mission</p>
+	</footer>
+
+
+	@Scripts.Render("~/bundles/bootstrap")
+	@Scripts.Render("~/bundles/jqueryval")
+	@RenderSection("scripts", required: false)
+</body>
 </html>
