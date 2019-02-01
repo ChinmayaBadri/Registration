@@ -27,7 +27,7 @@
 			@if (!Model.IsIndividual)
 			{
 				<div class="col-md-6 text-right">
-					<a class="orange-links" id="AddFamilyMember" href="javascript: void(0);"><i class="material-icons">add_circle_outline</i> Add Family Member</a>
+					<a class="orange-links" id="AddFamilyMember" href="javascript: void(0);"><i class="far fa-plus-square line-height14"></i>@*<i class="material-icons">add_box</i>*@ Add Family Member</a>
 				</div>
 			}
 			<div class="modal fade" id="FamilyMemberPartial" role="dialog"></div>
@@ -43,7 +43,7 @@
 							<th scope="col">Relationship</th>
 							<th scope="col">
 								Grade
-								<a href="javascript: void(0);" data-toggle="tooltip" title="Grade in school (@Model.familyMemberModel.Year)"><img id="GradeTooltip" src="~/Content/img/info-icon.png" alt="" /></a>
+								<a href="javascript: void(0);" data-toggle="tooltip" data-placement="right" title="Grade in school (@Model.familyMemberModel.Year)"><img id="GradeTooltip" src="~/Content/img/info-icon.png" alt="" /></a>
 								@*<img id="GradeTooltip" src="~/Content/img/info-icon.png" alt="" title="Grade in school (@Model.familyMemberModel.Year)" />*@
 							</th>
 							<th scope="col"></th>

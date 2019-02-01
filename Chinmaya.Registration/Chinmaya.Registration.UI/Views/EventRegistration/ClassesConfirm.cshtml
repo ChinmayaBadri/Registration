@@ -3,6 +3,15 @@
 	Layout = "~/Views/Shared/_LayoutForProgramEventRegistration.cshtml";
 	ViewBag.Title = "ClassesConfirm";
 }
+<style>
+	.card-header .fa {
+		transition: .3s transform ease-in-out;
+	}
+
+	.card-header .collapsed .fa {
+		transform: rotate(180deg);
+	}
+</style>
 @Html.Raw(TempData["msg"])
 <button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
 	
@@ -114,7 +123,7 @@
 							
 						</label>
 					</div>
-					<button class="btn btn-secondary mb-3" name="prevBtn" type="submit">Back</button><br>
+					<button class="btn btn-secondary mb-3" name="prevBtn" type="submit" style="width: 83px;">Back</button><br>
 					<button class="btn btn-orange" name="nextBtn" type="submit" data-target="#demo" data-toggle="collapse">Proceed to checkout</button>
 				</div>
 			</div>

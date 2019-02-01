@@ -57,7 +57,7 @@
 				</div>
 				<div class="row">
 					<div id="GradeSelectBox" class="col-md-6">
-						<label>Grade <a href="javascript: void(0);" data-toggle="tooltip" title="Grade in school (@Model.Year)"><img id="GradeTooltip" src="~/Content/img/info-icon.png" alt="" /></a></label>
+						<label>Grade <a href="javascript: void(0);" data-toggle="tooltip" data-placement="right" title="Grade in school (@Model.Year)"><img id="GradeTooltip" src="~/Content/img/info-icon.png" alt="" /></a></label>
 						@*<label>Grade<img id="GradeTooltip" src="~/Content/img/info-icon.png" alt="" title="Grade in school (@Model.Year)" /></label>*@
 						@Html.DropDownList("Grade", new SelectList(Model.grades, "Id", "Name"), "Select", new { @class = "form-control", @style = "height: 35px;" })
 						<label class="text-danger" id="Err_Grade">Grade field is required</label>

@@ -5,6 +5,16 @@
 }
 @Html.Raw(TempData["msg"])
 
+<style>
+	.card-header .fa {
+		transition: .3s transform ease-in-out;
+	}
+
+	.card-header .collapsed .fa {
+		transform: rotate(180deg);
+	}
+</style>
+
 	<button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
 	
 	<div class="bd-content">
@@ -103,7 +113,7 @@
 				</div>
 				<div class="col-md-3">
 					<button class="btn btn-orange mb-3" name="nextBtn" type="submit" data-target="#demo" data-toggle="collapse">Checkout</button><br>
-					<button class="btn btn-secondary float-left" name="prevBtn" type="submit">Cancel</button>
+					<button class="btn btn-secondary float-left" name="prevBtn" type="submit" style="width: 83px;">Cancel</button>
 				</div>
 			</div>
 		}

@@ -10,15 +10,15 @@
 <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
 
 <style>
-    .nav-link active {
-        color: antiquewhite;
-    }
 
-    .requiredA:after {
-        content: " *";
-        font-weight: bold;
-        color: red;
-    }
+	.requiredA:after {
+		content: " *";
+		font-weight: bold;
+		color: red;
+	}
+	.nav-link-active {
+		color: #f8430c;
+	}
 </style>
 
 <button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
@@ -28,7 +28,7 @@
         <div class="row mb-3">
             <div class="col-md-6 table-title">Event Information</div>
             <div class="col-md-6 text-right">
-                <a class="orange-links" id="AddEvent" href="javascript: void(0);"><i class="material-icons">add_circle_outline</i> Add Event</a>
+                <a class="orange-links" id="AddEvent" href="javascript: void(0);"><i class="far fa-plus-square line-height14"></i> Add Event</a>
             </div>
         </div>
         <div class="row">
@@ -148,4 +148,10 @@
                     .html('');
             });
         });
+</script>
+
+<script>
+	$("#current-Events").click(function () {
+			$(this).removeClass("nav-link").addClass('nav-link-active');
+	});
 </script>
