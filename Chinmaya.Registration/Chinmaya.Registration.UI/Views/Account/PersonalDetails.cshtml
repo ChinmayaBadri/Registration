@@ -14,6 +14,18 @@
 			font-weight: bold;
 			color: red;
 		}
+		.fa {
+			color: gray;
+		}
+		.fas {
+			padding-top: 10px;
+			padding-left: 4px;
+		}
+
+		.input-group-addon {
+			background-color: lightgray;
+			width: 25px;
+		}
 	</style>
 
 }
@@ -76,7 +88,7 @@
 							@Html.LabelFor(m => m.DOB, new { @class = "requiredA" })
 							<div class="input-group date mb-0">
 								@Html.TextBoxFor(m => m.DOB, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "DOB", @value = "", @style = "height: 35px;", autocomplete = "off" })
-								<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
+								<span class="input-group-addon"><i class="fas fa-calendar-alt"></i></span>
 							</div>
 
 							@Html.ValidationMessageFor(m => m.DOB, "", new { @class = "text-danger" })
