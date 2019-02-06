@@ -1,4 +1,6 @@
 ﻿using Chinmaya.Registration.Utilities;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -60,53 +62,23 @@ namespace Chinmaya.Utilities
             get { return Body; }
             set { _mail.Body = value; }
         }
+		
+		public void Send()
+		{
+			var from = new EmailAddress("testsmtp@cesltd.com");
+			var subject = _mail.Subject;
+			var to = new EmailAddress(_To);
+			var plainTextContent = _mail.Body;
+			var htmlContent = "";
+			var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+			Execute(msg).Wait(1200);
+		}
 
-        public void Send()
-        {
-            EncryptDecrypt objEncryptionAlgorithm = new EncryptDecrypt();
-            var sc = new SmtpClient()
-            {
-                Host = ConfigurationManager.AppSettings["SMTPAddress"],
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                EnableSsl = false,
-                Port = Convert.ToInt32(ConfigurationManager.AppSettings["SMTPPort"]),
-                Credentials = new NetworkCredential(ConfigurationManager.AppSettings["SMTPUsername"], ConfigurationManager.AppSettings["SMTPPassword"])
-            };
-
-            if (!string.IsNullOrEmpty(_To))
-            {
-                if (_To.Contains(","))
-                {
-                    string[] userInfo = _To.Split(',');
-                    foreach (string to in userInfo)
-                    {
-                        _mail.To.Add(new MailAddress(to));
-                    }
-                }
-                else
-                {
-                    _mail.To.Add(new MailAddress(_To));
-                }
-            }
-
-            if (!string.IsNullOrEmpty(_CC))
-            {
-                if (_CC.Contains(","))
-                {
-                    string[] userInfo = _CC.Split(',');
-                    foreach (string cc in userInfo)
-                    {
-                        _mail.CC.Add(new MailAddress(cc));
-                    }
-                }
-                else
-                {
-                    _mail.CC.Add(new MailAddress(_CC));
-                }
-            }
-
-            sc.Send(_mail);
-        }
-    }
+		static async Task Execute(SendGridMessage message)
+		{
+				var apiKey = ConfigurationManager.AppSettings["SendGridKey"].ToString().Trim();
+				var client = new SendGridClient(apiKey);
+				var response = await client.SendEmailAsync(message);
+		}
+	}
 }

@@ -300,22 +300,19 @@ namespace Chinmaya.Registration.UI.Controllers
 			enPassword = objEncryptDecrypt1.Encrypt(model.Password, WebConfigurationManager.AppSettings["ServiceAccountPassword"]);
 
 			for (int i = 0; i < sqList.Count; i++)
-            {
-                if ((Request.Form["AnswerTextbox_" + (i + 1)]) != "")
-                {
-                    userAnsweredQuestions.Add((i + 1), Request.Form["AnswerTextbox_" + (i + 1)]);
-                }
+			{
+				if ((Request.Form["AnswerTextbox_" + (i + 1)]) != "")
+				{
+					userAnsweredQuestions.Add((i + 1), Request.Form["AnswerTextbox_" + (i + 1)]);
+				}
 
-            }
+			}
 
-            foreach (var item in userAnsweredQuestions)
+			foreach (var item in userAnsweredQuestions)
             {
                 sqList.ForEach(sq =>
                 {
-                    if (sq.Id == item.Key)
-                    {
-                        areAllAnswersValid = sq.Value == item.Value;
-                    }
+                    areAllAnswersValid = sq.Value == item.Value;
                 });
             }
 
