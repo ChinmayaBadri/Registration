@@ -11,7 +11,7 @@
 			{
                 @Html.AntiForgeryToken()
                 <h5 class="modal-title">Change Address</h5>
-				<p><span class="red-txt">*</span> denotes a required field</p>
+				<p><span class="red-txt">*</span> Denotes a required field</p>
 				<div class="row">
 					@Html.HiddenFor(m => m.Email, new { id = "contactEmail" })
 					<div class="col-md-6">
@@ -40,12 +40,12 @@
                     <div class="row">
                         <div class="col-md-6">
                             @Html.LabelFor(m => m.ZipCode, new { @class = "requiredA" })
-                            @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control", maxlength = "5", autocomplete = "off" })
                             @Html.ValidationMessageFor(m => m.ZipCode, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-6 form-group">
                             @Html.LabelFor(m => m.HomePhone, new { @class = "requiredA" })
-                            @Html.TextBoxFor(m => m.HomePhone, new { @class = "form-control", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.HomePhone, new { @class = "form-control", autocomplete = "off", maxlength = "10" })
                             @Html.ValidationMessageFor(m => m.HomePhone, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -107,6 +107,9 @@
 	}
 
 	function OnSuccessChangeAddress(response) {
+		toastr.options = {
+			positionClass: 'toast-top-center'
+		};
 		if (typeof (response.Message) !== 'undefined') {
 			if (response.IsSuccess) {
 				toastr.success(response.Message, { timeOut: 3000 });

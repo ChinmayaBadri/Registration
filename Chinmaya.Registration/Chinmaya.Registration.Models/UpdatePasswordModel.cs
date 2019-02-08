@@ -15,14 +15,14 @@ namespace Chinmaya.Registration.Models
 
 		[Required]
 		[DataType(DataType.Password)]
-		[RegularExpression("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", ErrorMessage = "Passwords must have combination of atleast 1 Capital Letter, 1 Number, one Special Symbol($, #, @, !, %) and minimum length of 8. ")]
+		[RegularExpression("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", ErrorMessage = "Passwords must have combination of at least 1 Capital Letter, 1 Number, one Special Symbol($, #, @, !, %) and minimum length of 8. ")]
 		[DisplayName("Old Password")]
 		public string OldPassword { get; set; }
 
 		[Required]
 		//[NotEqualTo("OldPassword", ErrorMessage = "New Password should not match with the Old Password.")]
 		[DataType(DataType.Password)]
-		[RegularExpression("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", ErrorMessage = "Passwords must have combination of atleast 1 Capital Letter, 1 Number, one Special Symbol($, #, @, !, %) and minimum length of 8. ")]
+		[RegularExpression("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", ErrorMessage = "Passwords must have combination of at least 1 Capital Letter, 1 Number, one Special Symbol($, #, @, !, %) and minimum length of 8. ")]
 		[DisplayName("New Password")]
 		public string NewPassword { get; set; }
 

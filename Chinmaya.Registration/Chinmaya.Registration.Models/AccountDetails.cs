@@ -21,7 +21,7 @@ namespace Chinmaya.Registration.Models
 		public string Email { get; set; }
 		[Required]
 		[DataType(DataType.Password)]
-		[RegularExpression("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", ErrorMessage = "Passwords must have combination of atleast 1 Capital Letter, 1 Number, one Special Symbol($, #, @, !, %) and minimum length of 8. ")]
+		[RegularExpression("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", ErrorMessage = "Passwords must have combination of at least 1 Capital Letter, 1 Number, one Special Symbol($, #, @, !, %) and minimum length of 8. ")]
 		[DisplayName("Password")]
 		public string Password { get; set; }
 		[Required]

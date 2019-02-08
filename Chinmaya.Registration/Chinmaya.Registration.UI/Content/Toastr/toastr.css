@@ -52,11 +52,11 @@ button.toast-close-button {
   border: 0;
   -webkit-appearance: none;
 }
-.toast-top-center {
+/*.toast-top-center {
   top: 0;
   right: 0;
   width: 100%;
-}
+}*/
 .toast-bottom-center {
   bottom: 0;
   right: 0;
@@ -225,4 +225,10 @@ button.toast-close-button {
   #toast-container > div.rtl {
     padding: 15px 50px 15px 15px;
   }
+}
+.toast-top-center {
+	top: 50%;
+	margin: 0 auto;
+	left: 50%;
+	margin-left: -150px;
 }

@@ -176,8 +176,10 @@ namespace Chinmaya.Registration.UI.Controllers
 					List<ClassesConfirmModel> classesConfirm = new List<ClassesConfirmModel>();
 					if (select == null)
 					{
-						TempData["msg"] = "<script>alert('Please select atleast one Event');</script>";
-						return RedirectToAction("ProgramEventRegistration");
+						//TempData["msg"] = "<script>alert('Please select at least one Event');</script>";
+						ViewBag.msg = "Please select at least one Event";
+						return View("ClassesConfirm");
+						//return RedirectToAction("ProgramEventRegistration");
 					}
 					else
 					if (select.Length != 0)
@@ -221,6 +223,8 @@ namespace Chinmaya.Registration.UI.Controllers
 							foreach (var ev in entry.Value)
 							{
 								var eventData = await _event.GetEventData(ev);
+								eventData.Stime = Converttime24to12(eventData.StartTime);
+								eventData.Etime = Converttime24to12(eventData.EndTime);
 								eventData.ChangeAmount = (int)eventData.Amount;
 								currentEvents.Add(eventData);
 							}
@@ -243,7 +247,8 @@ namespace Chinmaya.Registration.UI.Controllers
 						var dir = Request.Form["Directory"];
 						if (termCheckBox != "on")
 						{
-							TempData["msg"] = "<script>alert('Please agree to the terms and conditions');</script>";
+							//TempData["msg"] = "<script>alert('Please agree to the terms and conditions');</script>";
+							ViewBag.msg = "Please agree to the terms and conditions";
 							return View("ClassesConfirm", classesConfirm);
 						}
 

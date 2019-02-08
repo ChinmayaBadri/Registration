@@ -68,17 +68,23 @@ namespace Chinmaya.Utilities
 			var from = new EmailAddress("testsmtp@cesltd.com");
 			var subject = _mail.Subject;
 			var to = new EmailAddress(_To);
-			var plainTextContent = _mail.Body;
-			var htmlContent = "";
+			var plainTextContent = "";
+			var htmlContent = _mail.Body;
 			var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-			Execute(msg).Wait(1200);
+			Execute(msg).Wait(2400);
 		}
 
 		static async Task Execute(SendGridMessage message)
 		{
+			try
+			{
 				var apiKey = ConfigurationManager.AppSettings["SendGridKey"].ToString().Trim();
 				var client = new SendGridClient(apiKey);
 				var response = await client.SendEmailAsync(message);
+			}
+			catch (Exception)
+			{
+			}
 		}
 	}
 }

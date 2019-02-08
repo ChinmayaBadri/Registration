@@ -33,7 +33,7 @@
 				{
 					<h5 class="modal-title">Add Event</h5>
 				}
-				<p><span class="red-txt">*</span> denotes a required field</p>
+				<p><span class="red-txt">*</span> Denotes a required field</p>
 				@Html.ValidationSummary(true)
 
 				<div class="row">
@@ -150,7 +150,7 @@
 						@Html.TextBoxFor(m => m.Other, new { @class = "form-control", @Name = "Other" })
 						@Html.ValidationMessageFor(m => m.Other, "", new { @class = "text-danger" })
 					</div>
-					<div class="col-md-4 form-group" id="HolidayDate">
+					<div class="col-md-4 form-group">
 						@Html.LabelFor(m => m.HolidayDate, new { @class = "requiredA" })
 						<div class="input-group date mb-0">
 							@Html.TextBoxFor(m => m.HolidayDate, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "HolidayDate", @value = "", @style = "height: 35px;" })
@@ -207,18 +207,25 @@
 	});
 
 	function OnSuccessEvent(response) {
+		toastr.options = {
+			positionClass: 'toast-top-center'
+		};
 		if (typeof (response.Message) !== 'undefined') {
 			if (response.IsSuccess) {
 				toastr.success(response.Message, { timeOut: 3000 });
+				setTimeout(function () {
+					window.location.reload();
+				}, 2000);
 				return;
 			}
-			toastr.error(response.Message, { timeOut: 3000 });
+			toastr.error(response.Message);
 		}
 	}
 
 	function OnBeginEvent() {
 		var holidayDate = new Date($("#HolidayDate").val());
-		if (holidayDate == "Invalid Date") {
+		var year = holidayDate.getFullYear();
+		if (year == 2001) {
 			$("#Err_HolidayDate").show();
 			return false;
 		}
@@ -226,7 +233,5 @@
 			$("#Err_HolidayDate").hide();
 			return true;
 		}
-		$("#btnsubmit").prop("disabled", true);
-		$("#btnCancel").prop("disabled", true);
 	}
 </script>

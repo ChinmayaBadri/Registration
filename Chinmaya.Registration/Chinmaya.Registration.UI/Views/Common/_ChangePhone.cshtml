@@ -14,7 +14,7 @@
                         @Html.HiddenFor(m => m.Email, new { id = "pEmail" })
                         <div class="col-md-12 form-group">
                             @Html.LabelFor(m => m.OldPhone, new { @Id = "PhoneValue" })
-                            @Html.TextBoxFor(m => m.OldPhone, new { @class = "form-control", @Name = "OldPhone" })
+                            @Html.TextBoxFor(m => m.OldPhone, new { @class = "form-control", @Name = "OldPhone", maxlength = "10" })
                             @Html.ValidationMessageFor(m => m.OldPhone, "", new { @class = "text-danger" })
 
                         </div>
@@ -32,6 +32,9 @@
 </div>
 <script>
 	function OnSuccessChangePhone(response) {
+		toastr.options = {
+			positionClass: 'toast-top-center'
+		};
 		if (typeof (response.Message) !== 'undefined') {
 			if (response.IsSuccess) {
 				toastr.success(response.Message, { timeOut: 3000 });

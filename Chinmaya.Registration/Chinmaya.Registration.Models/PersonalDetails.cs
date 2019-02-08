@@ -22,14 +22,14 @@ namespace Chinmaya.Registration.Models
 
         [Required]
         [DisplayName("Date of Birth")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM-dd-yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         [DataType(DataType.Date)]
         public Nullable<DateTime> DOB { get; set; } = null;
 
 		[Required]
 		[DisplayName("Gender")]
 		public int GenderData { get; set; }
-
+		[Required]
 		[DisplayName("Age Group")]
 		public Nullable<int> AgeGroupData { get; set; }
 

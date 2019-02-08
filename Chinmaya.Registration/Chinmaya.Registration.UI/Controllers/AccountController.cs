@@ -463,6 +463,7 @@ namespace Chinmaya.Registration.UI.Controllers
 			UserModel obj = GetUser();
 			ViewBag.CountryList = await _common.GetCountryData();
 			ViewBag.SelectedCountry = await _account.GetCountryId("United States");
+			ViewBag.SelectedState = data.State;
 
 			if (prevBtn != null)
 			{

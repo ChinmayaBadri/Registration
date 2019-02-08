@@ -17,7 +17,6 @@
 @section Scripts {
 	<script>
 		$(document).ready(function () {
-
 			var selectedCountry = "@ViewBag.SelectedCountry";
 			var selectedState = "@ViewBag.SelectedState";
 
@@ -104,7 +103,7 @@
 				@Html.ValidationSummary(true)
 				<div class="regi-main-1">
 					<p>
-						<span class="red-txt">*</span> denotes a required field
+						<span class="red-txt">*</span> Denotes a required field
 					</p>
 					<div class="row">
 						<div class="col-md-6">
@@ -114,7 +113,8 @@
 						</div>
 						<div class="col-md-6">
 							@Html.LabelFor(m => m.Country, new { @class = "requiredA" })
-							@Html.DropDownList("Country", new SelectList(ViewBag.CountryList, "Id", "Name", ViewBag.SelectedCountry), "Select", new { @class = "form-control", @style = "height: 35px;" })
+							@Html.TextBoxFor(m => m.Country, new { disabled = "disabled", @class = "form-control", @Value = "United States"})
+							@*@Html.DropDownList("Country", new SelectList(ViewBag.CountryList, "Id", "Name", ViewBag.SelectedCountry), "Select", new { @class = "form-control", @style = "height: 35px;" })*@
 							@Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })
 						</div>
 					</div>
@@ -133,19 +133,19 @@
 					<div class="row">
 						<div class="col-md-6">
 							@Html.LabelFor(m => m.ZipCode, new { @class = "requiredA" })
-							@Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control", autocomplete = "off" })
+							@Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control", maxlength = "5", autocomplete = "off" })
 							@Html.ValidationMessageFor(m => m.ZipCode, "", new { @class = "text-danger" })
 						</div>
 						<div class="col-md-6">
 							@Html.LabelFor(m => m.HomePhone, new { @class = "requiredA" })
-							@Html.TextBoxFor(m => m.HomePhone, new { @class = "form-control", autocomplete = "off" })
+							@Html.TextBoxFor(m => m.HomePhone, new { @class = "form-control", maxlength = "10", autocomplete = "off" })
 							@Html.ValidationMessageFor(m => m.HomePhone, "", new { @class = "text-danger" })
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6 form-group">
 							@Html.LabelFor(m => m.CellPhone)
-							@Html.TextBoxFor(m => m.CellPhone, new { @class = "form-control", autocomplete = "off" })
+							@Html.TextBoxFor(m => m.CellPhone, new { @class = "form-control", maxlength = "10", autocomplete = "off" })
 							@Html.ValidationMessageFor(m => m.CellPhone, "", new { @class = "text-danger" })
 						</div>
 
@@ -161,4 +161,21 @@
 		</div>
 	</div>
 }
+<script>
+	$(document).ready(function () {
+		$("#ZipCode, #HomePhone, #CellPhone").keypress(function (e) {
+			var keyCode = e.which;
+			if ((keyCode != 8 || keyCode == 32) && (keyCode < 48 || keyCode > 57)) {
+				return false;
+			}
+			//if ($("#ZipCode").val.length > 5) {
+			//	alert($("#ZipCode").val.length);
+			//	$("#ZipCode").val = $("#ZipCode").val;
+			//	//return false;
+			//}
+		});
+		
+	});
+
+</script>
 

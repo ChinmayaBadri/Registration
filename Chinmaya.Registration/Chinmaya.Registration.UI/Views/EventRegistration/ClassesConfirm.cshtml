@@ -12,48 +12,48 @@
 		transform: rotate(180deg);
 	}
 </style>
-@Html.Raw(TempData["msg"])
+@*@Html.Raw(TempData["msg"])*@
 <button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
-	
-	<div class="bd-content">
-		<div class="row">
-			<div class="col-md-9">
-				<div class="regi-process-bar mt-0">
-					<div class="row">
-						<div class="col-md-5"><div class="regi-heading">Register for Classes and Activities</div></div>
-						<div class="col-md-7">
-							<div class="row bs-wizard">
-								<div class="col-md-4 bs-wizard-step complete">
-									<div class="progress"><div class="progress-bar"></div></div>
-									<a class="bs-wizard-dot" href="javascript: void(0);">1</a>
-									<div class="text-center bs-wizard-stepnum marl-55">Register</div>
-								</div>
 
-								<div class="col-md-4 bs-wizard-step active">
-									<!-- complete -->
-									<div class="progress"><div class="progress-bar"></div></div>
-									<a class="bs-wizard-dot" href="javascript: void(0);">2</a>
-									<div class="text-center bs-wizard-stepnum">Confirm</div>
-								</div>
+<div class="bd-content">
+	<div class="row">
+		<div class="col-md-9">
+			<div class="regi-process-bar mt-0">
+				<div class="row">
+					<div class="col-md-5"><div class="regi-heading">Register for Classes and Activities</div></div>
+					<div class="col-md-7">
+						<div class="row bs-wizard">
+							<div class="col-md-4 bs-wizard-step complete">
+								<div class="progress"><div class="progress-bar"></div></div>
+								<a class="bs-wizard-dot" href="javascript: void(0);">1</a>
+								<div class="text-center bs-wizard-stepnum marl-55">Register</div>
+							</div>
 
-								<div class="col-md-4 bs-wizard-step disabled">
-									<!-- active -->
-									<div class="progress"><div class="progress-bar"></div></div>
-									<a class="bs-wizard-dot" href="listing-details.html">3</a>
-									<div class="text-center bs-wizard-stepnum marr-60">Pay</div>
-								</div>
+							<div class="col-md-4 bs-wizard-step active">
+								<!-- complete -->
+								<div class="progress"><div class="progress-bar"></div></div>
+								<a class="bs-wizard-dot" href="javascript: void(0);">2</a>
+								<div class="text-center bs-wizard-stepnum">Confirm</div>
+							</div>
+
+							<div class="col-md-4 bs-wizard-step disabled">
+								<!-- active -->
+								<div class="progress"><div class="progress-bar"></div></div>
+								<a class="bs-wizard-dot" href="listing-details.html">3</a>
+								<div class="text-center bs-wizard-stepnum marr-60">Pay</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		@using (Html.BeginForm("ClassesConfirm", "EventRegistration", FormMethod.Post))
+	</div>
+	@using (Html.BeginForm("ClassesConfirm", "EventRegistration", FormMethod.Post))
+	{
+		@Html.AntiForgeryToken()
+		if (Model != null)
 		{
-			@Html.AntiForgeryToken()
-				if (Model != null)
-				{
-					<div class="row">
+			<div class="row">
 
 				<div class="col-md-9">
 					<!--Accordion wrapper-->
@@ -115,21 +115,22 @@
 					</div>
 					<div class="form-group form-check">
 						<input class="form-check-input" id="Directory" type="checkbox">
-						<label class="form-check-label" for="Directory"><a href="javascript: void(0);" data-toggle="popover" data-content="Chinmaya Directory answers questions such as What is this? 
+						<label class="form-check-label" for="Directory">
+							<a href="javascript: void(0);" data-toggle="popover" data-content="Chinmaya Directory answers questions such as What is this?
 																		   Why do I need to join?">
-	Add me to the
-	Chinmaya Directory
-</a>
-							
+								Add me to the
+								Chinmaya Directory
+							</a>
+
 						</label>
 					</div>
 					<button class="btn btn-secondary mb-3" name="prevBtn" type="submit" style="width: 83px;">Back</button><br>
 					<button class="btn btn-orange" name="nextBtn" type="submit" data-target="#demo" data-toggle="collapse">Proceed to checkout</button>
 				</div>
 			</div>
-			}
 		}
-	</div>
+	}
+</div>
 
 <script>
 	$(document).ready(function () {
@@ -141,31 +142,69 @@
 		$("#Directory").on("change", function () {
 			var directoryCheckBox = $(this).val();
 			if (directoryCheckBox)
-			$.ajax({
-				"url": "../EventRegistration/AddtoDirectory/",
-				"type": "POST",
-				"data": "directoryCheckBox",
-				success: function (ok) {
-					var content = "you have been successfully added to Chinmaya Directory";
-					$.confirm({
-						title: 'Alert!',
-						content: content,
-						buttons: {
-							confirm: {
-								text: 'Okay',
-								btnClass: 'btn-blue',
-								keys: ['enter', 'shift'],
-								action: function () {
+				$.ajax({
+					"url": "../EventRegistration/AddtoDirectory/",
+					"type": "POST",
+					"data": "directoryCheckBox",
+					success: function (ok) {
+						var content = "you have been successfully added to Chinmaya Directory";
+						$.confirm({
+							title: 'Alert!',
+							content: content,
+							buttons: {
+								confirm: {
+									text: 'Okay',
+									btnClass: 'btn-blue',
+									keys: ['enter', 'shift'],
+									action: function () {
+									}
 								}
 							}
-						}
-					});
-				},
+						});
+					},
 
-			});
+				});
 
 		});
 	});
 </script>
+@if (ViewBag.msg != null)
+{
+	<script>
+		var content = "@ViewBag.msg";
+		if (content == "Please select at least one Event") {
+			$.confirm({
+				title: 'Alert!',
+				content: content,
+				buttons: {
+					confirm: {
+						text: 'Okay',
+						btnClass: 'btn-blue',
+						keys: ['enter', 'shift'],
+						action: function () {
+							var url = '@Url.Action("ProgramEventRegistration", "EventRegistration")';
+							window.location.href = url;
+						}
+					}
+				}
+			});
+		}
+		else {
+			$.confirm({
+				title: 'Alert!',
+				content: content,
+				buttons: {
+					confirm: {
+						text: 'Okay',
+						btnClass: 'btn-blue',
+						keys: ['enter', 'shift'],
+						action: function () {
+						}
+					}
+				}
+			});
+		}
+	</script>
+}
 
 

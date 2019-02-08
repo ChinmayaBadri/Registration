@@ -4,6 +4,14 @@
 	ViewBag.Title = "PaymentMethod";
 }
 
+<style>
+	.requiredA:after {
+		content: " *";
+		font-weight: bold;
+		color: red;
+	}
+</style>
+
 	<button class="navbar-toggler aside-toggle" aria-expanded="false" aria-controls="menu-content" aria-label="Toggle navigation" type="button" data-target="#menu-content" data-toggle="collapse"> <span class="navbar-toggler-icon"></span> </button>
 	
 	<div class="bd-content">
@@ -42,6 +50,7 @@
 		@using (Html.BeginForm("PaymentMethod", "Payment", FormMethod.Post))
 		{
 			@Html.AntiForgeryToken()
+
 			<div class="row">
 				<div class="col-md-12">
 					<div class="regi-main-1">
@@ -62,48 +71,49 @@
 								</label>
 							</div>
 						</div>
-							<div class="paymentMethodCheck" id="paymentMethodCheck">
-								<div class="row">
-									<div class="col-md-6">
-										@Html.LabelFor(m => m.AccountHolderName, new { @class = "requiredA" })
-										@Html.TextBoxFor(m => m.AccountHolderName, new { @class = "form-control" })
-										@Html.ValidationMessageFor(m => m.AccountHolderName, "", new { @class = "text-danger" })
-									</div>
-									<div class="col-md-6">
-										@Html.LabelFor(m => m.AccountTypeId, new { @class = "requiredA" })
-										@Html.DropDownList("AccountTypeId", new SelectList(ViewBag.AccountType, "Id", "Name"), "Select", new { @class = "form-control", @style = "height: 35px;" })
-										@Html.ValidationMessageFor(m => m.AccountTypeId, "", new { @class = "text-danger" })
-									</div>
+						<div class="paymentMethodCheck" id="paymentMethodCheck">
+							<p><br /><span class="red-txt">*</span> Denotes a required field</p>
+							<div class="row">
+								<div class="col-md-6">
+									@Html.LabelFor(m => m.AccountHolderName, new { @class = "requiredA" })
+									@Html.TextBoxFor(m => m.AccountHolderName, new { @class = "form-control" })
+									@Html.ValidationMessageFor(m => m.AccountHolderName, "", new { @class = "text-danger" })
 								</div>
-								<div class="row">
-									<div class="col-md-6">
-										@Html.LabelFor(m => m.BankName, new { @class = "requiredA" })
-										@Html.TextBoxFor(m => m.BankName, new { @class = "form-control" })
-										@Html.ValidationMessageFor(m => m.BankName, "", new { @class = "text-danger" })
-									</div>
-									<div class="col-md-6">
-										@Html.LabelFor(m => m.AccountNumber, new { @class = "requiredA" })
-										@Html.TextBoxFor(m => m.AccountNumber, new { @class = "form-control" })
-										@Html.ValidationMessageFor(m => m.AccountNumber, "", new { @class = "text-danger" })
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-6">
-										@Html.LabelFor(m => m.RoutingNumber, new { @class = "requiredA" })
-										@Html.TextBoxFor(m => m.RoutingNumber, new { @class = "form-control" })
-										@Html.ValidationMessageFor(m => m.RoutingNumber, "", new { @class = "text-danger" })
-									</div>
-									<div class="col-md-6 form-group">
-										@Html.LabelFor(m => m.ConfirmAccountNumber, new { @class = "requiredA" })
-										@Html.TextBoxFor(m => m.ConfirmAccountNumber, new { @class = "form-control" })
-										@Html.ValidationMessageFor(m => m.ConfirmAccountNumber, "", new { @class = "text-danger" })
-									</div>
+								<div class="col-md-6">
+									@Html.LabelFor(m => m.AccountTypeId, new { @class = "requiredA" })
+									@Html.DropDownList("AccountTypeId", new SelectList(ViewBag.AccountType, "Id", "Name"), "Select", new { @class = "form-control", @style = "height: 35px;" })
+									@Html.ValidationMessageFor(m => m.AccountTypeId, "", new { @class = "text-danger" })
 								</div>
 							</div>
 							<div class="row">
+								<div class="col-md-6">
+									@Html.LabelFor(m => m.BankName, new { @class = "requiredA" })
+									@Html.TextBoxFor(m => m.BankName, new { @class = "form-control" })
+									@Html.ValidationMessageFor(m => m.BankName, "", new { @class = "text-danger" })
+								</div>
+								<div class="col-md-6">
+									@Html.LabelFor(m => m.AccountNumber, new { @class = "requiredA" })
+									@Html.TextBoxFor(m => m.AccountNumber, new { @class = "form-control" })
+									@Html.ValidationMessageFor(m => m.AccountNumber, "", new { @class = "text-danger" })
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									@Html.LabelFor(m => m.RoutingNumber, new { @class = "requiredA" })
+									@Html.TextBoxFor(m => m.RoutingNumber, new { @class = "form-control" })
+									@Html.ValidationMessageFor(m => m.RoutingNumber, "", new { @class = "text-danger" })
+								</div>
+								<div class="col-md-6 form-group">
+									@Html.LabelFor(m => m.ConfirmAccountNumber, new { @class = "requiredA" })
+									@Html.TextBoxFor(m => m.ConfirmAccountNumber, new { @class = "form-control" })
+									@Html.ValidationMessageFor(m => m.ConfirmAccountNumber, "", new { @class = "text-danger" })
+								</div>
+							</div>
+						</div>
+							<div class="row">
 								<div class="col-md-12">
 									<button class="btn btn-secondary mr-2" name="prevBtn" id="paymentBack" type="submit">Back</button>
-									<button class="btn btn-orange" name="nextBtn" type="submit" data-target="#demo" data-toggle="collapse">Submit</button>
+									<button class="btn btn-orange" id="paymentSubmit" name="nextBtn" type="submit" data-target="#demo" data-toggle="collapse">Submit</button>
 								</div>
 							</div>
 
@@ -116,6 +126,7 @@
 	<script>
 		$(document).ready(function () {
 			$("#paymentMethodCheck").hide();
+			$("#paymentSubmit").prop("disabled", true);
 			$("#paymentMethodCheck")
 				.find(".field-validation-error")
 				.html('');
@@ -127,10 +138,12 @@
 						.find(".field-validation-error")
 						.html('');
 					$("#paymentMethodCheck").show();
+					$("#paymentSubmit").prop("disabled", false);
 				}
 				else
 				{
 					$("#paymentMethodCheck").hide();
+					
 					$("#paymentMethodCheck")
 						.find(".field-validation-error")
 						.html('');

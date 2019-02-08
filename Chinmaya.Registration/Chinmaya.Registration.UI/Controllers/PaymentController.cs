@@ -52,7 +52,7 @@ namespace Chinmaya.Registration.UI.Controllers
                         HttpResponseMessage userResponseMessage = await Utility.GetObject("/api/Payment/PostCheckPayment", data, true);
 
 						List<ClassesConfirmModel> classConfirm = new List<ClassesConfirmModel>();
-						classConfirm = TempData["prevdata"] as List<ClassesConfirmModel>;
+						classConfirm = TempData["mydata"] as List<ClassesConfirmModel>;
 						foreach (var item in classConfirm)
 						{
 							EventRegistrationModel registrationModel = new EventRegistrationModel();

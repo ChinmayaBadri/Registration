@@ -1,5 +1,19 @@
 ﻿@model Chinmaya.Registration.Models.FamilyMemberModel
+<style>
+	.fa {
+		color: gray;
+	}
 
+	.fas {
+		padding-top: 10px;
+		padding-left: 4px;
+	}
+
+	.input-group-addon {
+		background-color: lightgray;
+		width: 25px;
+	}
+</style>
 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 	<div class="modal-content">
 		<div class="modal-body">
@@ -21,7 +35,7 @@
 				{
 					<h5 class="modal-title">Add Family Member</h5>
 				}
-				<p><span class="red-txt">*</span> denotes a required field</p>
+				<p><span class="red-txt">*</span> Denotes a required field</p>
 				@Html.ValidationSummary(true)
 				<div class="row">
 					@Html.HiddenFor(m => m.Id, new { id = "fmID" })
@@ -42,8 +56,8 @@
 
 						@Html.LabelFor(m => m.DOB, new { @class = "requiredA" })
 						<div class="input-group date mb-0">
-							@Html.TextBoxFor(m => m.DOB, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "DOB", @value = "", @style = "height: 35px; margin-bottom:0px", autocomplete = "off" })
-							<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
+							@Html.TextBoxFor(m => m.DOB, "{0:mm/dd/yyyy}", new { @class = "datepicker form-control", @type = "text", @Name = "DOB", @value = "", @style = "height: 35px; margin-bottom:0px", autocomplete = "off" })
+							<span class="input-group-addon"><i class="fas fa-calendar-alt"></i></span>
 						</div>
 						@Html.ValidationMessageFor(m => m.DOB, "", new { @class = "text-danger", @style = "margin-top:0px" })
 						@Html.HiddenFor(m => m.DOB, new { Id = "DateValue" })
@@ -110,9 +124,10 @@
 		$('.datepicker').datepicker({
 			todayHighlight: true,
 			autoclose: true,
-			dateFormat: 'mm-dd-yyyy',
+			dateFormat: 'mm/dd/yyyy',
 			startDate: '-100y',
-			endDate: "today"
+			endDate: "today",
+			stepMonths: 1
 		});
 
 		$('.datepicker').datepicker().on("changeDate", function (e) {
@@ -152,6 +167,9 @@
 	});
 
 	function OnSuccess(response) {
+		toastr.options = {
+			positionClass: 'toast-top-center'
+		};
 		if (typeof (response.Message) !== 'undefined') {
 			if (response.IsSuccess) {
 				toastr.success(response.Message, { timeOut: 3000 });

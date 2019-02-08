@@ -23,7 +23,7 @@ namespace Chinmaya.Registration.Models
 
         [Required]
         [DisplayName("Date of Birth")]
-        [DisplayFormat(DataFormatString = "{0:MMM d, yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public Nullable<System.DateTime> DOB { get; set; } = null;
 
 		[Required]

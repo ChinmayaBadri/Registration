@@ -10,19 +10,19 @@
 			{
                 @Html.AntiForgeryToken()
                 <h5 class="modal-title">Change Email</h5>
-				<p><span class="red-txt">*</span> denotes a required field</p>
+				<p><span class="red-txt">*</span> Denotes a required field</p>
                     <div class="row">
                         @Html.HiddenFor(m => m.userId, new { id = "uId" })
                         <div class="col-md-12 form-group">
                             @Html.LabelFor(m => m.Email, new { @class = "requiredA" })
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @Name = "Email", autocomplete = "off" })
+                            @Html.TextBoxFor(m => m.Email, new { disabled = "disabled", @class = "form-control", @Name = "Email", autocomplete = "off" })
                             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <button class="btn btn-secondary float-left mr-3" id="btnCancelEmail" type="button" data-dismiss="modal" aria-hidden="true">Cancel <i class="material-icons">cancel</i></button>
-                            <button class="btn btn-orange" id="btnsubmitEmail" type="submit" data-toggle="collapse">Submit <i class="material-icons">check_circle</i></button>
+                            @*<button class="btn btn-orange" id="btnsubmitEmail" type="submit" data-toggle="collapse">Submit <i class="material-icons">check_circle</i></button>*@
                         </div>
                     </div>
             }
@@ -35,6 +35,9 @@
 	});
 
 	function OnSuccessChangeEmail(response) {
+		toastr.options = {
+			positionClass: 'toast-top-center'
+		};
 		if (typeof (response.Message) !== 'undefined') {
 			if (response.IsSuccess) {
 				toastr.success(response.Message, { timeOut: 3000 });

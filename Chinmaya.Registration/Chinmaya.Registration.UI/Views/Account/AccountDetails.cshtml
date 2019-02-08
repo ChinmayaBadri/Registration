@@ -78,8 +78,8 @@
 					<div class="row">
 						<div class="col-md-6 offset-md-3">
 							<p class="pb-3">
-								<span class="red-txt">*</span> denotes a required field<br />
-								<span class="red-txt">Please select atleast 2 Security Questions.</span>
+								<span class="red-txt">*</span> Denotes a required field<br />
+								
 							</p>
 							@Html.LabelFor(m => m.Email, new { @class = "requiredA" })
 							@Html.TextBoxFor(m => m.Email, new { @class = "form-control", autocomplete = "off" })
@@ -109,7 +109,7 @@
 					</div>
 					<div class="row">
 						<div class="col-md-6 offset-md-3">
-
+							<span class="red-txt"><br />Please select at least 2 Security Questions.</span>
 							@Html.LabelFor(m => m.SecurityQuestionsModel, new { @class = "requiredA" })
 							@for (var i = 0; i < sqmList.Count(); i++)
 							{
@@ -180,6 +180,9 @@
 {
 	ToastModel tModel = ViewBag.Toast as ToastModel;
 	<script>
+		toastr.options = {
+			positionClass: 'toast-top-center'
+		};
         var valid = "@tModel.IsSuccess" == "True" ? true : false;
         var message = "@tModel.Message";
         toastr.error(message);

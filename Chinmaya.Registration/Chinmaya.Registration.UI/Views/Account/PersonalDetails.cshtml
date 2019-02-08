@@ -68,7 +68,7 @@
 				@Html.ValidationSummary(true)
 				<div class="regi-main-1">
 					<p>
-						<span class="red-txt">*</span> denotes a required field
+						<span class="red-txt">*</span> Denotes a required field
 					</p>
 					<div class="row">
 						<div class="col-md-6">
@@ -101,9 +101,9 @@
 							@Html.ValidationMessageFor(m => m.GenderData, "", new { @class = "text-danger" })
 						</div>
 						<div class="col-md-6 form-group">
-							@Html.LabelFor(m => m.AgeGroupData)
-							@Html.DropDownListFor(m => m.AgeGroupData, new SelectList(ViewBag.AgeGroup, "Id", "Name", ViewBag.SelectedAgeGroup), "Select", new { @class = "form-control", @style = "height: 35px;" })
-
+							@Html.LabelFor(m => m.AgeGroupData, new { @class = "requiredA" })
+							@Html.DropDownListFor(m => m.AgeGroupData, new SelectList(ViewBag.AgeGroup, "Id", "Name", ViewBag.SelectedAgeGroup), new { @class = "form-control", @style = "height: 35px;" })
+							@Html.ValidationMessageFor(m => m.AgeGroupData, "", new { @class = "text-danger" })
 						</div>
 
 					</div>
@@ -127,14 +127,13 @@
 				todayHighlight: true,
 				autoclose: true,
 				defaultDate: false,
-				dateFormat: 'mm-dd-yyyy',
+				dateFormat: 'mm/dd/yyyy',
 				setDate: null,
 				startDate: '-100y',
 				endDate: '-18y'
 			});
 		});
-	</script>
-	<script>
+
 		$(document).bind('keyup', function (e) {
 			var keyCode = e.keyCode || e.which;
 			if (keyCode === 13) {
