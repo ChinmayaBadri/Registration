@@ -56,7 +56,7 @@
 
 						@Html.LabelFor(m => m.DOB, new { @class = "requiredA" })
 						<div class="input-group date mb-0">
-							@Html.TextBoxFor(m => m.DOB, "{0:mm/dd/yyyy}", new { @class = "datepicker form-control", @type = "text", @Name = "DOB", @value = "", @style = "height: 35px; margin-bottom:0px", autocomplete = "off" })
+							@Html.TextBoxFor(m => m.DOB, "{0:d}", new { @class = "datepicker form-control", @type = "text", @Name = "DOB", @value = "", @style = "height: 35px; margin-bottom:0px", autocomplete = "off" })
 							<span class="input-group-addon"><i class="fas fa-calendar-alt"></i></span>
 						</div>
 						@Html.ValidationMessageFor(m => m.DOB, "", new { @class = "text-danger", @style = "margin-top:0px" })
