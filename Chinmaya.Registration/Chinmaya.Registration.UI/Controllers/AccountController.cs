@@ -719,8 +719,10 @@ namespace Chinmaya.Registration.UI.Controllers
                                 From = ConfigurationManager.AppSettings["SMTPUsername"]
                             };
                             em.Send();
-                        }
-						return RedirectToAction("Login", "Account");
+							ViewBag.Message = "An email has been sent to registered email. Please activate your account";
+
+						}
+						return View();
 					}
 				}
 			}

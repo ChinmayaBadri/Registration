@@ -79,7 +79,7 @@
 						<div class="col-md-6 offset-md-3">
 							<p class="pb-3">
 								<span class="red-txt">*</span> Denotes a required field<br />
-								
+
 							</p>
 							@Html.LabelFor(m => m.Email, new { @class = "requiredA" })
 							@Html.TextBoxFor(m => m.Email, new { @class = "form-control", autocomplete = "off" })
@@ -210,6 +210,28 @@
         });
 	</script>
 
+}
+
+@if (ViewBag.Message != null)
+{
+	<script>
+        var content = "@ViewBag.Message";
+        $.confirm({
+            title: 'Alert!',
+            content: content,
+            buttons: {
+                confirm: {
+                    text: 'Okay',
+                    btnClass: 'btn-blue',
+                    keys: ['enter', 'shift'],
+                    action: function () {
+                        var url = '@Url.Action("Login", "Account")';
+                        window.location.href = url;
+                    }
+                }
+            }
+        });
+	</script>
 }
 
 <script>
