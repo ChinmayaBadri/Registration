@@ -405,6 +405,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Content\Toastr\toastr.css" />
     <Content Include="Content\Toastr\toastr.min.css" />
+    <Content Include="ExternalDLLs\SendGrid.dll" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />

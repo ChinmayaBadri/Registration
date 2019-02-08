@@ -102,8 +102,6 @@
 			var v = "";
 			$.each(data, function (i, v1) {
 				if (v1.Id == selectedState)
-					v += "<option value=" + v1.Id + "selected>" + v1.Name + "</option>";
-				else
 					v += "<option value=" + v1.Id + ">" + v1.Name + "</option>";
 			});
 			$("#State").html(v);
