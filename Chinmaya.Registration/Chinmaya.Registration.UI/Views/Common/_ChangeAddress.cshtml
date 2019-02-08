@@ -21,7 +21,8 @@
 					</div>
 					<div class="col-md-6">
 						@Html.LabelFor(m => m.Country, new { @class = "requiredA" })
-						@Html.DropDownList("Country", new SelectList(ViewBag.CountryList, "Id", "Name", ViewBag.SelectedCountry), "Select", new { @class = "form-control", @style = "height: 35px;" })
+						@Html.TextBoxFor(m => m.Country, new { disabled = "disabled", @class = "form-control", @Value = "United States" })
+						@*@Html.DropDownList("Country", new SelectList(ViewBag.CountryList, "Id", "Name", ViewBag.SelectedCountry), "Select", new { @class = "form-control", @style = "height: 35px;" })*@
 						@Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })
 					</div>
 				</div>
@@ -84,7 +85,7 @@
 	});
 
     function bindCities(id) {
-        $.get("/Account/FillState", { Id: id }, function (data) {
+        $.get("/Account/FillState", { Id: 231 }, function (data) {
 			var v = "<option>Select State</option>";
 			$.each(data, function (i, v1) {
 				v += "<option value=" + v1.Id + ">" + v1.Name + "</option>";
@@ -94,12 +95,15 @@
 	}
 
 	function bindCity(id) {
-		var selectedCountry = "@ViewBag.SelectedCountry";
+		@*var selectedCountry = "@ViewBag.SelectedCountry";*@
+		var selectedCountry = 231;
 		var selectedState = "@ViewBag.SelectedState";
 		$.get("/Account/FillState", { Id: selectedCountry }, function (data) {
 			var v = "";
 			$.each(data, function (i, v1) {
 				if (v1.Id == selectedState)
+					v += "<option value=" + v1.Id + "selected>" + v1.Name + "</option>";
+				else
 					v += "<option value=" + v1.Id + ">" + v1.Name + "</option>";
 			});
 			$("#State").html(v);
