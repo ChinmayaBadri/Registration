@@ -66,36 +66,40 @@
 		$.validator.unobtrusive.parse($("form"));
 		var selectedCountry = "@ViewBag.SelectedCountry";
 		var selectedState = "@ViewBag.SelectedState";
-
-		if (selectedCountry == 231 && selectedState == "") {
-			var id = 231;
-			bindCities(id);
-		}
-
-		$("#Country").change(function () {
-			var id = $(this).val();
-			$("#State").empty();
-			bindCities(id);
-		});
+		bindCities(231);
 		
-		if (selectedState != "") {
-			$("#State").empty();
-			bindCity(id);
-		}
+		//if (selectedCountry == 231 && selectedState == "") {
+		//	var id = 231;
+		//	bindCities(id);
+		//}
+
+		//$("#Country").change(function () {
+		//	var id = $(this).val();
+		//	$("#State").empty();
+		//	bindCities(id);
+		//});
+		
+		//if (selectedState != "") {
+		//	$("#State").empty();
+		//	bindCity(id);
+		//}		
 	});
 
-    function bindCities(id) {
+	function bindCities(id) {
+		var selectedState = "@ViewBag.SelectedState";
         $.get("/Account/FillState", { Id: 231 }, function (data) {
-			var v = "<option>Select State</option>";
+			var v ;
 			$.each(data, function (i, v1) {
-				v += "<option value=" + v1.Id + ">" + v1.Name + "</option>";
+				if (v1.Id == selectedState)
+					v += "<option selected value=" + v1.Id + ">" + v1.Name + "</option>";
+				else
+					v += "<option value=" + v1.Id + ">" + v1.Name + "</option>";
 			});
 			$("#State").html(v);
         });
 	}
 
-	function bindCity(id) {
-		@*var selectedCountry = "@ViewBag.SelectedCountry";*@
+	@*function bindCity(id) {
 		var selectedCountry = 231;
 		var selectedState = "@ViewBag.SelectedState";
 		$.get("/Account/FillState", { Id: selectedCountry }, function (data) {
@@ -103,10 +107,12 @@
 			$.each(data, function (i, v1) {
 				if (v1.Id == selectedState)
 					v += "<option value=" + v1.Id + ">" + v1.Name + "</option>";
+				else
+					v += "<option value=" + v1.Id + ">" + v1.Name + "</option>";
 			});
 			$("#State").html(v);
 		});
-	}
+	}*@
 
 	function OnSuccessChangeAddress(response) {
 		toastr.options = {
