@@ -5,13 +5,13 @@ VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chinmaya.Registration.UI", "Chinmaya.Registration.UI\Chinmaya.Registration.UI.csproj", "{0F36EE29-DE65-499A-ADFB-1F2E9A345959}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chinmaya.Registration.BAL", "Chinmaya.Registration.BAL\Chinmaya.Registration.BAL.csproj", "{5FB37811-ED1F-43EE-9DEF-417357693ACA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chinmaya.Registration.DAL", "Chinmaya.Registration.DAL\Chinmaya.Registration.DAL.csproj", "{97A07A3A-7CEA-4229-BE46-759A821D6C1A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chinmaya.Registration.Utilities", "Chinmaya.Registration.Utilities\Chinmaya.Registration.Utilities.csproj", "{22DB2802-6878-4CBD-A42C-1FB7385CED18}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chinmaya.Registration.Models", "Chinmaya.Registration.Models\Chinmaya.Registration.Models.csproj", "{E5882384-C0DA-4AF9-B0E4-28BE2EB530BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chinmaya.Registration.BAL", "Chinmaya.Registration.BAL\Chinmaya.Registration.BAL.csproj", "{5FB37811-ED1F-43EE-9DEF-417357693ACA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,6 @@ Global
 		{0F36EE29-DE65-499A-ADFB-1F2E9A345959}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F36EE29-DE65-499A-ADFB-1F2E9A345959}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F36EE29-DE65-499A-ADFB-1F2E9A345959}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5FB37811-ED1F-43EE-9DEF-417357693ACA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5FB37811-ED1F-43EE-9DEF-417357693ACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5FB37811-ED1F-43EE-9DEF-417357693ACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5FB37811-ED1F-43EE-9DEF-417357693ACA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{97A07A3A-7CEA-4229-BE46-759A821D6C1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{97A07A3A-7CEA-4229-BE46-759A821D6C1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97A07A3A-7CEA-4229-BE46-759A821D6C1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{E5882384-C0DA-4AF9-B0E4-28BE2EB530BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5882384-C0DA-4AF9-B0E4-28BE2EB530BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5882384-C0DA-4AF9-B0E4-28BE2EB530BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FB37811-ED1F-43EE-9DEF-417357693ACA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FB37811-ED1F-43EE-9DEF-417357693ACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FB37811-ED1F-43EE-9DEF-417357693ACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FB37811-ED1F-43EE-9DEF-417357693ACA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
